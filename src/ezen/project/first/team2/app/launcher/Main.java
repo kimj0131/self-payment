@@ -4,48 +4,42 @@
 
 package ezen.project.first.team2.app.launcher;
 
-import java.awt.Dimension;
-
-import ezen.project.first.team2.app.common.Page;
 import ezen.project.first.team2.app.common.StatusManager;
 
 public class Main extends StatusManager {
-	public static final int PAGE_NUM_SPLASH = 1000;
-	public static final int PAGE_NUM_MAIN = 2000;
+	public static final int PAGE_NUM_SPLASH = 1;
+	public static final int PAGE_NUM_MAIN = 2;
 
 	@Override
 	protected void onInit() {
+		//
+	}
+
+	@Override
+	protected void onAddPages() {
 		try {
 			this.addPage(new SplashPage());
 			this.addPage(new MainPage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//
 	}
 
 	@Override
 	protected void onRun() {
-		this.selectPageByNum(PAGE_NUM_SPLASH);
+		try {
+			this.setSelectPageByNum(PAGE_NUM_SPLASH);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	protected void onExit() {
+		System.out.println("프로그램이 종료되었습니다.");
 	}
 
 	public static void main(String[] args) {
-		// (new Main()).run();
-
-		// Class<Page> p = MyPage;
-	}
-
-	static void f() {
-
-	}
-}
-
-class MyPage extends Page {
-	public MyPage() {
-		super(1, "A", new Dimension(100, 100));
-	}
-
-	public void method() {
-		System.out.println("메소드~");
+		(new Main()).run();
 	}
 }
