@@ -122,7 +122,7 @@ public class Page extends JFrame {
 	}
 
 	// 뷰 번호로 선택
-	public void selectViewByNum(int num) throws Exception {
+	public void setSelectViewByNum(int num) throws Exception {
 		if (num == this.mSelectedViewNum) {
 			System.out.printf(
 					"[Page.selectViewByNum()] Same view number(%d)! \n",
@@ -137,6 +137,12 @@ public class Page extends JFrame {
 							"Invalid view number(%d)!",
 					num);
 			throw new Exception(msg);
+		}
+
+		// 기존 뷰 정리
+		View selView = this.getSelectedView();
+		if (selView != null) {
+			selView.onHide();
 		}
 
 		// 선택한 뷰 표시

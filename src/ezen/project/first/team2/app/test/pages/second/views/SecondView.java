@@ -38,7 +38,7 @@ public class SecondView extends View {
 		this.m1stViewBtn.addActionListener(e -> {
 			try {
 				SecondPage page = (SecondPage) SecondView.this.getPage();
-				page.selectViewByNum(SecondPage.VIEW_NUM_FIRST);
+				page.setSelectViewByNum(SecondPage.VIEW_NUM_FIRST);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

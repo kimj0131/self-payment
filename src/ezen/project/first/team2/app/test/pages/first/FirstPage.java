@@ -16,7 +16,10 @@ public class FirstPage extends Page {
 
 	public FirstPage() {
 		super(Main.PAGE_NUM_FIRST, TITLE, SIZE,
-				Page.OPTION_CENTER_IN_SCREEN);
+				Page.OPTION_CENTER_IN_SCREEN |
+						Page.OPTION_BORDERLESS * 0 |
+						Page.OPTION_FULL_SCREEN * 0 |
+						Page.OPTION_FIXED_SIZE);
 	}
 
 	@Override
@@ -45,7 +48,7 @@ public class FirstPage extends Page {
 		System.out.println(this.getTitle() + " => onShow()");
 
 		try {
-			this.selectViewByNum(FirstPage.VIEW_NUM_MY);
+			this.setSelectViewByNum(FirstPage.VIEW_NUM_MY);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
