@@ -24,9 +24,13 @@ public class View extends JPanel {
 	// -------------------------------------------------------------------------
 
 	// 생성자
+	public View(int num) {
+		this.mNumber = num;
+	}
+
 	public View(int num, Dimension size) {
 		this.mNumber = num;
-		// this.setSize(size);
+		this.setPreferredSize(size);
 	}
 
 	// -------------------------------------------------------------------------
@@ -62,8 +66,6 @@ public class View extends JPanel {
 		this.onAddCtrls();
 		this.onAddEventListeners();
 		//
-
-		// this.setVisible(false);
 	}
 
 	// -------------------------------------------------------------------------

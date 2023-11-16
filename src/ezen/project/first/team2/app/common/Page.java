@@ -122,10 +122,10 @@ public class Page extends JFrame {
 	}
 
 	// 뷰 번호로 선택
-	public void setSelectViewByNum(int num) throws Exception {
+	public void setSelectedViewByNum(int num) throws Exception {
 		if (num == this.mSelectedViewNum) {
 			System.out.printf(
-					"[Page.selectViewByNum()] Same view number(%d)! \n",
+					"[Page.setSelectedViewByNum()] Same view number(%d)! \n",
 					num);
 			return;
 		}

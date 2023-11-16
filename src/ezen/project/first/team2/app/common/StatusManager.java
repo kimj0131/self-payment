@@ -97,7 +97,7 @@ public class StatusManager {
 	}
 
 	// 페이지 번호로 선택
-	public void setSelectPageByNum(int num) throws Exception {
+	public void setSelectedPageByNum(int num) throws Exception {
 		if (num == this.mSelectedPageNum) {
 			System.out.printf(
 					"[StatusManager.selectPageByNum()] Same page number(%d)! \n",

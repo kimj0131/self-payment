@@ -28,7 +28,7 @@ public class SplashPage extends Page {
 		SystemUtils.setTimeout(1 * 1000, e -> {
 			try {
 				Main main = (Main) SplashPage.this.getStatusManager();
-				main.setSelectPageByNum(Main.PAGE_NUM_MAIN);
+				main.setSelectedPageByNum(Main.PAGE_NUM_MAIN);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

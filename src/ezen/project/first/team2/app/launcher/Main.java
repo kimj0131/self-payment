@@ -28,7 +28,7 @@ public class Main extends StatusManager {
 	@Override
 	protected void onRun() {
 		try {
-			this.setSelectPageByNum(PAGE_NUM_SPLASH);
+			this.setSelectedPageByNum(PAGE_NUM_SPLASH);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,7 +1,6 @@
 package ezen.project.first.team2.app.test.pages.second.views;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.JButton;
 
@@ -9,12 +8,10 @@ import ezen.project.first.team2.app.common.View;
 import ezen.project.first.team2.app.test.pages.second.SecondPage;
 
 public class FirstView extends View {
-	private static final Dimension SIZE = new Dimension(320, 240);
-
 	JButton m2ndViewBtn = new JButton();
 
 	public FirstView() {
-		super(SecondPage.VIEW_NUM_FIRST, SIZE);
+		super(SecondPage.VIEW_NUM_FIRST);
 	}
 
 	@Override
@@ -38,7 +35,7 @@ public class FirstView extends View {
 		this.m2ndViewBtn.addActionListener(e -> {
 			try {
 				SecondPage page = (SecondPage) FirstView.this.getPage();
-				page.setSelectViewByNum(SecondPage.VIEW_NUM_SECOND);
+				page.setSelectedViewByNum(SecondPage.VIEW_NUM_SECOND);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

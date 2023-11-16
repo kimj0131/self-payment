@@ -1,6 +1,5 @@
 package ezen.project.first.team2.app.test.pages.first.views;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -11,13 +10,13 @@ import ezen.project.first.team2.app.test.Main;
 import ezen.project.first.team2.app.test.pages.first.FirstPage;
 
 public class MyView extends View {
-	private static final Dimension SIZE = new Dimension(320, 240);
 	private static final int PADDING = 10;
 
 	JButton m2ndPageBtn = new JButton();
+	JButton m3rdPageBtn = new JButton();
 
 	public MyView() {
-		super(FirstPage.VIEW_NUM_MY, SIZE);
+		super(FirstPage.VIEW_NUM_MY);
 	}
 
 	@Override
@@ -35,8 +34,10 @@ public class MyView extends View {
 	@Override
 	protected void onAddCtrls() {
 		this.m2ndPageBtn.setText("두 번째 페이지");
+		this.m3rdPageBtn.setText("세 번째 페이지");
 
 		this.add(this.m2ndPageBtn);
+		this.add(this.m3rdPageBtn);
 	}
 
 	@Override
@@ -46,11 +47,21 @@ public class MyView extends View {
 				// FirstPage page = (FirstPage)MyView.this.getPage();
 				// Main main = (Main)page.getStatusManager();
 				Main main = (Main) MyView.this.getStatusManager();
-				main.setSelectPageByNum(Main.PAGE_NUM_SECOND);
+				main.setSelectedPageByNum(Main.PAGE_NUM_SECOND);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		});
+
+		this.m3rdPageBtn.addActionListener(e -> {
+			try {
+				Main main = (Main) MyView.this.getStatusManager();
+				main.setSelectedPageByNum(Main.PAGE_NUM_THIRD);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		});
+
 	}
 
 	@Override

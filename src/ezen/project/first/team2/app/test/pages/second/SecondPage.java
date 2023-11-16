@@ -64,7 +64,7 @@ public class SecondPage extends Page {
 		System.out.println(this.getTitle() + " => onShow()");
 
 		try {
-			this.setSelectViewByNum(VIEW_NUM_FIRST);
+			this.setSelectedViewByNum(VIEW_NUM_FIRST);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

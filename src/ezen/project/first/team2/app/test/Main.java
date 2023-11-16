@@ -1,13 +1,18 @@
 package ezen.project.first.team2.app.test;
 
+import javax.swing.JFrame;
+import javax.swing.JSplitPane;
+
 import ezen.project.first.team2.app.common.StatusManager;
 import ezen.project.first.team2.app.test.pages.first.FirstPage;
 import ezen.project.first.team2.app.test.pages.second.SecondPage;
+import ezen.project.first.team2.app.test.pages.third.ThirdPage;
 
 public class Main extends StatusManager {
 	// 페이지 번호 정의
 	public static final int PAGE_NUM_FIRST = 0;
 	public static final int PAGE_NUM_SECOND = 1;
+	public static final int PAGE_NUM_THIRD = 2;
 
 	// 초기화 작업 - DB 커넥션 등
 	@Override
@@ -23,6 +28,7 @@ public class Main extends StatusManager {
 		try {
 			this.addPage(new FirstPage());
 			this.addPage(new SecondPage());
+			this.addPage(new ThirdPage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -42,7 +48,7 @@ public class Main extends StatusManager {
 		System.out.println("onRun()");
 
 		try {
-			this.setSelectPageByNum(Main.PAGE_NUM_FIRST);
+			this.setSelectedPageByNum(Main.PAGE_NUM_FIRST);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
