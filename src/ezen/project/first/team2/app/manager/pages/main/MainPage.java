@@ -4,21 +4,21 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.launcher.pages.main;
+package ezen.project.first.team2.app.manager.pages.main;
 
 import java.awt.Dimension;
 
 import ezen.project.first.team2.app.framework.Page;
-import ezen.project.first.team2.app.launcher.Main;
-import ezen.project.first.team2.app.launcher.pages.main.views.MainView;
+import ezen.project.first.team2.app.manager.Main;
+import ezen.project.first.team2.app.manager.pages.main.views.MainView;
 
 public class MainPage extends Page {
 	// -------------------------------------------------------------------------
 
 	// 페이지 정보 상수 정의
 
-	public static final String TITLE = "셀프 결제 시스템 런처";
-	public static final Dimension SIZE = new Dimension(640, 140);
+	public static final String TITLE = "관리 프로그램";
+	public static final Dimension SIZE = new Dimension(640, 360);
 
 	public static final int VIEW_NUM_MAIN = 0;
 
@@ -64,7 +64,7 @@ public class MainPage extends Page {
 	// 페이지가 표시될 때
 	@Override
 	protected void onShow() {
-		// System.out.println("[MainPage.onShow()]");
+		System.out.println("[MainPage.onShow()]");
 
 		try {
 			this.setSelectedViewByNum(MainPage.VIEW_NUM_MAIN);
@@ -76,6 +76,6 @@ public class MainPage extends Page {
 	// 페이지가 숨겨질 때
 	@Override
 	protected void onHide() {
-		// System.out.println("[MainPage.onHide()]");
+		System.out.println("[MainPage.onHide()]");
 	}
 }

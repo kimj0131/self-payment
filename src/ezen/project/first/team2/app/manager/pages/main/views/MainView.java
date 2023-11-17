@@ -4,12 +4,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.launcher.pages.main.views;
+package ezen.project.first.team2.app.manager.pages.main.views;
 
 import javax.swing.JButton;
 
 import ezen.project.first.team2.app.framework.View;
-import ezen.project.first.team2.app.launcher.pages.main.MainPage;
+import ezen.project.first.team2.app.z_template.pages.main.MainPage;
 import ezen.project.first.team2.utils.UiUtils;
 
 public class MainView extends View {
@@ -56,12 +56,12 @@ public class MainView extends View {
 	// 뷰가 표시될 때
 	@Override
 	protected void onShow() {
-		// System.out.println("[MainView.onShow()]");
+		System.out.println("[MainView.onShow()]");
 	}
 
 	// 뷰가 숨겨질 때
 	@Override
 	protected void onHide() {
-		// System.out.println("[MainView.onHide()]");
+		System.out.println("[MainView.onHide()]");
 	}
 }

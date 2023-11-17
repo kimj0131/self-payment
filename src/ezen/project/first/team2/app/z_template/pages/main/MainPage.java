@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+// [SGLEE:YYYYMMDDddd_HHMMSS] Created
+//
+////////////////////////////////////////////////////////////////////////////////
+
 package ezen.project.first.team2.app.z_template.pages.main;
 
 import java.awt.Dimension;
@@ -59,7 +65,7 @@ public class MainPage extends Page {
 	@Override
 	protected void onShow() {
 		System.out.println("[MainPage.onShow()]");
-		
+
 		try {
 			this.setSelectedViewByNum(MainPage.VIEW_NUM_MAIN);
 		} catch (Exception e) {
