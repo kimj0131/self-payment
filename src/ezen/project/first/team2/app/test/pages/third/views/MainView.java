@@ -11,7 +11,7 @@ import ezen.project.first.team2.app.test.pages.third.views.right.RightView2;
 import ezen.project.first.team2.app.test.pages.third.views.right.RightView3;
 
 public class MainView extends DualView {
-	private static final int PADDING = 10;
+	// private static final int PADDING = 10;
 
 	public MainView() {
 		super(ThirdPage.VIEW_NUM_MAIN, 240);

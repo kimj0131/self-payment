@@ -1,8 +1,5 @@
 package ezen.project.first.team2.app.test;
 
-import javax.swing.JFrame;
-import javax.swing.JSplitPane;
-
 import ezen.project.first.team2.app.common.StatusManager;
 import ezen.project.first.team2.app.test.pages.first.FirstPage;
 import ezen.project.first.team2.app.test.pages.second.SecondPage;

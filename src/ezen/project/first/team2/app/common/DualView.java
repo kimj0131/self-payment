@@ -181,7 +181,6 @@ public class DualView extends View {
 
 	@Override
 	protected void onSetLayout() {
-		super.onSetLayout();
 	}
 
 	// @Override
@@ -195,20 +194,15 @@ public class DualView extends View {
 	// }
 
 	protected void onAddViews() {
-		//
 	}
 
 	@Override
 	protected void onShow() {
-		super.onShow();
-
 		// System.out.println("[DualView.onShow()]");
 	}
 
 	@Override
 	protected void onHide() {
-		super.onHide();
-
 		// System.out.println("[DualView.onHide()]");
 	}
 
