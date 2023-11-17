@@ -74,10 +74,28 @@ public class StatusManager {
 		page.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				// 현재 페이지 숨김
-				Page currPage = StatusManager.this.getSelectedPage();
-				if (currPage != null) {
-					currPage.onHide();
+				// 현재 뷰와 페이지 숨김
+				Page selPage = StatusManager.this.getSelectedPage();
+				View selView = selPage.getSelectedView();
+
+				if (selView != null) {
+					if (selView instanceof DualView) {
+						DualView dualView = (DualView) selView;
+						View selLeftView = dualView.getSelectedLeftView();
+						View selRightView = dualView.getSelectedRightView();
+
+						if (selLeftView != null)
+							selLeftView.onHide();
+
+						if (selRightView != null)
+							selRightView.onHide();
+					}
+
+					selView.onHide();
+				}
+
+				if (selPage != null) {
+					selPage.onHide();
 				}
 
 				// Status Manager 종료
