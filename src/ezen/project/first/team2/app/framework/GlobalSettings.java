@@ -4,7 +4,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common;
+package ezen.project.first.team2.app.framework;
 
 public class GlobalSettings {
 	public static boolean DEBUG_MODE = true;

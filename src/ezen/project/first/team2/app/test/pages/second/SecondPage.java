@@ -4,7 +4,7 @@ import java.awt.Dimension;
 
 import javax.swing.JButton;
 
-import ezen.project.first.team2.app.common.Page;
+import ezen.project.first.team2.app.framework.Page;
 import ezen.project.first.team2.app.test.Main;
 import ezen.project.first.team2.app.test.pages.second.views.FirstView;
 import ezen.project.first.team2.app.test.pages.second.views.SecondView;

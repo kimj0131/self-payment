@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JButton;
 
-import ezen.project.first.team2.app.common.View;
+import ezen.project.first.team2.app.framework.View;
 import ezen.project.first.team2.app.test.pages.second.SecondPage;
 
 public class FirstView extends View {

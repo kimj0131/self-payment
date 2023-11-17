@@ -2,7 +2,7 @@ package ezen.project.first.team2.app.test.pages.third;
 
 import java.awt.Dimension;
 
-import ezen.project.first.team2.app.common.Page;
+import ezen.project.first.team2.app.framework.Page;
 import ezen.project.first.team2.app.test.Main;
 import ezen.project.first.team2.app.test.pages.third.views.MainView;
 

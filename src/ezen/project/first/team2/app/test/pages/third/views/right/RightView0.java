@@ -3,7 +3,7 @@ package ezen.project.first.team2.app.test.pages.third.views.right;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
-import ezen.project.first.team2.app.common.View;
+import ezen.project.first.team2.app.framework.View;
 import ezen.project.first.team2.app.test.pages.third.ThirdPage;
 
 public class RightView0 extends View {

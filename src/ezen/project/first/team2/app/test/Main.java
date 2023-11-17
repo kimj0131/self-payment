@@ -1,6 +1,6 @@
 package ezen.project.first.team2.app.test;
 
-import ezen.project.first.team2.app.common.StatusManager;
+import ezen.project.first.team2.app.framework.StatusManager;
 import ezen.project.first.team2.app.test.pages.first.FirstPage;
 import ezen.project.first.team2.app.test.pages.second.SecondPage;
 import ezen.project.first.team2.app.test.pages.third.ThirdPage;

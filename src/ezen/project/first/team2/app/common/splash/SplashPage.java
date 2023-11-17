@@ -1,19 +1,26 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 // [SGLEE:20231114TUE_101700] Created
+// [SGLEE:20231117FRI_103800]
+//		스플래시 페이지에서 앱의 초기화 작업을 할 수 있도록 코드 업데이트 예정
+//		ex) 폰트 객체 할당, 이미지 로딩 등
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.launcher;
+package ezen.project.first.team2.app.common.splash;
 
 import java.awt.Dimension;
 
-import ezen.project.first.team2.app.common.Page;
+import ezen.project.first.team2.app.common.splash.views.MainView;
+import ezen.project.first.team2.app.framework.Page;
+import ezen.project.first.team2.app.launcher.Main;
 import ezen.project.first.team2.utils.SystemUtils;
 
 public class SplashPage extends Page {
 	private static final String TITLE = "Splash";
 	private static final Dimension SIZE = new Dimension(640, 360);
+
+	public static final int VIEW_NUM_MAIN = 0;
 
 	// 생성자
 	public SplashPage() {
@@ -37,6 +44,11 @@ public class SplashPage extends Page {
 
 	@Override
 	protected void onAddViews() {
+		try {
+			this.addView(new MainView());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -45,11 +57,14 @@ public class SplashPage extends Page {
 
 	@Override
 	protected void onShow() {
-		// System.out.println(this.getTitle() + " => onShow()");
+		try {
+			this.setSelectedViewByNum(SplashPage.VIEW_NUM_MAIN);
+		} catch (Exception e) {
+			//
+		}
 	}
 
 	@Override
 	protected void onHide() {
-		// System.out.println(this.getTitle() + " => onHide()");
 	}
 }

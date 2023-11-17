@@ -2,7 +2,7 @@ package ezen.project.first.team2.app.test.pages.third.views;
 
 import java.awt.GridLayout;
 
-import ezen.project.first.team2.app.common.DualView;
+import ezen.project.first.team2.app.framework.DualView;
 import ezen.project.first.team2.app.test.pages.third.ThirdPage;
 import ezen.project.first.team2.app.test.pages.third.views.left.LeftView;
 import ezen.project.first.team2.app.test.pages.third.views.right.RightView0;

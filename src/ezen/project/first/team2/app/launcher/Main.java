@@ -4,11 +4,12 @@
 
 package ezen.project.first.team2.app.launcher;
 
-import ezen.project.first.team2.app.common.StatusManager;
+import ezen.project.first.team2.app.common.splash.SplashPage;
+import ezen.project.first.team2.app.framework.StatusManager;
 
 public class Main extends StatusManager {
-	public static final int PAGE_NUM_SPLASH = 1;
-	public static final int PAGE_NUM_MAIN = 2;
+	public static final int PAGE_NUM_SPLASH = 0;
+	public static final int PAGE_NUM_MAIN = 1;
 
 	@Override
 	protected void onInit() {
@@ -36,7 +37,7 @@ public class Main extends StatusManager {
 
 	@Override
 	protected void onExit() {
-		System.out.println("프로그램이 종료되었습니다.");
+		// System.out.println("프로그램이 종료되었습니다.");
 	}
 
 	public static void main(String[] args) {

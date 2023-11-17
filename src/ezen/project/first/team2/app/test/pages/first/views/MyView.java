@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
-import ezen.project.first.team2.app.common.View;
+import ezen.project.first.team2.app.framework.View;
 import ezen.project.first.team2.app.test.Main;
 import ezen.project.first.team2.app.test.pages.first.FirstPage;
 

@@ -7,7 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
-import ezen.project.first.team2.app.common.View;
+import ezen.project.first.team2.app.framework.View;
 import ezen.project.first.team2.app.test.pages.third.ThirdPage;
 import ezen.project.first.team2.app.test.pages.third.views.MainView;
 

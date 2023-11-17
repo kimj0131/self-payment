@@ -6,7 +6,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common;
+package ezen.project.first.team2.app.framework;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
