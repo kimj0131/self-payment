@@ -13,7 +13,7 @@ import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;
 import ezen.project.first.team2.app.framework.Page;
-import ezen.project.first.team2.app.z_template.Main;
+import ezen.project.first.team2.app.framework.StatusManager;
 import ezen.project.first.team2.utils.SystemUtils;
 
 public class SplashPage extends Page {
@@ -40,8 +40,8 @@ public class SplashPage extends Page {
 		// 3초 후 메인 페이지 선택
 		SystemUtils.setTimeout(1 * 1000, e -> {
 			try {
-				Main main = (Main) SplashPage.this.getStatusManager();
-				main.setSelectedPageByNum(SplashPage.this.mNextPageNum);
+				StatusManager stsMngr = SplashPage.this.getStatusManager();
+				stsMngr.setSelectedPageByNum(SplashPage.this.mNextPageNum);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
