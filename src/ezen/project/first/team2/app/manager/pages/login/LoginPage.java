@@ -1,39 +1,26 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-// [SGLEE:20231117FRI_124500] Created
+// [SGLEE:YYYYMMDDddd_HHMMSS] Created
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.manager.pages.main;
+package ezen.project.first.team2.app.manager.pages.login;
 
 import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.framework.Page;
 import ezen.project.first.team2.app.manager.Main;
-import ezen.project.first.team2.app.manager.pages.main.views.MainView;
+import ezen.project.first.team2.app.manager.pages.login.views.LoginView;
 
-public class MainPage extends Page {
+public class LoginPage extends Page {
 	// -------------------------------------------------------------------------
 
 	// 페이지 정보 상수 정의
 
-	public static final String TITLE = "관리 프로그램";
+	public static final String TITLE = "로그인 페이지";
 	public static final Dimension SIZE = new Dimension(640, 360);
 
-	public static final int VIEW_NUM_MAIN = 0;
-
-	public static final int VIEW_NUM_LEFT = 100;
-	public static final int VIEW_NUM_RIGHT = 200;
-
-	public static final int VIEW_NUM_CUST_INFO = 211;
-	public static final int VIEW_NUM_CUST_ADD = 212;
-	public static final int VIEW_NUM_CUST_UPDATE = 213;
-	public static final int VIEW_NUM_CUST_DELETE = 214;
-
-	public static final int VIEW_NUM_PROD_INFO = 221;
-	public static final int VIEW_NUM_PROD_ADD = 222;
-	public static final int VIEW_NUM_PROD_UPDATE = 223;
-	public static final int VIEW_NUM_PROD_DELETE = 224;
+	public static final int VIEW_NUM_LOGIN = 1;
 
 	// -------------------------------------------------------------------------
 
@@ -42,8 +29,8 @@ public class MainPage extends Page {
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	public MainPage() {
-		super(Main.PAGE_NUM_MAIN, TITLE, SIZE,
+	public LoginPage() {
+		super(Main.PAGE_NUM_LOGIN, TITLE, SIZE,
 				OPTION_CENTER_IN_SCREEN |
 						OPTION_VISIBLE * 0 |
 						OPTION_BORDERLESS * 0 |
@@ -63,7 +50,7 @@ public class MainPage extends Page {
 	@Override
 	protected void onAddViews() {
 		try {
-			this.addView(new MainView());
+			this.addView(new LoginView());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -80,7 +67,7 @@ public class MainPage extends Page {
 		System.out.println("[MainPage.onShow()]");
 
 		try {
-			this.setSelectedViewByNum(MainPage.VIEW_NUM_MAIN);
+			this.setSelectedViewByNum(LoginPage.VIEW_NUM_LOGIN);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

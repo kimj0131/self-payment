@@ -38,4 +38,7 @@ public class MainView extends View {
 	@Override
 	protected void onHide() {
 	}
+
+	public static void setSelectedViewByNum(int viewNumMain) {
+	}
 }
