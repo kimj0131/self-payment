@@ -6,14 +6,26 @@
 
 package ezen.project.first.team2.app.payment;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
+
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+
 import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
+import ezen.project.first.team2.app.payment.pages.stanby.StanbyPage;
 
 public class Main extends StatusManager {
 	// 페이지 번호 정의 - 뷰에서도 사용하므로 public으로 선언
 	public static final int PAGE_NUM_SPLASH = SplashPage.PAGE_NUM;
 	public static final int PAGE_NUM_MAIN = 100;
+	public static final int PAGE_NUM_STANBY = 200;
 
 	// 초기화 작업 - DB 커넥션 등
 	@Override
@@ -25,7 +37,8 @@ public class Main extends StatusManager {
 	@Override
 	protected void onAddPages() {
 		try {
-			this.addPage(new SplashPage(Main.PAGE_NUM_MAIN));
+			this.addPage(new SplashPage(PAGE_NUM_STANBY));
+			this.addPage(new StanbyPage());
 			this.addPage(new MainPage());
 		} catch (Exception e) {
 			e.printStackTrace();
