@@ -6,8 +6,8 @@
 
 package ezen.project.first.team2.app.manager;
 
+import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
-import ezen.project.first.team2.app.framework.StatusManager;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class Main extends StatusManager {

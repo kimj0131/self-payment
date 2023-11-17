@@ -8,7 +8,7 @@ package ezen.project.first.team2.app.payment.pages.main.views;
 
 import javax.swing.JButton;
 
-import ezen.project.first.team2.app.framework.View;
+import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.utils.UiUtils;
 

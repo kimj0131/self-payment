@@ -1,15 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-// [SGLEE:20231117FRI_140300] Created
+// [SGLEE:YYYYMMDDddd_HHMMSS] Created
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.newuser.pages.main.views;
+package ezen.project.first.team2.app.common.z_template.pages.main.views;
 
 import javax.swing.JButton;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.newuser.pages.main.MainPage;
+import ezen.project.first.team2.app.common.z_template.pages.main.MainPage;
 import ezen.project.first.team2.utils.UiUtils;
 
 public class MainView extends View {

@@ -1,23 +1,23 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-// [SGLEE:20231117FRI_124500] Created
+// [SGLEE:YYYYMMDDddd_HHMMSS] Created
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.manager.pages.main;
+package ezen.project.first.team2.app.common.z_template.pages.main;
 
 import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.framework.Page;
-import ezen.project.first.team2.app.manager.Main;
-import ezen.project.first.team2.app.manager.pages.main.views.MainView;
+import ezen.project.first.team2.app.common.z_template.Main;
+import ezen.project.first.team2.app.common.z_template.pages.main.views.MainView;
 
 public class MainPage extends Page {
 	// -------------------------------------------------------------------------
 
 	// 페이지 정보 상수 정의
 
-	public static final String TITLE = "관리 프로그램";
+	public static final String TITLE = "Main Page";
 	public static final Dimension SIZE = new Dimension(640, 360);
 
 	public static final int VIEW_NUM_MAIN = 0;

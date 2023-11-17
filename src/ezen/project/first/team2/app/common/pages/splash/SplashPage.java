@@ -11,9 +11,9 @@ package ezen.project.first.team2.app.common.pages.splash;
 
 import java.awt.Dimension;
 
+import ezen.project.first.team2.app.common.framework.Page;
+import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;
-import ezen.project.first.team2.app.framework.Page;
-import ezen.project.first.team2.app.framework.StatusManager;
 import ezen.project.first.team2.utils.SystemUtils;
 
 public class SplashPage extends Page {

@@ -2,8 +2,8 @@ package ezen.project.first.team2.app.common.pages.splash.views;
 
 import javax.swing.JLabel;
 
+import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
-import ezen.project.first.team2.app.framework.View;
 
 public class MainView extends View {
 	private JLabel mLabel0 = new JLabel();

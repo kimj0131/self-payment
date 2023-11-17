@@ -1,14 +1,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-// [SGLEE:20231117FRI_124500] Created
+// [SGLEE:YYYYMMDDddd_HHMMSS] Created
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.launcher;
+package ezen.project.first.team2.app.common.z_template;
 
 import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
-import ezen.project.first.team2.app.launcher.pages.main.MainPage;
+import ezen.project.first.team2.app.common.z_template.pages.main.MainPage;
 
 public class Main extends StatusManager {
 	// 페이지 번호 정의 - 뷰에서도 사용하므로 public으로 선언
@@ -18,7 +18,7 @@ public class Main extends StatusManager {
 	// 초기화 작업 - DB 커넥션 등
 	@Override
 	protected void onInit() {
-		// System.out.println("[Main.onInit()]");
+		System.out.println("[Main.onInit()]");
 	}
 
 	// 페이지 추가 작업
@@ -50,7 +50,7 @@ public class Main extends StatusManager {
 	// 종료 작업 - DB 디스커넥션 등
 	@Override
 	protected void onExit() {
-		// System.out.println("[Main.onExit()]");
+		System.out.println("[Main.onExit()]");
 	}
 
 	public static void main(String[] args) {
