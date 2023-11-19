@@ -84,6 +84,6 @@ public class MyView extends View {
 	@Override
 	protected void onSetResources() {
 		Main main = (Main) this.getStatusManager();
-		this.m2ndPageBtn.setFont(main.mFont0);
+		this.m2ndPageBtn.setFont(new Font("맑은 고딕", Font.BOLD, 16));
 	}
 }

@@ -171,6 +171,15 @@ public class DualView extends View {
 	// ---------------------------------------------------------------------------
 
 	@Override
+	public void performSetResources() {
+		for (View view : this.mViewList) {
+			view.performSetResources();
+		}
+	}
+
+	// ---------------------------------------------------------------------------
+
+	@Override
 	protected void onInit() {
 		super.onInit();
 
@@ -204,6 +213,10 @@ public class DualView extends View {
 	@Override
 	protected void onHide() {
 		// System.out.println("[DualView.onHide()]");
+	}
+
+	@Override
+	protected void onSetResources() {
 	}
 
 	// -------------------------------------------------------------------------

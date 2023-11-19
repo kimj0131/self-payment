@@ -100,6 +100,10 @@ public class Page extends JFrame {
 		this.onShow(this.isFirstTimeShow());
 		this.setFirstTimeShow(false);
 
+		Dimension size = this.getSize();
+		this.pack();
+		this.setSize(size);
+
 		this.setVisible(true);
 	}
 
@@ -112,7 +116,7 @@ public class Page extends JFrame {
 
 	public void performSetResources() {
 		for (View view : this.mViewList) {
-			view.onSetResources();
+			view.performSetResources();
 		}
 	}
 

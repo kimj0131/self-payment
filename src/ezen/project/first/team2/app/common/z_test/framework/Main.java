@@ -2,15 +2,15 @@ package ezen.project.first.team2.app.common.z_test.framework;
 
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
-import ezen.project.first.team2.app.common.framework.Page;
 import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
 import ezen.project.first.team2.app.common.pages.splash.SplashPageParams;
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;
+import ezen.project.first.team2.app.common.utils.TimeUtils;
 import ezen.project.first.team2.app.common.z_test.framework.pages.first.FirstPage;
-import ezen.project.first.team2.app.common.z_test.framework.pages.first.views.MyView;
 import ezen.project.first.team2.app.common.z_test.framework.pages.second.SecondPage;
 import ezen.project.first.team2.app.common.z_test.framework.pages.third.ThirdPage;
 
@@ -21,6 +21,10 @@ public class Main extends StatusManager {
 	public static final int PAGE_NUM_THIRD = 102;
 
 	public Font mFont0;
+	public Font mFont1;
+	public Font mFont2;
+	public Font mFont3;
+	public ImageIcon mImg0;
 
 	// 초기화 작업 - DB 커넥션 등
 	@Override
@@ -89,7 +93,31 @@ public class Main extends StatusManager {
 				// 1초가 소요되는 작업이라 가정
 				// SystemUtils.sleep(1 * 1000);
 
-				main.mFont0 = new Font("맑은 고딕", Font.BOLD, 32);
+				switch (rsrcIdx) {
+					case 0:
+						main.mFont0 = new Font("맑은 고딕", Font.BOLD, 16);
+						break;
+
+					case 1:
+						main.mFont1 = new Font("맑은 고딕", Font.BOLD, 32);
+						break;
+
+					case 2:
+						main.mFont2 = new Font("맑은 고딕", Font.BOLD, 48);
+						break;
+
+					case 3:
+						main.mFont3 = new Font("맑은 고딕", Font.BOLD, 64);
+						break;
+
+					case 4:
+						TimeUtils.startElapsedTime();
+						main.mImg0 = new ImageIcon("resources/images/retriever0.jpg");
+						// main.mImg0 = new ImageIcon("resources/images/img00.jpg");
+						System.out.println(TimeUtils.getElapsedTimeStr());
+						System.out.println(main.mImg0.getIconWidth());
+						break;
+				}
 			}
 
 			@Override
@@ -103,7 +131,7 @@ public class Main extends StatusManager {
 					e.printStackTrace();
 				}
 			}
-		}, this, 1);
+		}, this, 5);
 
 		return params;
 	}
