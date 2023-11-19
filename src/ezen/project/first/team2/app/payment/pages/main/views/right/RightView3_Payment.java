@@ -39,7 +39,7 @@ public class RightView3_Payment extends View {
 	}
 
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 	}
 
 	@Override

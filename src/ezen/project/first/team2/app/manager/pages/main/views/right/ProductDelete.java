@@ -35,7 +35,7 @@ public class ProductDelete extends View {
     }
 
     @Override
-    protected void onShow() {
+    protected void onShow(boolean firstTime) {
         System.out.println("[RightView0.onShow()]");
     }
 

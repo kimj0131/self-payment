@@ -40,6 +40,8 @@ public class Page extends JFrame {
 	private boolean mInited = false;
 	private int mNumber = -1;
 
+	private boolean mFirstTimeShow = true;
+
 	// -------------------------------------------------------------------------
 
 	// 생성자
@@ -85,6 +87,41 @@ public class Page extends JFrame {
 		this.onAddEventListeners();
 
 		this.applyOptions();
+	}
+
+	// 뷰 리스트 얻기
+	public List<View> getViewList() {
+		return this.mViewList;
+	}
+
+	// -------------------------------------------------------------------------
+
+	public void performShow() {
+		this.onShow(this.isFirstTimeShow());
+		this.setFirstTimeShow(false);
+
+		this.setVisible(true);
+	}
+
+	public void performHide() {
+		this.onHide();
+		this.setFirstTimeShow(true);
+
+		this.setVisible(false);
+	}
+
+	public void performSetResources() {
+		for (View view : this.mViewList) {
+			view.onSetResources();
+		}
+	}
+
+	public void setFirstTimeShow(boolean flag) {
+		this.mFirstTimeShow = flag;
+	}
+
+	public boolean isFirstTimeShow() {
+		return this.mFirstTimeShow;
 	}
 
 	// -------------------------------------------------------------------------
@@ -148,7 +185,7 @@ public class Page extends JFrame {
 		// 선택한 뷰 표시
 		this.mSelectedViewNum = num;
 		View newView = this.getViewByNum(num);
-		newView.onShow();
+		newView.performShow();
 
 		// [SGLEE:20231115WED_153300] 기존 컨텐츠를 삭제하고 뷰를 추가한다
 		Container cp = this.getContentPane();
@@ -183,11 +220,15 @@ public class Page extends JFrame {
 	}
 
 	// 페이지가 표시될 때 -> Status Manager에서 호출됨
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 	}
 
 	// 페이지가 숨겨질 때 -> Status Manager에서 호출됨
 	protected void onHide() {
+	}
+
+	// 리소스 설정
+	protected void onSetResources() {
 	}
 
 	// -------------------------------------------------------------------------

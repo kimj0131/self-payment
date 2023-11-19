@@ -32,15 +32,15 @@ public class BlueThread {
 	private final AtomicBoolean mIsRunning = new AtomicBoolean(false);
 
 	// 생성자
-	public BlueThread(Listener listener, int sleepInMillis, Object param) {
+	public BlueThread(Listener listener, Object param, int sleepInMillis) {
 		this.mListener = listener;
-		this.mSleepInMillis = sleepInMillis;
 		this.mParam = param;
+		this.mSleepInMillis = sleepInMillis;
 	}
 
 	// 생성자
-	public BlueThread(Listener listener) {
-		this(listener, DEFAULT_SLEEP_IN_MILLIS, null);
+	public BlueThread(Listener listener, Object param) {
+		this(listener, param, DEFAULT_SLEEP_IN_MILLIS);
 	}
 
 	// 스레드 시작

@@ -76,7 +76,7 @@ public class MainPage extends Page {
 
 	// 페이지가 표시될 때
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 		System.out.println("[MainPage.onShow()]");
 
 		try {

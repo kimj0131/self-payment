@@ -85,18 +85,17 @@ public class StatusManager {
 						View selRightView = dualView.getSelectedRightView();
 
 						if (selLeftView != null)
-							selLeftView.onHide();
+							selLeftView.performHide();
 
 						if (selRightView != null)
-							selRightView.onHide();
+							selRightView.performHide();
 					}
 
-					selView.onHide();
+					selView.performHide();
 				}
 
-				if (selPage != null) {
-					selPage.onHide();
-				}
+				if (selPage != null)
+					selPage.performHide();
 
 				// Status Manager 종료
 				StatusManager.this.onExit();
@@ -134,17 +133,13 @@ public class StatusManager {
 
 		// 현재 페이지 숨김
 		Page currPage = this.getSelectedPage();
-		if (currPage != null) {
-			currPage.onHide();
-			currPage.setVisible(false);
-		}
+		if (currPage != null)
+			currPage.performHide();
 
 		// 선택한 페이지 표시
 		this.mSelectedPageNum = num;
 		Page newPage = this.getPageByNum(num);
-		newPage.onShow();
-		// [SGLEE:20231115WED_101500] setVisible을 나중에 호출해야 하는듯..?
-		newPage.setVisible(true);
+		newPage.performShow();
 	}
 
 	// 선택된 페이지 번호 얻기
@@ -155,6 +150,18 @@ public class StatusManager {
 	// 선택된 페이지 객체 얻기
 	public Page getSelectedPage() {
 		return this.getPageByNum(this.getSelectedPageNum());
+	}
+
+	// 페이지 리스트 얻기
+	public List<Page> getPageList() {
+		return this.mPageList;
+	}
+
+	// 리소스 설정
+	public void performSetResources() {
+		for (Page page : this.mPageList) {
+			page.performSetResources();
+		}
 	}
 
 	// -------------------------------------------------------------------------

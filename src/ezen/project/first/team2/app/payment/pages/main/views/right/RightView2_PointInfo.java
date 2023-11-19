@@ -49,7 +49,7 @@ public class RightView2_PointInfo extends View {
 	}
 
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 	}
 
 	@Override

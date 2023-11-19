@@ -60,7 +60,7 @@ public class SecondPage extends Page {
 	}
 
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 		System.out.println(this.getTitle() + " => onShow()");
 
 		try {

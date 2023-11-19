@@ -12,6 +12,10 @@ public class MainView extends View {
 		super(SplashPage.VIEW_NUM_MAIN);
 	}
 
+	public void setLabel0Text(String text) {
+		this.mLabel0.setText(text);
+	}
+
 	@Override
 	protected void onInit() {
 	}
@@ -32,7 +36,7 @@ public class MainView extends View {
 	}
 
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 	}
 
 	@Override

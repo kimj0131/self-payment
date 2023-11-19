@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 
-
 public class LeftView1_CheckMember extends View {
 	private static final int PADDING = 10;
 
@@ -39,13 +38,15 @@ public class LeftView1_CheckMember extends View {
 	}
 
 	@Override
-	protected void onAddEventListeners() {}
+	protected void onAddEventListeners() {
+	}
 
 	@Override
-	protected void onShow() {}
+	protected void onShow(boolean firstTime) {
+	}
 
 	@Override
-	protected void onHide() {}
-	
-	
+	protected void onHide() {
+	}
+
 }

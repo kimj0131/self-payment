@@ -10,9 +10,9 @@ import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
 public class RightView0_OrderList extends View {
-	
+
 	private static final int PADDING = 10;
-	
+
 	JButton mButton0 = new JButton("결제하기");
 
 	public RightView0_OrderList() {
@@ -49,10 +49,11 @@ public class RightView0_OrderList extends View {
 	}
 
 	@Override
-	protected void onShow() {}
+	protected void onShow(boolean firstTime) {
+	}
 
 	@Override
-	protected void onHide() {}
-	
-	
+	protected void onHide() {
+	}
+
 }

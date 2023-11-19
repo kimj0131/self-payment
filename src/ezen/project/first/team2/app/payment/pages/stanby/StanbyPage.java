@@ -40,7 +40,7 @@ public class StanbyPage extends Page {
 	}
 
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 		try {
 			this.setSelectedViewByNum(StanbyPage.VIEW_NUM_STANBY);
 		} catch (Exception e) {

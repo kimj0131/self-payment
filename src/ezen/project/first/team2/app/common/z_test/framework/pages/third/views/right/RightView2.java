@@ -34,7 +34,7 @@ public class RightView2 extends View {
 	}
 
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 		System.out.println("[RightView2.onShow()]");
 	}
 

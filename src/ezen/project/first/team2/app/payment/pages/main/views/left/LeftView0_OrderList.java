@@ -9,10 +9,9 @@ import javax.swing.JLabel;
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 
-
 public class LeftView0_OrderList extends View {
 	private static final int PADDING = 10;
-	
+
 	private static final String ORDER_LIST_TEXT = "Order List";
 
 	JLabel mLabel0 = new JLabel();
@@ -37,19 +36,21 @@ public class LeftView0_OrderList extends View {
 	@Override
 	protected void onAddCtrls() {
 		this.mLabel0.setText(ORDER_LIST_TEXT);
-		
+
 		this.add(this.mLabel0);
 		this.add(this.mLabel1);
 	}
 
 	@Override
-	protected void onAddEventListeners() {}
+	protected void onAddEventListeners() {
+	}
 
 	@Override
-	protected void onShow() {}
+	protected void onShow(boolean firstTime) {
+	}
 
 	@Override
-	protected void onHide() {}
-	
-	
+	protected void onHide() {
+	}
+
 }

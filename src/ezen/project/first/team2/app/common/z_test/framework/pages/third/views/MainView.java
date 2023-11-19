@@ -49,7 +49,7 @@ public class MainView extends DualView {
 	}
 
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 		System.out.println("MainView.onShow()");
 
 		try {

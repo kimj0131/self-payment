@@ -43,7 +43,7 @@ public class FirstView extends View {
 	}
 
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 		System.out.println("FirstView.onShow()");
 	}
 

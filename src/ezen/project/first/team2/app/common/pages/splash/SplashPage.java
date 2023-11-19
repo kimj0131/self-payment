@@ -14,10 +14,12 @@ import java.awt.Dimension;
 import ezen.project.first.team2.app.common.framework.Page;
 import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;
+import ezen.project.first.team2.app.common.utils.BlueThread;
 import ezen.project.first.team2.app.common.utils.SystemUtils;
 
 public class SplashPage extends Page {
 	public static final int PAGE_NUM = 0;
+	public static final int DEFAULT_NEXT_PAGE_TIMEOUT = 3 * 1000;
 
 	private static final String TITLE = "Splash";
 	private static final Dimension SIZE = new Dimension(640, 360);
@@ -25,27 +27,40 @@ public class SplashPage extends Page {
 	public static final int VIEW_NUM_MAIN = 0;
 
 	private int mNextPageNum = -1;
+	private int mNextPageTimeout = -1;
+	private SplashPageParams mParams = null;
 
-	// 생성자
-	public SplashPage(int nextPageNum) {
+	// 생성자 - 다음 페이지 정보 설정
+	public SplashPage(int nextPageNum, int nextPageTimeout) {
 		// 페이지 정보 세팅
 		super(SplashPage.PAGE_NUM, TITLE, SIZE,
 				Page.OPTION_CENTER_IN_SCREEN | Page.OPTION_BORDERLESS);
 
 		this.mNextPageNum = nextPageNum;
+		this.mNextPageTimeout = nextPageTimeout;
+	}
+
+	// 생성자 - 다음 페이지 정보 설정
+	public SplashPage(int nextPageNum) {
+		this(nextPageNum, DEFAULT_NEXT_PAGE_TIMEOUT);
+	}
+
+	// 생성자 - 파라미터 설정
+	public SplashPage(SplashPageParams params) {
+		// 페이지 정보 세팅
+		super(SplashPage.PAGE_NUM, TITLE, SIZE,
+				Page.OPTION_CENTER_IN_SCREEN | Page.OPTION_BORDERLESS);
+
+		this.mParams = params;
 	}
 
 	@Override
 	protected void onInit() {
-		// 3초 후 메인 페이지 선택
-		SystemUtils.setTimeout(1 * 1000, e -> {
-			try {
-				StatusManager stsMngr = SplashPage.this.getStatusManager();
-				stsMngr.setSelectedPageByNum(SplashPage.this.mNextPageNum);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		});
+		// 다음 페이지가 유효한 경우 타이머 설정
+		this.setTimerIfValidNextPageNum();
+
+		// 리스너가 설정된 경우 리소스 로드 스레드 생성
+		this.createThreadIfValidParams();
 	}
 
 	@Override
@@ -62,7 +77,7 @@ public class SplashPage extends Page {
 	}
 
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 		try {
 			this.setSelectedViewByNum(SplashPage.VIEW_NUM_MAIN);
 		} catch (Exception e) {
@@ -72,5 +87,69 @@ public class SplashPage extends Page {
 
 	@Override
 	protected void onHide() {
+	}
+
+	private void setTimerIfValidNextPageNum() {
+		if (this.mNextPageNum == -1)
+			return;
+
+		SystemUtils.setTimeout(this.mNextPageTimeout, e -> {
+			try {
+				StatusManager stsMngr = SplashPage.this.getStatusManager();
+				stsMngr.setSelectedPageByNum(SplashPage.this.mNextPageNum);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		});
+	}
+
+	private void createThreadIfValidParams() {
+		if (this.mParams == null)
+			return;
+
+		BlueThread t = new BlueThread(new BlueThread.Listener() {
+			private int mRsrcIdx = 0;
+
+			@Override
+			public void onStart(BlueThread sender, Object param) {
+				// 페이지가 추가될 때까지 잠시 기다린다
+				// SystemUtils.sleep(100);
+
+				// 1초 동안 스플래시 화면을 표시한다
+				SystemUtils.sleep(1 * 1000);
+			}
+
+			@Override
+			public boolean onRun(BlueThread sender, Object param) {
+				SplashPageParams.Listener listener = SplashPage.this.mParams.getListener();
+				int rsrcCnt = SplashPage.this.mParams.getResurceCount();
+
+				listener.onLoadResources(param, this.mRsrcIdx, rsrcCnt);
+				if (this.mRsrcIdx++ == rsrcCnt) {
+					// 1초 동안 스플래시 화면을 표시한다
+					SystemUtils.sleep(1 * 1000);
+
+					listener.onCompleteResources(param);
+
+					// 스레드 종료
+					return false;
+				}
+
+				// 스레드 계속
+				return true;
+			}
+
+			@Override
+			public void onStop(BlueThread sender, Object param, boolean interrupted) {
+				//
+			}
+
+		}, this.mParams.getParam());
+
+		try {
+			t.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

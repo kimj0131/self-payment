@@ -72,7 +72,7 @@ public class LeftView extends View {
 	}
 
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 	}
 
 	@Override

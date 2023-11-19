@@ -110,7 +110,7 @@ public class DualView extends View {
 		// 선택한 뷰 표시
 		this.mSelectedLeftViewNum = num;
 		View newView = this.getViewByNum(num);
-		newView.onShow();
+		newView.performShow();
 		this.mSplitPane.setLeftComponent(newView);
 	}
 
@@ -144,7 +144,7 @@ public class DualView extends View {
 		View newView = this.getViewByNum(num);
 		// [SGLEE:20231116THU_125700] 크기 설정을 해도 적용이 안 된다?
 		newView.setPreferredSize(new Dimension(this.mLeftViewWidth, 0));
-		newView.onShow();
+		newView.performShow();
 		this.mSplitPane.setRightComponent(newView);
 	}
 
@@ -197,7 +197,7 @@ public class DualView extends View {
 	}
 
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 		// System.out.println("[DualView.onShow()]");
 	}
 

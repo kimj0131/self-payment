@@ -63,8 +63,8 @@ public class MainPage extends Page {
 
 	// 페이지가 표시될 때
 	@Override
-	protected void onShow() {
-		System.out.println("[MainPage.onShow()]");
+	protected void onShow(boolean firstTime) {
+		System.out.printf("[MainPage.onShow(firstTime:%s)] \n", firstTime);
 
 		try {
 			this.setSelectedViewByNum(MainPage.VIEW_NUM_MAIN);

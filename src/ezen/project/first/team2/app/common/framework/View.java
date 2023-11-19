@@ -21,6 +21,8 @@ public class View extends JPanel {
 	private boolean mInited = false;
 	private int mNumber = -1;
 
+	private boolean mFirstTimeShow = true;
+
 	// -------------------------------------------------------------------------
 
 	// 생성자
@@ -70,6 +72,31 @@ public class View extends JPanel {
 
 	// -------------------------------------------------------------------------
 
+	public void performShow() {
+		this.onShow(this.isFirstTimeShow());
+		this.setFirstTimeShow(false);
+
+	}
+
+	public void performHide() {
+		this.onHide();
+		this.setFirstTimeShow(true);
+	}
+
+	public void performSetResources() {
+		this.onSetResources();
+	}
+
+	public void setFirstTimeShow(boolean flag) {
+		this.mFirstTimeShow = flag;
+	}
+
+	public boolean isFirstTimeShow() {
+		return this.mFirstTimeShow;
+	}
+
+	// -------------------------------------------------------------------------
+
 	// 초기화 작업
 	protected void onInit() {
 	}
@@ -88,10 +115,14 @@ public class View extends JPanel {
 	}
 
 	// 뷰가 표시될 때 -> Page에서 호출됨
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 	}
 
 	// 뷰가 숨겨질 때 -> Page에서 호출됨
 	protected void onHide() {
+	}
+
+	// 리소스 설정
+	protected void onSetResources() {
 	}
 }

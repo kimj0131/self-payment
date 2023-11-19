@@ -44,7 +44,7 @@ public class TestBlueThread {
 			public void onStop(BlueThread sender, Object param, boolean interrupted) {
 				System.out.printf("[worker.onStop()] interrupted:%s \n", interrupted);
 			}
-		}, 1 * 1000, nums);
+		}, nums, 1 * 1000);
 
 		// 스레드 시작
 		try {

@@ -22,7 +22,6 @@ import ezen.project.first.team2.app.payment.pages.main.views.right.RightView3_Pa
 public class MainView extends DualView {
 	// -------------------------------------------------------------------------
 
-
 	// -------------------------------------------------------------------------
 
 	// 생성자
@@ -43,7 +42,7 @@ public class MainView extends DualView {
 	protected void onSetLayout() {
 		this.setLayout(new GridLayout(1, 1, 10, 10));
 	}
-	
+
 	@Override
 	protected void onAddViews() {
 		try {
@@ -52,7 +51,7 @@ public class MainView extends DualView {
 			addView(new LeftView1_CheckMember());
 			addView(new LeftView2_PointInfo());
 			addView(new LeftView3_Payment());
-			
+
 			// Right View
 			addView(new RightView0_OrderList());
 			addView(new RightView1_CheckMember());
@@ -78,8 +77,9 @@ public class MainView extends DualView {
 
 	// 뷰가 표시될 때
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 		System.out.println("[MainView.onShow()]");
+
 		try {
 			MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 			mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_ORDER_LIST_NUM);

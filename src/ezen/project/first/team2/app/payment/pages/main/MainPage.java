@@ -22,19 +22,19 @@ public class MainPage extends Page {
 
 	// 뷰 번호 정의
 	public static final int VIEW_NUM_MAIN = 0;
-	
+
 	// Left
 	public static final int LEFT_VIEW_ORDER_LIST_NUM = 100;
 	public static final int LEFT_VIEW_CHECK_MEMBER_NUM = 101;
 	public static final int LEFT_VIEW_POINT_INFO_NUM = 102;
 	public static final int LEFT_VIEW_PAYMENT_NUM = 103;
-	
+
 	// Right
 	public static final int RIGHT_VIEW_ORDER_LIST_NUM = 200;
 	public static final int RIGHT_VIEW_CHECK_MEMBER_NUM = 201;
 	public static final int RIGHT_VIEW_POINT_INFO_NUM = 202;
 	public static final int RIGHT_VIEW_PAYMENT_NUM = 203;
-	
+
 	// 생성자
 	public MainPage() {
 		super(Main.PAGE_NUM_MAIN, TITLE, SIZE,
@@ -71,7 +71,7 @@ public class MainPage extends Page {
 
 	// 페이지가 표시될 때
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 		System.out.println("[MainPage.onShow()]");
 
 		try {
@@ -87,38 +87,3 @@ public class MainPage extends Page {
 		System.out.println("[MainPage.onHide()]");
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

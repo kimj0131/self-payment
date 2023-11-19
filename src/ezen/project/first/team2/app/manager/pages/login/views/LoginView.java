@@ -63,7 +63,7 @@ public class LoginView extends View {
 
 	// 뷰가 표시될 때
 	@Override
-	protected void onShow() {
+	protected void onShow(boolean firstTime) {
 		System.out.println("[MainView.onShow()]");
 	}
 
