@@ -9,8 +9,8 @@ package ezen.project.first.team2.app.newuser.pages.main.views;
 import javax.swing.JButton;
 
 import ezen.project.first.team2.app.common.framework.View;
+import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.newuser.pages.main.MainPage;
-import ezen.project.first.team2.utils.UiUtils;
 
 public class MainView extends View {
 	// -------------------------------------------------------------------------

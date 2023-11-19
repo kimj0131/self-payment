@@ -4,7 +4,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.utils;
+package ezen.project.first.team2.app.common.utils;
 
 import javax.swing.JOptionPane;
 
@@ -25,17 +25,17 @@ public class UiUtils {
 			MsgBoxType type, MsgBoxBtn btn) {
 		int _type = 0;
 		switch (type) {
-		case Info:
-			_type = JOptionPane.INFORMATION_MESSAGE;
-			break;
+			case Info:
+				_type = JOptionPane.INFORMATION_MESSAGE;
+				break;
 
-		case Warn:
-			_type = JOptionPane.WARNING_MESSAGE;
-			break;
+			case Warn:
+				_type = JOptionPane.WARNING_MESSAGE;
+				break;
 
-		case Error:
-			_type = JOptionPane.ERROR_MESSAGE;
-			break;
+			case Error:
+				_type = JOptionPane.ERROR_MESSAGE;
+				break;
 		}
 
 		JOptionPane.showMessageDialog(null, msg, title, _type);

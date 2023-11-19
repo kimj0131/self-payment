@@ -14,7 +14,7 @@ import java.awt.Dimension;
 import ezen.project.first.team2.app.common.framework.Page;
 import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;
-import ezen.project.first.team2.utils.SystemUtils;
+import ezen.project.first.team2.app.common.utils.SystemUtils;
 
 public class SplashPage extends Page {
 	public static final int PAGE_NUM = 0;
