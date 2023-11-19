@@ -137,11 +137,6 @@ public class Main extends StatusManager {
 	}
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> {
-
-			(new Main()).run();
-
-		});
-
+		(new Main()).run();
 	}
 }
