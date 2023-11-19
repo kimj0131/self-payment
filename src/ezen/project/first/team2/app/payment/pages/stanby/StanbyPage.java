@@ -4,16 +4,15 @@ import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.framework.Page;
 import ezen.project.first.team2.app.payment.Main;
-import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.stanby.views.StanbyView;
 
-public class StanbyPage extends Page{
-	
+public class StanbyPage extends Page {
+
 	public static final String TITLE = "스텐바이 페이지";
 	public static final Dimension SIZE = new Dimension(640, 360);
-	
+
 	public static final int VIEW_NUM_STANBY = 0;
-	
+
 	public StanbyPage() {
 		super(Main.PAGE_NUM_STANBY, TITLE, SIZE,
 				OPTION_CENTER_IN_SCREEN |
@@ -24,7 +23,8 @@ public class StanbyPage extends Page{
 	}
 
 	@Override
-	protected void onInit() {}
+	protected void onInit() {
+	}
 
 	@Override
 	protected void onAddViews() {
@@ -36,11 +36,12 @@ public class StanbyPage extends Page{
 	}
 
 	@Override
-	protected void onAddEventListeners() {}
+	protected void onAddEventListeners() {
+	}
 
 	@Override
 	protected void onShow() {
-		try { 
+		try {
 			this.setSelectedViewByNum(StanbyPage.VIEW_NUM_STANBY);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,7 +49,7 @@ public class StanbyPage extends Page{
 	}
 
 	@Override
-	protected void onHide() {}
-	
-	
+	protected void onHide() {
+	}
+
 }

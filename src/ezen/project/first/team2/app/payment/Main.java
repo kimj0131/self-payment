@@ -6,16 +6,6 @@
 
 package ezen.project.first.team2.app.payment;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
-
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-
 import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;

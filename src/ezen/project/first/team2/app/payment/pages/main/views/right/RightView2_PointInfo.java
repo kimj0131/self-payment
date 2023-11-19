@@ -1,8 +1,6 @@
 package ezen.project.first.team2.app.payment.pages.main.views.right;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -12,9 +10,9 @@ import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
 public class RightView2_PointInfo extends View {
-	
+
 	private static final int PADDING = 10;
-	
+
 	JButton mButton0 = new JButton("포인트확인완료");
 
 	public RightView2_PointInfo() {
@@ -51,10 +49,11 @@ public class RightView2_PointInfo extends View {
 	}
 
 	@Override
-	protected void onShow() {}
+	protected void onShow() {
+	}
 
 	@Override
-	protected void onHide() {}
-	
-	
+	protected void onHide() {
+	}
+
 }

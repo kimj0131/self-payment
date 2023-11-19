@@ -8,8 +8,6 @@ package ezen.project.first.team2.app.manager.pages.main.views;
 
 import java.awt.GridLayout;
 
-import javax.swing.JButton;
-
 import ezen.project.first.team2.app.common.framework.DualView;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 import ezen.project.first.team2.app.manager.pages.main.views.left.LeftView;
@@ -21,8 +19,6 @@ import ezen.project.first.team2.app.manager.pages.main.views.right.ProductAdd;
 import ezen.project.first.team2.app.manager.pages.main.views.right.ProductDelete;
 import ezen.project.first.team2.app.manager.pages.main.views.right.ProductInfo;
 import ezen.project.first.team2.app.manager.pages.main.views.right.ProductUpdate;
-import ezen.project.first.team2.app.manager.pages.main.views.right.RightView;
-import ezen.project.first.team2.utils.UiUtils;
 
 public class MainView extends DualView {
 	// -------------------------------------------------------------------------

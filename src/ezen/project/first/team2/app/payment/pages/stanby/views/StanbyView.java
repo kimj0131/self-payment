@@ -1,6 +1,5 @@
 package ezen.project.first.team2.app.payment.pages.stanby.views;
 
-import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -12,17 +11,18 @@ import ezen.project.first.team2.app.payment.pages.stanby.StanbyPage;
 
 public class StanbyView extends View {
 	private JLabel mLabel0 = new JLabel("화면을 터치해 주세요");
-	
+
 	public StanbyView() {
 		super(StanbyPage.VIEW_NUM_STANBY);
 	}
 
 	@Override
-	protected void onInit() {}
+	protected void onInit() {
+	}
 
 	@Override
 	protected void onSetLayout() {
-		
+
 	}
 
 	@Override
@@ -46,9 +46,11 @@ public class StanbyView extends View {
 	}
 
 	@Override
-	protected void onShow() {}
+	protected void onShow() {
+	}
 
 	@Override
-	protected void onHide() {}
-	
+	protected void onHide() {
+	}
+
 }
