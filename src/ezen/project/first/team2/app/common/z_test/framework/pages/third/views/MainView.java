@@ -1,14 +1,14 @@
-package ezen.project.first.team2.app.common.z_test.pages.third.views;
+package ezen.project.first.team2.app.common.z_test.framework.pages.third.views;
 
 import java.awt.GridLayout;
 
 import ezen.project.first.team2.app.common.framework.DualView;
-import ezen.project.first.team2.app.common.z_test.pages.third.ThirdPage;
-import ezen.project.first.team2.app.common.z_test.pages.third.views.left.LeftView;
-import ezen.project.first.team2.app.common.z_test.pages.third.views.right.RightView0;
-import ezen.project.first.team2.app.common.z_test.pages.third.views.right.RightView1;
-import ezen.project.first.team2.app.common.z_test.pages.third.views.right.RightView2;
-import ezen.project.first.team2.app.common.z_test.pages.third.views.right.RightView3;
+import ezen.project.first.team2.app.common.z_test.framework.pages.third.ThirdPage;
+import ezen.project.first.team2.app.common.z_test.framework.pages.third.views.left.LeftView;
+import ezen.project.first.team2.app.common.z_test.framework.pages.third.views.right.RightView0;
+import ezen.project.first.team2.app.common.z_test.framework.pages.third.views.right.RightView1;
+import ezen.project.first.team2.app.common.z_test.framework.pages.third.views.right.RightView2;
+import ezen.project.first.team2.app.common.z_test.framework.pages.third.views.right.RightView3;
 
 public class MainView extends DualView {
 	// private static final int PADDING = 10;

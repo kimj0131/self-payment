@@ -1,13 +1,13 @@
-package ezen.project.first.team2.app.common.z_test.pages.second;
+package ezen.project.first.team2.app.common.z_test.framework.pages.second;
 
 import java.awt.Dimension;
 
 import javax.swing.JButton;
 
 import ezen.project.first.team2.app.common.framework.Page;
-import ezen.project.first.team2.app.common.z_test.Main;
-import ezen.project.first.team2.app.common.z_test.pages.second.views.FirstView;
-import ezen.project.first.team2.app.common.z_test.pages.second.views.SecondView;
+import ezen.project.first.team2.app.common.z_test.framework.Main;
+import ezen.project.first.team2.app.common.z_test.framework.pages.second.views.FirstView;
+import ezen.project.first.team2.app.common.z_test.framework.pages.second.views.SecondView;
 
 public class SecondPage extends Page {
 	// 페이지 정보 정의

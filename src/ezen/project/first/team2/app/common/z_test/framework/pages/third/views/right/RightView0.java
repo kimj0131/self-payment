@@ -1,10 +1,10 @@
-package ezen.project.first.team2.app.common.z_test.pages.third.views.right;
+package ezen.project.first.team2.app.common.z_test.framework.pages.third.views.right;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.z_test.pages.third.ThirdPage;
+import ezen.project.first.team2.app.common.z_test.framework.pages.third.ThirdPage;
 
 public class RightView0 extends View {
 	private static final int PADDING = 10;

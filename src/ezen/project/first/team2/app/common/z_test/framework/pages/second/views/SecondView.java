@@ -1,11 +1,11 @@
-package ezen.project.first.team2.app.common.z_test.pages.second.views;
+package ezen.project.first.team2.app.common.z_test.framework.pages.second.views;
 
 import java.awt.Color;
 
 import javax.swing.JButton;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.z_test.pages.second.SecondPage;
+import ezen.project.first.team2.app.common.z_test.framework.pages.second.SecondPage;
 
 public class SecondView extends View {
 	JButton m1stViewBtn = new JButton();

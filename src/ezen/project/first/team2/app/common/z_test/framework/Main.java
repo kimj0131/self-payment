@@ -1,9 +1,9 @@
-package ezen.project.first.team2.app.common.z_test;
+package ezen.project.first.team2.app.common.z_test.framework;
 
 import ezen.project.first.team2.app.common.framework.StatusManager;
-import ezen.project.first.team2.app.common.z_test.pages.first.FirstPage;
-import ezen.project.first.team2.app.common.z_test.pages.second.SecondPage;
-import ezen.project.first.team2.app.common.z_test.pages.third.ThirdPage;
+import ezen.project.first.team2.app.common.z_test.framework.pages.first.FirstPage;
+import ezen.project.first.team2.app.common.z_test.framework.pages.second.SecondPage;
+import ezen.project.first.team2.app.common.z_test.framework.pages.third.ThirdPage;
 
 public class Main extends StatusManager {
 	// 페이지 번호 정의

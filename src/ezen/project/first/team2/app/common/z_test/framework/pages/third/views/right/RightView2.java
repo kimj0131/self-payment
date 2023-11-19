@@ -1,16 +1,16 @@
-package ezen.project.first.team2.app.common.z_test.pages.third.views.right;
+package ezen.project.first.team2.app.common.z_test.framework.pages.third.views.right;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.z_test.pages.third.ThirdPage;
+import ezen.project.first.team2.app.common.z_test.framework.pages.third.ThirdPage;
 
-public class RightView1 extends View {
+public class RightView2 extends View {
 	private static final int PADDING = 10;
 
-	public RightView1() {
-		super(ThirdPage.RIGHT_VIEW_NUM_1);
+	public RightView2() {
+		super(ThirdPage.RIGHT_VIEW_NUM_2);
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class RightView1 extends View {
 
 	@Override
 	protected void onAddCtrls() {
-		this.add(new JLabel("두 번째 뷰"));
+		this.add(new JLabel("세 번째 뷰"));
 	}
 
 	@Override
@@ -35,11 +35,11 @@ public class RightView1 extends View {
 
 	@Override
 	protected void onShow() {
-		System.out.println("[RightView1.onShow()]");
+		System.out.println("[RightView2.onShow()]");
 	}
 
 	@Override
 	protected void onHide() {
-		System.out.println("[RightView1.onHide()]");
+		System.out.println("[RightView2.onHide()]");
 	}
 }

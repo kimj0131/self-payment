@@ -1,4 +1,4 @@
-package ezen.project.first.team2.app.common.z_test;
+package ezen.project.first.team2.app.common.z_test.etc;
 
 import java.awt.Color;
 import java.awt.Dimension;

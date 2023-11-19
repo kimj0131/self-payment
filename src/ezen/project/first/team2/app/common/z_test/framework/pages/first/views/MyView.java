@@ -1,4 +1,4 @@
-package ezen.project.first.team2.app.common.z_test.pages.first.views;
+package ezen.project.first.team2.app.common.z_test.framework.pages.first.views;
 
 import java.awt.GridLayout;
 
@@ -6,8 +6,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.z_test.Main;
-import ezen.project.first.team2.app.common.z_test.pages.first.FirstPage;
+import ezen.project.first.team2.app.common.z_test.framework.Main;
+import ezen.project.first.team2.app.common.z_test.framework.pages.first.FirstPage;
 
 public class MyView extends View {
 	private static final int PADDING = 10;
