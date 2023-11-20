@@ -3,7 +3,6 @@ package ezen.project.first.team2.app.common.z_test.framework;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
 
 import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;

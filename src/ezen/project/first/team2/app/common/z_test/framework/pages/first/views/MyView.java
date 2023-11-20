@@ -1,6 +1,5 @@
 package ezen.project.first.team2.app.common.z_test.framework.pages.first.views;
 
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -84,6 +83,6 @@ public class MyView extends View {
 	@Override
 	protected void onSetResources() {
 		Main main = (Main) this.getStatusManager();
-		this.m2ndPageBtn.setFont(new Font("맑은 고딕", Font.BOLD, 16));
+		this.m2ndPageBtn.setFont(main.mFont0);
 	}
 }
