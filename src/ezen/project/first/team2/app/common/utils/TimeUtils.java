@@ -91,4 +91,20 @@ public class TimeUtils {
 
 		return s;
 	}
+
+	// return: "yyyy.mm.dd.ddd"
+	public static String localDateToStr(LocalDate localDate, boolean weekday) {
+		final String[] WEEK_NAMES = { "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" };
+
+		String s = String.format("%04d.%02d.%02d",
+				localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+		if (weekday)
+			s += "." + WEEK_NAMES[localDate.getDayOfWeek().getValue() - 1];
+
+		return s;
+	}
+
+	public static String localDateToStr(LocalDate localDate) {
+		return localDateToStr(localDate, false);
+	}
 }
