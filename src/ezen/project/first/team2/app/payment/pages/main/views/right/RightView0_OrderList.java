@@ -21,7 +21,7 @@ public class RightView0_OrderList extends View {
 	private static final int PADDING = 10;
 
 	GridBagConstraints gbc = new GridBagConstraints();
-	JTextArea mTextArea0 = new JTextArea("상품번호\t상품이름\t상품수량\t상품금액\n");
+	JTextArea mTextArea0 = new JTextArea("상품번호\t상품명\t상품개수\t상품가격\n");
 	JScrollPane mTextArea0_Scoll = new JScrollPane(mTextArea0);
 	
 	JTextArea mTextArea1 = new JTextArea("합계\n");
@@ -48,24 +48,24 @@ public class RightView0_OrderList extends View {
 		mTextArea0.setEditable(false);
 		mTextArea1.setEditable(false);
 		
-        gbc.fill = GridBagConstraints.BOTH;
+		gbc.fill = GridBagConstraints.BOTH;
+
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.weightx = 0.7;
-        gbc.weighty = 0.7;
 		this.add(mTextArea0_Scoll, gbc);
 		
-		gbc.gridx = 1;
+		gbc.weightx = 2.0;
+        gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.weightx = 0.1;
-        gbc.weighty = 0.7;
 		this.add(mTextArea1, gbc);
 		
-		gbc.gridx = 1;
+		gbc.weighty = 0.1;
+        gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.weightx = 0.1;
-        gbc.weighty = 0.1;
+        gbc.gridwidth = 2;
 		this.add(mButton0, gbc);
 	}
 
