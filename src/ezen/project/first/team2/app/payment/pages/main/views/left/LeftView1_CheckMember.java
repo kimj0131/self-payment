@@ -7,13 +7,13 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 
 import ezen.project.first.team2.app.common.framework.View;
+import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 
 public class LeftView1_CheckMember extends View {
 	private static final int PADDING = 10;
 
-	JLabel mLabel0 = new JLabel("CheckMember");
-	JLabel mLabel1 = new JLabel("View");
+	JLabel mLabel0 = new JLabel("<html>회원인 경우<br>휴대폰 번호를<br>입력해주세요</html>");
 
 	public LeftView1_CheckMember() {
 		super(MainPage.LEFT_VIEW_CHECK_MEMBER_NUM);
@@ -34,7 +34,6 @@ public class LeftView1_CheckMember extends View {
 	@Override
 	protected void onAddCtrls() {
 		this.add(this.mLabel0);
-		this.add(this.mLabel1);
 	}
 
 	@Override
@@ -49,4 +48,9 @@ public class LeftView1_CheckMember extends View {
 	protected void onHide() {
 	}
 
+	@Override
+	protected void onSetResources() {
+		Main main = (Main) this.getStatusManager();
+		mLabel0.setFont(main.mFont0);
+	}
 }

@@ -7,6 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 
 import ezen.project.first.team2.app.common.framework.View;
+import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 
 public class LeftView2_PointInfo extends View {
@@ -49,4 +50,9 @@ public class LeftView2_PointInfo extends View {
 	protected void onHide() {
 	}
 
+	@Override
+	protected void onSetResources() {
+		Main main = (Main) this.getStatusManager();
+		mLabel0.setFont(main.mFont0);
+	}
 }
