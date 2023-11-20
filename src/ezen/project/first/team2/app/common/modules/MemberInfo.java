@@ -33,7 +33,9 @@ public class MemberInfo extends ListItem {
 	// 생년월일. YYYY.MM.DD.
 	private LocalDate mBirthday = LocalDate.now();
 	// 휴대폰. 010-0000-0000.
-	private String mPhoneNum = "010-0000-0000";
+	private String mPhoneNumber = "010-0000-0000";
+	// 포인트
+	private int mPoint = 0;
 	// 비고
 	private String mRemark = "";
 
@@ -47,11 +49,12 @@ public class MemberInfo extends ListItem {
 
 	// 개별 값으로 값 설정
 	public void setValues(int id, LocalDate joinDate, String name,
-			LocalDate birthday, String phoneNum, String remark) {
+			LocalDate birthday, String phoneNum, int point, String remark) {
 		this.mId = id;
 		this.mName = name;
 		this.mBirthday = birthday;
-		this.mPhoneNum = phoneNum;
+		this.mPhoneNumber = phoneNum;
+		this.mPoint = point;
 		this.mRemark = remark;
 	}
 
@@ -69,7 +72,22 @@ public class MemberInfo extends ListItem {
 
 	// 휴대폰 번호 설정
 	public void setPhoneNumber(String phoneNum) {
-		this.mPhoneNum = phoneNum;
+		this.mPhoneNumber = phoneNum;
+	}
+
+	// 포인트 설정
+	public void setPoint(int point) {
+		this.mPoint = point;
+	}
+
+	// 포인트 증가
+	public void incPoint(int amount) {
+		this.mPoint += amount;
+	}
+
+	// 포인트 감소
+	public void decPoint(int amount) {
+		this.mPoint -= amount;
 	}
 
 	// 비고 설정
@@ -89,6 +107,7 @@ public class MemberInfo extends ListItem {
 		return this.mJoinDate;
 	}
 
+	// 가입일 문자열 얻기
 	public String getJoinDateStr() {
 		return TimeUtils.localDateToStr(this.mJoinDate);
 	}
@@ -103,13 +122,18 @@ public class MemberInfo extends ListItem {
 		return this.mBirthday;
 	}
 
+	// 생년월일 문자열 얻기
 	public String getBirthdayStr() {
 		return TimeUtils.localDateToStr(this.mBirthday);
 	}
 
 	// 휴대폰 번호 얻기
 	public String getPhoneNumber() {
-		return this.mPhoneNum;
+		return this.mPhoneNumber;
+	}
+
+	public int getPoint() {
+		return this.mPoint;
 	}
 
 	// 비고 얻기
@@ -125,37 +149,37 @@ public class MemberInfo extends ListItem {
 			// 이시관
 			case _0_SiGwanLEE:
 				info.setValues(1, LocalDate.now(), "이시관", LocalDate.of(1983, 5, 9),
-						"010-0000-8086", "");
+						"010-0000-8086", 10 * 10000, "");
 				break;
 
 			// 길근영
 			case _1_GeunYoungGil:
 				info.setValues(2, LocalDate.now(), "길근영", LocalDate.of(1983, 12, 19),
-						"010-0000-2794", "");
+						"010-0000-2794", 9 * 10000, "");
 				break;
 
 			// 조현우
 			case _2_HyunWooJo:
 				info.setValues(3, LocalDate.now(), "조현우", LocalDate.of(1991, 1, 1),
-						"010-0000-1606", "");
+						"010-0000-1606", 8 * 10000, "");
 				break;
 
 			// 김준형
 			case _3_JunHyungKim:
 				info.setValues(4, LocalDate.now(), "김준형", LocalDate.of(1993, 1, 1),
-						"010-0000-4355", "");
+						"010-0000-4355", 7 * 10000, "");
 				break;
 
 			// 박철진
 			case _4_CheolJinPark:
 				info.setValues(5, LocalDate.now(), "박철진", LocalDate.of(1999, 1, 1),
-						"010-0000-0009", "");
+						"010-0000-0009", 6 * 10000, "");
 				break;
 
 			// 서빈
 			case _5_BinSeo:
 				info.setValues(6, LocalDate.now(), "서  빈", LocalDate.of(2002, 1, 1),
-						"010-0000-5629", "");
+						"010-0000-5629", 5 * 10000, "");
 				break;
 		}
 
@@ -166,9 +190,9 @@ public class MemberInfo extends ListItem {
 
 	@Override
 	public String toString() {
-		String s = String.format("id:%06d, join:%s, name:%s, birthday:%s, phone:%s, remark:%s",
+		String s = String.format("id:%06d, join:%s, name:%s, birthday:%s, phoneNum:%s, point:%d, remark:%s",
 				this.getId(), this.getJoinDateStr(), this.getName(), this.getBirthdayStr(),
-				this.getPhoneNumber(), this.getRemark());
+				this.getPhoneNumber(), this.getPoint(), this.getRemark());
 		return s;
 	}
 
@@ -176,6 +200,6 @@ public class MemberInfo extends ListItem {
 	protected void onSetValuesFrom(ListItem item) {
 		MemberInfo info = (MemberInfo) item;
 		this.setValues(info.getId(), info.getJoinDate(), info.getName(),
-				info.getBirthday(), info.getPhoneNumber(), info.getRemark());
+				info.getBirthday(), info.getPhoneNumber(), info.getPoint(), info.getRemark());
 	}
 }
