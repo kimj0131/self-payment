@@ -9,7 +9,7 @@ package ezen.project.first.team2.app.common.modules;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemberManagerMem extends MemberManager {
+public class MemberManagerMem extends ListManager<MemberInfo> {
 	// -------------------------------------------------------------------------
 
 	private static MemberManagerMem mInstance = null;
@@ -79,7 +79,7 @@ public class MemberManagerMem extends MemberManager {
 	}
 
 	@Override
-	protected void onIterate(Iterator iterator) {
+	protected void onIterate(Iterator<MemberInfo> iterator) {
 		for (MemberInfo info : this.mMemberList) {
 			if (!iterator.onGetItem(info))
 				break;

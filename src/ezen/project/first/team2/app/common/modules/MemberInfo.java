@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 import ezen.project.first.team2.app.common.utils.TimeUtils;
 
-public class MemberInfo {
+public class MemberInfo extends ListItem {
 	// -------------------------------------------------------------------------
 
 	public enum DummyDataIndex {
@@ -25,7 +25,7 @@ public class MemberInfo {
 	// -------------------------------------------------------------------------
 
 	// 회원 번호. 0번은 비회원.
-	private int mId = 0;
+	// private int mId = 0;
 	// 가입일. YYYYY.MM.DD.
 	private LocalDate mJoinDate = LocalDate.now();
 	// 이름
@@ -55,12 +55,6 @@ public class MemberInfo {
 		this.mRemark = remark;
 	}
 
-	// 객체로 값 설정
-	public void setValuesFrom(MemberInfo info) {
-		this.setValues(info.getId(), info.getJoinDate(), info.getName(),
-				info.getBirthday(), info.getPhoneNumber(), info.getRemark());
-	}
-
 	// -------------------------------------------------------------------------
 
 	// 이름 설정
@@ -86,9 +80,9 @@ public class MemberInfo {
 	// -------------------------------------------------------------------------
 
 	// 회원 번호 얻기
-	public int getId() {
-		return this.mId;
-	}
+	// public int getId() {
+	// return this.mId;
+	// }
 
 	// 가입일 얻기
 	public LocalDate getJoinDate() {
@@ -176,5 +170,12 @@ public class MemberInfo {
 				this.getId(), this.getJoinDateStr(), this.getName(), this.getBirthdayStr(),
 				this.getPhoneNumber(), this.getRemark());
 		return s;
+	}
+
+	@Override
+	protected void onSetValuesFrom(ListItem item) {
+		MemberInfo info = (MemberInfo) item;
+		this.setValues(info.getId(), info.getJoinDate(), info.getName(),
+				info.getBirthday(), info.getPhoneNumber(), info.getRemark());
 	}
 }

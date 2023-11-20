@@ -1,7 +1,7 @@
 package ezen.project.first.team2.app.common.z_test.modules;
 
 import ezen.project.first.team2.app.common.modules.MemberInfo;
-import ezen.project.first.team2.app.common.modules.MemberManager;
+import ezen.project.first.team2.app.common.modules.ListManager;
 import ezen.project.first.team2.app.common.modules.MemberManagerMem;
 
 public class TestMemberManagerMem {
@@ -82,7 +82,7 @@ public class TestMemberManagerMem {
 
 	}
 
-	static void printList(MemberManager memMngr) {
+	static void printList(ListManager<MemberInfo> memMngr) {
 		System.out.println("-".repeat(40));
 		System.out.println("회원 리스트");
 
