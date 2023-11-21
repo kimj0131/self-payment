@@ -38,7 +38,7 @@ public class ListManager<T extends ListItem> {
 	// 초기화
 	public void init() throws Exception {
 		if (this.isInited()) {
-			String msg = String.format("[MemberManager.init()]" +
+			String msg = String.format("[ListManager.init()]" +
 					" Already initialized!");
 			throw new Exception(msg);
 		}
@@ -50,7 +50,7 @@ public class ListManager<T extends ListItem> {
 	// 종료
 	public void deinit() throws Exception {
 		if (!this.isInited()) {
-			String msg = String.format("[MemberManager.init()]" +
+			String msg = String.format("[ListManager.init()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
@@ -64,20 +64,31 @@ public class ListManager<T extends ListItem> {
 		return this.mInited;
 	}
 
+	// 다음 ID 얻기
+	public int getNextID() throws Exception {
+		if (!this.isInited()) {
+			String msg = String.format("[ListManager.init()]" +
+					" You must initialize!");
+			throw new Exception(msg);
+		}
+
+		return this.onGetNextID();
+	}
+
 	// 아이템 추가
 	public void add(T info) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
-			String msg = String.format("[MemberManager.init()]" +
+			String msg = String.format("[ListManager.init()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
 
 		// 아이템 ID 중복 확인
 		final int id = info.getId();
-		if (this.isValidId(id)) {
-			String msg = String.format("[MemberManager.add()]" +
-					"Invalid or duplicated id(%d)!",
+		if (this.isDuplicatedId(id)) {
+			String msg = String.format("[ListManager.add()]" +
+					" You have duplicated id(%d)!",
 					id);
 			throw new Exception(msg);
 		}
@@ -89,15 +100,15 @@ public class ListManager<T extends ListItem> {
 	public void updateById(int id, T info) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
-			String msg = String.format("[MemberManager.init()]" +
+			String msg = String.format("[ListManager.init()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
 
-		// 아이템 ID 존재 확인
-		if (!this.isValidId(id)) {
-			String msg = String.format("[MemberManager.updateById()]" +
-					"Invalid id(%d)!",
+		// 아이템 ID 존재(중복) 확인
+		if (!this.isDuplicatedId(id)) {
+			String msg = String.format("[ListManager.updateById()]" +
+					" Invalid id(%d)!",
 					id);
 			throw new Exception(msg);
 		}
@@ -109,15 +120,15 @@ public class ListManager<T extends ListItem> {
 	public void deleteById(int id) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
-			String msg = String.format("[MemberManager.init()]" +
+			String msg = String.format("[ListManager.init()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
 
-		// 아이템 ID 존재 확인
-		if (!this.isValidId(id)) {
-			String msg = String.format("[MemberManager.deleteById()]" +
-					"Invalid id(%d)!",
+		// 아이템 ID 존재(중복) 확인
+		if (!this.isDuplicatedId(id)) {
+			String msg = String.format("[ListManager.deleteById()]" +
+					" Invalid id(%d)!",
 					id);
 			throw new Exception(msg);
 		}
@@ -125,23 +136,23 @@ public class ListManager<T extends ListItem> {
 		this.onDeleteById(id);
 	}
 
-	// 아이템 ID 확인
-	public boolean isValidId(int id) throws Exception {
+	// 아이템 ID 중복(존재) 확인
+	public boolean isDuplicatedId(int id) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
-			String msg = String.format("[MemberManager.init()]" +
+			String msg = String.format("[ListManager.init()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
 
-		return this.onIsValidId(id);
+		return this.onIsDuplicatedId(id);
 	}
 
 	// 아이템 수 얻기
 	public int getCount() throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
-			String msg = String.format("[MemberManager.init()]" +
+			String msg = String.format("[ListManager.init()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
@@ -153,7 +164,7 @@ public class ListManager<T extends ListItem> {
 	public void iterate(Iterator<T> iterator) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
-			String msg = String.format("[MemberManager.init()]" +
+			String msg = String.format("[ListManager.init()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
@@ -167,7 +178,13 @@ public class ListManager<T extends ListItem> {
 	protected void onInit() {
 	}
 
+	// 종료
 	protected void onDeinit() {
+	}
+
+	// 다음 ID 얻기 -> 가장 큰 값을 얻은 뒤 +1을 더한다.
+	protected int onGetNextID() {
+		return -1;
 	}
 
 	// 아이템 추가
@@ -182,8 +199,8 @@ public class ListManager<T extends ListItem> {
 	protected void onDeleteById(int id) {
 	}
 
-	// 아이템 ID 확인
-	protected boolean onIsValidId(int id) {
+	// 아이템 ID 중복(존재) 확인
+	protected boolean onIsDuplicatedId(int id) {
 		return false;
 	}
 

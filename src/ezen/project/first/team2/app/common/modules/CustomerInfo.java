@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 import ezen.project.first.team2.app.common.utils.TimeUtils;
 
-public class MemberInfo extends ListItem {
+public class CustomerInfo extends ListItem {
 	// -------------------------------------------------------------------------
 
 	public enum DummyDataIndex {
@@ -42,7 +42,7 @@ public class MemberInfo extends ListItem {
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	public MemberInfo() {
+	public CustomerInfo() {
 	}
 
 	// -------------------------------------------------------------------------
@@ -142,45 +142,49 @@ public class MemberInfo extends ListItem {
 	}
 
 	// 더미 데이터 얻기
-	public static MemberInfo getDummyData(DummyDataIndex idx) {
-		MemberInfo info = new MemberInfo();
+	public static CustomerInfo getDummyData(DummyDataIndex idx) {
+		CustomerInfo info = new CustomerInfo();
 
-		switch (idx) {
-			// 이시관
-			case _0_SiGwanLEE:
-				info.setValues(1, LocalDate.now(), "이시관", LocalDate.of(1983, 5, 9),
-						"010-0000-8086", 10 * 10000, "");
-				break;
+		try {
+			switch (idx) {
+				// 이시관
+				case _0_SiGwanLEE:
+					info.setValues(100000, LocalDate.now(), "이시관",
+							LocalDate.of(1983, 5, 9), "010-0000-8086", 9 * 10000, "");
+					break;
 
-			// 길근영
-			case _1_GeunYoungGil:
-				info.setValues(2, LocalDate.now(), "길근영", LocalDate.of(1983, 12, 19),
-						"010-0000-2794", 9 * 10000, "");
-				break;
+				// 길근영
+				case _1_GeunYoungGil:
+					info.setValues(100001, LocalDate.now(), "길근영",
+							LocalDate.of(1983, 12, 19), "010-0000-2794", 8 * 10000, "");
+					break;
 
-			// 조현우
-			case _2_HyunWooJo:
-				info.setValues(3, LocalDate.now(), "조현우", LocalDate.of(1991, 1, 1),
-						"010-0000-1606", 8 * 10000, "");
-				break;
+				// 조현우
+				case _2_HyunWooJo:
+					info.setValues(100002, LocalDate.now(), "조현우",
+							LocalDate.of(1991, 1, 1), "010-0000-1606", 7 * 10000, "");
+					break;
 
-			// 김준형
-			case _3_JunHyungKim:
-				info.setValues(4, LocalDate.now(), "김준형", LocalDate.of(1993, 1, 1),
-						"010-0000-4355", 7 * 10000, "");
-				break;
+				// 김준형
+				case _3_JunHyungKim:
+					info.setValues(100003, LocalDate.now(), "김준형",
+							LocalDate.of(1993, 1, 1), "010-0000-4355", 6 * 10000, "");
+					break;
 
-			// 박철진
-			case _4_CheolJinPark:
-				info.setValues(5, LocalDate.now(), "박철진", LocalDate.of(1999, 1, 1),
-						"010-0000-0009", 6 * 10000, "");
-				break;
+				// 박철진
+				case _4_CheolJinPark:
+					info.setValues(100004, LocalDate.now(), "박철진",
+							LocalDate.of(1999, 1, 1), "010-0000-0009", 5 * 10000, "");
+					break;
 
-			// 서빈
-			case _5_BinSeo:
-				info.setValues(6, LocalDate.now(), "서  빈", LocalDate.of(2002, 1, 1),
-						"010-0000-5629", 5 * 10000, "");
-				break;
+				// 서빈
+				case _5_BinSeo:
+					info.setValues(100005, LocalDate.now(), "서  빈",
+							LocalDate.of(2002, 1, 1), "010-0000-5629", 4 * 10000, "");
+					break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return info;
@@ -198,7 +202,7 @@ public class MemberInfo extends ListItem {
 
 	@Override
 	protected void onSetValuesFrom(ListItem item) {
-		MemberInfo info = (MemberInfo) item;
+		CustomerInfo info = (CustomerInfo) item;
 		this.setValues(info.getId(), info.getJoinDate(), info.getName(),
 				info.getBirthday(), info.getPhoneNumber(), info.getPoint(), info.getRemark());
 	}
