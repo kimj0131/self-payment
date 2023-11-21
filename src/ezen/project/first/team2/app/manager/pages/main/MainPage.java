@@ -9,8 +9,8 @@ package ezen.project.first.team2.app.manager.pages.main;
 import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.framework.Page;
-import ezen.project.first.team2.app.common.modules.CustomerInfo;
-import ezen.project.first.team2.app.common.modules.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerInfo;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.views.MainView;
 

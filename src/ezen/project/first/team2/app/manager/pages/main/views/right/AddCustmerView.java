@@ -19,8 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.modules.CustomerInfo;
-import ezen.project.first.team2.app.common.modules.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerInfo;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;

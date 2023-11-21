@@ -1,51 +1,40 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-// [SGLEE:20231120MON_105900] Created
+// [SGLEE:20231121TUE_142900] Created
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common.modules;
+package ezen.project.first.team2.app.common.modules.base;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerManagerMem extends ListManager<CustomerInfo> {
+public class ListManagerMem<T extends ListItem> extends ListManager<T> {
 	// -------------------------------------------------------------------------
 
-	private static CustomerManagerMem mInstance = null;
-
-	private List<CustomerInfo> mCustList = new ArrayList<>();
+	private List<T> mList = new ArrayList<>();
 
 	// -------------------------------------------------------------------------
 
-	private CustomerManagerMem() {
-	}
-
-	public static CustomerManagerMem getInstance() {
-		if (CustomerManagerMem.mInstance == null) {
-			CustomerManagerMem.mInstance = new CustomerManagerMem();
-		}
-
-		return CustomerManagerMem.mInstance;
+	// 생성자
+	public ListManagerMem() {
 	}
 
 	// -------------------------------------------------------------------------
 
 	@Override
 	protected void onInit() {
-		System.out.println("[CustomerManagerMem.onInit()]");
 	}
 
 	@Override
 	protected void onDeinit() {
-		System.out.println("[CustomerManagerMem.onDeinit()]");
 	}
 
 	@Override
 	protected int onGetNextID() {
 		// [SGLEE:20231121TUE_140900] Collections.max() API를 사용하면 될 것 같기도 한데..
 		int maxId = -1;
-		for (var i : this.mCustList) {
+		for (var i : this.mList) {
 			if (i.getId() > maxId)
 				maxId = i.getId();
 		}
@@ -54,18 +43,13 @@ public class CustomerManagerMem extends ListManager<CustomerInfo> {
 	}
 
 	@Override
-	protected void onAdd(CustomerInfo info) {
-		this.mCustList.add(info);
+	protected void onAdd(T info) {
+		this.mList.add(info);
 	}
 
 	@Override
-	protected void onDeleteById(int id) {
-		this.mCustList.removeIf(info -> info.getId() == id);
-	}
-
-	@Override
-	protected void onUpdateById(int id, CustomerInfo info) {
-		for (var _info : this.mCustList) {
+	protected void onUpdateById(int id, T info) {
+		for (var _info : this.mList) {
 			if (_info.getId() == id) {
 				_info.setValuesFrom(info);
 
@@ -75,8 +59,13 @@ public class CustomerManagerMem extends ListManager<CustomerInfo> {
 	}
 
 	@Override
+	protected void onDeleteById(int id) {
+		this.mList.removeIf(info -> info.getId() == id);
+	}
+
+	@Override
 	protected boolean onIsDuplicatedId(int id) {
-		for (var info : this.mCustList) {
+		for (var info : this.mList) {
 			if (info.getId() == id)
 				return true;
 		}
@@ -86,12 +75,12 @@ public class CustomerManagerMem extends ListManager<CustomerInfo> {
 
 	@Override
 	protected int onGetCount() {
-		return this.mCustList.size();
+		return this.mList.size();
 	}
 
 	@Override
-	protected void onIterate(Iterator<CustomerInfo> iterator) {
-		for (var info : this.mCustList) {
+	protected void onIterate(Iterator<T> iterator) {
+		for (var info : this.mList) {
 			if (!iterator.onGetItem(info))
 				break;
 		}

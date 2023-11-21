@@ -2,9 +2,9 @@ package ezen.project.first.team2.app.common.z_test.modules;
 
 import java.time.LocalDate;
 
-import ezen.project.first.team2.app.common.modules.CustomerInfo;
-import ezen.project.first.team2.app.common.modules.ListManager;
-import ezen.project.first.team2.app.common.modules.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.base.ListManager;
+import ezen.project.first.team2.app.common.modules.customer.CustomerInfo;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
 
 public class TestCustomerManagerMem {
 	public static void main(String[] args) {

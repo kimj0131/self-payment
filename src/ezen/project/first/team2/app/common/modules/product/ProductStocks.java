@@ -4,15 +4,15 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common.modules;
+package ezen.project.first.team2.app.common.modules.product;
 
-public class ProductManager {
+public class ProductStocks {
 	// -------------------------------------------------------------------------
 
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	ProductManager() {
+	ProductStocks() {
 		//
 	}
 

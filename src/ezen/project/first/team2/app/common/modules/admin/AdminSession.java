@@ -4,7 +4,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common.modules;
+package ezen.project.first.team2.app.common.modules.admin;
 
 public class AdminSession {
 	public enum LoginResult {

@@ -1,6 +1,6 @@
 package ezen.project.first.team2.app.common.z_test.modules;
 
-import ezen.project.first.team2.app.common.modules.AdminSession;
+import ezen.project.first.team2.app.common.modules.admin.AdminSession;
 
 public class TestAdminSession {
 	public static void main(String[] args) {
