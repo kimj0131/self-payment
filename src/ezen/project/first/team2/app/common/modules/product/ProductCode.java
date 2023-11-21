@@ -46,12 +46,17 @@ public class ProductCode {
 		return this.mType;
 	}
 
+	// 타입 문자열(한 문자) 얻기
+	public String getTypeStr() {
+		return this.typeToStr(this.getType());
+	}
+
 	// 시리얼 얻기
 	public int getSn() {
 		return this.mSn;
 	}
 
-	// Type으로 문자열 얻기
+	// Type으로 문자열(한 문자) 얻기
 	public String typeToStr(Type type) {
 		switch (type) {
 			// 과자
@@ -105,15 +110,14 @@ public class ProductCode {
 
 	// -------------------------------------------------------------------------
 
-	// 같은 값인지 확인
-	public boolean isSame(ProductCode prodCode) {
-		return this.getType() == prodCode.getType() && this.getSn() == prodCode.getSn();
-	}
-
-	// -------------------------------------------------------------------------
-
 	@Override
 	public String toString() {
-		return String.format("%s%3d", this.getType(), this.getSn());
+		return String.format("%s%03d", this.getTypeStr(), this.getSn());
+	}
+
+	@Override
+	public boolean equals(Object arg0) {
+		var prodCode = (ProductCode) arg0;
+		return this.getType() == prodCode.getType() && this.getSn() == prodCode.getSn();
 	}
 }

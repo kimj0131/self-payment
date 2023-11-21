@@ -11,7 +11,7 @@ public class ListManager<T extends ListItem> {
 
 	public static interface Iterator<T> {
 		// false를 리턴하면 열거를 중단한다
-		public boolean onGetItem(T item);
+		public boolean onGetItem(T item, int idx);
 	}
 
 	// -------------------------------------------------------------------------
@@ -99,7 +99,9 @@ public class ListManager<T extends ListItem> {
 			throw new Exception(msg);
 		}
 
-		this.onAdd(info);
+		String errMsg = this.onAdd(info);
+		if (!errMsg.isEmpty())
+			throw new Exception(errMsg);
 	}
 
 	// 아이템 수정
@@ -119,7 +121,9 @@ public class ListManager<T extends ListItem> {
 			throw new Exception(msg);
 		}
 
-		this.onUpdateById(id, info);
+		String errMsg = this.onUpdateById(id, info);
+		if (!errMsg.isEmpty())
+			throw new Exception(errMsg);
 	}
 
 	// 아이템 삭제
@@ -139,7 +143,9 @@ public class ListManager<T extends ListItem> {
 			throw new Exception(msg);
 		}
 
-		this.onDeleteById(id);
+		String errMsg = this.onDeleteById(id);
+		if (!errMsg.isEmpty())
+			throw new Exception(errMsg);
 	}
 
 	// 아이템 ID 중복(존재) 확인
@@ -205,16 +211,19 @@ public class ListManager<T extends ListItem> {
 		return -1;
 	}
 
-	// 아이템 추가
-	protected void onAdd(T info) {
+	// 아이템 추가 -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
+	protected String onAdd(T info) {
+		return "/ERROR/";
 	}
 
-	// 아이템 수정
-	protected void onUpdateById(int id, T info) {
+	// 아이템 수정 -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
+	protected String onUpdateById(int id, T info) {
+		return "/ERROR/";
 	}
 
-	// 아이템 삭제
-	protected void onDeleteById(int id) {
+	// 아이템 삭제 -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
+	protected String onDeleteById(int id) {
+		return "/ERROR/";
 	}
 
 	// 아이템 ID 중복(존재) 확인

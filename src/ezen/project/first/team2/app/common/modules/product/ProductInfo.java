@@ -119,24 +119,56 @@ public class ProductInfo extends ListItem {
 
 	// -------------------------------------------------------------------------
 
-	public static ProductInfo[] getPredefinedData() {
-		final ProductInfo[] data = {
+	public static ProductInfo[] getPredefinedProductData() {
+		ProductInfo[] data = {
 				// 과자
-				new ProductInfo(0, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200, ""),
-				new ProductInfo(1, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200, ""),
-				new ProductInfo(2, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200, ""),
-				new ProductInfo(3, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200, ""),
-				new ProductInfo(4, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200, ""),
-				new ProductInfo(5, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200, ""),
-				new ProductInfo(6, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200, ""),
-				new ProductInfo(7, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200, ""),
-				new ProductInfo(8, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200, ""),
-				new ProductInfo(9, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200, "")
+				new ProductInfo(-1, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200, ""),
+				new ProductInfo(-1, new ProductCode("S0002"), LocalDate.now(), "오감자", 1400, ""),
+				new ProductInfo(-1, new ProductCode("S0003"), LocalDate.now(), "썬칩", 1400, ""),
+				new ProductInfo(-1, new ProductCode("S0004"), LocalDate.now(), "포카칩", 1400, ""),
+				new ProductInfo(-1, new ProductCode("S0005"), LocalDate.now(), "에이스", 1400, ""),
+				new ProductInfo(-1, new ProductCode("S0006"), LocalDate.now(), "죠리퐁", 1200, ""),
+				new ProductInfo(-1, new ProductCode("S0007"), LocalDate.now(), "바나나킥", 1600, ""),
+				new ProductInfo(-1, new ProductCode("S0008"), LocalDate.now(), "새우깡", 1500, ""),
+				new ProductInfo(-1, new ProductCode("S0009"), LocalDate.now(), "홈런볼", 1380, ""),
+				new ProductInfo(-1, new ProductCode("S0010"), LocalDate.now(), "칸", 2000, ""),
+
+				// 라면
+				new ProductInfo(-1, new ProductCode("R0001"), LocalDate.now(), "진라면5봉", 3850, ""),
+				new ProductInfo(-1, new ProductCode("R0002"), LocalDate.now(), "신라면5봉", 3900, ""),
+				new ProductInfo(-1, new ProductCode("R0003"), LocalDate.now(), "삼양라면5봉", 3680, ""),
+				new ProductInfo(-1, new ProductCode("R0004"), LocalDate.now(), "자파게티5봉", 4880, ""),
+				new ProductInfo(-1, new ProductCode("R0005"), LocalDate.now(), "안성탕면5봉", 3700, ""),
+
+				// 주류
+				new ProductInfo(-1, new ProductCode("D0001"), LocalDate.now(), "소주", 1800, ""),
+				new ProductInfo(-1, new ProductCode("D0002"), LocalDate.now(), "양주", 15000, ""),
+				new ProductInfo(-1, new ProductCode("D0003"), LocalDate.now(), "막걸리", 1400, ""),
+				new ProductInfo(-1, new ProductCode("D0004"), LocalDate.now(), "맥주", 1800, ""),
+				new ProductInfo(-1, new ProductCode("D0005"), LocalDate.now(), "와인", 36000, ""),
+
+				// 과일
+				new ProductInfo(-1, new ProductCode("F0001"), LocalDate.now(), "바나나1송이", 5550, ""),
+				new ProductInfo(-1, new ProductCode("F0002"), LocalDate.now(), "사과1개", 888, ""),
+				new ProductInfo(-1, new ProductCode("F0003"), LocalDate.now(), "오렌지1개", 980, ""),
+				new ProductInfo(-1, new ProductCode("F0004"), LocalDate.now(), "파인애플1통(약2kg)", 7500, ""),
+				new ProductInfo(-1, new ProductCode("F0005"), LocalDate.now(), "포도1송이", 6500, ""),
+
+				// 채소
+				new ProductInfo(-1, new ProductCode("V0001"), LocalDate.now(), "상추1kg", 2750, ""),
+				new ProductInfo(-1, new ProductCode("V0002"), LocalDate.now(), "감자개당", 398, ""),
+				new ProductInfo(-1, new ProductCode("V0003"), LocalDate.now(), "고구마개당", 599, ""),
+				new ProductInfo(-1, new ProductCode("V0004"), LocalDate.now(), "무", 1700, ""),
+				new ProductInfo(-1, new ProductCode("V0005"), LocalDate.now(), "배추1포기", 20800, ""),
+				new ProductInfo(-1, new ProductCode("V0006"), LocalDate.now(), "브로콜리", 1058, ""),
+				new ProductInfo(-1, new ProductCode("V0007"), LocalDate.now(), "애호박", 1590, ""),
+				new ProductInfo(-1, new ProductCode("V0008"), LocalDate.now(), "당근", 750, ""),
+				new ProductInfo(-1, new ProductCode("V0009"), LocalDate.now(), "양파", 330, ""),
+				new ProductInfo(-1, new ProductCode("V0010"), LocalDate.now(), "파프리카", 1590, ""),
 		};
 
 		return data;
 	}
-
 	// -------------------------------------------------------------------------
 
 	@Override

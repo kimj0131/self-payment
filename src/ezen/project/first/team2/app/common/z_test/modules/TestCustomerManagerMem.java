@@ -51,7 +51,7 @@ public class TestCustomerManagerMem {
 
 		CustomerInfo sglee = new CustomerInfo();
 		try {
-			sglee = custMngr.find(ci -> ci.getName().equals("이시관"));
+			sglee = custMngr.find((ci, idx) -> ci.getName().equals("이시관"));
 			// sglee = custMngr.find(ci -> ci.getPhoneNumber().equals("010-0000-8086"));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,7 +93,7 @@ public class TestCustomerManagerMem {
 		System.out.println("- 고객 리스트");
 
 		try {
-			custMngr.iterate(info -> {
+			custMngr.iterate((info, idx) -> {
 				System.out.println("  " + info.toString());
 
 				return true;

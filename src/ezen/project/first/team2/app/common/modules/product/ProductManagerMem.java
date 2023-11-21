@@ -6,23 +6,17 @@
 
 package ezen.project.first.team2.app.common.modules.product;
 
-import java.util.ArrayList;
-import java.util.List;
+import ezen.project.first.team2.app.common.modules.base.ListManagerMem;
 
-import ezen.project.first.team2.app.common.modules.base.ListManager;
-
-public class ProductManagerMem extends ListManager<ProductInfo> {
+public class ProductManagerMem extends ListManagerMem<ProductInfo> {
 	// -------------------------------------------------------------------------
 
 	private static ProductManagerMem mInstance = null;
-
-	private List<ProductInfo> mProdList = new ArrayList<>();
 
 	// -------------------------------------------------------------------------
 
 	// 생성자
 	ProductManagerMem() {
-		//
 	}
 
 	// 인스턴스 얻기
@@ -36,62 +30,34 @@ public class ProductManagerMem extends ListManager<ProductInfo> {
 
 	// -------------------------------------------------------------------------
 
+	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
-	protected void onInit() {
-		System.out.println("[MembermanagerMem.onInit()]");
-	}
+	protected String onAdd(ProductInfo info) {
+		try {
+			// 제품 코드 검색
+			var info3 = this.find((info2, idx) -> info2.getProdCode().equals(info.getProdCode()));
+			if (info3 != null) {
+				String msg = String.format("[ProductmanagerMem.onAdd()]" +
+						" You have same product code(%s)!", info.getProdCode().toString());
 
-	@Override
-	protected void onDeinit() {
-		System.out.println("[MembermanagerMem.onDeinit()]");
-	}
-
-	@Override
-	protected int onGetNextID() {
-		return this.mProdList.size();
-	}
-
-	@Override
-	protected void onAdd(ProductInfo info) {
-		this.mProdList.add(info);
-	}
-
-	@Override
-	protected void onDeleteById(int id) {
-		this.mProdList.removeIf(info -> info.getId() == id);
-	}
-
-	@Override
-	protected void onUpdateById(int id, ProductInfo info) {
-		for (var _info : this.mProdList) {
-			if (_info.getId() == id) {
-				_info.setValuesFrom(info);
-
-				return;
+				return msg;
 			}
-		}
-	}
-
-	@Override
-	protected boolean onIsDuplicatedId(int id) {
-		for (var info : this.mProdList) {
-			if (info.getId() == id)
-				return true;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		return false;
+		return super.onAdd(info);
 	}
 
+	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
-	protected int onGetCount() {
-		return this.mProdList.size();
+	protected String onUpdateById(int id, ProductInfo info) {
+		return super.onUpdateById(id, info);
 	}
 
+	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
-	protected void onIterate(Iterator<ProductInfo> iterator) {
-		for (var info : this.mProdList) {
-			if (!iterator.onGetItem(info))
-				break;
-		}
+	protected String onDeleteById(int id) {
+		return super.onDeleteById(id);
 	}
 }

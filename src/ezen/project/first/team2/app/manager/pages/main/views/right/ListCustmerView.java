@@ -80,7 +80,7 @@ public class ListCustmerView extends View {
         String custList = "";
         this.mCustmerList.setText(custList);
         try {
-            memMngr.iterate(info -> {
+            memMngr.iterate((info, idx) -> {
                 mCustmerList.append(String.format("%06d\t%s\t%s\t%s\t%s\t %s\n",
                         info.getId(), info.getJoinDate(), info.getName(),
                         info.getBirthday(), info.getPhoneNumber(), info.getRemark()));
