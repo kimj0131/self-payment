@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.modules.MemberManagerMem;
+import ezen.project.first.team2.app.common.modules.CustomerManagerMem;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
@@ -75,7 +75,7 @@ public class ListCustmerView extends View {
     protected void onShow(boolean firstTime) {
         System.out.println("[ListCustmerView.onShow()]");
 
-        MemberManagerMem memMngr = MemberManagerMem.getInstance();
+        CustomerManagerMem memMngr = CustomerManagerMem.getInstance();
 
         String custList = "";
         this.mCustmerList.setText(custList);

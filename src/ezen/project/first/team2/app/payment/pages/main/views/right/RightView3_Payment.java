@@ -43,9 +43,9 @@ public class RightView3_Payment extends View {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 				mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_ORDER_LIST_NUM);
 				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
-				
+
 				Main main = (Main) getStatusManager();
-				main.setSelectedPageByNum(main.PAGE_NUM_STANBY);
+				main.setSelectedPageByNum(Main.PAGE_NUM_STANBY);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -58,7 +58,7 @@ public class RightView3_Payment extends View {
 
 	@Override
 	protected void onHide() {
-		
+
 	}
 
 }

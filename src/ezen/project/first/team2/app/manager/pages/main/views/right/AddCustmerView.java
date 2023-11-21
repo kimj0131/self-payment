@@ -19,15 +19,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.modules.MemberInfo;
-import ezen.project.first.team2.app.common.modules.MemberManagerMem;
+import ezen.project.first.team2.app.common.modules.CustomerInfo;
+import ezen.project.first.team2.app.common.modules.CustomerManagerMem;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class AddCustmerView extends View {
 
-    MemberManagerMem memMngr = MemberManagerMem.getInstance();
+    CustomerManagerMem memMngr = CustomerManagerMem.getInstance();
 
     JLabel mLabelInfo = new JLabel("회원 추가뷰 초기화면입니다");
 
@@ -192,7 +192,7 @@ public class AddCustmerView extends View {
     }
 
     private void setCustValue() {
-        MemberInfo memberInfo = new MemberInfo();
+        CustomerInfo memberInfo = new CustomerInfo();
 
         int custId = Integer.valueOf(this.mAddId.getText());
         int defaultPoint = 0;

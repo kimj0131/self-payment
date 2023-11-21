@@ -1,6 +1,5 @@
 package ezen.project.first.team2.app.payment.pages.main.views.right;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
@@ -20,7 +19,7 @@ public class RightView1_CheckMember extends View {
 
 	JButton mButton0;
 	JButton mButton1;
-	
+
 	// 숫자패드
 	StringBuilder mPhoneNumber;
 	StringBuilder mHideNumber;
@@ -30,7 +29,7 @@ public class RightView1_CheckMember extends View {
 	JButton mDeleteBtn;
 	JButton mUndoBtn;
 	//
-	
+
 	public RightView1_CheckMember() {
 		super(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
 	}
@@ -38,11 +37,11 @@ public class RightView1_CheckMember extends View {
 	@Override
 	protected void onInit() {
 		setBackground(Color.DARK_GRAY);
-		
+
 		// 버튼 초기화
 		mButton0 = new JButton("확인");
 		mButton1 = new JButton("적립안함");
-		
+
 		// 숫자패드 초기화
 		mPhoneNumber = new StringBuilder();
 		mHideNumber = new StringBuilder();
@@ -58,13 +57,13 @@ public class RightView1_CheckMember extends View {
 		this.setBorder(BorderFactory.createEmptyBorder(
 				PADDING, PADDING, PADDING, PADDING));
 		this.setLayout(new GridLayout(2, 2));
-		
+
 		mNumberPanel.setLayout(new GridLayout(4, 3));
 	}
 
 	@Override
 	protected void onAddCtrls() {
-		
+
 		// 숫자 버튼 만들기
 		for (int i = 0; i < mNumberBtnArr.length; ++i) {
 			mNumberBtnArr[i] = new JButton(String.valueOf(i));
@@ -77,8 +76,7 @@ public class RightView1_CheckMember extends View {
 		mNumberPanel.add(mDeleteBtn);
 		mNumberPanel.add(mNumberBtnArr[0]);
 		mNumberPanel.add(mUndoBtn);
-		
-		
+
 		this.add(mNumberTextField);
 		this.add(mButton0);
 		this.add(mNumberPanel);
@@ -96,7 +94,7 @@ public class RightView1_CheckMember extends View {
 				ex.printStackTrace();
 			}
 		});
-		
+
 		mButton1.addActionListener(e -> {
 			try {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
@@ -106,9 +104,9 @@ public class RightView1_CheckMember extends View {
 				ex.printStackTrace();
 			}
 		});
-		
+
 		// 숫자패드 버튼 액션리스너 만들기
-		ActionListener BtnActionListener =  e -> {
+		ActionListener BtnActionListener = e -> {
 			for (int i = 0; i < mNumberBtnArr.length; ++i) {
 				if (e.getSource() == mNumberBtnArr[i]) {
 					mPhoneNumber.append(i);
@@ -118,17 +116,17 @@ public class RightView1_CheckMember extends View {
 					break;
 				}
 			}
-			
+
 			if (e.getSource() == mDeleteBtn) {
 				mPhoneNumber.delete(0, mPhoneNumber.length());
 				mHideNumber.delete(0, mHideNumber.length());
 				mNumberTextField.setText("010-");
 			}
-			
+
 			if (e.getSource() == mUndoBtn) {
-				
+
 				if (mPhoneNumber.length() != 0) {
-					
+
 					mPhoneNumber.delete(mPhoneNumber.length() - 1, mPhoneNumber.length());
 					mHideNumber.delete(mHideNumber.length() - 1, mHideNumber.length());
 
@@ -142,14 +140,14 @@ public class RightView1_CheckMember extends View {
 				}
 			}
 		};
-		
+
 		// 버튼에 액션리스너 달기
 		for (JButton btn : mNumberBtnArr) {
 			btn.addActionListener(BtnActionListener);
 		}
 		mDeleteBtn.addActionListener(BtnActionListener);
 		mUndoBtn.addActionListener(BtnActionListener);
-	
+
 	}
 
 	@Override

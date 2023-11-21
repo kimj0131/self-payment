@@ -9,8 +9,8 @@ package ezen.project.first.team2.app.manager.pages.main;
 import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.framework.Page;
-import ezen.project.first.team2.app.common.modules.MemberInfo;
-import ezen.project.first.team2.app.common.modules.MemberManagerMem;
+import ezen.project.first.team2.app.common.modules.CustomerInfo;
+import ezen.project.first.team2.app.common.modules.CustomerManagerMem;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.views.MainView;
 
@@ -64,15 +64,15 @@ public class MainPage extends Page {
 		super.onInit();
 
 		try {
-			MemberManagerMem memMngr = MemberManagerMem.getInstance();
+			CustomerManagerMem memMngr = CustomerManagerMem.getInstance();
 			memMngr.init();
 
-			final MemberInfo sglee = MemberInfo.getDummyData(MemberInfo.DummyDataIndex._0_SiGwanLEE);
-			final MemberInfo gygil = MemberInfo.getDummyData(MemberInfo.DummyDataIndex._1_GeunYoungGil);
-			final MemberInfo hwjo = MemberInfo.getDummyData(MemberInfo.DummyDataIndex._2_HyunWooJo);
-			final MemberInfo jhkim = MemberInfo.getDummyData(MemberInfo.DummyDataIndex._3_JunHyungKim);
-			final MemberInfo cjpark = MemberInfo.getDummyData(MemberInfo.DummyDataIndex._4_CheolJinPark);
-			final MemberInfo bseo = MemberInfo.getDummyData(MemberInfo.DummyDataIndex._5_BinSeo);
+			final CustomerInfo sglee = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._0_SiGwanLEE);
+			final CustomerInfo gygil = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._1_GeunYoungGil);
+			final CustomerInfo hwjo = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._2_HyunWooJo);
+			final CustomerInfo jhkim = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._3_JunHyungKim);
+			final CustomerInfo cjpark = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._4_CheolJinPark);
+			final CustomerInfo bseo = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._5_BinSeo);
 
 			try {
 				memMngr.add(sglee);
