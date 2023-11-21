@@ -11,14 +11,17 @@ import java.awt.GridLayout;
 import ezen.project.first.team2.app.common.framework.DualView;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 import ezen.project.first.team2.app.manager.pages.main.views.left.LeftView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.CustmerAdd;
-import ezen.project.first.team2.app.manager.pages.main.views.right.CustmerDelete;
-import ezen.project.first.team2.app.manager.pages.main.views.right.CustmerInfo;
-import ezen.project.first.team2.app.manager.pages.main.views.right.CustmerUpdate;
-import ezen.project.first.team2.app.manager.pages.main.views.right.ProductAdd;
-import ezen.project.first.team2.app.manager.pages.main.views.right.ProductDelete;
-import ezen.project.first.team2.app.manager.pages.main.views.right.ProductInfo;
-import ezen.project.first.team2.app.manager.pages.main.views.right.ProductUpdate;
+import ezen.project.first.team2.app.manager.pages.main.views.right.AddCustmerView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.DeleteCustmerView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.ListCustmerView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.ListProdStockView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.UpdateCustmerView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.UpdateProdStockView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.RightDefaultView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.AddProductView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.DeleteProductView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.ListProductView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.UpdateProductView;
 
 public class MainView extends DualView {
 	// -------------------------------------------------------------------------
@@ -49,16 +52,20 @@ public class MainView extends DualView {
 	protected void onAddViews() {
 		try {
 			addView(new LeftView());
+			addView(new RightDefaultView());
 
-			addView(new CustmerInfo());
-			addView(new CustmerAdd());
-			addView(new CustmerUpdate());
-			addView(new CustmerDelete());
+			addView(new ListCustmerView());
+			addView(new AddCustmerView());
+			addView(new UpdateCustmerView());
+			addView(new DeleteCustmerView());
 
-			addView(new ProductInfo());
-			addView(new ProductAdd());
-			addView(new ProductUpdate());
-			addView(new ProductDelete());
+			addView(new ListProductView());
+			addView(new AddProductView());
+			addView(new UpdateProductView());
+			addView(new DeleteProductView());
+
+			addView(new ListProdStockView());
+			addView(new UpdateProdStockView());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,7 +95,7 @@ public class MainView extends DualView {
 		try {
 			MainView mainview = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 			mainview.setSelectedLeftViewByNum(MainPage.VIEW_NUM_LEFT);
-			mainview.setSelectedRightViewByNum(MainPage.VIEW_NUM_CUST_INFO);
+			mainview.setSelectedRightViewByNum(MainPage.VIEW_NUM_RIGHT);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

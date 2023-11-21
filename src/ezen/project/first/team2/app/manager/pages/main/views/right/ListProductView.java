@@ -5,12 +5,12 @@ import javax.swing.JLabel;
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
-public class CustmerUpdate extends View {
+public class ListProductView extends View {
 
-    JLabel mLabelInfo = new JLabel("회원 수정뷰 초기화면입니다");
+    JLabel mLabelInfo = new JLabel("상품 조회뷰 초기화면입니다");
 
-    public CustmerUpdate() {
-        super(MainPage.VIEW_NUM_CUST_UPDATE);
+    public ListProductView() {
+        super(MainPage.VIEW_NUM_PROD_LIST);
     }
 
     @Override
@@ -36,11 +36,11 @@ public class CustmerUpdate extends View {
 
     @Override
     protected void onShow(boolean firstTime) {
-        System.out.println("[RightView0.onShow()]");
+        System.out.println("[ListProductView.onShow()]");
     }
 
     @Override
     protected void onHide() {
-        System.out.println("[RightView0.onHide()]");
+        System.out.println("[ListProductView.onHide()]");
     }
 }

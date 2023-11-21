@@ -17,8 +17,8 @@ public class LoginPage extends Page {
 
 	// 페이지 정보 상수 정의
 
-	public static final String TITLE = "로그인 페이지";
-	public static final Dimension SIZE = new Dimension(640, 360);
+	public static final String TITLE = "시스템 로그인";
+	public static final Dimension SIZE = new Dimension(960, 540);
 
 	public static final int VIEW_NUM_LOGIN = 1;
 

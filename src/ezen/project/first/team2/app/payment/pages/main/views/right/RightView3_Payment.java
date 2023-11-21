@@ -6,7 +6,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 import ezen.project.first.team2.app.common.framework.View;
+import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
+import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
 public class RightView3_Payment extends View {
 
@@ -36,6 +38,18 @@ public class RightView3_Payment extends View {
 
 	@Override
 	protected void onAddEventListeners() {
+		mButton0.addActionListener(e -> {
+			try {
+				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
+				mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_ORDER_LIST_NUM);
+				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
+				
+				Main main = (Main) getStatusManager();
+				main.setSelectedPageByNum(main.PAGE_NUM_STANBY);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		});
 	}
 
 	@Override
@@ -44,6 +58,7 @@ public class RightView3_Payment extends View {
 
 	@Override
 	protected void onHide() {
+		
 	}
 
 }
