@@ -13,7 +13,6 @@ public class ListItem {
 
 	// -------------------------------------------------------------------------
 
-	// 생성자
 	public ListItem() {
 	}
 
@@ -32,7 +31,6 @@ public class ListItem {
 	}
 
 	// -------------------------------------------------------------------------
-
 	protected void onSetValuesFrom(ListItem item) {
 	}
 }

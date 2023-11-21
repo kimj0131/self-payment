@@ -6,8 +6,12 @@
 
 package ezen.project.first.team2.app.manager;
 
+import java.awt.Font;
+
 import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
+import ezen.project.first.team2.app.common.pages.splash.SplashPageParams;
+import ezen.project.first.team2.app.common.pages.splash.views.MainView;
 import ezen.project.first.team2.app.manager.pages.login.LoginPage;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
@@ -16,6 +20,11 @@ public class Main extends StatusManager {
 	public static final int PAGE_NUM_SPLASH = SplashPage.PAGE_NUM;
 	public static final int PAGE_NUM_MAIN = 100;
 	public static final int PAGE_NUM_LOGIN = 101;
+
+	// 리소스
+	public Font mFont0;
+	public Font mFont1;
+	public Font mFont2;
 
 	// 초기화 작업 - DB 커넥션 등
 	@Override
@@ -27,8 +36,9 @@ public class Main extends StatusManager {
 	@Override
 	protected void onAddPages() {
 		try {
-			this.addPage(new SplashPage(Main.PAGE_NUM_LOGIN));
-			this.addPage(new LoginPage());
+			// 주석제거
+			// this.addPage(new SplashPage(this.getSplashPageParams()));
+			// this.addPage(new LoginPage());
 			this.addPage(new MainPage());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -44,7 +54,10 @@ public class Main extends StatusManager {
 	@Override
 	protected void onRun() {
 		try {
-			this.setSelectedPageByNum(PAGE_NUM_SPLASH);
+			// 주석제거
+			// this.setSelectedPageByNum(PAGE_NUM_SPLASH);
+			// this.setSelectedPageByNum(PAGE_NUM_LOGIN);
+			this.setSelectedPageByNum(PAGE_NUM_MAIN);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -54,6 +67,53 @@ public class Main extends StatusManager {
 	@Override
 	protected void onExit() {
 		System.out.println("[Main.onExit()]");
+	}
+
+	private SplashPageParams getSplashPageParams() {
+		SplashPageParams params = new SplashPageParams(new SplashPageParams.Listener() {
+
+			@Override
+			public void onLoadResources(Object param, int resourceIndex, int resourceCount) {
+				Main main = (Main) param;
+				SplashPage splashPage = (SplashPage) main.getPageByNum(SplashPage.PAGE_NUM);
+				MainView mainView = (MainView) splashPage.getViewByNum(SplashPage.VIEW_NUM_MAIN);
+
+				final int rsrcIdx = resourceIndex;
+				final int rsrcCnt = resourceCount;
+
+				String s = String.format("rsrcIdx: %d, rsrcCnt: %d", rsrcIdx, rsrcCnt);
+				System.out.println(s);
+				mainView.setLabel0Text(s);
+
+				switch (rsrcIdx) {
+					case 0:
+						main.mFont0 = new Font("견명조", Font.BOLD, 50);
+						break;
+					case 1:
+						main.mFont1 = new Font("견명조", Font.PLAIN, 30);
+						break;
+					case 2:
+						main.mFont2 = new Font("견명조", Font.BOLD, 20);
+						break;
+				}
+
+			}
+
+			@Override
+			public void onCompleteResources(Object param) {
+				Main main = (Main) param;
+				main.performSetResources();
+
+				try {
+					Main.this.setSelectedPageByNum(Main.PAGE_NUM_LOGIN);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+		}, this, 3);
+
+		return params;
 	}
 
 	public static void main(String[] args) {
