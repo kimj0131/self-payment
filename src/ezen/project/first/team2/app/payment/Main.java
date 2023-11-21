@@ -40,8 +40,8 @@ public class Main extends StatusManager {
 	@Override
 	protected void onAddPages() {
 		try {
-			this.addPage(new SplashPage(this.getSplashPageParams()));
-			this.addPage(new StanbyPage());
+//			this.addPage(new SplashPage(this.getSplashPageParams()));
+//			this.addPage(new StanbyPage());
 			this.addPage(new MainPage());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -57,7 +57,8 @@ public class Main extends StatusManager {
 	@Override
 	protected void onRun() {
 		try {
-			this.setSelectedPageByNum(PAGE_NUM_SPLASH);
+			//this.setSelectedPageByNum(PAGE_NUM_SPLASH);
+			this.setSelectedPageByNum(Main.PAGE_NUM_MAIN);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
