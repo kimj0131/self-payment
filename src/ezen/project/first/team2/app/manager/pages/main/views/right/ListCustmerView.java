@@ -4,11 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
@@ -16,15 +16,16 @@ import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class ListCustmerView extends View {
+    CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
 
     JLabel mLabelInfo = new JLabel("회원 조회뷰 초기화면입니다");
 
-    JTextArea mAttributes = new JTextArea(
-            "[ID]\t[가입일]\t[이름]\t[생년월일]\t[전화번호]\t [비고]");
+    // 고객 리스트를 테이블로 출력
+    JTable mCustLisTable;
+    // 고객리스트를 출력할 패널생성
     JPanel mPanelAttributeList = new JPanel();
-    JTextArea mCustmerList = new JTextArea();
     // 스크롤 삽입
-    JScrollPane mScroll = new JScrollPane(mCustmerList);
+    JScrollPane mScroll;
 
     public ListCustmerView() {
         super(MainPage.VIEW_NUM_CUST_LIST);
@@ -32,7 +33,25 @@ public class ListCustmerView extends View {
 
     @Override
     protected void onInit() {
-        //
+
+        try {
+            Object[] mAttributesColumn = {
+                    "회원 번호", "가입일", "이름", "생년월일", "전화번호", "비고" };
+            Object[][] mCustListRows = new Object[mAttributesColumn.length][custMngr.getCount()];
+
+            DefaultTableModel model = new DefaultTableModel(mCustListRows, mAttributesColumn) {
+                // 셀의 내용을 수정하지 못하게 설정
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+
+            mCustLisTable = new JTable(model);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -43,26 +62,26 @@ public class ListCustmerView extends View {
 
     @Override
     protected void onAddCtrls() {
+
+        // 열 이동불가
+        this.mCustLisTable.getTableHeader().setReorderingAllowed(false);
+        // 열 크기조절불가
+        // this.mCustLisTable.getTableHeader().setResizingAllowed(false);
         this.mLabelInfo.setOpaque(true);
         this.mLabelInfo.setBackground(Color.LIGHT_GRAY);
         this.mLabelInfo.setHorizontalAlignment(JLabel.CENTER);
 
-        // 고객 속성, 리스트
-        this.mAttributes.setEditable(false);
-        this.mCustmerList.setEditable(false);
-
+        this.mScroll = new JScrollPane(mCustLisTable);
         this.mScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        this.mCustmerList.setBorder(
-                BorderFactory.createEmptyBorder(0, 30, 0, 30));
-        this.mAttributes.setBorder(
-                BorderFactory.createEmptyBorder(0, 30, 0, 30));
+        // this.mAttributes.setBorder(
+        // BorderFactory.createEmptyBorder(0, 30, 0, 30));
+
+        this.mScroll.setBorder(
+                BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
         this.add(mLabelInfo, BorderLayout.NORTH);
         this.add(mPanelAttributeList, BorderLayout.CENTER);
-        this.mPanelAttributeList.add(mAttributes, BorderLayout.NORTH);
-        // JScrollPane에 삽입헀으므로 따로 add 하지 않아도됨
-        // this.mPanelAttributeList.add(mCustmerList, BorderLayout.CENTER);
         this.mPanelAttributeList.add(mScroll, BorderLayout.CENTER);
     }
 
@@ -75,22 +94,35 @@ public class ListCustmerView extends View {
     protected void onShow(boolean firstTime) {
         System.out.println("[ListCustmerView.onShow()]");
 
-        CustomerManagerMem memMngr = CustomerManagerMem.getInstance();
+        CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
 
-        String custList = "";
-        this.mCustmerList.setText(custList);
+        DefaultTableModel m = (DefaultTableModel) mCustLisTable.getModel();
+        m.setRowCount(0);
         try {
-            memMngr.iterate((info, idx) -> {
-                mCustmerList.append(String.format("%06d\t%s\t%s\t%s\t%s\t %s\n",
-                        info.getId(), info.getJoinDate(), info.getName(),
-                        info.getBirthday(), info.getPhoneNumber(), info.getRemark()));
+            custMngr.iterate((info, idx) -> {
+                try {
+
+                    // m.insertRow(idx, new Object[] { info.getId(), info.getJoinDate(),
+                    m.addRow(new Object[] { info.getId(), info.getJoinDate(),
+                            info.getName(), info.getBirthday(),
+                            info.getPhoneNumber(), info.getRemark() });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 return true;
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        mCustLisTable.updateUI();
+
     }
+    // mCustmerList.append(String.format("%06d\t%s\t%s\t%s\t%s\t %s\n",
+    // info.getId(), info.getJoinDate(), info.getName(),
+    // info.getBirthday(), info.getPhoneNumber(), info.getRemark()));
 
     @Override
     protected void onHide() {
@@ -103,12 +135,6 @@ public class ListCustmerView extends View {
 
         JLabel lb = (JLabel) this.getComponents()[0];
         lb.setFont(main.mFont2);
-        mCustmerList.setFont(main.mFont2);
-
-        for (int i = 0; i < this.mPanelAttributeList.getComponents().length; i++) {
-            JComponent cp = (JComponent) this.mPanelAttributeList.getComponents()[i];
-            cp.setFont(main.mFont2);
-        }
 
     }
 
