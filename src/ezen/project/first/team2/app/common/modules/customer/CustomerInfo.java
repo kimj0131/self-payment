@@ -14,17 +14,6 @@ import ezen.project.first.team2.app.common.utils.TimeUtils;
 public class CustomerInfo extends ListItem {
 	// -------------------------------------------------------------------------
 
-	public enum DummyDataIndex {
-		_0_SiGwanLEE,
-		_1_GeunYoungGil,
-		_2_HyunWooJo,
-		_3_JunHyungKim,
-		_4_CheolJinPark,
-		_5_BinSeo
-	}
-
-	// -------------------------------------------------------------------------
-
 	// 회원 번호. 0번은 비회원.
 	// private int mId = 0;
 	// 가입일. YYYYY.MM.DD.
@@ -44,6 +33,12 @@ public class CustomerInfo extends ListItem {
 
 	// 생성자
 	public CustomerInfo() {
+	}
+
+	// 생성자
+	public CustomerInfo(int id, LocalDate joinDate, String name,
+			LocalDate birthday, String phoneNum, int point, String remark) {
+		this.setValues(id, joinDate, name, birthday, phoneNum, point, remark);
 	}
 
 	// -------------------------------------------------------------------------
@@ -142,53 +137,26 @@ public class CustomerInfo extends ListItem {
 		return this.mRemark;
 	}
 
-	// 더미 데이터 얻기
-	public static CustomerInfo getDummyData(DummyDataIndex idx) {
-		CustomerInfo info = new CustomerInfo();
+	// -------------------------------------------------------------------------
 
-		try {
-			switch (idx) {
-				// 이시관
-				case _0_SiGwanLEE:
-					info.setValues(100000, LocalDate.now(), "이시관",
-							LocalDate.of(1983, 5, 9), "010-0000-8086", 9 * 10000, "");
-					break;
+	// 미리 정의된 데이터 얻기
+	public static CustomerInfo[] getPredefinedData() {
+		CustomerInfo[] data = {
+				new CustomerInfo(-1, LocalDate.now(), "이시관", LocalDate.of(1983, 5, 9),
+						"010-0000-8086", 9 * 10000, ""),
+				new CustomerInfo(-1, LocalDate.now(), "길근영", LocalDate.of(1983, 12, 19),
+						"010-0000-2794", 8 * 10000, ""),
+				new CustomerInfo(-1, LocalDate.now(), "조현우", LocalDate.of(1991, 1, 1),
+						"010-0000-1606", 7 * 10000, ""),
+				new CustomerInfo(-1, LocalDate.now(), "김준형", LocalDate.of(1993, 1, 1),
+						"010-0000-4355", 6 * 10000, ""),
+				new CustomerInfo(-1, LocalDate.now(), "박철진", LocalDate.of(1999, 1, 1),
+						"010-0000-0009", 5 * 10000, ""),
+				new CustomerInfo(-1, LocalDate.now(), "서  빈", LocalDate.of(2002, 1, 1),
+						"010-0000-5629", 4 * 10000, "")
+		};
 
-				// 길근영
-				case _1_GeunYoungGil:
-					info.setValues(100001, LocalDate.now(), "길근영",
-							LocalDate.of(1983, 12, 19), "010-0000-2794", 8 * 10000, "");
-					break;
-
-				// 조현우
-				case _2_HyunWooJo:
-					info.setValues(100002, LocalDate.now(), "조현우",
-							LocalDate.of(1991, 1, 1), "010-0000-1606", 7 * 10000, "");
-					break;
-
-				// 김준형
-				case _3_JunHyungKim:
-					info.setValues(100003, LocalDate.now(), "김준형",
-							LocalDate.of(1993, 1, 1), "010-0000-4355", 6 * 10000, "");
-					break;
-
-				// 박철진
-				case _4_CheolJinPark:
-					info.setValues(100004, LocalDate.now(), "박철진",
-							LocalDate.of(1999, 1, 1), "010-0000-0009", 5 * 10000, "");
-					break;
-
-				// 서빈
-				case _5_BinSeo:
-					info.setValues(100005, LocalDate.now(), "서  빈",
-							LocalDate.of(2002, 1, 1), "010-0000-5629", 4 * 10000, "");
-					break;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return info;
+		return data;
 	}
 
 	// -------------------------------------------------------------------------

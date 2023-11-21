@@ -75,13 +75,19 @@ public class ListManager<T extends ListItem> {
 		return this.onGetNextID();
 	}
 
-	// 아이템 추가
+	// 아이템 추가. id값이 -1이면 내부적으로 this.getNextID()를 호출하여 id를 할당한다.
 	public void add(T info) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
 			String msg = String.format("[ListManager.init()]" +
 					" You must initialize!");
 			throw new Exception(msg);
+		}
+
+		// ID값 자동 부여
+		if (info.getId() == -1) {
+			// [SGLEE:20231121TUE_150000] protected int mId = -1;
+			info.mId = this.getNextID();
 		}
 
 		// 아이템 ID 중복 확인
@@ -160,7 +166,7 @@ public class ListManager<T extends ListItem> {
 		return this.onGetCount();
 	}
 
-	// 아이템 열거
+	// 아이템 열거. iterator에서 false를 반환하면 열거 중단.
 	public void iterate(Iterator<T> iterator) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
@@ -170,6 +176,18 @@ public class ListManager<T extends ListItem> {
 		}
 
 		this.onIterate(iterator);
+	}
+
+	// 아이템 찾기. iterator에서 원하는 아이템을 찾았으면 true 반환.
+	public T find(Iterator<T> iterator) throws Exception {
+		// 초기화 여부 확인
+		if (!this.isInited()) {
+			String msg = String.format("[ListManager.init()]" +
+					" You must initialize!");
+			throw new Exception(msg);
+		}
+
+		return this.onFind(iterator);
 	}
 
 	// -------------------------------------------------------------------------
@@ -211,5 +229,10 @@ public class ListManager<T extends ListItem> {
 
 	// 아이템 열거
 	protected void onIterate(Iterator<T> iterator) {
+	}
+
+	// 아이템 찾기
+	protected T onFind(Iterator<T> iterator) {
+		return null;
 	}
 }

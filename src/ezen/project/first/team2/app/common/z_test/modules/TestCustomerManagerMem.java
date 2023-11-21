@@ -21,37 +21,23 @@ public class TestCustomerManagerMem {
 		System.out.println("-".repeat(40));
 		System.out.println("# 고객 추가");
 
-		final CustomerInfo sglee = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._0_SiGwanLEE);
-		final CustomerInfo gygil = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._1_GeunYoungGil);
-		final CustomerInfo hwjo = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._2_HyunWooJo);
-		final CustomerInfo jhkim = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._3_JunHyungKim);
-		final CustomerInfo cjpark = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._4_CheolJinPark);
-		final CustomerInfo bseo = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._5_BinSeo);
-
 		try {
-			custMngr.add(sglee);
-			System.out.print("  " + sglee.getName());
-			custMngr.add(gygil);
-			System.out.print(", " + gygil.getName());
-			custMngr.add(hwjo);
-			System.out.print(", " + hwjo.getName());
-			custMngr.add(jhkim);
-			System.out.print(", " + jhkim.getName());
-			custMngr.add(cjpark);
-			System.out.print(", " + cjpark.getName());
-			custMngr.add(bseo);
-			System.out.println(", " + bseo.getName());
+			for (var ci : CustomerInfo.getPredefinedData()) {
+				custMngr.add(ci);
+				System.out.println(" -> " + ci.getName());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		try {
 			CustomerInfo ci = new CustomerInfo();
+			// ID 값에 -1을 넣거나 매니저를 통해 다음 ID 값을 얻을 수 있다다
 			ci.setValues(custMngr.getNextID(), LocalDate.now(), "BLUECNT",
 					LocalDate.of(1983, 1, 1), "010-0000-8086", 10000, "");
 
 			custMngr.add(ci);
-			System.out.println(", " + bseo.getName());
+			System.out.println(" -> " + ci.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,8 +49,16 @@ public class TestCustomerManagerMem {
 		System.out.println("-".repeat(40));
 		System.out.println("# 고객 수정");
 
+		CustomerInfo sglee = new CustomerInfo();
 		try {
-			sglee.setName("SiGwan LEE");
+			sglee = custMngr.find(ci -> ci.getName().equals("이시관"));
+			// sglee = custMngr.find(ci -> ci.getPhoneNumber().equals("010-0000-8086"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			sglee.setName("시관폰");
 			custMngr.updateById(sglee.getId(), sglee);
 		} catch (Exception e) {
 			e.printStackTrace();

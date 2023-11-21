@@ -85,4 +85,14 @@ public class ListManagerMem<T extends ListItem> extends ListManager<T> {
 				break;
 		}
 	}
+
+	@Override
+	protected T onFind(Iterator<T> iterator) {
+		for (var info : this.mList) {
+			if (iterator.onGetItem(info))
+				return info;
+		}
+
+		return null;
+	}
 }

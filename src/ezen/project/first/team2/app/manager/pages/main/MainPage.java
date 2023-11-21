@@ -64,29 +64,14 @@ public class MainPage extends Page {
 		super.onInit();
 
 		try {
-			CustomerManagerMem memMngr = CustomerManagerMem.getInstance();
-			memMngr.init();
-
-			final CustomerInfo sglee = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._0_SiGwanLEE);
-			final CustomerInfo gygil = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._1_GeunYoungGil);
-			final CustomerInfo hwjo = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._2_HyunWooJo);
-			final CustomerInfo jhkim = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._3_JunHyungKim);
-			final CustomerInfo cjpark = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._4_CheolJinPark);
-			final CustomerInfo bseo = CustomerInfo.getDummyData(CustomerInfo.DummyDataIndex._5_BinSeo);
+			CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
+			custMngr.init();
 
 			try {
-				memMngr.add(sglee);
-				System.out.println("  -> " + sglee.getName());
-				memMngr.add(gygil);
-				System.out.println("  -> " + gygil.getName());
-				memMngr.add(hwjo);
-				System.out.println("  -> " + hwjo.getName());
-				memMngr.add(jhkim);
-				System.out.println("  -> " + jhkim.getName());
-				memMngr.add(cjpark);
-				System.out.println("  -> " + cjpark.getName());
-				memMngr.add(bseo);
-				System.out.println("  -> " + bseo.getName());
+				for (var ci : CustomerInfo.getPredefinedData()) {
+					custMngr.add(ci);
+					System.out.println(", " + ci.getName());
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -4,10 +4,9 @@ import ezen.project.first.team2.app.common.modules.customer.CustomerInfo;
 
 public class TestCustomerInfo {
 	public static void main(String[] args) {
-		for (var idx : CustomerInfo.DummyDataIndex.values()) {
+		for (var ci : CustomerInfo.getPredefinedData()) {
 			System.out.println("----------");
-			CustomerInfo mi = CustomerInfo.getDummyData(idx);
-			System.out.println(mi);
+			System.out.println(ci);
 		}
 	}
 }
