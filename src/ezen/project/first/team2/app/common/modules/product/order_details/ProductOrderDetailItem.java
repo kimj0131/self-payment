@@ -6,13 +6,13 @@
 
 package ezen.project.first.team2.app.common.modules.product.order_details;
 
-public class ProductOrderDetail {
+public class ProductOrderDetailItem {
 	// -------------------------------------------------------------------------
 
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	ProductOrderDetail() {
+	ProductOrderDetailItem() {
 		//
 	}
 

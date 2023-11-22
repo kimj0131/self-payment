@@ -6,13 +6,13 @@
 
 package ezen.project.first.team2.app.common.modules.product.orders;
 
-public class ProductOrder {
+public class ProductOrdersManagerMem {
 	// -------------------------------------------------------------------------
 
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	ProductOrder() {
+	ProductOrdersManagerMem() {
 		//
 	}
 

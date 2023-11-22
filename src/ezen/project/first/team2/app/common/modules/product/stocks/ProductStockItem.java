@@ -6,13 +6,13 @@
 
 package ezen.project.first.team2.app.common.modules.product.stocks;
 
-public class ProductStocks {
+public class ProductStockItem {
 	// -------------------------------------------------------------------------
 
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	ProductStocks() {
+	ProductStockItem() {
 		//
 	}
 
