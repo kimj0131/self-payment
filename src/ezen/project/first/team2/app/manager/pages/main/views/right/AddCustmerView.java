@@ -29,7 +29,7 @@ import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class AddCustmerView extends View {
 
-    CustomerManagerMem memMngr = CustomerManagerMem.getInstance();
+    CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
 
     JLabel mLabelInfo = new JLabel("고객 추가뷰 초기화면입니다");
 
@@ -101,7 +101,7 @@ public class AddCustmerView extends View {
 
         this.mTextFieldAddBirthday.setColumns(10);
         try {
-            this.mTextFieldAddId.setText(memMngr.getNextID() + "");
+            this.mTextFieldAddId.setText(custMngr.getNextID() + "");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -162,18 +162,16 @@ public class AddCustmerView extends View {
             ////////////////////////////////////////////////////
             // ## 231121 KJH >> 휴대폰번호 중복확인도 필요할까요?
             ////////////////////////////////////////////////////
-            // Remark를 제외한 TextField를 채웠는지 확인
+            // Remark, Id를 제외한 TextField를 채웠는지 확인
             if (mTextFieldAddName.getText().length() > 0 &&
                     mTextFieldAddPhoneNum.getText().length() > 0 &&
-                    mTextFieldAddBirthday.getText().length() > 0
-            // && mTextFieldAddId.getText().length() > 0
-            ) {
+                    mTextFieldAddBirthday.getText().length() > 0) {
 
                 if (e.getSource() == mBtnAddCust) {
-                    this.setCustValue();
                     // 입력, 추가 완료 후 TextField 초기화
+                    this.setCustValue();
                     try {
-                        this.mTextFieldAddId.setText(memMngr.getNextID() + "");
+                        this.mTextFieldAddId.setText(custMngr.getNextID() + "");
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
@@ -182,13 +180,11 @@ public class AddCustmerView extends View {
                     this.mTextFieldAddBirthday.setText("");
                     this.mTextFieldAddRemark.setText("");
                 }
-
             } else {
                 // 필수입력사항 미입력시 경고메세지박스 출력
                 UiUtils.showMsgBox("* 는 필수입력사항입니다",
                         "", MsgBoxType.Warn);
             }
-
         };
 
         // 입력된 데이터를 저장
@@ -229,11 +225,9 @@ public class AddCustmerView extends View {
     // textField에 작성한 내용을 추가
     private void setCustValue() {
         CustomerItem customerItem = new CustomerItem();
-
         try {
-
             int defaultPoint = 0;
-            int custId = memMngr.getNextID();
+            int custId = custMngr.getNextID();
             LocalDate joinCustDate = LocalDate.now();
 
             // 생년월일 LocalDate로 변환
@@ -250,10 +244,12 @@ public class AddCustmerView extends View {
         }
 
         try {
-            memMngr.add(customerItem);
+            custMngr.add(customerItem);
             System.out.println("add 완료");
         } catch (Exception e1) {
             e1.printStackTrace();
+            UiUtils.showMsgBox("입력하신 휴대폰번호는 이미 등록되어있습니다.",
+                    "", MsgBoxType.Warn);
         }
         // System.out.println("추가된 정보" + memberInfo.toString());
     }
@@ -261,7 +257,7 @@ public class AddCustmerView extends View {
     // 테스트용 자동기입 메소드
     private void setTestCustValue() {
         try {
-            int nextNum = memMngr.getNextID();
+            int nextNum = custMngr.getNextID();
             this.mTextFieldAddId.setText("" + nextNum);
             this.mTextFieldAddName.setText("김철수");
             this.mTextFieldAddBirthday.setText("20001010");

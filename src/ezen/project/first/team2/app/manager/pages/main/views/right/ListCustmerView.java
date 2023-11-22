@@ -35,12 +35,12 @@ public class ListCustmerView extends View {
     protected void onInit() {
 
         try {
-            Object[] mAttributesColumn = {
+            Object[] mPropertyColumn = {
                     "고객번호", "가입일", "고객명", "생년월일", "전화번호", "비고"
             };
-            Object[][] mCustListRows = new Object[mAttributesColumn.length][custMngr.getCount()];
+            Object[][] mCustListRows = new Object[mPropertyColumn.length][custMngr.getCount()];
 
-            DefaultTableModel model = new DefaultTableModel(mCustListRows, mAttributesColumn) {
+            DefaultTableModel model = new DefaultTableModel(mCustListRows, mPropertyColumn) {
                 // 셀의 내용을 수정하지 못하게 설정
                 @Override
                 public boolean isCellEditable(int row, int column) {

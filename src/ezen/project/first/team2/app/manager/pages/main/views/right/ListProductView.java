@@ -23,7 +23,7 @@ public class ListProductView extends View {
     // 상품리스트를 넣을 패널 생성
     JPanel mPanelProdList = new JPanel();
     // 상품리스트 테이블
-    JTable mTableProdList = new JTable();
+    JTable mTableProdList;
     // 스크롤 삽입
     JScrollPane mSroll;
 
@@ -34,12 +34,12 @@ public class ListProductView extends View {
     @Override
     protected void onInit() {
         try {
-            Object[] mAttributesColumn = {
+            Object[] mPropertyColumn = {
                     "상품번호", "상품코드", "상품명", "가격", "등록일", "설명"
             };
-            Object[][] mProdListRows = new Object[mAttributesColumn.length][prodMngr.getCount()];
+            Object[][] mProdListRows = new Object[mPropertyColumn.length][prodMngr.getCount()];
 
-            DefaultTableModel model = new DefaultTableModel(mProdListRows, mAttributesColumn) {
+            DefaultTableModel model = new DefaultTableModel(mProdListRows, mPropertyColumn) {
                 // 셀 내용 수정 불가
                 @Override
                 public boolean isCellEditable(int row, int column) {
