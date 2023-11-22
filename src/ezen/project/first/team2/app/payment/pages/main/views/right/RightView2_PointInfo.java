@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.modules.customer.CustomerInfo;
+import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
@@ -18,21 +18,20 @@ import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 public class RightView2_PointInfo extends View {
 
 	private static final int PADDING = 10;
-	private static final String TEXT_AREA_TEXT_FORMAT = 
-			"결제 완료 후 포인트가 적립 됩니다\n"
+	private static final String TEXT_AREA_TEXT_FORMAT = "결제 완료 후 포인트가 적립 됩니다\n"
 			+ "[ 적립 예정 포인트 : %d P ]\n"
 			+ "[ 사용 가능한 포인트 : %d P ]";
-	
+
 	GridBagConstraints gbc = new GridBagConstraints();
-	
+
 	int mEarnedPoints = 100;
 	int mAvailablePoints;
-	
+
 	JTextArea mTextArea0 = new JTextArea();
 	JButton mUsePointButton = new JButton("포인트사용");
 	JButton mNotUsePointButton = new JButton("포인트사용안함");
-	
-	CustomerInfo mCustomerInfo;
+
+	CustomerItem mCustomerItem;
 
 	public RightView2_PointInfo() {
 		super(MainPage.RIGHT_VIEW_POINT_INFO_NUM);
@@ -84,7 +83,7 @@ public class RightView2_PointInfo extends View {
 				ex.printStackTrace();
 			}
 		});
-		
+
 		mNotUsePointButton.addActionListener(e -> {
 			try {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
@@ -99,20 +98,21 @@ public class RightView2_PointInfo extends View {
 	@Override
 	protected void onShow(boolean firstTime) {
 		MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-		RightView1_CheckMember rightView = (RightView1_CheckMember) mainView.getViewByNum(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
-		mCustomerInfo = rightView.getCustomerInfo();
-		mTextArea0.setText(String.format(TEXT_AREA_TEXT_FORMAT, mEarnedPoints, mCustomerInfo.getPoint()));
+		RightView1_CheckMember rightView = (RightView1_CheckMember) mainView
+				.getViewByNum(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
+		mCustomerItem = rightView.getCustomerItem();
+		mTextArea0.setText(String.format(TEXT_AREA_TEXT_FORMAT, mEarnedPoints, mCustomerItem.getPoint()));
 	}
 
 	@Override
 	protected void onHide() {
 	}
-	
+
 	@Override
 	protected void onSetResources() {
 		Main main = (Main) this.getStatusManager();
 		mTextArea0.setFont(main.mFont0);
-		
+
 	}
 
 }

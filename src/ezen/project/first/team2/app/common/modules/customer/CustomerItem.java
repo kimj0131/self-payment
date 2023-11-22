@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import ezen.project.first.team2.app.common.modules.base.ListItem;
 import ezen.project.first.team2.app.common.utils.TimeUtils;
 
-public class CustomerInfo extends ListItem {
+public class CustomerItem extends ListItem {
 	// -------------------------------------------------------------------------
 
 	// 회원 번호. 0번은 비회원.
@@ -32,11 +32,11 @@ public class CustomerInfo extends ListItem {
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	public CustomerInfo() {
+	public CustomerItem() {
 	}
 
 	// 생성자
-	public CustomerInfo(int id, LocalDate joinDate, String name,
+	public CustomerItem(int id, LocalDate joinDate, String name,
 			LocalDate birthday, String phoneNum, int point, String remark) {
 		this.setValues(id, joinDate, name, birthday, phoneNum, point, remark);
 	}
@@ -140,19 +140,19 @@ public class CustomerInfo extends ListItem {
 	// -------------------------------------------------------------------------
 
 	// 미리 정의된 데이터 얻기
-	public static CustomerInfo[] getPredefinedData() {
-		CustomerInfo[] data = {
-				new CustomerInfo(-1, LocalDate.now(), "이시관", LocalDate.of(1983, 5, 9),
+	public static CustomerItem[] getPredefinedData() {
+		CustomerItem[] data = {
+				new CustomerItem(-1, LocalDate.now(), "이시관", LocalDate.of(1983, 5, 9),
 						"010-0000-8086", 9 * 10000, ""),
-				new CustomerInfo(-1, LocalDate.now(), "길근영", LocalDate.of(1983, 12, 19),
+				new CustomerItem(-1, LocalDate.now(), "길근영", LocalDate.of(1983, 12, 19),
 						"010-0000-2794", 8 * 10000, ""),
-				new CustomerInfo(-1, LocalDate.now(), "조현우", LocalDate.of(1991, 1, 1),
+				new CustomerItem(-1, LocalDate.now(), "조현우", LocalDate.of(1991, 1, 1),
 						"010-0000-1606", 7 * 10000, ""),
-				new CustomerInfo(-1, LocalDate.now(), "김준형", LocalDate.of(1993, 1, 1),
+				new CustomerItem(-1, LocalDate.now(), "김준형", LocalDate.of(1993, 1, 1),
 						"010-0000-4355", 6 * 10000, ""),
-				new CustomerInfo(-1, LocalDate.now(), "박철진", LocalDate.of(1999, 1, 1),
+				new CustomerItem(-1, LocalDate.now(), "박철진", LocalDate.of(1999, 1, 1),
 						"010-0000-0009", 5 * 10000, ""),
-				new CustomerInfo(-1, LocalDate.now(), "서  빈", LocalDate.of(2002, 1, 1),
+				new CustomerItem(-1, LocalDate.now(), "서  빈", LocalDate.of(2002, 1, 1),
 						"010-0000-5629", 4 * 10000, "")
 		};
 
@@ -171,8 +171,8 @@ public class CustomerInfo extends ListItem {
 
 	@Override
 	protected void onSetValuesFrom(ListItem item) {
-		CustomerInfo info = (CustomerInfo) item;
-		this.setValues(info.getId(), info.getJoinDate(), info.getName(),
-				info.getBirthday(), info.getPhoneNumber(), info.getPoint(), info.getRemark());
+		CustomerItem ci = (CustomerItem) item;
+		this.setValues(ci.getId(), ci.getJoinDate(), ci.getName(),
+				ci.getBirthday(), ci.getPhoneNumber(), ci.getPoint(), ci.getRemark());
 	}
 }

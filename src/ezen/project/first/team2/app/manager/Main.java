@@ -68,6 +68,7 @@ public class Main extends StatusManager {
 		System.out.println("[Main.onExit()]");
 	}
 
+	@SuppressWarnings("unused")
 	private SplashPageParams getSplashPageParams() {
 		SplashPageParams params = new SplashPageParams(new SplashPageParams.Listener() {
 

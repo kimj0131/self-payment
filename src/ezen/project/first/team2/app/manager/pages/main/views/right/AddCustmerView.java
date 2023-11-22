@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.modules.customer.CustomerInfo;
+import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxType;
@@ -228,7 +228,7 @@ public class AddCustmerView extends View {
 
     // textField에 작성한 내용을 추가
     private void setCustValue() {
-        CustomerInfo customerInfo = new CustomerInfo();
+        CustomerItem customerItem = new CustomerItem();
 
         try {
 
@@ -242,7 +242,7 @@ public class AddCustmerView extends View {
                     "yyyyMMdd");
             LocalDate custBirthDate = LocalDate.parse(dateStr, formatter);
 
-            customerInfo.setValues(custId, joinCustDate, mAddNameTextField.getText(),
+            customerItem.setValues(custId, joinCustDate, mAddNameTextField.getText(),
                     custBirthDate, mAddPhoneNumTextField.getText(),
                     defaultPoint, mAddRemark.getText());
         } catch (Exception e) {
@@ -250,7 +250,7 @@ public class AddCustmerView extends View {
         }
 
         try {
-            memMngr.add(customerInfo);
+            memMngr.add(customerItem);
             System.out.println("add 완료");
         } catch (Exception e1) {
             e1.printStackTrace();

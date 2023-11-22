@@ -10,24 +10,24 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.modules.customer.CustomerInfo;
+import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
 public class RightView1_CheckMember extends View {
-	
+
 	private static final int PADDING = 10;
-	
+
 	private static final String CHECK_BUTTON_TEXT = "확인";
 	private static final String PASS_BUTTON_TEXT = "적립안함";
 	private static final String DELETE_BUTTON_TEXT = "전체삭제";
 	private static final String UNDO_BUTTON_TEXT = "삭제";
 	private static final String PHONE_ID_NUMEBER_TEXT = "010-";
-	
+
 	JButton mCheckButton;
 	JButton mPassButton;
-	
+
 	// 숫자패드
 	JTextField mNumberTextField;
 	StringBuilder mPhoneNumber;
@@ -37,8 +37,8 @@ public class RightView1_CheckMember extends View {
 	JButton mUndoBtn;
 	JPanel mNumberPanel;
 	//
-	
-	CustomerInfo mCustomerInfo;
+
+	CustomerItem mCustomerItem;
 
 	public RightView1_CheckMember() {
 		super(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
@@ -51,7 +51,7 @@ public class RightView1_CheckMember extends View {
 		// 버튼 초기화
 		mCheckButton = new JButton(CHECK_BUTTON_TEXT);
 		mPassButton = new JButton(PASS_BUTTON_TEXT);
-		
+
 		// 숫자패드 초기화
 		mPhoneNumber = new StringBuilder(PHONE_ID_NUMEBER_TEXT);
 		mHidedPhoneNumber = new StringBuilder(PHONE_ID_NUMEBER_TEXT);
@@ -96,27 +96,26 @@ public class RightView1_CheckMember extends View {
 	@Override
 	protected void onAddEventListeners() {
 		mCheckButton.addActionListener(e -> {
-//			for (var idx : CustomerInfo.DummyDataIndex.values()) {
-//				mCustomerInfo = CustomerInfo.getDummyData(idx);
-//				if (mCustomerInfo.getPhoneNumber().equals(mPhoneNumber.toString()))
-//					break;
-//				mCustomerInfo = null;
-//			}
-			
-			mCustomerInfo = null;				
-			for (var ci : CustomerInfo.getPredefinedData()) {
-				if (ci.getPhoneNumber().equals(mPhoneNumber.toString())) {
-					mCustomerInfo = ci;
-					
-					break;
-				}				
-			}
-			
+			// for (var idx : CustomerInfo.DummyDataIndex.values()) {
+			// mCustomerInfo = CustomerInfo.getDummyData(idx);
+			// if (mCustomerInfo.getPhoneNumber().equals(mPhoneNumber.toString()))
+			// break;
+			// mCustomerInfo = null;
+			// }
 
-			if (mCustomerInfo != null) {
+			mCustomerItem = null;
+			for (var ci : CustomerItem.getPredefinedData()) {
+				if (ci.getPhoneNumber().equals(mPhoneNumber.toString())) {
+					mCustomerItem = ci;
+
+					break;
+				}
+			}
+
+			if (mCustomerItem != null) {
 				// 유효한
-				UiUtils.showMsgBox(mCustomerInfo.getName() + " 회원님", MainPage.TITLE);
-				
+				UiUtils.showMsgBox(mCustomerItem.getName() + " 회원님", MainPage.TITLE);
+
 				try {
 					MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 					mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_POINT_INFO_NUM);
@@ -124,12 +123,12 @@ public class RightView1_CheckMember extends View {
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
-				
+
 			} else {
 				// 무효한
 				UiUtils.showMsgBox("없는 회원입니다", MainPage.TITLE);
 			}
-			
+
 		});
 
 		mPassButton.addActionListener(e -> {
@@ -144,14 +143,14 @@ public class RightView1_CheckMember extends View {
 
 		// 숫자패드 버튼 액션리스너 만들기
 
-		ActionListener BtnActionListener =  e -> {
+		ActionListener BtnActionListener = e -> {
 
 			for (int i = 0; i < mNumberBtnArr.length; ++i) {
-				
+
 				if (e.getSource() == mNumberBtnArr[i]) {
 					// 폰번호를 다 입력했으면 버튼을 눌러도 번호가 추가되지 않는다
 					if (mPhoneNumber.length() < 13) {
-						
+
 						mPhoneNumber.append(i);
 						mHidedPhoneNumber.append(i);
 
@@ -181,26 +180,28 @@ public class RightView1_CheckMember extends View {
 			}
 
 			if (e.getSource() == mUndoBtn) {
-				
+
 				if (mPhoneNumber.length() >= 5) {
 					// 하이픈 삭제 - 하이픈 다음에 숫자 입력이 없었을 경우
-					if (mHidedPhoneNumber.charAt(mHidedPhoneNumber.length() - 1) == '-' && mHidedPhoneNumber.length() > 4) {
+					if (mHidedPhoneNumber.charAt(mHidedPhoneNumber.length() - 1) == '-'
+							&& mHidedPhoneNumber.length() > 4) {
 						mHidedPhoneNumber.deleteCharAt(mHidedPhoneNumber.length() - 1);
 						mPhoneNumber.deleteCharAt(mPhoneNumber.length() - 1);
 					}
-					
+
 					// 번호삭제
 					mPhoneNumber.delete(mPhoneNumber.length() - 1, mPhoneNumber.length());
 					mHidedPhoneNumber.delete(mHidedPhoneNumber.length() - 1, mHidedPhoneNumber.length());
-					
+
 					// 하이픈 삭제 - 하이픈 다음에 숫자 입력이 있었을 경우
-					if (mHidedPhoneNumber.charAt(mHidedPhoneNumber.length() - 1) == '-' && mHidedPhoneNumber.length() > 4) {
+					if (mHidedPhoneNumber.charAt(mHidedPhoneNumber.length() - 1) == '-'
+							&& mHidedPhoneNumber.length() > 4) {
 						mHidedPhoneNumber.deleteCharAt(mHidedPhoneNumber.length() - 1);
 						mPhoneNumber.deleteCharAt(mPhoneNumber.length() - 1);
 					}
 
 					// 끝 숫자가 지워진 mHidedPhoneNumber의 끝 숫자를 *에서 숫자로 바꾸기
-					mHidedPhoneNumber.setCharAt(mHidedPhoneNumber.length() - 1, 
+					mHidedPhoneNumber.setCharAt(mHidedPhoneNumber.length() - 1,
 							mPhoneNumber.charAt(mPhoneNumber.length() - 1));
 
 					mNumberTextField.setText(mHidedPhoneNumber.toString());
@@ -229,7 +230,7 @@ public class RightView1_CheckMember extends View {
 	protected void onHide() {
 	}
 
-	public CustomerInfo getCustomerInfo() {
-		return mCustomerInfo;
+	public CustomerItem getCustomerItem() {
+		return mCustomerItem;
 	}
 }

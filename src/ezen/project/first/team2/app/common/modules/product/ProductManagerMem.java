@@ -6,9 +6,13 @@
 
 package ezen.project.first.team2.app.common.modules.product;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import ezen.project.first.team2.app.common.modules.base.ListManagerMem;
 
-public class ProductManagerMem extends ListManagerMem<ProductInfo> {
+public class ProductManagerMem extends ListManagerMem<ProductItem>
+		implements ProductManager {
 	// -------------------------------------------------------------------------
 
 	private static ProductManagerMem mInstance = null;
@@ -30,20 +34,36 @@ public class ProductManagerMem extends ListManagerMem<ProductInfo> {
 
 	// -------------------------------------------------------------------------
 
+	@Override
+	public ProductItem findByProductCode(ProductCode prodCode) throws Exception {
+		return this.find((pi, idx) -> pi.getProdCode().equals(prodCode));
+	}
+
+	@Override
+	public List<ProductItem> findByRegDate(LocalDate date) throws Exception {
+		return this.findItems((pi, idx) -> pi.getRegDate().equals(date));
+	}
+
+	@Override
+	public ProductItem findByName(String name) throws Exception {
+		return this.find((pi, idx) -> pi.getName().equals(name));
+	}
+
+	@Override
+	public List<ProductItem> findByPrice(int price) throws Exception {
+		return this.findItems((pi, idx) -> pi.getPrice() == price);
+	}
+
+	// -------------------------------------------------------------------------
+
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
-	protected String onAdd(ProductInfo info) {
-		try {
-			// 제품 코드 검색
-			var info3 = this.find((info2, idx) -> info2.getProdCode().equals(info.getProdCode()));
-			if (info3 != null) {
-				String msg = String.format("[ProductmanagerMem.onAdd()]" +
-						" You have same product code(%s)!", info.getProdCode().toString());
+	protected String onAdd(ProductItem info) throws Exception {
+		if (this.findByProductCode(info.getProdCode()) != null) {
+			String msg = String.format("[ProductManagerMem.onAdd()]" +
+					" You have same product code(%s)!", info.getProdCode().toString());
 
-				return msg;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			return msg;
 		}
 
 		return super.onAdd(info);
@@ -51,13 +71,13 @@ public class ProductManagerMem extends ListManagerMem<ProductInfo> {
 
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
-	protected String onUpdateById(int id, ProductInfo info) {
+	protected String onUpdateById(int id, ProductItem info) throws Exception {
 		return super.onUpdateById(id, info);
 	}
 
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
-	protected String onDeleteById(int id) {
+	protected String onDeleteById(int id) throws Exception {
 		return super.onDeleteById(id);
 	}
 }

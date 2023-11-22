@@ -43,14 +43,14 @@ public class ListManagerMem<T extends ListItem> extends ListManager<T> {
 	}
 
 	@Override
-	protected String onAdd(T info) {
+	protected String onAdd(T info) throws Exception {
 		this.mList.add(info);
 
 		return "";
 	}
 
 	@Override
-	protected String onUpdateById(int id, T info) {
+	protected String onUpdateById(int id, T info) throws Exception {
 		for (var _info : this.mList) {
 			if (_info.getId() == id) {
 				_info.setValuesFrom(info);
@@ -63,7 +63,7 @@ public class ListManagerMem<T extends ListItem> extends ListManager<T> {
 	}
 
 	@Override
-	protected String onDeleteById(int id) {
+	protected String onDeleteById(int id) throws Exception {
 		this.mList.removeIf(info -> info.getId() == id);
 
 		return "";
@@ -98,6 +98,29 @@ public class ListManagerMem<T extends ListItem> extends ListManager<T> {
 		int i = 0;
 		for (var info : this.mList) {
 			if (iterator.onGetItem(info, i++))
+				return info;
+		}
+
+		return null;
+	}
+
+	@Override
+	protected List<T> onFindItems(Iterator<T> iterator) {
+		List<T> items = new ArrayList<>();
+
+		int i = 0;
+		for (var info : this.mList) {
+			if (iterator.onGetItem(info, i++))
+				items.add(info);
+		}
+
+		return items;
+	}
+
+	@Override
+	protected T onFindById(int id) {
+		for (var info : this.mList) {
+			if (info.getId() == id)
 				return info;
 		}
 

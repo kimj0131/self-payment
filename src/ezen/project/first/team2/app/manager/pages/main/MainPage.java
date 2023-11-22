@@ -9,7 +9,7 @@ package ezen.project.first.team2.app.manager.pages.main;
 import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.framework.Page;
-import ezen.project.first.team2.app.common.modules.customer.CustomerInfo;
+import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.views.MainView;
@@ -68,7 +68,7 @@ public class MainPage extends Page {
 			custMngr.init();
 
 			try {
-				for (var ci : CustomerInfo.getPredefinedData()) {
+				for (var ci : CustomerItem.getPredefinedData()) {
 					custMngr.add(ci);
 					System.out.println(", " + ci.getName());
 				}

@@ -6,6 +6,8 @@
 
 package ezen.project.first.team2.app.common.modules.base;
 
+import java.util.List;
+
 public class ListManager<T extends ListItem> {
 	// -------------------------------------------------------------------------
 
@@ -50,7 +52,7 @@ public class ListManager<T extends ListItem> {
 	// 종료
 	public void deinit() throws Exception {
 		if (!this.isInited()) {
-			String msg = String.format("[ListManager.init()]" +
+			String msg = String.format("[ListManager.deinit()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
@@ -67,7 +69,7 @@ public class ListManager<T extends ListItem> {
 	// 다음 ID 얻기
 	public int getNextID() throws Exception {
 		if (!this.isInited()) {
-			String msg = String.format("[ListManager.init()]" +
+			String msg = String.format("[ListManager.getNextID()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
@@ -79,7 +81,7 @@ public class ListManager<T extends ListItem> {
 	public void add(T info) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
-			String msg = String.format("[ListManager.init()]" +
+			String msg = String.format("[ListManager.add()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
@@ -108,7 +110,7 @@ public class ListManager<T extends ListItem> {
 	public void updateById(int id, T info) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
-			String msg = String.format("[ListManager.init()]" +
+			String msg = String.format("[ListManager.updateById()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
@@ -130,7 +132,7 @@ public class ListManager<T extends ListItem> {
 	public void deleteById(int id) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
-			String msg = String.format("[ListManager.init()]" +
+			String msg = String.format("[ListManager.deleteById()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
@@ -152,7 +154,7 @@ public class ListManager<T extends ListItem> {
 	public boolean isDuplicatedId(int id) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
-			String msg = String.format("[ListManager.init()]" +
+			String msg = String.format("[ListManager.isDuplicatedId()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
@@ -164,7 +166,7 @@ public class ListManager<T extends ListItem> {
 	public int getCount() throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
-			String msg = String.format("[ListManager.init()]" +
+			String msg = String.format("[ListManager.getCount()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
@@ -188,12 +190,36 @@ public class ListManager<T extends ListItem> {
 	public T find(Iterator<T> iterator) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
-			String msg = String.format("[ListManager.init()]" +
+			String msg = String.format("[ListManager.find()]" +
 					" You must initialize!");
 			throw new Exception(msg);
 		}
 
 		return this.onFind(iterator);
+	}
+
+	// 여러 아이템 찾기. iterator에서 원하는 아이템을 찾았으면 true 반환.
+	public List<T> findItems(Iterator<T> iterator) throws Exception {
+		// 초기화 여부 확인
+		if (!this.isInited()) {
+			String msg = String.format("[ListManager.find()]" +
+					" You must initialize!");
+			throw new Exception(msg);
+		}
+
+		return this.onFindItems(iterator);
+	}
+
+	// ID로 아이템 찾기
+	public T findById(int id) throws Exception {
+		// 초기화 여부 확인
+		if (!this.isInited()) {
+			String msg = String.format("[ListManager.findById()]" +
+					" You must initialize!");
+			throw new Exception(msg);
+		}
+
+		return this.onFindById(id);
 	}
 
 	// -------------------------------------------------------------------------
@@ -212,17 +238,17 @@ public class ListManager<T extends ListItem> {
 	}
 
 	// 아이템 추가 -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
-	protected String onAdd(T info) {
+	protected String onAdd(T info) throws Exception {
 		return "/ERROR/";
 	}
 
 	// 아이템 수정 -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
-	protected String onUpdateById(int id, T info) {
+	protected String onUpdateById(int id, T info) throws Exception {
 		return "/ERROR/";
 	}
 
 	// 아이템 삭제 -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
-	protected String onDeleteById(int id) {
+	protected String onDeleteById(int id) throws Exception {
 		return "/ERROR/";
 	}
 
@@ -242,6 +268,16 @@ public class ListManager<T extends ListItem> {
 
 	// 아이템 찾기
 	protected T onFind(Iterator<T> iterator) {
+		return null;
+	}
+
+	// 여러 아이템 찾기
+	protected List<T> onFindItems(Iterator<T> iterator) {
+		return null;
+	}
+
+	// ID로 아이템 찾기
+	protected T onFindById(int id) {
 		return null;
 	}
 }
