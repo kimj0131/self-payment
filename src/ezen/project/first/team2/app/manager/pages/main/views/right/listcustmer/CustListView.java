@@ -1,9 +1,6 @@
 package ezen.project.first.team2.app.manager.pages.main.views.right.listcustmer;
 
-import javax.swing.JComponent;
-
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class CustListView extends View {
@@ -44,11 +41,7 @@ public class CustListView extends View {
 
     @Override
     protected void onSetResources() {
-        Main main = (Main) this.getStatusManager();
-        for (int i = 0; i < this.getComponents().length; i++) {
-            JComponent cp = (JComponent) this.getComponents()[i];
-            cp.setFont(main.mFont0);
-        }
+
     }
 
 }

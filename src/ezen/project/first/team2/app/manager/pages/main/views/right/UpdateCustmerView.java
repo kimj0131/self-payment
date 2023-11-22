@@ -37,7 +37,7 @@ public class UpdateCustmerView extends View {
 
         try {
             Object[] mAttributesColumn = {
-                    "회원 번호", "가입일", "이름", "생년월일", "전화번호", "비고" };
+                    "고객번호", "가입일", "고객명", "생년월일", "전화번호", "비고" };
             Object[][] mCustListRows = new Object[mAttributesColumn.length][custMngr.getCount()];
 
             DefaultTableModel model = new DefaultTableModel(mCustListRows, mAttributesColumn) {

@@ -2,6 +2,7 @@ package ezen.project.first.team2.app.manager.pages.main.views.right;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -22,6 +23,7 @@ import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerInfo;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
 import ezen.project.first.team2.app.common.utils.UiUtils;
+import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxType;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
@@ -29,39 +31,48 @@ public class AddCustmerView extends View {
 
     CustomerManagerMem memMngr = CustomerManagerMem.getInstance();
 
-    JLabel mLabelInfo = new JLabel("회원 추가뷰 초기화면입니다");
+    JLabel mInfoLabel = new JLabel("고객 추가뷰 초기화면입니다");
 
-    JLabel mLabelSignUp = new JLabel("회원정보기입");
+    // 고객정보 기입란 패널
+    JPanel mAddCustPanel = new JPanel();
+    // 고객정보 기입란 왼쪽패널
+    JPanel mAddCustLeftPanel = new JPanel();
+    // 고객정보 기입란 오른쪽패널
+    JPanel mAddCustRightPanel = new JPanel();
 
-    JPanel mPanelAddCust = new JPanel();
+    JLabel mLabelSignUp = new JLabel("<html><br>고객정보<br><br><br></html>");
 
-    // 고객정보 기입란
-    // 가입일은 자동 추가
+    /////////////////////////////////////////////////
+    // ## 가입일 비활성화된 TextField 추가?
+    // ## >> setText로 미리 채워넣고, 입력을 비활성화
+    /////////////////////////////////////////////////
+    // 고객정보 기입란 컴포넌트들
+    // 가입일은 현재시간으로 자동 추가
+    // 각 속성들의 패널로 텍스트필드 왼쪽에 속성이 들어갈수 있게설정
     JPanel mAddIdPanel = new JPanel();
-    JLabel mAddIdLabel = new JLabel("회원 번호 : ");
-    JTextField mAddId = new JTextField(10);
+    JLabel mAddIdLabel = new JLabel("　　고객번호 : ");
+    JTextField mAddIdTextField = new JTextField(10);
 
     JPanel mAddNamePanel = new JPanel();
-    JLabel mAddNameLabel = new JLabel("이름 : ");
-    JTextField mAddName = new JTextField("", 10);
+    JLabel mAddNameLabel = new JLabel("　　* 고객명 : ");
+    JTextField mAddNameTextField = new JTextField("", 10);
 
     JPanel mAddBirthdayPanel = new JPanel();
-    JLabel mAddBirthdayLabel = new JLabel("생년월일 : ");
+    JLabel mAddBirthdayLabel = new JLabel("　* 생년월일 : ");
     //
     DateFormat format = new SimpleDateFormat("yyyyMMdd");
-    JFormattedTextField mAddBirthday = new JFormattedTextField(format);
-    //
+    JFormattedTextField mAddBirthdayField = new JFormattedTextField(format);
 
     JPanel mAddPhoneNumPanel = new JPanel();
-    JLabel mAddPhoneNumLabel = new JLabel("휴대폰번호 : ");
-    JTextField mAddPhoneNum = new JTextField(10);
+    JLabel mAddPhoneNumLabel = new JLabel("* 휴대폰번호 : ");
+    JTextField mAddPhoneNumTextField = new JTextField(10);
 
     JPanel mAddRemarkPanel = new JPanel();
-    JLabel mAddRemarkLabel = new JLabel("비고 : ");
+    JLabel mAddRemarkLabel = new JLabel("　　비　고 : ");
     JTextField mAddRemark = new JTextField(10);
 
-    JButton mAddCustBtn = new JButton("[테스트]고객 추가");
-    JButton mAddTextFieldCustBtn = new JButton("자동기입");
+    JButton mAddCustBtn = new JButton("고객 추가");
+    JButton mAddTextFieldCustBtn = new JButton("[테스트]자동기입");
 
     public AddCustmerView() {
         super(MainPage.VIEW_NUM_CUST_ADD);
@@ -75,65 +86,61 @@ public class AddCustmerView extends View {
     @Override
     protected void onSetLayout() {
         this.setLayout(new BorderLayout());
-        // this.mAddCustPanel.setLayout(new GridLayout(7, 1));
-        this.mPanelAddCust.setLayout(new BoxLayout(mPanelAddCust, BoxLayout.Y_AXIS));
+        this.mAddCustPanel.setLayout(new GridLayout(1, 2));
+        this.mAddCustLeftPanel.setLayout(new BoxLayout(mAddCustLeftPanel, BoxLayout.Y_AXIS));
+        this.mAddCustRightPanel.setLayout(new BoxLayout(mAddCustRightPanel, BoxLayout.Y_AXIS));
     }
 
     @Override
     protected void onAddCtrls() {
 
         // 컴포넌트 설정
-        // 최상단 라벨 설정
-        this.mLabelInfo.setOpaque(true);
-        this.mLabelInfo.setBackground(Color.LIGHT_GRAY);
-        this.mLabelInfo.setHorizontalAlignment(JLabel.CENTER);
+        this.mInfoLabel.setOpaque(true);
+        this.mInfoLabel.setBackground(Color.LIGHT_GRAY);
+        this.mInfoLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        // 라벨 위치설정
-        this.mLabelSignUp.setHorizontalAlignment(JLabel.CENTER);
-
-        this.mAddIdLabel.setHorizontalAlignment(JLabel.LEFT);
-        this.mAddNameLabel.setHorizontalAlignment(JLabel.LEFT);
-        this.mAddBirthdayLabel.setHorizontalAlignment(JLabel.LEFT);
-        this.mAddPhoneNumLabel.setHorizontalAlignment(JLabel.LEFT);
-        this.mAddRemarkLabel.setHorizontalAlignment(JLabel.LEFT);
-
-        this.mPanelAddCust.setBackground(Color.WHITE);
-
-        this.mAddBirthday.setColumns(10);
+        this.mAddBirthdayField.setColumns(10);
+        try {
+            this.mAddIdTextField.setText(memMngr.getNextID() + "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.mAddIdTextField.setEnabled(false);
 
         // 컴포넌트 삽입
-        this.add(mLabelInfo, BorderLayout.NORTH);
-        this.add(mPanelAddCust, BorderLayout.CENTER);
+        this.add(mInfoLabel, BorderLayout.NORTH);
+        this.add(mAddCustPanel, BorderLayout.CENTER);
+        this.mAddCustPanel.add(mAddCustLeftPanel);
+        this.mAddCustPanel.add(mAddCustRightPanel);
 
-        this.mPanelAddCust.add(mLabelSignUp);
-
-        this.mPanelAddCust.add(mAddIdPanel);
+        this.mAddCustLeftPanel.add(mLabelSignUp);
+        this.mAddCustLeftPanel.add(mAddIdPanel);
         this.mAddIdPanel.add(mAddIdLabel);
-        this.mAddIdPanel.add(mAddId);
+        this.mAddIdPanel.add(mAddIdTextField);
 
-        this.mPanelAddCust.add(mAddNamePanel);
+        this.mAddCustLeftPanel.add(mAddNamePanel);
         this.mAddNamePanel.add(mAddNameLabel);
-        this.mAddNamePanel.add(mAddName);
+        this.mAddNamePanel.add(mAddNameTextField);
 
-        this.mPanelAddCust.add(mAddBirthdayPanel);
+        this.mAddCustLeftPanel.add(mAddBirthdayPanel);
         this.mAddBirthdayPanel.add(mAddBirthdayLabel);
-        this.mAddBirthdayPanel.add(mAddBirthday);
+        this.mAddBirthdayPanel.add(mAddBirthdayField);
 
-        this.mPanelAddCust.add(mAddPhoneNumPanel);
+        this.mAddCustLeftPanel.add(mAddPhoneNumPanel);
         this.mAddPhoneNumPanel.add(mAddPhoneNumLabel);
-        this.mAddPhoneNumPanel.add(mAddPhoneNum);
+        this.mAddPhoneNumPanel.add(mAddPhoneNumTextField);
 
-        this.mPanelAddCust.add(mAddRemarkPanel);
+        this.mAddCustLeftPanel.add(mAddRemarkPanel);
         this.mAddRemarkPanel.add(mAddRemarkLabel);
         this.mAddRemarkPanel.add(mAddRemark);
 
-        this.mPanelAddCust.add(mAddCustBtn, BorderLayout.SOUTH);
-        this.mPanelAddCust.add(mAddTextFieldCustBtn, BorderLayout.SOUTH);
+        this.mAddCustRightPanel.add(mAddCustBtn, BorderLayout.SOUTH);
+        this.mAddCustRightPanel.add(mAddTextFieldCustBtn, BorderLayout.SOUTH);
     }
 
     @Override
     protected void onAddEventListeners() {
-        mAddBirthday.addKeyListener(new KeyAdapter() {
+        mAddBirthdayField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 char ch = e.getKeyChar();
@@ -147,16 +154,44 @@ public class AddCustmerView extends View {
 
         ActionListener listener = e -> {
 
-            if (e.getSource() == mAddCustBtn) {
-                this.setCustValue();
-            }
-
             // 테스트용 자동기입
             if (e.getSource() == mAddTextFieldCustBtn) {
                 this.setTestCustValue();
             }
+
+            ////////////////////////////////////////////////////
+            // ## 231121 KJH >> 휴대폰번호 중복확인도 필요할까요?
+            ////////////////////////////////////////////////////
+            // Remark를 제외한 TextField를 채웠는지 확인
+            if (mAddNameTextField.getText().length() > 0 &&
+                    mAddPhoneNumTextField.getText().length() > 0 &&
+                    mAddBirthdayField.getText().length() > 0
+            // && mAddIdTextField.getText().length() > 0
+            ) {
+
+                if (e.getSource() == mAddCustBtn) {
+                    this.setCustValue();
+                    // 입력, 추가 완료 후 TextField 초기화
+                    try {
+                        this.mAddIdTextField.setText(memMngr.getNextID() + "");
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                    this.mAddNameTextField.setText("");
+                    this.mAddPhoneNumTextField.setText("");
+                    this.mAddBirthdayField.setText("");
+                    this.mAddRemark.setText("");
+                }
+
+            } else {
+                // 필수입력사항 미입력시 경고메세지박스 출력
+                UiUtils.showMsgBox("* 는 필수입력사항입니다",
+                        "", MsgBoxType.Warn);
+            }
+
         };
 
+        // 입력된 데이터를 저장
         this.mAddCustBtn.addActionListener(listener);
         // 테스트용 자동기입
         this.mAddTextFieldCustBtn.addActionListener(listener);
@@ -181,7 +216,7 @@ public class AddCustmerView extends View {
         JLabel lb1 = (JLabel) this.getComponents()[0];
         lb1.setFont(main.mFont2);
 
-        JPanel[] panels = { mPanelAddCust, mAddIdPanel, mAddBirthdayPanel,
+        JPanel[] panels = { mAddCustPanel, mAddIdPanel, mAddBirthdayPanel,
                 mAddNamePanel, mAddPhoneNumPanel, mAddRemarkPanel };
         for (JPanel Panel : panels) {
             for (int i = 0; i < Panel.getComponents().length; i++) {
@@ -191,23 +226,31 @@ public class AddCustmerView extends View {
         }
     }
 
+    // textField에 작성한 내용을 추가
     private void setCustValue() {
-        CustomerInfo memberInfo = new CustomerInfo();
-
-        int custId = Integer.valueOf(this.mAddId.getText());
-        int defaultPoint = 0;
-
-        String dateStr = mAddBirthday.getText();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
-                "yyyyMMdd");
-        LocalDate date = LocalDate.parse(dateStr, formatter);
-
-        memberInfo.setValues(custId, LocalDate.now(), mAddName.getText(),
-                date, mAddPhoneNum.getText(),
-                defaultPoint, mAddRemark.getText());
+        CustomerInfo customerInfo = new CustomerInfo();
 
         try {
-            memMngr.add(memberInfo);
+
+            int defaultPoint = 0;
+            int custId = memMngr.getNextID();
+            LocalDate joinCustDate = LocalDate.now();
+
+            // 생년월일 LocalDate로 변환
+            String dateStr = mAddBirthdayField.getText();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
+                    "yyyyMMdd");
+            LocalDate custBirthDate = LocalDate.parse(dateStr, formatter);
+
+            customerInfo.setValues(custId, joinCustDate, mAddNameTextField.getText(),
+                    custBirthDate, mAddPhoneNumTextField.getText(),
+                    defaultPoint, mAddRemark.getText());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            memMngr.add(customerInfo);
             System.out.println("add 완료");
         } catch (Exception e1) {
             e1.printStackTrace();
@@ -218,11 +261,11 @@ public class AddCustmerView extends View {
     // 테스트용 자동기입 메소드
     private void setTestCustValue() {
         try {
-            int nextNum = memMngr.getCount() + 1;
-            this.mAddId.setText("" + nextNum);
-            this.mAddName.setText("김철수");
-            this.mAddBirthday.setText("20001010");
-            this.mAddPhoneNum.setText("010-0000-0001");
+            int nextNum = memMngr.getNextID();
+            this.mAddIdTextField.setText("" + nextNum);
+            this.mAddNameTextField.setText("김철수");
+            this.mAddBirthdayField.setText("20001010");
+            this.mAddPhoneNumTextField.setText("010-0000-0001");
             this.mAddRemark.setText("test Custmer");
         } catch (Exception e) {
             e.printStackTrace();

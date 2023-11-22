@@ -5,11 +5,11 @@ import javax.swing.JLabel;
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
-public class UpdateProdStockView extends View {
+public class AdjustStockView extends View {
 
     JLabel mLabelInfo = new JLabel("재고 조정뷰 초기화면입니다");
 
-    public UpdateProdStockView() {
+    public AdjustStockView() {
         super(MainPage.VIEW_NUM_STOCK_UPDATE);
     }
 

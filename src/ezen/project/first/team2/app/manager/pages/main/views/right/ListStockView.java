@@ -9,11 +9,11 @@ import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
-public class ListProdStockView extends View {
+public class ListStockView extends View {
 
     JLabel mLabelInfo = new JLabel("재고 조회뷰 초기화면입니다");
 
-    public ListProdStockView() {
+    public ListStockView() {
         super(MainPage.VIEW_NUM_STOCK_LIST);
     }
 

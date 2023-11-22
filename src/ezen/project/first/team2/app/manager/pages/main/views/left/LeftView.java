@@ -19,27 +19,27 @@ import ezen.project.first.team2.app.manager.pages.main.views.MainView;
 public class LeftView extends View {
 
     // 상단 로고 라벨
-    JLabel mLabelLogo = new JLabel("##  Logo Title  ##");
+    JLabel mLabelLogo = new JLabel("## Management System ##");
     // 하단 조작 패널
     JPanel mCtrPanel = new JPanel();
     // 하단 패널 분할
 
     // 회원관리
-    JLabel mCustmorLabel = new JLabel("   ■ 회원 관리    ");
-    JButton mCustList = new JButton("   회원 조회    ");
-    JButton mCustAdd = new JButton("   회원 추가    ");
-    JButton mCustUpdate = new JButton("   회원 수정    ");
-    JButton mCustDelete = new JButton("   회원 삭제    ");
+    JLabel mCustmorLabel = new JLabel("　　　■ 고객 관리　　　");
+    JButton mCustList = new JButton("　　　고객 조회　　　");
+    JButton mCustAdd = new JButton("　　　고객 추가　　　");
+    JButton mCustUpdate = new JButton("　　　고객 수정　　　");
+    JButton mCustDelete = new JButton("　　　고객 삭제　　　");
     // 상품관리
-    JLabel mProductLabel = new JLabel("   ■ 상품 관리    ");
-    JButton mProdList = new JButton("   상품 조회    ");
-    JButton mProdAdd = new JButton("   상품 추가    ");
-    JButton mProdUpdate = new JButton("   상품 수정    ");
-    JButton mProdDelete = new JButton("   상품 삭제    ");
+    JLabel mProductLabel = new JLabel("　　　■ 상품 관리　　　");
+    JButton mProdList = new JButton("　　　상품 조회　　　");
+    JButton mProdAdd = new JButton("　　　상품 추가　　　");
+    JButton mProdUpdate = new JButton("　　　상품 수정　　　");
+    JButton mProdDelete = new JButton("　　　상품 삭제　　　");
     // 재고관리
-    JLabel mProdStockLabel = new JLabel("   ■ 재고 관리    ");
-    JButton mProdStockList = new JButton("   재고 조회    ");
-    JButton mProdStockUpdate = new JButton("   재고 조정    ");
+    JLabel mProdStockLabel = new JLabel("　　　■ 재고 관리　　　");
+    JButton mProdStockList = new JButton("　　　재고 조회　　　");
+    JButton mProdStockUpdate = new JButton("　　　재고 조정　　　");
 
     public LeftView() {
         super(MainPage.VIEW_NUM_LEFT);

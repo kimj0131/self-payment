@@ -14,9 +14,9 @@ import ezen.project.first.team2.app.manager.pages.main.views.left.LeftView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.AddCustmerView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.DeleteCustmerView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.ListCustmerView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.ListProdStockView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.ListStockView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.UpdateCustmerView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.UpdateProdStockView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.AdjustStockView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.RightDefaultView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.AddProductView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.DeleteProductView;
@@ -64,8 +64,8 @@ public class MainView extends DualView {
 			addView(new UpdateProductView());
 			addView(new DeleteProductView());
 
-			addView(new ListProdStockView());
-			addView(new UpdateProdStockView());
+			addView(new ListStockView());
+			addView(new AdjustStockView());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
