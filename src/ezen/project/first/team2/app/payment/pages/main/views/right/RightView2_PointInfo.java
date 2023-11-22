@@ -27,9 +27,9 @@ public class RightView2_PointInfo extends View {
 	int mEarnedPoints = 100;
 	int mAvailablePoints;
 
-	JTextArea mTextArea0 = new JTextArea();
-	JButton mUsePointButton = new JButton("포인트사용");
-	JButton mNotUsePointButton = new JButton("포인트사용안함");
+	JTextArea mPointInfo;
+	JButton mUsePointButton;
+	JButton mNotUsePointButton;
 
 	CustomerItem mCustomerItem;
 
@@ -40,6 +40,10 @@ public class RightView2_PointInfo extends View {
 	@Override
 	protected void onInit() {
 		setBackground(Color.DARK_GRAY);
+		
+		mPointInfo = new JTextArea();
+		mUsePointButton = new JButton("포인트사용");
+		mNotUsePointButton = new JButton("포인트사용안함");
 	}
 
 	@Override
@@ -51,8 +55,8 @@ public class RightView2_PointInfo extends View {
 
 	@Override
 	protected void onAddCtrls() {
-		mTextArea0.setEditable(false);
-		mTextArea0.setFocusable(false);
+		mPointInfo.setEditable(false);
+		mPointInfo.setFocusable(false);
 
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1.0;
@@ -61,7 +65,7 @@ public class RightView2_PointInfo extends View {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.gridwidth = 2;
-		this.add(mTextArea0, gbc);
+		this.add(mPointInfo, gbc);
 
 		gbc.weighty = 0.1;
 		gbc.gridx = 0;
@@ -101,7 +105,7 @@ public class RightView2_PointInfo extends View {
 		RightView1_CheckMember rightView = (RightView1_CheckMember) mainView
 				.getViewByNum(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
 		mCustomerItem = rightView.getCustomerItem();
-		mTextArea0.setText(String.format(TEXT_AREA_TEXT_FORMAT, mEarnedPoints, mCustomerItem.getPoint()));
+		mPointInfo.setText(String.format(TEXT_AREA_TEXT_FORMAT, mEarnedPoints, mCustomerItem.getPoint()));
 	}
 
 	@Override
@@ -111,7 +115,7 @@ public class RightView2_PointInfo extends View {
 	@Override
 	protected void onSetResources() {
 		Main main = (Main) this.getStatusManager();
-		mTextArea0.setFont(main.mFont0);
+		mPointInfo.setFont(main.mFont0);
 
 	}
 

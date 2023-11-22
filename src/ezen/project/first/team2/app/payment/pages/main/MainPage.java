@@ -9,6 +9,7 @@ package ezen.project.first.team2.app.payment.pages.main;
 import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.framework.Page;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
@@ -51,7 +52,13 @@ public class MainPage extends Page {
 	@Override
 	protected void onInit() {
 		super.onInit();
-
+		ProductManagerMem prodMngr = ProductManagerMem.getInstance();
+		try {
+			prodMngr.init();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	// 뷰 추가

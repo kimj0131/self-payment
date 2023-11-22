@@ -13,7 +13,7 @@ public class RightView3_Payment extends View {
 
 	private static final int PADDING = 10;
 
-	JButton mButton0 = new JButton("결제완료");
+	JButton mButton0;
 
 	public RightView3_Payment() {
 		super(MainPage.RIGHT_VIEW_PAYMENT_NUM);
@@ -22,6 +22,8 @@ public class RightView3_Payment extends View {
 	@Override
 	protected void onInit() {
 		setBackground(Color.DARK_GRAY);
+		
+		mButton0 = new JButton("결제완료");
 	}
 
 	@Override

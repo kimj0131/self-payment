@@ -31,6 +31,8 @@ public class LeftView0_OrderList extends View {
 		
 		mInfoMessage = new JLabel(INFO_MESSAGE_TEXT);
 		mSelfInputButton = new JButton(SELF_INPUT_TEXT);
+		
+		mSelfInputButton.setFocusable(false);
 	}
 
 	@Override

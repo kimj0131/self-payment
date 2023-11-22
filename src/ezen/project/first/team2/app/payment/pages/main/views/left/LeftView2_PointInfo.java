@@ -22,7 +22,6 @@ public class LeftView2_PointInfo extends View {
 	private static final String PREVIOUS_BUTTON_TEXT = "이전단계";
 	
 	String mMemberName;
-	String mTextFormat;
 	
 	JLabel mInfoMessage;
 	JButton mPreviousButton;
