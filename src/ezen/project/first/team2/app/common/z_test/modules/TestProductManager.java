@@ -51,8 +51,7 @@ public class TestProductManager {
 				printSection("상품 재고 리스트");
 				prodStocksMngr.iterate((item, idx) -> {
 					try {
-						var prodItem = prodMngr.findById(item.getProdId());
-						System.out.println("  " + item + " => " + prodItem.getName());
+						System.out.println("  " + item + " => " + item.getProdItem().getName());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

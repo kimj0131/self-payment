@@ -7,6 +7,8 @@
 package ezen.project.first.team2.app.common.modules.product.discounts;
 
 import ezen.project.first.team2.app.common.modules.base.ListItem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
 
 public class ProductDiscountItem extends ListItem {
 	// -------------------------------------------------------------------------
@@ -55,6 +57,14 @@ public class ProductDiscountItem extends ListItem {
 	// 할인 금액 얻기
 	public int getAmount() {
 		return this.mAmount;
+	}
+
+	//
+
+	// 상품 아이템 얻기
+	public ProductItem getProdItem() throws Exception {
+		var prodMngr = ProductManagerMem.getInstance();
+		return prodMngr.findById(this.getProdId());
 	}
 
 	// -------------------------------------------------------------------------

@@ -169,6 +169,7 @@ public class ProductItem extends ListItem {
 
 		return data;
 	}
+
 	// -------------------------------------------------------------------------
 
 	@Override

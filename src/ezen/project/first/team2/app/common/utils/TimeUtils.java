@@ -7,6 +7,7 @@
 package ezen.project.first.team2.app.common.utils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
@@ -105,6 +106,25 @@ public class TimeUtils {
 	}
 
 	public static String localDateToStr(LocalDate localDate) {
-		return localDateToStr(localDate, false);
+		return localDateToStr(localDate, true);
+	}
+
+	// return: "yyyy.mm.dd.ddd hh:mm:ss"
+	public static String localDateTimeToStr(LocalDateTime localDateTime, boolean weekday) {
+		final String[] WEEK_NAMES = { "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" };
+
+		String date = String.format("%04d.%02d.%02d",
+				localDateTime.getYear(), localDateTime.getMonthValue(), localDateTime.getDayOfMonth());
+		if (weekday)
+			date += "." + WEEK_NAMES[localDateTime.getDayOfWeek().getValue() - 1];
+
+		String time = String.format("%02d:%02d:%02d",
+				localDateTime.getHour(), localDateTime.getMinute(), localDateTime.getSecond());
+
+		return date + " " + time;
+	}
+
+	public static String localDateTimeToStr(LocalDateTime localDateTime) {
+		return localDateTimeToStr(localDateTime, true);
 	}
 }
