@@ -89,6 +89,7 @@ public class ListManagerMem<T extends ListItem> extends ListManager<T> {
 		int i = 0;
 		for (var info : this.mList) {
 			if (!iterator.onGetItem(info, i++))
+			//	System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
 				break;
 		}
 	}

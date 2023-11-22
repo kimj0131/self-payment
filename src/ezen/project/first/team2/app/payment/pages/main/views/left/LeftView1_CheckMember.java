@@ -15,11 +15,12 @@ import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 public class LeftView1_CheckMember extends View {
 	private static final int PADDING = 10;
 
+	private static final String INFO_MESSAGE_TEXT = "<html>회원인 경우<br>휴대폰 번호를<br>입력해주세요</html>";
 	private static final String PREVIOUS_BUTTON_TEXT = "이전단계";
 
-	JLabel mLabel0 = new JLabel("<html>회원인 경우<br>휴대폰 번호를<br>입력해주세요</html>");
-	JButton mPreviousButton = new JButton();
-
+	JLabel mInfoMessage;
+	JButton mPreviousButton;
+	
 	public LeftView1_CheckMember() {
 		super(MainPage.LEFT_VIEW_CHECK_MEMBER_NUM);
 	}
@@ -27,6 +28,9 @@ public class LeftView1_CheckMember extends View {
 	@Override
 	protected void onInit() {
 		setBackground(Color.GRAY);
+		
+		mInfoMessage = new JLabel(INFO_MESSAGE_TEXT);
+		mPreviousButton = new JButton(PREVIOUS_BUTTON_TEXT);
 	}
 
 	@Override
@@ -38,10 +42,8 @@ public class LeftView1_CheckMember extends View {
 
 	@Override
 	protected void onAddCtrls() {
-		this.add(this.mLabel0);
-
-		mPreviousButton.setText(PREVIOUS_BUTTON_TEXT);
-		this.add(mPreviousButton);
+		this.add(this.mInfoMessage);
+		this.add(this.mPreviousButton);
 	}
 
 	@Override
@@ -68,6 +70,6 @@ public class LeftView1_CheckMember extends View {
 	@Override
 	protected void onSetResources() {
 		Main main = (Main) this.getStatusManager();
-		mLabel0.setFont(main.mFont0);
+		mInfoMessage.setFont(main.mFont0);
 	}
 }
