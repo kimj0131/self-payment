@@ -12,8 +12,7 @@ public class ProductOrderDetailItem {
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	ProductOrderDetailItem() {
-		//
+	public ProductOrderDetailItem() {
 	}
 
 	// -------------------------------------------------------------------------

@@ -20,16 +20,16 @@ public class ProductManagerMem extends ListManagerMem<ProductItem>
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	ProductManagerMem() {
+	private ProductManagerMem() {
 	}
 
 	// 인스턴스 얻기
 	public static ProductManagerMem getInstance() {
-		if (ProductManagerMem.mInstance == null) {
-			ProductManagerMem.mInstance = new ProductManagerMem();
+		if (mInstance == null) {
+			mInstance = new ProductManagerMem();
 		}
 
-		return ProductManagerMem.mInstance;
+		return mInstance;
 	}
 
 	// -------------------------------------------------------------------------

@@ -30,11 +30,11 @@ public class ProductItem extends ListItem {
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	ProductItem() {
+	public ProductItem() {
 	}
 
 	// 생성자
-	ProductItem(int id, ProductCode prodCode, LocalDate regDate, String name,
+	public ProductItem(int id, ProductCode prodCode, LocalDate regDate, String name,
 			int price, String desc) {
 		this.setValues(id, prodCode, regDate, name, price, desc);
 	}

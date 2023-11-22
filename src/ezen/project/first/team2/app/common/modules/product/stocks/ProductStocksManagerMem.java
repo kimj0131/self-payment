@@ -12,8 +12,7 @@ public class ProductStocksManagerMem {
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	ProductStocksManagerMem() {
-		//
+	private ProductStocksManagerMem() {
 	}
 
 	// -------------------------------------------------------------------------

@@ -12,8 +12,7 @@ public class ProductOrdersManagerMem {
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	ProductOrdersManagerMem() {
-		//
+	private ProductOrdersManagerMem() {
 	}
 
 	// -------------------------------------------------------------------------

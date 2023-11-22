@@ -19,15 +19,17 @@ public class CustomerManagerMem extends ListManagerMem<CustomerItem>
 
 	// -------------------------------------------------------------------------
 
+	// 생성자
 	private CustomerManagerMem() {
 	}
 
+	// 인스턴스 얻기
 	public static CustomerManagerMem getInstance() {
-		if (CustomerManagerMem.mInstance == null) {
-			CustomerManagerMem.mInstance = new CustomerManagerMem();
+		if (mInstance == null) {
+			mInstance = new CustomerManagerMem();
 		}
 
-		return CustomerManagerMem.mInstance;
+		return mInstance;
 	}
 
 	// -------------------------------------------------------------------------
@@ -51,15 +53,15 @@ public class CustomerManagerMem extends ListManagerMem<CustomerItem>
 
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
-	protected String onAdd(CustomerItem info) throws Exception {
-		if (this.findByPhoneNumber(info.getPhoneNumber()) != null) {
+	protected String onAdd(CustomerItem item) throws Exception {
+		if (this.findByPhoneNumber(item.getPhoneNumber()) != null) {
 			String msg = String.format("[CustomerManagerMem.onAdd()]" +
-					" You have same phone number(%s)!", info.getPhoneNumber());
+					" You have same phone number(%s)!", item.getPhoneNumber());
 
 			return msg;
 		}
 
-		return super.onAdd(info);
+		return super.onAdd(item);
 	}
 
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
