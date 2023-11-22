@@ -6,7 +6,7 @@
 
 package ezen.project.first.team2.app.common.modules.base;
 
-public class ListItem {
+public class ListItem implements Cloneable {
 	// -------------------------------------------------------------------------
 
 	// 기본 값은 -1이며, ListManager.add()에서 내부적으로 this.getNextID()를
@@ -30,6 +30,13 @@ public class ListItem {
 	// ID 얻기
 	public int getId() {
 		return this.mId;
+	}
+
+	// -------------------------------------------------------------------------
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 
 	// -------------------------------------------------------------------------

@@ -27,25 +27,4 @@ public class ProductDiscountsManagerMem extends ListManagerMem<ProductDiscountIt
 
 		return mInstance;
 	}
-
-	// -------------------------------------------------------------------------
-
-	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
-	@Override
-	protected String onAdd(ProductDiscountItem item) throws Exception {
-		return super.onAdd(item);
-	}
-
-	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
-	@Override
-	protected String onUpdateById(int id, ProductDiscountItem item) throws Exception {
-		return super.onUpdateById(id, item);
-	}
-
-	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
-	@Override
-	protected String onDeleteById(int id) throws Exception {
-		return super.onDeleteById(id);
-	}
-
 }

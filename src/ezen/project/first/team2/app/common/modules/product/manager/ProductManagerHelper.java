@@ -9,7 +9,7 @@ package ezen.project.first.team2.app.common.modules.product.manager;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface ProductManagerFind {
+public interface ProductManagerHelper {
 	public ProductItem findByProductCode(ProductCode prodCode) throws Exception;
 
 	public List<ProductItem> findByRegDate(LocalDate date) throws Exception;

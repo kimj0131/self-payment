@@ -3,9 +3,15 @@ package ezen.project.first.team2.app.common.z_test.modules;
 import java.time.LocalDate;
 import java.util.List;
 
+import ezen.project.first.team2.app.common.modules.base.ListActionListener;
+import ezen.project.first.team2.app.common.modules.base.ListManager;
+import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountItem;
+import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManagerMem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStockItem;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
 
 public class TestProductManager {
 	static void printTitle(String text) {
@@ -22,15 +28,57 @@ public class TestProductManager {
 		System.out.println();
 	}
 
-	static void printList(ProductManagerMem mngr) {
-		printSection("상품 리스트");
+	static void printList() {
+		var prodMngr = ProductManagerMem.getInstance();
+		var prodStocksMngr = ProductStocksManagerMem.getInstance();
+		var prodDiscntsMngr = ProductDiscountsManagerMem.getInstance();
 
 		try {
-			mngr.iterate((info, idx) -> {
-				System.out.println("  " + info);
+			// 상품 리스트
+			{
+				printSection("상품 리스트");
+				prodMngr.iterate((item, idx) -> {
+					System.out.println("  " + item);
 
-				return true;
-			});
+					return true;
+				});
+
+				System.out.println();
+			}
+
+			// 상품 재고 리스트
+			{
+				printSection("상품 재고 리스트");
+				prodStocksMngr.iterate((item, idx) -> {
+					try {
+						var prodItem = prodMngr.findById(item.getProdId());
+						System.out.println("  " + item + " => " + prodItem.getName());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					return true;
+				});
+
+				System.out.println();
+			}
+
+			// 상품 할인 리스트
+			{
+				printSection("상품 할인 리스트");
+				prodDiscntsMngr.iterate((item, idx) -> {
+					try {
+						var prodItem = prodMngr.findById(item.getProdId());
+						System.out.println("  " + item + " => " + prodItem.getName());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					return true;
+				});
+
+				System.out.println();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -39,10 +87,62 @@ public class TestProductManager {
 	}
 
 	public static void main(String[] args) {
-		ProductManagerMem prodMngr = ProductManagerMem.getInstance();
+		var prodMngr = ProductManagerMem.getInstance();
+		var prodStocksMngr = ProductStocksManagerMem.getInstance();
+		var prodDiscntsMngr = ProductDiscountsManagerMem.getInstance();
+
 		try {
+			prodMngr.setActionListener(new ListActionListener<ProductItem>() {
+
+				@Override
+				public void onInitialized(ListManager<ProductItem> mngr) {
+					System.out.println("[TestProductManagerMem] onInitialized()");
+				}
+
+				@Override
+				public void onDeinitializing(ListManager<ProductItem> mngr) {
+					System.out.println("[TestProductManagerMem] onDeinitializing()");
+				}
+
+				@Override
+				public void onAdded(ListManager<ProductItem> mngr, ProductItem item) {
+					System.out.println("[TestProductManagerMem] onAdded()");
+					System.out.println("  -> item: " + item);
+					System.out.println();
+
+					try {
+						// 상품 재고 관리자 객체에 상품 추가
+						prodStocksMngr.add(new ProductStockItem(item.getId()));
+
+						// 상품 할인 관리자 객체에 상품 추가
+						prodDiscntsMngr.add(new ProductDiscountItem(item.getId()));
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+
+				@Override
+				public void onUpdated(ListManager<ProductItem> mngr, ProductItem oldItem, ProductItem newItem) {
+					System.out.println("[TestProductManagerMem] onUpdated()");
+					System.out.println("  -> oldItem: " + oldItem);
+					System.out.println("  -> newItem: " + newItem);
+					System.out.println();
+				}
+
+				@Override
+				public void onDeleted(ListManager<ProductItem> mngr, ProductItem item) {
+					System.out.println("[TestProductManagerMem] onDeleted()");
+					System.out.println("  -> item: " + item);
+					System.out.println();
+				}
+
+			});
+
 			//
 			prodMngr.init();
+			prodStocksMngr.init();
+			prodDiscntsMngr.init();
 			//
 
 			// 상품 추가
@@ -56,33 +156,31 @@ public class TestProductManager {
 
 				// for (var i2 : ProductInfo.getPredefinedProductData()) {
 				// prodMngr.add(i2);
-				// System.out.println(" - " + i2.toString());
+				// //System.out.println(" - " + i2.toString());
 				// }
 
 				for (int i = 0; i < 5; i++) {
 					var i2 = ProductItem.getPredefinedProductData()[i];
 					prodMngr.add(i2);
-					System.out.println("  - " + i2.toString());
+					// System.out.println(" - " + i2.toString());
 				}
 
 				System.out.println();
 
-				printList(prodMngr);
+				printList();
 			}
 
 			// 상품 수정
 			{
 				printTitle("상품 수정");
 
-				var pi = prodMngr.findById(0);
-				System.out.println(pi);
-				pi.setName("아몬드 빼배로");
-
-				prodMngr.updateById(pi.getId(), pi);
+				var pi = new ProductItem(-1, null, LocalDate.of(2023, 1, 1),
+						"과자이름", 1500, "새로운 과자");
+				prodMngr.updateById(0, pi);
 
 				System.out.println();
 
-				printList(prodMngr);
+				printList();
 			}
 
 			// 상품 삭제
@@ -94,14 +192,14 @@ public class TestProductManager {
 				prodMngr.deleteById(pi.getId());
 
 				System.out.println();
-				printList(prodMngr);
+				printList();
 			}
 
 			// 상품 조회
 			{
 				printTitle("상품 조회");
 
-				printList(prodMngr);
+				printList();
 
 				ProductItem pi = null;
 				List<ProductItem> piList = null;

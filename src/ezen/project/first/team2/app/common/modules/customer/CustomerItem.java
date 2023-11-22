@@ -43,10 +43,13 @@ public class CustomerItem extends ListItem {
 
 	// -------------------------------------------------------------------------
 
-	// 개별 값으로 값 설정
+	// 개별 값으로 값 설정. id=-1인 경우 업데이트 안 함.
 	public void setValues(int id, LocalDate joinDate, String name,
 			LocalDate birthday, String phoneNum, int point, String remark) {
-		this.mId = id;
+		if (id > -1)
+			this.mId = id;
+
+		this.mJoinDate = joinDate;
 		this.mName = name;
 		this.mBirthday = birthday;
 		this.mPhoneNumber = phoneNum;
@@ -167,6 +170,12 @@ public class CustomerItem extends ListItem {
 				this.getId(), this.getJoinDateStr(), this.getName(), this.getBirthdayStr(),
 				this.getPhoneNumber(), this.getPoint(), this.getRemark());
 		return s;
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return new CustomerItem(mId, mJoinDate, mName, mBirthday, mPhoneNumber,
+				mPoint, mRemark);
 	}
 
 	@Override

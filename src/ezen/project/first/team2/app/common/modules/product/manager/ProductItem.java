@@ -16,7 +16,7 @@ public class ProductItem extends ListItem {
 
 	// 상품 ID.
 	// private int mProdId = 0;
-	// 상품 코드
+	// 상품 코드. 한번 설정 후 변경하면 안 된다.
 	private ProductCode mProdCode = null;
 	// 등록일
 	private LocalDate mRegDate = LocalDate.now();
@@ -183,7 +183,7 @@ public class ProductItem extends ListItem {
 	@Override
 	protected void onSetValuesFrom(ListItem item) {
 		ProductItem pi = (ProductItem) item;
-		pi.setValues(pi.getId(), pi.getProdCode(), pi.getRegDate(),
+		this.setValues(pi.getId(), pi.getProdCode(), pi.getRegDate(),
 				pi.getName(), pi.getPrice(), pi.getDesc());
 	}
 }

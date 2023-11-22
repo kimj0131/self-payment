@@ -12,7 +12,7 @@ import java.util.List;
 import ezen.project.first.team2.app.common.modules.base.ListManagerMem;
 
 public class CustomerManagerMem extends ListManagerMem<CustomerItem>
-		implements CustomerManagerFind {
+		implements CustomerManagerHelper {
 	// -------------------------------------------------------------------------
 
 	private static CustomerManagerMem mInstance = null;
@@ -66,8 +66,9 @@ public class CustomerManagerMem extends ListManagerMem<CustomerItem>
 
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
-	protected String onUpdateById(int id, CustomerItem info) throws Exception {
-		return super.onUpdateById(id, info);
+	protected String onUpdateById(int id,
+			CustomerItem oldItem, CustomerItem newItem) throws Exception {
+		return super.onUpdateById(id, oldItem, newItem);
 	}
 
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
