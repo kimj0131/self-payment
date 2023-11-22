@@ -9,7 +9,7 @@ package ezen.project.first.team2.app.common.modules.customer;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface CustomerManager {
+public interface CustomerManagerFind {
 	public CustomerItem findByName(String name) throws Exception;
 
 	public List<CustomerItem> findByBirthday(LocalDate date) throws Exception;

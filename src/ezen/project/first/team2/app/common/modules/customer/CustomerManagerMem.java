@@ -12,7 +12,7 @@ import java.util.List;
 import ezen.project.first.team2.app.common.modules.base.ListManagerMem;
 
 public class CustomerManagerMem extends ListManagerMem<CustomerItem>
-		implements CustomerManager {
+		implements CustomerManagerFind {
 	// -------------------------------------------------------------------------
 
 	private static CustomerManagerMem mInstance = null;

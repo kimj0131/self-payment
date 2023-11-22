@@ -4,12 +4,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common.modules.product;
+package ezen.project.first.team2.app.common.modules.product.manager;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public interface ProductManager {
+public interface ProductManagerFind {
 	public ProductItem findByProductCode(ProductCode prodCode) throws Exception;
 
 	public List<ProductItem> findByRegDate(LocalDate date) throws Exception;

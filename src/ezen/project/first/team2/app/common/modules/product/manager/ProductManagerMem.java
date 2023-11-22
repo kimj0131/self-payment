@@ -4,7 +4,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common.modules.product;
+package ezen.project.first.team2.app.common.modules.product.manager;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 import ezen.project.first.team2.app.common.modules.base.ListManagerMem;
 
 public class ProductManagerMem extends ListManagerMem<ProductItem>
-		implements ProductManager {
+		implements ProductManagerFind {
 	// -------------------------------------------------------------------------
 
 	private static ProductManagerMem mInstance = null;

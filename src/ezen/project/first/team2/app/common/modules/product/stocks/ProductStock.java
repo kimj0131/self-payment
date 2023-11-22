@@ -4,15 +4,15 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common.modules.product;
+package ezen.project.first.team2.app.common.modules.product.stocks;
 
-public class ProductDiscount {
+public class ProductStock {
 	// -------------------------------------------------------------------------
 
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	ProductDiscount() {
+	ProductStock() {
 		//
 	}
 

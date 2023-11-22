@@ -3,9 +3,9 @@ package ezen.project.first.team2.app.common.z_test.modules;
 import java.time.LocalDate;
 import java.util.List;
 
-import ezen.project.first.team2.app.common.modules.product.ProductCode;
-import ezen.project.first.team2.app.common.modules.product.ProductItem;
-import ezen.project.first.team2.app.common.modules.product.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
 
 public class TestProductManager {
 	static void printTitle(String text) {

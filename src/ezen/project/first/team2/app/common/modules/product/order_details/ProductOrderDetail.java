@@ -4,15 +4,15 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common.modules.product;
+package ezen.project.first.team2.app.common.modules.product.order_details;
 
-public class ProductOrderDetails {
+public class ProductOrderDetail {
 	// -------------------------------------------------------------------------
 
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	ProductOrderDetails() {
+	ProductOrderDetail() {
 		//
 	}
 
