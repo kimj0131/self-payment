@@ -11,6 +11,8 @@ import java.awt.Dimension;
 import ezen.project.first.team2.app.common.framework.Page;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.views.MainView;
 
@@ -20,7 +22,7 @@ public class MainPage extends Page {
 	// 페이지 정보 상수 정의
 
 	public static final String TITLE = "관리 프로그램";
-	public static final Dimension SIZE = new Dimension(960, 540);
+	public static final Dimension SIZE = new Dimension(1280, 720);
 
 	public static final int VIEW_NUM_MAIN = 0;
 
@@ -39,7 +41,9 @@ public class MainPage extends Page {
 	public static final int VIEW_NUM_PROD_DELETE = 224;
 	// 재고
 	public static final int VIEW_NUM_STOCK_LIST = 231;
-	public static final int VIEW_NUM_STOCK_UPDATE = 232;
+	public static final int VIEW_NUM_STOCK_ADJUST = 232;
+	// 할인
+	public static final int VIEW_NUM_DISCOUNT_ADJUST = 241;
 	// -------------------------------------------------------------------------
 
 	//
@@ -63,17 +67,27 @@ public class MainPage extends Page {
 	protected void onInit() {
 		super.onInit();
 
+		// 고객 더미데이터
 		try {
 			CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
 			custMngr.init();
 
-			try {
-				for (var ci : CustomerItem.getPredefinedData()) {
-					custMngr.add(ci);
-					System.out.println(", " + ci.getName());
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			for (var ci : CustomerItem.getPredefinedData()) {
+				custMngr.add(ci);
+				System.out.println(", " + ci.getName());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// 상품 더미데이터
+		try {
+			ProductManagerMem prodMngr = ProductManagerMem.getInstance();
+			prodMngr.init();
+
+			for (var di : ProductItem.getPredefinedProductData()) {
+				prodMngr.add(di);
+				System.out.println(", " + di.getName());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

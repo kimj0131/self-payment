@@ -20,10 +20,10 @@ public class ListCustmerView extends View {
 
     JLabel mLabelInfo = new JLabel("고객 조회뷰 초기화면입니다");
 
-    // 고객 리스트를 테이블로 출력
-    JTable mCustLisTable;
-    // 고객리스트를 출력할 패널생성
-    JPanel mPanelAttributeList = new JPanel();
+    // 고객리스트를 넣을 패널생성
+    JPanel mPanelCustList = new JPanel();
+    // 고객리스트 테이블
+    JTable mTableCustList;
     // 스크롤 삽입
     JScrollPane mScroll;
 
@@ -36,7 +36,8 @@ public class ListCustmerView extends View {
 
         try {
             Object[] mAttributesColumn = {
-                    "고객번호", "가입일", "고객명", "생년월일", "전화번호", "비고" };
+                    "고객번호", "가입일", "고객명", "생년월일", "전화번호", "비고"
+            };
             Object[][] mCustListRows = new Object[mAttributesColumn.length][custMngr.getCount()];
 
             DefaultTableModel model = new DefaultTableModel(mCustListRows, mAttributesColumn) {
@@ -47,7 +48,7 @@ public class ListCustmerView extends View {
                 }
             };
 
-            mCustLisTable = new JTable(model);
+            mTableCustList = new JTable(model);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,32 +58,27 @@ public class ListCustmerView extends View {
     @Override
     protected void onSetLayout() {
         this.setLayout(new BorderLayout());
-        this.mPanelAttributeList.setLayout(new BorderLayout());
+        this.mPanelCustList.setLayout(new BorderLayout());
     }
 
     @Override
     protected void onAddCtrls() {
 
         // 열 이동불가
-        this.mCustLisTable.getTableHeader().setReorderingAllowed(false);
-        // 열 크기조절불가
-        // this.mCustLisTable.getTableHeader().setResizingAllowed(false);
+        this.mTableCustList.getTableHeader().setReorderingAllowed(false);
+
         this.mLabelInfo.setOpaque(true);
         this.mLabelInfo.setBackground(Color.LIGHT_GRAY);
         this.mLabelInfo.setHorizontalAlignment(JLabel.CENTER);
 
-        this.mScroll = new JScrollPane(mCustLisTable);
+        this.mScroll = new JScrollPane(mTableCustList);
         this.mScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        // this.mAttributes.setBorder(
-        // BorderFactory.createEmptyBorder(0, 30, 0, 30));
-
         this.mScroll.setBorder(
                 BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
         this.add(mLabelInfo, BorderLayout.NORTH);
-        this.add(mPanelAttributeList, BorderLayout.CENTER);
-        this.mPanelAttributeList.add(mScroll, BorderLayout.CENTER);
+        this.add(mPanelCustList, BorderLayout.CENTER);
+        this.mPanelCustList.add(mScroll, BorderLayout.CENTER);
     }
 
     @Override
@@ -94,22 +90,15 @@ public class ListCustmerView extends View {
     protected void onShow(boolean firstTime) {
         System.out.println("[ListCustmerView.onShow()]");
 
-        CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
-
-        DefaultTableModel m = (DefaultTableModel) mCustLisTable.getModel();
+        DefaultTableModel m = (DefaultTableModel) mTableCustList.getModel();
         m.setRowCount(0);
         try {
             custMngr.iterate((info, idx) -> {
-                try {
-
-                    // m.insertRow(idx, new Object[] { info.getId(), info.getJoinDate(),
-                    m.addRow(new Object[] { info.getId(), info.getJoinDate(),
-                            info.getName(), info.getBirthday(),
-                            info.getPhoneNumber(), info.getRemark() });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                m.addRow(new Object[] {
+                        info.getId(), info.getJoinDate(),
+                        info.getName(), info.getBirthday(),
+                        info.getPhoneNumber(), info.getRemark()
+                });
 
                 return true;
             });
@@ -117,12 +106,9 @@ public class ListCustmerView extends View {
             e.printStackTrace();
         }
 
-        mCustLisTable.updateUI();
+        mTableCustList.updateUI();
 
     }
-    // mCustmerList.append(String.format("%06d\t%s\t%s\t%s\t%s\t %s\n",
-    // info.getId(), info.getJoinDate(), info.getName(),
-    // info.getBirthday(), info.getPhoneNumber(), info.getRemark()));
 
     @Override
     protected void onHide() {
@@ -135,7 +121,6 @@ public class ListCustmerView extends View {
 
         JLabel lb = (JLabel) this.getComponents()[0];
         lb.setFont(main.mFont2);
-
     }
 
 }

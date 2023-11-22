@@ -21,25 +21,28 @@ public class LeftView extends View {
     // 상단 로고 라벨
     JLabel mLabelLogo = new JLabel("## Management System ##");
     // 하단 조작 패널
-    JPanel mCtrPanel = new JPanel();
+    JPanel mPanelCtr = new JPanel();
     // 하단 패널 분할
 
     // 회원관리
-    JLabel mCustmorLabel = new JLabel("　　　■ 고객 관리　　　");
-    JButton mCustList = new JButton("　　　고객 조회　　　");
-    JButton mCustAdd = new JButton("　　　고객 추가　　　");
-    JButton mCustUpdate = new JButton("　　　고객 수정　　　");
-    JButton mCustDelete = new JButton("　　　고객 삭제　　　");
+    JLabel mLabelCustManage = new JLabel("　　■ 고객 관리");
+    JButton mBtnCustList = new JButton("　　　고객 조회　　　");
+    JButton mBtnCustAdd = new JButton("　　　고객 추가　　　");
+    JButton mBtnCustUpdate = new JButton("　　　고객 수정　　　");
+    JButton mBtnCustDelete = new JButton("　　　고객 삭제　　　");
     // 상품관리
-    JLabel mProductLabel = new JLabel("　　　■ 상품 관리　　　");
-    JButton mProdList = new JButton("　　　상품 조회　　　");
-    JButton mProdAdd = new JButton("　　　상품 추가　　　");
-    JButton mProdUpdate = new JButton("　　　상품 수정　　　");
-    JButton mProdDelete = new JButton("　　　상품 삭제　　　");
+    JLabel mLabelProductManage = new JLabel("　　■ 상품 관리");
+    JButton mBtnProdList = new JButton("　　　상품 조회　　　");
+    JButton mBtnProdAdd = new JButton("　　　상품 추가　　　");
+    JButton mBtnProdUpdate = new JButton("　　　상품 수정　　　");
+    JButton mBtnProdDelete = new JButton("　　　상품 삭제　　　");
     // 재고관리
-    JLabel mProdStockLabel = new JLabel("　　　■ 재고 관리　　　");
-    JButton mProdStockList = new JButton("　　　재고 조회　　　");
-    JButton mProdStockUpdate = new JButton("　　　재고 조정　　　");
+    JLabel mLabelProdStockManage = new JLabel("　　■ 상품 재고 관리");
+    JButton mBtnProdStockList = new JButton("　　　재고 조회　　　");
+    JButton mBtnProdStockAdjust = new JButton("　　　재고 조정　　　");
+    // 할인등록
+    JLabel mLabelDiscountManage = new JLabel("　　■ 상품 할인");
+    JButton mBtnDiscountAdjust = new JButton("　상품 할인금액 조정　");
 
     public LeftView() {
         super(MainPage.VIEW_NUM_LEFT);
@@ -48,45 +51,50 @@ public class LeftView extends View {
     @Override
     protected void onInit() {
         // this.setBackground(Color.DARK_GRAY);
-        this.mCtrPanel.setBackground(Color.LIGHT_GRAY);
+        this.mPanelCtr.setBackground(Color.LIGHT_GRAY);
     }
 
     @Override
     protected void onSetLayout() {
         this.setLayout(new BorderLayout());
-        this.mCtrPanel.setLayout(new BoxLayout(mCtrPanel, BoxLayout.PAGE_AXIS));
-        // this.mCtrPanel.setLayout(new GridLayout(10, 1));
+        this.mPanelCtr.setLayout(new BoxLayout(mPanelCtr, BoxLayout.PAGE_AXIS));
+        // this.mPanelCtr.setLayout(new GridLayout(10, 1));
     }
 
     @Override
     protected void onAddCtrls() {
         // 컴포넌트 가운데 정렬
-        this.mCustmorLabel.setHorizontalAlignment(JLabel.CENTER);
-        this.mCustList.setHorizontalAlignment(JButton.CENTER);
+        this.mLabelCustManage.setHorizontalAlignment(JLabel.CENTER);
+        this.mBtnCustList.setHorizontalAlignment(JButton.CENTER);
 
         this.add(mLabelLogo, BorderLayout.NORTH);
-        this.add(mCtrPanel, BorderLayout.CENTER);
+        this.add(mPanelCtr, BorderLayout.CENTER);
 
         // 회원
-        this.mCtrPanel.add(mCustmorLabel);
-        this.mCtrPanel.add(mCustList);
-        this.mCtrPanel.add(mCustAdd);
-        this.mCtrPanel.add(mCustUpdate);
-        this.mCtrPanel.add(mCustDelete);
+        this.mPanelCtr.add(mLabelCustManage);
+        this.mPanelCtr.add(mBtnCustList);
+        this.mPanelCtr.add(mBtnCustAdd);
+        this.mPanelCtr.add(mBtnCustUpdate);
+        this.mPanelCtr.add(mBtnCustDelete);
         // 여백삽입 (박스레이아웃)
-        this.mCtrPanel.add(Box.createVerticalStrut(50));
+        this.mPanelCtr.add(Box.createVerticalStrut(30));
         // 상품
-        this.mCtrPanel.add(mProductLabel);
-        this.mCtrPanel.add(mProdList);
-        this.mCtrPanel.add(mProdAdd);
-        this.mCtrPanel.add(mProdUpdate);
-        this.mCtrPanel.add(mProdDelete);
+        this.mPanelCtr.add(mLabelProductManage);
+        this.mPanelCtr.add(mBtnProdList);
+        this.mPanelCtr.add(mBtnProdAdd);
+        this.mPanelCtr.add(mBtnProdUpdate);
+        this.mPanelCtr.add(mBtnProdDelete);
         // 여백삽입
-        this.mCtrPanel.add(Box.createVerticalStrut(50));
+        this.mPanelCtr.add(Box.createVerticalStrut(30));
         // 재고
-        this.mCtrPanel.add(mProdStockLabel);
-        this.mCtrPanel.add(mProdStockList);
-        this.mCtrPanel.add(mProdStockUpdate);
+        this.mPanelCtr.add(mLabelProdStockManage);
+        this.mPanelCtr.add(mBtnProdStockList);
+        this.mPanelCtr.add(mBtnProdStockAdjust);
+        // 여백
+        this.mPanelCtr.add(Box.createVerticalStrut(30));
+        // 할인
+        this.mPanelCtr.add(mLabelDiscountManage);
+        this.mPanelCtr.add(mBtnDiscountAdjust);
     }
 
     @Override
@@ -96,42 +104,45 @@ public class LeftView extends View {
                 MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 
                 JButton btn = (JButton) e.getSource();
-                if (btn == this.mCustList) {
+                if (btn == this.mBtnCustList) {
                     mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_CUST_LIST);
-                } else if (btn == this.mCustAdd) {
+                } else if (btn == this.mBtnCustAdd) {
                     mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_CUST_ADD);
-                } else if (btn == this.mCustUpdate) {
+                } else if (btn == this.mBtnCustUpdate) {
                     mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_CUST_UPDATE);
-                } else if (btn == this.mCustDelete) {
+                } else if (btn == this.mBtnCustDelete) {
                     mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_CUST_DELETE);
-                } else if (btn == this.mProdList) {
+                } else if (btn == this.mBtnProdList) {
                     mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_PROD_LIST);
-                } else if (btn == this.mProdAdd) {
+                } else if (btn == this.mBtnProdAdd) {
                     mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_PROD_ADD);
-                } else if (btn == this.mProdUpdate) {
+                } else if (btn == this.mBtnProdUpdate) {
                     mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_PROD_UPDATE);
-                } else if (btn == this.mProdDelete) {
+                } else if (btn == this.mBtnProdDelete) {
                     mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_PROD_DELETE);
-                } else if (btn == this.mProdStockList) {
+                } else if (btn == this.mBtnProdStockList) {
                     mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_STOCK_LIST);
-                } else if (btn == this.mProdStockUpdate) {
-                    mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_STOCK_UPDATE);
+                } else if (btn == this.mBtnProdStockAdjust) {
+                    mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_STOCK_ADJUST);
+                } else if (btn == this.mBtnDiscountAdjust) {
+                    mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_DISCOUNT_ADJUST);
                 }
 
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         };
-        this.mCustList.addActionListener(listener);
-        this.mCustAdd.addActionListener(listener);
-        this.mCustUpdate.addActionListener(listener);
-        this.mCustDelete.addActionListener(listener);
-        this.mProdList.addActionListener(listener);
-        this.mProdAdd.addActionListener(listener);
-        this.mProdUpdate.addActionListener(listener);
-        this.mProdDelete.addActionListener(listener);
-        this.mProdStockList.addActionListener(listener);
-        this.mProdStockUpdate.addActionListener(listener);
+        this.mBtnCustList.addActionListener(listener);
+        this.mBtnCustAdd.addActionListener(listener);
+        this.mBtnCustUpdate.addActionListener(listener);
+        this.mBtnCustDelete.addActionListener(listener);
+        this.mBtnProdList.addActionListener(listener);
+        this.mBtnProdAdd.addActionListener(listener);
+        this.mBtnProdUpdate.addActionListener(listener);
+        this.mBtnProdDelete.addActionListener(listener);
+        this.mBtnProdStockList.addActionListener(listener);
+        this.mBtnProdStockAdjust.addActionListener(listener);
+        this.mBtnDiscountAdjust.addActionListener(listener);
     }
 
     @Override
@@ -150,8 +161,8 @@ public class LeftView extends View {
         JLabel lb = (JLabel) this.getComponents()[0];
         lb.setFont(main.mFont2);
 
-        for (int i = 0; i < this.mCtrPanel.getComponents().length; i++) {
-            JComponent lb2 = (JComponent) this.mCtrPanel.getComponents()[i];
+        for (int i = 0; i < this.mPanelCtr.getComponents().length; i++) {
+            JComponent lb2 = (JComponent) this.mPanelCtr.getComponents()[i];
             lb2.setFont(main.mFont2);
         }
 

@@ -5,12 +5,12 @@ import javax.swing.JLabel;
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
-public class AdjustStockView extends View {
+public class AdjustDiscountView extends View {
 
-    JLabel mLabelInfo = new JLabel("재고 조정뷰 초기화면입니다");
+    JLabel mLabelInfo = new JLabel("할인금액 조정뷰 초기화면입니다");
 
-    public AdjustStockView() {
-        super(MainPage.VIEW_NUM_STOCK_ADJUST);
+    public AdjustDiscountView() {
+        super(MainPage.VIEW_NUM_DISCOUNT_ADJUST);
     }
 
     @Override
@@ -36,11 +36,11 @@ public class AdjustStockView extends View {
 
     @Override
     protected void onShow(boolean firstTime) {
-        System.out.println("[AdjustStockView.onShow()]");
+        System.out.println("[AdjustDiscountView.onShow()]");
     }
 
     @Override
     protected void onHide() {
-        System.out.println("[AdjustStockView.onHide()]");
+        System.out.println("[AdjustDiscountView.onHide()]");
     }
 }
