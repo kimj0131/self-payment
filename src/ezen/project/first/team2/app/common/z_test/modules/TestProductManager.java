@@ -188,8 +188,6 @@ public class TestProductManager {
 
 				for (int i = 0; i < 5; i++) {
 					var i2 = ProductItem.getPredefinedProductData()[i];
-					prodMngr.add(i2);
-
 					// System.out.println(" - " + i2.toString());
 				}
 
@@ -316,15 +314,15 @@ public class TestProductManager {
 				}
 
 				// 회원 관련 처리 => 휴대폰 번호(findByPhoneNumber)로 CustomerItem 객체 획득
-				var ci0000 = custMngr.findByPhoneNumber("010-0000-8086");
-				if (ci0000 != null) {
+				var ci = custMngr.findByPhoneNumber("010-0000-8086");
+				if (ci != null) {
 					custMngr.add(CustomerItem.getPredefinedData()[0]);
 
 					System.out.println("=> 고객 : " + ci);
 					System.out.println();
 
 					// 고객 설정
-					poi.setCustId(ci0000.getId());
+					poi.setCustId(ci.getId());
 
 					// 사용할 포인트 설정
 					poi.setUsedPoint(1000);
@@ -340,9 +338,9 @@ public class TestProductManager {
 				System.out.println();
 
 				// 고객 정보 출력
-				if (ci0000 != null) {
-					ci0000 = poi.getCustItem();
-					System.out.printf("- 고객 정보: %s(%s) \n", ci0000.getName(), ci0000.getPhoneNumber());
+				if (ci != null) {
+					ci = poi.getCustItem();
+					System.out.printf("- 고객 정보: %s(%s) \n", ci.getName(), ci.getPhoneNumber());
 				} else {
 					System.out.println("- 고객 정보: 비회원");
 				}

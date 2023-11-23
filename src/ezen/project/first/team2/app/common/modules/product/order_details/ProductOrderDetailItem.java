@@ -13,7 +13,6 @@ import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
 import ezen.project.first.team2.app.common.modules.product.orders.ProductOrderItem;
 import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
-import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
 import ezen.project.first.team2.app.common.utils.UnitUtils;
 
 public class ProductOrderDetailItem extends ListItem {
@@ -85,9 +84,9 @@ public class ProductOrderDetailItem extends ListItem {
 	// 최종 금액 얻기 => 원래 금액 - (할인 금액 * 수량)
 	public int getFinalPrice() throws Exception {
 		// 비회원인 경우
-		if (true) {
-			return this.getOrgPrice();
-		}
+		// if (true) {
+		// return this.getOrgPrice();
+		// }
 
 		var prodDiscntsMngr = ProductDiscountsManagerMem.getInstance();
 		var prodDiscntItem = prodDiscntsMngr.findById(this.getProdId());
