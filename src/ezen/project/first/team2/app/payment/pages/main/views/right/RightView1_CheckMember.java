@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
@@ -24,7 +25,10 @@ public class RightView1_CheckMember extends View {
 	private static final String DELETE_BUTTON_TEXT = "전체삭제";
 	private static final String UNDO_BUTTON_TEXT = "삭제";
 	private static final String PHONE_ID_NUMEBER_TEXT = "010-";
-
+	
+	// DB연결
+	CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
+	
 	JButton mCheckButton;
 	JButton mPassButton;
 
@@ -55,11 +59,23 @@ public class RightView1_CheckMember extends View {
 		// 숫자패드 초기화
 		mPhoneNumber = new StringBuilder(PHONE_ID_NUMEBER_TEXT);
 		mHidedPhoneNumber = new StringBuilder(PHONE_ID_NUMEBER_TEXT);
+		
 		mNumberTextField = new JTextField(PHONE_ID_NUMEBER_TEXT);
+		mNumberTextField.setEditable(false);
+		
 		mNumberBtnArr = new JButton[10];
 		mDeleteBtn = new JButton(DELETE_BUTTON_TEXT);
 		mUndoBtn = new JButton(UNDO_BUTTON_TEXT);
 		mNumberPanel = new JPanel();
+		
+		try {
+			custMngr.init();
+			for (var ci : CustomerItem.getPredefinedData()) {
+				custMngr.add(ci);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -96,12 +112,6 @@ public class RightView1_CheckMember extends View {
 	@Override
 	protected void onAddEventListeners() {
 		mCheckButton.addActionListener(e -> {
-			// for (var idx : CustomerInfo.DummyDataIndex.values()) {
-			// mCustomerInfo = CustomerInfo.getDummyData(idx);
-			// if (mCustomerInfo.getPhoneNumber().equals(mPhoneNumber.toString()))
-			// break;
-			// mCustomerInfo = null;
-			// }
 
 			mCustomerItem = null;
 			for (var ci : CustomerItem.getPredefinedData()) {
@@ -163,8 +173,9 @@ public class RightView1_CheckMember extends View {
 							mHidedPhoneNumber.setCharAt(7, '*');
 						}
 
-						mNumberTextField.setText(mHidedPhoneNumber.toString());
-
+//						mNumberTextField.setText(mHidedPhoneNumber.toString());
+						mNumberTextField.setText(mPhoneNumber.toString());
+						
 						// 번호의 마지막 숫자를 *로 바꿈
 						if (mHidedPhoneNumber.charAt(mHidedPhoneNumber.length() - 1) != '-')
 							mHidedPhoneNumber.setCharAt(mHidedPhoneNumber.length() - 1, '*');
@@ -176,7 +187,8 @@ public class RightView1_CheckMember extends View {
 			if (e.getSource() == mDeleteBtn) {
 				mPhoneNumber.delete(4, mPhoneNumber.length());
 				mHidedPhoneNumber.delete(4, mHidedPhoneNumber.length());
-				mNumberTextField.setText(mHidedPhoneNumber.toString());
+//				mNumberTextField.setText(mHidedPhoneNumber.toString());
+				mNumberTextField.setText(mPhoneNumber.toString());
 			}
 
 			if (e.getSource() == mUndoBtn) {
@@ -204,7 +216,8 @@ public class RightView1_CheckMember extends View {
 					mHidedPhoneNumber.setCharAt(mHidedPhoneNumber.length() - 1,
 							mPhoneNumber.charAt(mPhoneNumber.length() - 1));
 
-					mNumberTextField.setText(mHidedPhoneNumber.toString());
+//					mNumberTextField.setText(mHidedPhoneNumber.toString());
+					mNumberTextField.setText(mPhoneNumber.toString());
 
 					// 이후 추가될 번호를 위해 다시 mHidedPhoneNumber의 끝 숫자를 *로 바꾸기
 					if (mHidedPhoneNumber.length() > 4)

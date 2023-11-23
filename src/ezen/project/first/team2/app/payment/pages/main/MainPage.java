@@ -35,6 +35,11 @@ public class MainPage extends Page {
 	public static final int RIGHT_VIEW_CHECK_MEMBER_NUM = 201;
 	public static final int RIGHT_VIEW_POINT_INFO_NUM = 202;
 	public static final int RIGHT_VIEW_PAYMENT_NUM = 203;
+	
+	// PopUp view
+	public static final int POPUP_VIEW = 12;
+	
+	
 
 	// 생성자
 	public MainPage() {
