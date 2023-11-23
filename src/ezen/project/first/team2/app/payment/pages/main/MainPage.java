@@ -9,7 +9,12 @@ package ezen.project.first.team2.app.payment.pages.main;
 import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.framework.Page;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManagerMem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManagerMem;
+import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
@@ -37,8 +42,10 @@ public class MainPage extends Page {
 	public static final int RIGHT_VIEW_PAYMENT_NUM = 203;
 	
 	// PopUp view
-	public static final int POPUP_VIEW = 12;
-	
+	public static final int POPUP_VIEW_FRUITS_SELECTOR_NUM = 300;
+	public static final int POPUP_VIEW_VERIFIED_MEMBER_INFO_NUM = 301;
+	public static final int POPUP_VIEW_UNVERIFIED_MEMBER_INFO_NUM = 302;
+	public static final int POPUP_VIEW_USE_POINTS_NUM = 303;
 	
 
 	// 생성자
@@ -57,13 +64,6 @@ public class MainPage extends Page {
 	@Override
 	protected void onInit() {
 		super.onInit();
-		ProductManagerMem prodMngr = ProductManagerMem.getInstance();
-		try {
-			prodMngr.init();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	// 뷰 추가

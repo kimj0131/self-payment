@@ -68,14 +68,6 @@ public class RightView1_CheckMember extends View {
 		mUndoBtn = new JButton(UNDO_BUTTON_TEXT);
 		mNumberPanel = new JPanel();
 		
-		try {
-			custMngr.init();
-			for (var ci : CustomerItem.getPredefinedData()) {
-				custMngr.add(ci);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
@@ -113,7 +105,9 @@ public class RightView1_CheckMember extends View {
 	protected void onAddEventListeners() {
 		mCheckButton.addActionListener(e -> {
 
+			MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 			mCustomerItem = null;
+
 			for (var ci : CustomerItem.getPredefinedData()) {
 				if (ci.getPhoneNumber().equals(mPhoneNumber.toString())) {
 					mCustomerItem = ci;
@@ -124,19 +118,19 @@ public class RightView1_CheckMember extends View {
 
 			if (mCustomerItem != null) {
 				// 유효한
-				UiUtils.showMsgBox(mCustomerItem.getName() + " 회원님", MainPage.TITLE);
-
 				try {
-					MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-					mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_POINT_INFO_NUM);
-					mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_POINT_INFO_NUM);
+					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_VERIFIED_MEMBER_INFO_NUM);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 
 			} else {
-				// 무효한
-				UiUtils.showMsgBox("없는 회원입니다", MainPage.TITLE);
+				// 없는 회원
+				try {
+					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_UNVERIFIED_MEMBER_INFO_NUM);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 
 		});

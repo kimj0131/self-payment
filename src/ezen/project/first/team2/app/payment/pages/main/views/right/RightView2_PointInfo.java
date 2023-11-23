@@ -82,7 +82,12 @@ public class RightView2_PointInfo extends View {
 	protected void onAddEventListeners() {
 		mUsePointButton.addActionListener(e -> {
 			try {
-				UiUtils.showMsgBox("포인트 사용 팝업", MainPage.TITLE);
+				try {
+					MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
+					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_USE_POINTS_NUM);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -100,13 +105,7 @@ public class RightView2_PointInfo extends View {
 	}
 
 	@Override
-	protected void onShow(boolean firstTime) {
-		MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-		RightView1_CheckMember rightView = (RightView1_CheckMember) mainView
-				.getViewByNum(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
-		mCustomerItem = rightView.getCustomerItem();
-		mPointInfo.setText(String.format(TEXT_AREA_TEXT_FORMAT, mEarnedPoints, mCustomerItem.getPoint()));
-	}
+	protected void onShow(boolean firstTime) {}
 
 	@Override
 	protected void onHide() {

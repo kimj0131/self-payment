@@ -35,7 +35,7 @@ public class LeftView2_PointInfo extends View {
 	@Override
 	protected void onInit() {
 		setBackground(Color.GRAY);
-		mInfoMessage = new JLabel();
+		mInfoMessage = new JLabel("@@@고객");
 		mPreviousButton = new JButton(PREVIOUS_BUTTON_TEXT);
 	}
 
@@ -66,17 +66,7 @@ public class LeftView2_PointInfo extends View {
 	}
 
 	@Override
-	protected void onShow(boolean firstTime) {
-		MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-
-		RightView1_CheckMember rightView = (RightView1_CheckMember) mainView
-				.getViewByNum(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
-		mCustomerItem = rightView.getCustomerItem();
-
-		mMemberName = mCustomerItem.getName();
-		mInfoMessage.setText(String.format(INFO_MESSAGE_FORMAT, mMemberName));
-
-	}
+	protected void onShow(boolean firstTime) {}
 
 	@Override
 	protected void onHide() {
