@@ -187,7 +187,9 @@ public class TestProductManager {
 				// }
 
 				for (int i = 0; i < 5; i++) {
-					var i2 = ProductItem.getPredefinedProductData()[i];
+					var item = ProductItem.getPredefinedProductData()[i];
+					prodMngr.add(item);
+
 					// System.out.println(" - " + i2.toString());
 				}
 
