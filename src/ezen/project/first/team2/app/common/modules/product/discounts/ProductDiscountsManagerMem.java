@@ -27,4 +27,24 @@ public class ProductDiscountsManagerMem extends ListManagerMem<ProductDiscountIt
 
 		return mInstance;
 	}
+
+	// -------------------------------------------------------------------------
+
+	// 상품 Id로 아이템 얻기
+	public ProductDiscountItem getItemByProdId(int prodId) throws Exception {
+		return this.find((_item, _idx) -> _item.getProdId() == prodId);
+	}
+
+	// 상품 Id로 할인율 설정
+	public void setAmountByProdId(int prodId, int amount) throws Exception {
+		var item = this.getItemByProdId(prodId);
+		item.setAmount(amount);
+		this.updateById(item.getId(), item);
+	}
+
+	// 상품 Id로 할인율 얻기
+	public int getAmountByProdId(int prodId) throws Exception {
+		var item = this.getItemByProdId(prodId);
+		return item.getAmount();
+	}
 }

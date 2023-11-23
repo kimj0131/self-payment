@@ -14,20 +14,27 @@ import ezen.project.first.team2.app.common.utils.TimeUtils;
 public class CustomerItem extends ListItem {
 	// -------------------------------------------------------------------------
 
-	// 회원 번호. 0번은 비회원.
-	// private int mId = 0;
+	public static final int GUEST_ID = 0;
+
+	// -------------------------------------------------------------------------
+
 	// 가입일. YYYYY.MM.DD.
-	private LocalDate mJoinDate = LocalDate.now();
+	private LocalDate mJoinDate;
+
 	// 이름
-	private String mName = "";
+	private String mName;
+
 	// 생년월일. YYYY.MM.DD.
-	private LocalDate mBirthday = LocalDate.now();
+	private LocalDate mBirthday;
+
 	// 휴대폰. 010-0000-0000.
-	private String mPhoneNumber = "010-0000-0000";
+	private String mPhoneNumber;
+
 	// 포인트
-	private int mPoint = 0;
+	private int mPoint;
+
 	// 비고
-	private String mRemark = "";
+	private String mRemark;
 
 	// -------------------------------------------------------------------------
 
@@ -96,11 +103,6 @@ public class CustomerItem extends ListItem {
 
 	// -------------------------------------------------------------------------
 
-	// 회원 번호 얻기
-	// public int getId() {
-	// return this.mId;
-	// }
-
 	// 가입일 얻기
 	public LocalDate getJoinDate() {
 		return this.mJoinDate;
@@ -146,7 +148,7 @@ public class CustomerItem extends ListItem {
 	public static CustomerItem[] getPredefinedData() {
 		CustomerItem[] data = {
 				new CustomerItem(-1, LocalDate.now(), "이시관", LocalDate.of(1983, 5, 9),
-						"010-0000-8086", 9 * 10000, ""),
+						"010-0000-8086", 9 * 10000 * 0, ""),
 				new CustomerItem(-1, LocalDate.now(), "길근영", LocalDate.of(1983, 12, 19),
 						"010-0000-2794", 8 * 10000, ""),
 				new CustomerItem(-1, LocalDate.now(), "조현우", LocalDate.of(1991, 1, 1),

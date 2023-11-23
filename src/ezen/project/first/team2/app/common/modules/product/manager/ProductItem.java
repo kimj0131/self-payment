@@ -122,11 +122,23 @@ public class ProductItem extends ListItem {
 	public static ProductItem[] getPredefinedProductData() {
 		ProductItem[] data = {
 				// 과자
-				new ProductItem(-1, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200, ""),
-				new ProductItem(-1, new ProductCode("S0002"), LocalDate.now(), "오감자", 1400, ""),
-				new ProductItem(-1, new ProductCode("S0003"), LocalDate.now(), "썬칩", 1400, ""),
-				new ProductItem(-1, new ProductCode("S0004"), LocalDate.now(), "포카칩", 1400, ""),
-				new ProductItem(-1, new ProductCode("S0005"), LocalDate.now(), "에이스", 1400, ""),
+				// new ProductItem(-1, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200,
+				// ""),
+				// new ProductItem(-1, new ProductCode("S0002"), LocalDate.now(), "오감자", 1400,
+				// ""),
+				// new ProductItem(-1, new ProductCode("S0003"), LocalDate.now(), "썬칩", 1400,
+				// ""),
+				// new ProductItem(-1, new ProductCode("S0004"), LocalDate.now(), "포카칩", 1400,
+				// ""),
+				// new ProductItem(-1, new ProductCode("S0005"), LocalDate.now(), "에이스", 1400,
+				// ""),
+				//
+				new ProductItem(-1, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1000, ""),
+				new ProductItem(-1, new ProductCode("S0002"), LocalDate.now(), "오감자", 1000, ""),
+				new ProductItem(-1, new ProductCode("S0003"), LocalDate.now(), "썬칩", 1000, ""),
+				new ProductItem(-1, new ProductCode("S0004"), LocalDate.now(), "포카칩", 1000, ""),
+				new ProductItem(-1, new ProductCode("S0005"), LocalDate.now(), "에이스", 1000, ""),
+				//
 				new ProductItem(-1, new ProductCode("S0006"), LocalDate.now(), "죠리퐁", 1200, ""),
 				new ProductItem(-1, new ProductCode("S0007"), LocalDate.now(), "바나나킥", 1600, ""),
 				new ProductItem(-1, new ProductCode("S0008"), LocalDate.now(), "새우깡", 1500, ""),

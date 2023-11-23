@@ -47,6 +47,16 @@ public class ProductStockItem extends ListItem {
 		this.mQuantity = quantity;
 	}
 
+	// 수량 증가
+	public void incQuantity(int amount) {
+		this.mQuantity += amount;
+	}
+
+	// 수량 감소
+	public void decQuantity(int amount) {
+		this.mQuantity -= amount;
+	}
+
 	// -------------------------------------------------------------------------
 
 	// 상품 ID 얻기

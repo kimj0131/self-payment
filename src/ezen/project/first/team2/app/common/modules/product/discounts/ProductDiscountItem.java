@@ -9,6 +9,7 @@ package ezen.project.first.team2.app.common.modules.product.discounts;
 import ezen.project.first.team2.app.common.modules.base.ListItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.utils.UnitUtils;
 
 public class ProductDiscountItem extends ListItem {
 	// -------------------------------------------------------------------------
@@ -71,8 +72,8 @@ public class ProductDiscountItem extends ListItem {
 
 	@Override
 	public String toString() {
-		return String.format("id:%06d, prodId:%6d, amount:%6d",
-				this.getId(), this.getProdId(), this.getAmount());
+		return String.format("id:%06d, prodId:%6d, amount:%8s원",
+				this.getId(), this.getProdId(), UnitUtils.numToCurrencyStr(this.getAmount()));
 	}
 
 	@Override

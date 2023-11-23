@@ -19,12 +19,12 @@ public class TimeUtils {
 
 	// return: "yyyy.mm.dd.ddd"
 	public static String currDateStr() {
-		final String[] WeekNames = { "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" };
+		final String[] WEEK_NAMES = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
 
 		LocalDate d = LocalDate.now();
 		String s = String.format("%04d.%02d.%02d.%s",
 				d.getYear(), d.getMonthValue(), d.getDayOfMonth(),
-				WeekNames[d.getDayOfWeek().getValue() - 1]);
+				WEEK_NAMES[d.getDayOfWeek().getValue() - 1]);
 
 		return s;
 	}
@@ -95,7 +95,7 @@ public class TimeUtils {
 
 	// return: "yyyy.mm.dd.ddd"
 	public static String localDateToStr(LocalDate localDate, boolean weekday) {
-		final String[] WEEK_NAMES = { "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" };
+		final String[] WEEK_NAMES = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
 
 		String s = String.format("%04d.%02d.%02d",
 				localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
@@ -111,7 +111,7 @@ public class TimeUtils {
 
 	// return: "yyyy.mm.dd.ddd hh:mm:ss"
 	public static String localDateTimeToStr(LocalDateTime localDateTime, boolean weekday) {
-		final String[] WEEK_NAMES = { "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" };
+		final String[] WEEK_NAMES = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
 
 		String date = String.format("%04d.%02d.%02d",
 				localDateTime.getYear(), localDateTime.getMonthValue(), localDateTime.getDayOfMonth());
