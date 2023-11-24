@@ -242,7 +242,7 @@ public class TestProductManager {
 					System.out.println("    - " + pi1);
 				}
 
-				pi = prodMngr.findByName("오감자");
+				pi = prodMngr.findByName("오감자").get(0);
 				System.out.println(" - findByName()");
 				System.out.println("    - " + pi);
 
@@ -306,9 +306,8 @@ public class TestProductManager {
 
 				// 영수증에 상품 추가
 				String[] prodNames = { "오감자", "썬칩", "에이스" };
-				int i = 1;
 				for (var name : prodNames) {
-					var pi = prodMngr.findByName(name);
+					var pi = prodMngr.findByName(name).get(0);
 					var pdi = prodDiscntsMngr.getItemByProdId(pi.getId());
 					// 구매 상품 정보 설정
 					var podi = new ProductOrderDetailItem(-1, poiId, pi.getId(), pdi.getId(), 1);
