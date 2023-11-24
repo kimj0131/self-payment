@@ -9,12 +9,6 @@ package ezen.project.first.team2.app.payment.pages.main;
 import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.framework.Page;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
-import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManagerMem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
-import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManagerMem;
-import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
-import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 

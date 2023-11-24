@@ -12,7 +12,6 @@ import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
-import ezen.project.first.team2.app.payment.pages.main.views.right.RightView1_CheckMember;
 
 public class LeftView2_PointInfo extends View {
 	

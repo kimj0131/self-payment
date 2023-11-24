@@ -12,7 +12,6 @@ import javax.swing.JTextField;
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
-import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
@@ -26,23 +25,20 @@ public class RightView1_CheckMember extends View {
 	private static final String UNDO_BUTTON_TEXT = "삭제";
 	private static final String PHONE_ID_NUMEBER_TEXT = "010-";
 	
-	// DB연결
-	CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
-	
-	JButton mCheckButton;
-	JButton mPassButton;
+	private JButton mCheckButton;
+	private JButton mPassButton;
 
 	// 숫자패드
-	JTextField mNumberTextField;
-	StringBuilder mPhoneNumber;
-	StringBuilder mHidedPhoneNumber;
-	JButton[] mNumberBtnArr;
-	JButton mDeleteBtn;
-	JButton mUndoBtn;
-	JPanel mNumberPanel;
+	private JTextField mNumberTextField; // 누른 번호가 표시되는 곳
+	private StringBuilder mPhoneNumber; // 010-0000-0000
+	private StringBuilder mHidedPhoneNumber; // 010 -****-***0
+	private JPanel mNumberPanel; // 숫자버튼을 담을 패널
+	private JButton[] mNumberBtnArr; // "숫자" 버튼을 모아두는 배열
+	private JButton mDeleteBtn; // 전체삭제 버튼
+	private JButton mUndoBtn; // 한칸지우기 버튼
 	//
 
-	CustomerItem mCustomerItem;
+	private CustomerManagerMem mCustMngr;
 
 	public RightView1_CheckMember() {
 		super(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
@@ -67,6 +63,9 @@ public class RightView1_CheckMember extends View {
 		mDeleteBtn = new JButton(DELETE_BUTTON_TEXT);
 		mUndoBtn = new JButton(UNDO_BUTTON_TEXT);
 		mNumberPanel = new JPanel();
+		
+		// 매니저 인스턴스 가져오기
+		mCustMngr = CustomerManagerMem.getInstance();
 		
 	}
 
@@ -105,17 +104,14 @@ public class RightView1_CheckMember extends View {
 	protected void onAddEventListeners() {
 		mCheckButton.addActionListener(e -> {
 
-			MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-			mCustomerItem = null;
-
-			for (var ci : CustomerItem.getPredefinedData()) {
-				if (ci.getPhoneNumber().equals(mPhoneNumber.toString())) {
-					mCustomerItem = ci;
-
-					break;
-				}
+			CustomerItem mCustomerItem = null;
+			try {
+				mCustomerItem = mCustMngr.findByPhoneNumber(mPhoneNumber.toString());
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
 
+			MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 			if (mCustomerItem != null) {
 				// 유효한
 				try {
@@ -237,7 +233,4 @@ public class RightView1_CheckMember extends View {
 	protected void onHide() {
 	}
 
-	public CustomerItem getCustomerItem() {
-		return mCustomerItem;
-	}
 }

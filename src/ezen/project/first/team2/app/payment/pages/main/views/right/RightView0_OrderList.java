@@ -5,9 +5,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.swing.BorderFactory;
@@ -16,18 +13,13 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.base.ListActionAdapter;
-import ezen.project.first.team2.app.common.modules.base.ListActionListener;
 import ezen.project.first.team2.app.common.modules.base.ListManager;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManagerMem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
 import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailItem;
 import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManagerMem;

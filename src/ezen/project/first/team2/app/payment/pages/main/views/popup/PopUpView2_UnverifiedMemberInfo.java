@@ -1,8 +1,6 @@
 package ezen.project.first.team2.app.payment.pages.main.views.popup;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
