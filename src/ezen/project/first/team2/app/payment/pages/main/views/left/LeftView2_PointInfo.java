@@ -9,23 +9,28 @@ import javax.swing.JLabel;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
+import ezen.project.first.team2.app.payment.pages.main.views.right.RightView0_OrderList;
 
 public class LeftView2_PointInfo extends View {
 	
 	private static final int PADDING = 10;
 
-	private static final String INFO_MESSAGE_FORMAT = "<html>%s 고객님<br>확인해<br>주셔서<br>감사합니다</html>";
-	private static final String PREVIOUS_BUTTON_TEXT = "이전단계";
+	private static final String MSG_LABEL_TEXT_FORMAT = "<html>%s 고객님<br>확인해<br>주셔서<br>감사합니다</html>";
+	private static final String PREV_BTN_TEXT = "이전단계";
 	
-	String mMemberName;
+	private String mMemName;
 	
-	JLabel mInfoMessage;
-	JButton mPreviousButton;
+	JLabel mMsg_label;
+	JButton mPrev_btn;
 	
-	CustomerItem mCustomerItem;
+	private CustomerManagerMem mCustMngr;
+	private ProductOrdersManagerMem mProdOrdersMngr;
+	
 	
 	public LeftView2_PointInfo() {
 		super(MainPage.LEFT_VIEW_POINT_INFO_NUM);
@@ -34,8 +39,11 @@ public class LeftView2_PointInfo extends View {
 	@Override
 	protected void onInit() {
 		setBackground(Color.GRAY);
-		mInfoMessage = new JLabel("@@@고객");
-		mPreviousButton = new JButton(PREVIOUS_BUTTON_TEXT);
+		mMsg_label = new JLabel();
+		mPrev_btn = new JButton(PREV_BTN_TEXT);
+		
+		mCustMngr = CustomerManagerMem.getInstance();
+		mProdOrdersMngr = ProductOrdersManagerMem.getInstance();
 	}
 
 	@Override
@@ -47,13 +55,13 @@ public class LeftView2_PointInfo extends View {
 
 	@Override
 	protected void onAddCtrls() {
-		this.add(this.mInfoMessage);
-		this.add(this.mPreviousButton);
+		this.add(this.mMsg_label);
+		this.add(this.mPrev_btn);
 	}
 
 	@Override
 	protected void onAddEventListeners() {
-		mPreviousButton.addActionListener(e -> {
+		mPrev_btn.addActionListener(e -> {
 			try {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 				mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_CHECK_MEMBER_NUM);
@@ -65,7 +73,22 @@ public class LeftView2_PointInfo extends View {
 	}
 
 	@Override
-	protected void onShow(boolean firstTime) {}
+	protected void onShow(boolean firstTime) {
+		try {
+			MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
+			RightView0_OrderList rightView0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
+			var prodOrderItem = mProdOrdersMngr.findById(rightView0.get_mGeneratedProdOrderId());
+			
+			// RightView0에서 발급된 구매내역id로 구매내역 찾고 구매내역에 있는 고객id로 고객 이름 가져오기
+			mMemName = mCustMngr.findById(prodOrderItem.getCustId()).getName();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		mMsg_label.setText(String.format(MSG_LABEL_TEXT_FORMAT, mMemName));
+		
+		System.out.println();
+	}
 
 	@Override
 	protected void onHide() {
@@ -74,6 +97,6 @@ public class LeftView2_PointInfo extends View {
 	@Override
 	protected void onSetResources() {
 		Main main = (Main) this.getStatusManager();
-		mInfoMessage.setFont(main.mFont0);
+		mMsg_label.setFont(main.mFont0);
 	}
 }

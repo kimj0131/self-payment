@@ -80,98 +80,37 @@ public class Main extends StatusManager {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
 
-			@Override
-			public void onDeinitializing(ListManager<ProductItem> mngr) {
-			}
+				
+//				try {
+//					System.out.println("customers");
+//					custMngr.iterate((item, idx) -> {
+//						System.out.println("  " + item);
+//						return true;
+//					});
+//					
+//					System.out.println("products");
+//					prodMngr.iterate((item, idx) -> {
+//						System.out.println("  " + item);
+//						return true;
+//					});
+//					
+//					System.out.println("product_stocks");
+//					prodStocksMngr.iterate((item, idx) -> {
+//						System.out.println("  " + item);
+//						return true;
+//					});
+//					
+//					System.out.println("product_discounts");
+//					prodDiscntsMngr.iterate((item, idx) -> {
+//						System.out.println("  " + item);
+//						return true;
+//					});
+//					
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 
-			@Override
-			public void onAdded(ListManager<ProductItem> mngr, ProductItem item) {
-				try {
-					// [상품 재고 관리자]에 상품 추가
-					prodStocksMngr.add(new ProductStockItem(item.getId()));
-
-					// [상품 할인 관리자]에 상품 추가
-					prodDiscntsMngr.add(new ProductDiscountItem(item.getId()));
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-		try {
-			custMngr.init();
-
-			prodMngr.init();
-			prodStocksMngr.init();
-			prodDiscntsMngr.init();
-
-			prodOrdersMngr.init();
-			prodOrderDetailsMngr.init();
-
-			// prodMngr에 ProductItem 더미 데이터 추가
-			for (int i = 0; i < ProductItem.getPredefinedProductData().length; i++) {
-				var item = ProductItem.getPredefinedProductData()[i];
-				prodMngr.add(item);
-			}
-
-			// cumstMngr에 CustomerItem 더미 데이터 추가
-			for (int i = 0; i < CustomerItem.getPredefinedData().length; i++) {
-				var item = CustomerItem.getPredefinedData()[i];
-				custMngr.add(item);
-			}
-
-			// 재고, 할인율 설정 => 관리 앱에서 설정
-			prodMngr.iterate((item, idx) -> {
-				try {
-					// 재고 10개씩 증가. "에이스" 과자는 제외. 상품 재고 수량 테스트.
-					if (!item.getName().equals("에이스"))
-						prodStocksMngr.updateQuantityByProdId(item.getId(), 10);
-
-					// 할인율 100원씩 증가
-					if (item.getId() > 18)
-						prodDiscntsMngr.setAmountByProdId(item.getId(), 100);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				return true;
-			});
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-			System.out.println("customers");
-			custMngr.iterate((item, idx) -> {
-				System.out.println("  " + item);
-				return true;
-			});
-
-			System.out.println("products");
-			prodMngr.iterate((item, idx) -> {
-				System.out.println("  " + item);
-				return true;
-			});
-
-			System.out.println("product_stocks");
-			prodStocksMngr.iterate((item, idx) -> {
-				System.out.println("  " + item);
-				return true;
-			});
-
-			System.out.println("product_discounts");
-			prodDiscntsMngr.iterate((item, idx) -> {
-				System.out.println("  " + item);
-				return true;
-			});
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	// 페이지 추가 작업

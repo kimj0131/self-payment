@@ -15,11 +15,11 @@ import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 public class LeftView1_CheckMember extends View {
 	private static final int PADDING = 10;
 
-	private static final String INFO_MESSAGE_TEXT = "<html>회원인 경우<br>휴대폰 번호를<br>입력해주세요</html>";
-	private static final String PREVIOUS_BUTTON_TEXT = "이전단계";
+	private static final String MSG_LABEL_TEXT = "<html>회원인 경우<br>휴대폰 번호를<br>입력해주세요</html>";
+	private static final String PREV_BTN_TEXT = "이전단계";
 
-	JLabel mInfoMessage;
-	JButton mPreviousButton;
+	JLabel mMsg_label;
+	JButton mPrev_btn;
 	
 	public LeftView1_CheckMember() {
 		super(MainPage.LEFT_VIEW_CHECK_MEMBER_NUM);
@@ -29,8 +29,8 @@ public class LeftView1_CheckMember extends View {
 	protected void onInit() {
 		setBackground(Color.GRAY);
 		
-		mInfoMessage = new JLabel(INFO_MESSAGE_TEXT);
-		mPreviousButton = new JButton(PREVIOUS_BUTTON_TEXT);
+		mMsg_label = new JLabel(MSG_LABEL_TEXT);
+		mPrev_btn = new JButton(PREV_BTN_TEXT);
 	}
 
 	@Override
@@ -42,13 +42,13 @@ public class LeftView1_CheckMember extends View {
 
 	@Override
 	protected void onAddCtrls() {
-		this.add(this.mInfoMessage);
-		this.add(this.mPreviousButton);
+		this.add(this.mMsg_label);
+		this.add(this.mPrev_btn);
 	}
 
 	@Override
 	protected void onAddEventListeners() {
-		mPreviousButton.addActionListener(e -> {
+		mPrev_btn.addActionListener(e -> {
 			try {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 				mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_ORDER_LIST_NUM);
@@ -70,6 +70,6 @@ public class LeftView1_CheckMember extends View {
 	@Override
 	protected void onSetResources() {
 		Main main = (Main) this.getStatusManager();
-		mInfoMessage.setFont(main.mFont0);
+		mMsg_label.setFont(main.mFont0);
 	}
 }

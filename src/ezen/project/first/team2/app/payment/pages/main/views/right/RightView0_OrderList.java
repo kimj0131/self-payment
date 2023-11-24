@@ -32,26 +32,35 @@ import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 public class RightView0_OrderList extends View {
 
 	private static final int PADDING = 10;
-	private final String[] TABLE_HEADER= {"상품id", "상품명", "수량", "가격"};
 	
-	GridBagConstraints mGbc;
+	private static final String SUM_TA_TEXT = "합계\n";
+	private static final String[] TABLE_HEADER= {"상품id", "상품명", "수량", "가격"};
+	private static final String BUYING_BTN_TEXT = "결제하기";
+
+	// 결제가 모두 완료		-> 구매내역 새로 만들어야함 / RightView3에서 결제가 모두 완료되면 onHide에서 true로 바꿈
+	// 결제가 완료되지 않음	-> 이전 단계로 갔을때는 onShow에서 구매내역을 새로 만들지 않아야 함
+	public static boolean RECEIPT_ISSUANCE = false;
+
+	// 새로 생성된 구매내역 id
+	private int mGeneratedProdOrderId;
 	
-	ProductManagerMem mProdMngr;
-	ProductStocksManagerMem mProdStocksMngr;
-	ProductDiscountsManagerMem mProdDiscntsMngr;
-	ProductOrdersManagerMem mProdOrdersMngr;
-	ProductOrderDetailsManagerMem mProdOrderDetailsMngr;
+	// 그리드백 레이아웃을 사용하기 위한 constraint
+	private GridBagConstraints mGbc;
 
-	JTable mTable;
-	JScrollPane mScrolledTable;
-	DefaultTableModel mTableModel;
+	// 구매리스트 테이블
+	private JTable mTable;
+	private JScrollPane mScrolledTable;
+	private DefaultTableModel mTableModel;
 
-	JTextArea mSumTextArea;
-	JButton mBuyingButton;
+	private JTextArea mSum_ta;
+	private JButton mBuying_btn;
 
-	int mSumPrice;
-	int mNewProductOrderID;
-
+	private ProductManagerMem mProdMngr;
+	private ProductStocksManagerMem mProdStocksMngr;
+	private ProductDiscountsManagerMem mProdDiscntsMngr;
+	private ProductOrdersManagerMem mProdOrdersMngr;
+	private ProductOrderDetailsManagerMem mProdOrderDetailsMngr;
+	
 	public RightView0_OrderList() {
 		super(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
 	}
@@ -60,26 +69,17 @@ public class RightView0_OrderList extends View {
 	protected void onInit() {
 		setBackground(Color.DARK_GRAY);
 		this.setTable();
-
+		
+		mGbc = new GridBagConstraints();
+		
+		mSum_ta = new JTextArea(SUM_TA_TEXT);
+		mBuying_btn = new JButton(BUYING_BTN_TEXT);
+		
 		mProdMngr = ProductManagerMem.getInstance();
 		mProdStocksMngr = ProductStocksManagerMem.getInstance();
 		mProdDiscntsMngr = ProductDiscountsManagerMem.getInstance();
 		mProdOrdersMngr = ProductOrdersManagerMem.getInstance();
 		mProdOrderDetailsMngr = ProductOrderDetailsManagerMem.getInstance();
-		
-		mGbc = new GridBagConstraints();
-		mSumTextArea = new JTextArea("합계\n");
-		mBuyingButton = new JButton("결제하기");
-		
-		try {
-			// 구매 내역(영수증) ID 발급
-			mNewProductOrderID = mProdOrdersMngr.getNextID();
-			// 구매 내역(영수증) 아이템 생성 => 비회원 + 사용할 포인트 0.
-			var poi = new ProductOrderItem(mNewProductOrderID, LocalDateTime.now());
-			mProdOrdersMngr.add(poi);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	private void setTable() {
@@ -131,7 +131,7 @@ public class RightView0_OrderList extends View {
 	@Override
 	protected void onAddCtrls() {
 		
-		mSumTextArea.setEditable(false);
+		mSum_ta.setEditable(false);
 
 		mGbc.fill = GridBagConstraints.BOTH;
 		mGbc.weightx = 0.5;
@@ -144,13 +144,13 @@ public class RightView0_OrderList extends View {
 		mGbc.weightx = 0.1;
 		mGbc.gridx = 1;
 		mGbc.gridy = 0;
-		this.add(mSumTextArea, mGbc);
+		this.add(mSum_ta, mGbc);
 
 		mGbc.weighty = 0.1;
 		mGbc.gridx = 0;
 		mGbc.gridy = 1;
 		mGbc.gridwidth = 2;
-		this.add(mBuyingButton, mGbc);
+		this.add(mBuying_btn, mGbc);
 	}
 
 	@Override
@@ -171,7 +171,7 @@ public class RightView0_OrderList extends View {
 		
 		
 		
-		mBuyingButton.addActionListener(e -> {
+		mBuying_btn.addActionListener(e -> {
 			try {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 				mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_CHECK_MEMBER_NUM);
@@ -181,7 +181,7 @@ public class RightView0_OrderList extends View {
 			}
 		});
 		
-		mSumTextArea.addKeyListener(new KeyAdapter() {
+		mSum_ta.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 			//	번호 상품명 수량 가격
@@ -195,41 +195,20 @@ public class RightView0_OrderList extends View {
 					// 랜덤한 상품 하나 생성
 					int randomId = (int) (Math.random() * 35);
 					var productItem = mProdMngr.findById(randomId);
-					
+
 					// 생성된 상품을 상세 구매내역에 넣기
-					var pdi = mProdDiscntsMngr.getItemByProdId(productItem.getId());
-					var prodOrderDetailItem = new ProductOrderDetailItem(-1, mNewProductOrderID, productItem.getId(), pdi.getId(), 1);
+					var prodDiscntItem = mProdDiscntsMngr.getItemByProdId(productItem.getId());
+					var prodOrderDetailItem = new ProductOrderDetailItem(-1, mGeneratedProdOrderId, productItem.getId(),
+							prodDiscntItem.getId(), 1);
 					mProdOrderDetailsMngr.add(prodOrderDetailItem);
-					
-					String[] row = new String[] {String.valueOf(productItem.getId()), productItem.getName(), "1", String.valueOf(productItem.getPrice())};
+
+					String[] row = new String[] { String.valueOf(productItem.getId()), productItem.getName(), "1",
+							String.valueOf(productItem.getPrice()) };
 					mTableModel.addRow(row);
 					
-					
-					
-					// 구매내역과 상세구매내역 변화를 보기위한 콘솔 출력
-					try {
-						System.out.println("구매내역");
-						mProdOrdersMngr.iterate((item, idx) -> {
-							System.out.println("  " + item);
-							return true;
-						});
-						
-						System.out.println("상세구매내역");
-						mProdOrderDetailsMngr.iterate((item, idx) -> {
-							System.out.println("  " + item);
-							return true;
-						});
-						
-						System.out.println("상품재고");
-						mProdStocksMngr.iterate((item, idx) -> {
-							System.out.println("  " + item);
-							return true;
-						});
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-					//-------------------------------------------
-					
+					// 실시간으로 합계 구해서 표시
+					ProductOrderItem prodOrderItem = mProdOrdersMngr.findById(mGeneratedProdOrderId);
+					mSum_ta.setText(SUM_TA_TEXT + prodOrderItem.getOrgTotalPrice());
 					
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -271,10 +250,52 @@ public class RightView0_OrderList extends View {
 
 	@Override
 	protected void onShow(boolean firstTime) {
+		
+		if (!RECEIPT_ISSUANCE) {
+			System.out.println("영수증이 발급 되었습니다");
+			RECEIPT_ISSUANCE = true;
+			
+			try {
+				// 구매 내역(영수증) ID 발급
+				mGeneratedProdOrderId = mProdOrdersMngr.getNextID();
+				// 구매 내역(영수증) 아이템 생성 => 비회원 + 사용할 포인트 0.
+				var poi = new ProductOrderItem(mGeneratedProdOrderId, LocalDateTime.now());
+				mProdOrdersMngr.add(poi);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		}
 	}
 
 	@Override
 	protected void onHide() {
+		// 구매내역과 상세구매내역 변화를 보기위한 콘솔 출력
+		try {
+			System.out.println("구매내역");
+			mProdOrdersMngr.iterate((item, idx) -> {
+				System.out.println("  " + item);
+				return true;
+			});
+			
+			System.out.println("상세구매내역");
+			mProdOrderDetailsMngr.iterate((item, idx) -> {
+				System.out.println("  " + item);
+				return true;
+			});
+			
+			System.out.println("상품재고");
+			mProdStocksMngr.iterate((item, idx) -> {
+				System.out.println("  " + item);
+				return true;
+			});
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		//-------------------------------------------
 	}
 
+	public int get_mGeneratedProdOrderId() {
+		return mGeneratedProdOrderId;
+	}
 }

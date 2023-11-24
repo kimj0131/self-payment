@@ -40,6 +40,9 @@ public class RightView3_Payment extends View {
 	@Override
 	protected void onAddEventListeners() {
 		mButton0.addActionListener(e -> {
+			
+			RightView0_OrderList.RECEIPT_ISSUANCE = false;
+			
 			try {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 				mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_ORDER_LIST_NUM);
@@ -56,7 +59,6 @@ public class RightView3_Payment extends View {
 
 	@Override
 	protected void onHide() {
-
 	}
 
 }

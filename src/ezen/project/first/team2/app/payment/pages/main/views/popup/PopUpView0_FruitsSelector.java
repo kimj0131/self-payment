@@ -19,6 +19,8 @@ public class PopUpView0_FruitsSelector extends View {
 	
 	private static final int PADDING = 10;
 	
+	private static final String CANCEL_BTN_TEXT = "취소";
+	
 	ImageIcon mImg0;
 	ImageIcon mImg1;
 	ImageIcon mImg2;
@@ -26,13 +28,14 @@ public class PopUpView0_FruitsSelector extends View {
 	ImageIcon mImg4;
 	ImageIcon mImg5;
 	
-	JButton mFruitsButton0;
-	JButton mFruitsButton1;
-	JButton mFruitsButton2;
-	JButton mFruitsButton3;
-	JButton mFruitsButton4;
-	JButton mFruitsButton5;
-	JButton mCancelButton;
+	JButton mFruits_btn0;
+	JButton mFruits_btn1;
+	JButton mFruits_btn2;
+	JButton mFruits_btn3;
+	JButton mFruits_btn4;
+	JButton mFruits_btn5;
+	
+	JButton mCancel_btn;
 
 	public PopUpView0_FruitsSelector() {
 		super(MainPage.POPUP_VIEW_FRUITS_SELECTOR_NUM);
@@ -41,13 +44,13 @@ public class PopUpView0_FruitsSelector extends View {
 	@Override
 	protected void onInit() {
 
-		mFruitsButton0 = new JButton();
-		mFruitsButton1 = new JButton();
-		mFruitsButton2 = new JButton();
-		mFruitsButton3 = new JButton();
-		mFruitsButton4 = new JButton();
-		mFruitsButton5 = new JButton();
-		mCancelButton = new JButton("취소");
+		mFruits_btn0 = new JButton();
+		mFruits_btn1 = new JButton();
+		mFruits_btn2 = new JButton();
+		mFruits_btn3 = new JButton();
+		mFruits_btn4 = new JButton();
+		mFruits_btn5 = new JButton();
+		mCancel_btn = new JButton(CANCEL_BTN_TEXT);
 		
 		try {
 			BufferedImage buffImg0 = ImageIO.read(new File("resources/images/fruits&vegetables/banana.png"));
@@ -74,12 +77,12 @@ public class PopUpView0_FruitsSelector extends View {
 		
 		
 		
-		mFruitsButton0.setIcon(mImg0);
-		mFruitsButton1.setIcon(mImg1);
-		mFruitsButton2.setIcon(mImg2);
-		mFruitsButton3.setIcon(mImg3);
-		mFruitsButton4.setIcon(mImg4);
-		mFruitsButton5.setIcon(mImg5);
+		mFruits_btn0.setIcon(mImg0);
+		mFruits_btn1.setIcon(mImg1);
+		mFruits_btn2.setIcon(mImg2);
+		mFruits_btn3.setIcon(mImg3);
+		mFruits_btn4.setIcon(mImg4);
+		mFruits_btn5.setIcon(mImg5);
 	}
 
 	@Override
@@ -96,19 +99,19 @@ public class PopUpView0_FruitsSelector extends View {
 	@Override
 	protected void onAddCtrls() {
 		
-		this.add(mFruitsButton0);
-		this.add(mFruitsButton1);
-		this.add(mFruitsButton2);
-		this.add(mFruitsButton3);
-		this.add(mFruitsButton4);
-		this.add(mFruitsButton5);
-		this.add(mCancelButton);
+		this.add(mFruits_btn0);
+		this.add(mFruits_btn1);
+		this.add(mFruits_btn2);
+		this.add(mFruits_btn3);
+		this.add(mFruits_btn4);
+		this.add(mFruits_btn5);
+		this.add(mCancel_btn);
 		
 	}
 
 	@Override
 	protected void onAddEventListeners() {
-		mCancelButton.addActionListener(e -> {
+		mCancel_btn.addActionListener(e -> {
 			try {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);

@@ -8,13 +8,17 @@ import javax.swing.JLabel;
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
+import ezen.project.first.team2.app.payment.pages.main.views.right.RightView1_CheckMember;
 
 public class PopUpView2_UnverifiedMemberInfo extends View {
 	
 	private static final int PADDING = 10;
 	
-	JLabel mInfoLabel;
-	JButton mCheckButton;
+	private static final String MSG_LABEL_TEXT = "없는 회원입니다";
+	private static final String CHECK_BTN_TEXT = "확인";
+	
+	JLabel mMsg_label;
+	JButton mCheck_btn;
 
 	public PopUpView2_UnverifiedMemberInfo() {
 		super(MainPage.POPUP_VIEW_UNVERIFIED_MEMBER_INFO_NUM);
@@ -22,8 +26,8 @@ public class PopUpView2_UnverifiedMemberInfo extends View {
 
 	@Override
 	protected void onInit() {
-		mInfoLabel = new JLabel("입력된 번호로 조회가 되지 않았습니다");
-		mCheckButton = new JButton("확인");
+		mMsg_label = new JLabel(MSG_LABEL_TEXT);
+		mCheck_btn = new JButton(CHECK_BTN_TEXT);
 	}
 
 	@Override
@@ -33,13 +37,13 @@ public class PopUpView2_UnverifiedMemberInfo extends View {
 
 	@Override
 	protected void onAddCtrls() {
-		add(mInfoLabel);
-		add(mCheckButton);
+		add(mMsg_label);
+		add(mCheck_btn);
 	}
 
 	@Override
 	protected void onAddEventListeners() {
-		mCheckButton.addActionListener(e -> {
+		mCheck_btn.addActionListener(e -> {
 			try {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
