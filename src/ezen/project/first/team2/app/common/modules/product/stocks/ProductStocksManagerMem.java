@@ -36,20 +36,20 @@ public class ProductStocksManagerMem extends ListManagerMem<ProductStockItem> {
 	}
 
 	// 상품 Id로 수량 설정
-	public void setQuantityByProdId(int prodId, int quantity) throws Exception {
+	public void updateQuantityByProdId(int prodId, int quantity) throws Exception {
 		var item = this.getItemByProdId(prodId);
 		item.setQuantity(quantity);
 		this.updateById(item.getId(), item);
 	}
 
-	// 상품 Id로 수량 증가 설정
+	// 상품 Id로 수량 증가
 	public void incQuantityByProdId(int prodId, int amount) throws Exception {
 		var item = this.getItemByProdId(prodId);
 		item.incQuantity(amount);
 		this.updateById(item.getId(), item);
 	}
 
-	// 상품 Id로 수량 설정
+	// 상품 Id로 수량 감소
 	public void decQuantityByProdId(int prodId, int amount) throws Exception {
 		var item = this.getItemByProdId(prodId);
 		item.decQuantity(amount);

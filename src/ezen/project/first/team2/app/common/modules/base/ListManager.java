@@ -79,7 +79,9 @@ public class ListManager<T extends ListItem> {
 
 	// 초기화 여부 확인
 	public boolean isInited() {
-		return this.mInited;
+		// return this.mInited;
+		// [SGLEE:20231124FRI_155500] 임시로 true 리턴
+		return true;
 	}
 
 	// 다음 ID 얻기
@@ -128,7 +130,7 @@ public class ListManager<T extends ListItem> {
 		}
 	}
 
-	// 아이템 수정
+	// ID로 아이템 수정
 	public void updateById(int id, T item) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
@@ -161,7 +163,7 @@ public class ListManager<T extends ListItem> {
 		}
 	}
 
-	// 아이템 삭제
+	// ID로 아이템 삭제
 	public void deleteById(int id) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
@@ -191,6 +193,26 @@ public class ListManager<T extends ListItem> {
 		if (this.mActionListener != null) {
 			this.mActionListener.onDeleted(this, oldItem);
 		}
+	}
+
+	// 지정된 조건으로 아이템들 삭제 => iterator에서 true를 리턴하면 삭제한다
+	public void deleteItems(Iterator<T> iterator) throws Exception {
+		// 초기화 여부 확인
+		if (!this.isInited()) {
+			String msg = String.format("[ListManager.deleteItems()]" +
+					" You must initialize!");
+			throw new Exception(msg);
+		}
+
+		// 아이템 삭제
+		String errMsg = this.onDeleteItems(iterator);
+		if (!errMsg.isEmpty())
+			throw new Exception(errMsg);
+
+		// 액션 리스너 호출
+		// if (this.mActionListener != null) {
+		// this.mActionListener.onDeleted(this, oldItem);
+		// }
 	}
 
 	// 아이템 ID 중복(존재) 확인
@@ -285,13 +307,18 @@ public class ListManager<T extends ListItem> {
 		return "/ERROR/";
 	}
 
-	// 아이템 수정 -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
+	// ID로 아이템 수정 -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	protected String onUpdateById(int id, T oldItem, T newItem) throws Exception {
 		return "/ERROR/";
 	}
 
-	// 아이템 삭제 -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
+	// ID로 아이템 삭제 -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	protected String onDeleteById(int id) throws Exception {
+		return "/ERROR/";
+	}
+
+	// 지정된 조건으로 아이템들 삭제 -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
+	protected String onDeleteItems(Iterator<T> iterator) throws Exception {
 		return "/ERROR/";
 	}
 

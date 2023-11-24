@@ -7,6 +7,7 @@
 package ezen.project.first.team2.app.common.modules.product.order_details;
 
 import ezen.project.first.team2.app.common.modules.base.ListItem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountItem;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManagerMem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
@@ -51,6 +52,25 @@ public class ProductOrderDetailItem extends ListItem {
 		this.mQuantity = quantity;
 	}
 
+	// 수량 설정
+	public void setQuantity(int quantity) {
+		this.mQuantity = quantity;
+	}
+
+	// 수량 증가
+	public int incQuantity(int amount) {
+		this.mQuantity += amount;
+
+		return this.mQuantity;
+	}
+
+	// 수량 감소
+	public int decQuantity(int amount) {
+		this.mQuantity -= amount;
+
+		return this.mQuantity;
+	}
+
 	// -------------------------------------------------------------------------
 
 	// 상품 구매 ID 얻기
@@ -84,9 +104,11 @@ public class ProductOrderDetailItem extends ListItem {
 	// 최종 금액 얻기 => 원래 금액 - (할인 금액 * 수량)
 	public int getFinalPrice() throws Exception {
 		// 비회원인 경우
-		// if (true) {
-		// return this.getOrgPrice();
-		// }
+		var poi = this.getProdOrderItem();
+		var ci = poi.getCustItem();
+		if (ci.getId() == CustomerItem.GUEST_ID) {
+			return this.getOrgPrice();
+		}
 
 		var prodDiscntsMngr = ProductDiscountsManagerMem.getInstance();
 		var prodDiscntItem = prodDiscntsMngr.findById(this.getProdId());

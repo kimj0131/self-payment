@@ -27,9 +27,34 @@ public class CustomerManagerMem extends ListManagerMem<CustomerItem>
 	public static CustomerManagerMem getInstance() {
 		if (mInstance == null) {
 			mInstance = new CustomerManagerMem();
+
+			try {
+				// 비회원 객체 추가
+				mInstance.add(CustomerItem.GUEST);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 		return mInstance;
+	}
+
+	// -------------------------------------------------------------------------
+
+	// 포인트 업데이트
+	public void updatePoint(int custId, int point) throws Exception {
+		var ci = this.findById(custId);
+
+		if (ci == null) {
+			String msg = String.format("[CustomerManagerMem.updatePoint()]"
+					+
+					" Invalid custId(%d)!",
+					custId);
+			throw new Exception(msg);
+		}
+
+		ci.setPoint(point);
+		this.updateById(ci.getId(), null);
 	}
 
 	// -------------------------------------------------------------------------

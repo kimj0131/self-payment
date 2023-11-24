@@ -70,6 +70,28 @@ public class ListManagerMem<T extends ListItem> extends ListManager<T> {
 	}
 
 	@Override
+	protected String onDeleteItems(Iterator<T> iterator) throws Exception {
+		// int idx = 0;
+		// for (var i : this.mList) {
+		// if (iterator.onGetItem(i, idx++))
+		// this.deleteById(i.getId());
+		// }
+
+		int idx = 0;
+		List<Integer> ids = new ArrayList<>();
+		for (var i : this.mList) {
+			if (iterator.onGetItem(i, idx))
+				ids.add(idx++);
+		}
+
+		for (var id : ids) {
+			this.deleteById(id);
+		}
+
+		return "";
+	}
+
+	@Override
 	protected boolean onIsDuplicatedId(int id) {
 		for (var item : this.mList) {
 			if (item.getId() == id)

@@ -270,7 +270,7 @@ public class TestProductManager {
 					try {
 						// 재고 10개씩 증가. "에이스" 과자는 제외. 상품 재고 수량 테스트.
 						if (!item.getName().equals("에이스"))
-							prodStocksMngr.setQuantityByProdId(item.getId(), 10);
+							prodStocksMngr.updateQuantityByProdId(item.getId(), 10);
 
 						// 할인율 100원씩 증가
 						prodDiscntsMngr.setAmountByProdId(item.getId(), 100);
@@ -329,7 +329,7 @@ public class TestProductManager {
 					poi.setUsedPoint(1000);
 
 					// 포인트 적립
-					poi.updateEarnedPoint();
+					poi.calcEarnedPoint();
 				}
 
 				// 구매 내역 출력

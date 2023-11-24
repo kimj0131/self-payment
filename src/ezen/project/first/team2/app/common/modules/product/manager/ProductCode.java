@@ -31,11 +31,18 @@ public class ProductCode implements Cloneable {
 	}
 
 	// 생성자 - 제품 코드 문자열 입력
-	public ProductCode(String prodCode) {
+	public ProductCode(String prodCode) throws Exception {
+		if (prodCode.length() != 4) {
+			String msg = String.format("[ProductCode.ctro()]",
+					" Invalid prodCode(%s)!",
+					prodCode);
+			throw new Exception(msg);
+		}
+
 		String typeStr = prodCode.substring(0, 1);
 		String snStr = prodCode.substring(1);
 
-		this.mType = this.strToType(typeStr);
+		this.mType = strToType(typeStr);
 		this.mSn = Integer.parseInt(snStr);
 	}
 
@@ -57,7 +64,7 @@ public class ProductCode implements Cloneable {
 	}
 
 	// Type으로 문자열(한 문자) 얻기
-	public String typeToStr(Type type) {
+	public static String typeToStr(Type type) {
 		switch (type) {
 			// 과자
 			case Snack:
@@ -84,7 +91,7 @@ public class ProductCode implements Cloneable {
 	}
 
 	// 문자열로 Type 얻기
-	public Type strToType(String str) {
+	public static Type strToType(String str) {
 		// 과자
 		if (str.equals("S"))
 			return Type.Snack;

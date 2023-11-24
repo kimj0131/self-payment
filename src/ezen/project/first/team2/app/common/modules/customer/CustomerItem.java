@@ -15,6 +15,9 @@ public class CustomerItem extends ListItem {
 	// -------------------------------------------------------------------------
 
 	public static final int GUEST_ID = 0;
+	public static final CustomerItem GUEST = new CustomerItem(
+			GUEST_ID, LocalDate.of(2023, 1, 1), "",
+			LocalDate.of(2023, 1, 1), "", 0, "비회원");
 
 	// -------------------------------------------------------------------------
 
@@ -87,13 +90,17 @@ public class CustomerItem extends ListItem {
 	}
 
 	// 포인트 증가
-	public void incPoint(int amount) {
+	public int incPoint(int amount) {
 		this.mPoint += amount;
+
+		return this.mPoint;
 	}
 
 	// 포인트 감소
-	public void decPoint(int amount) {
+	public int decPoint(int amount) {
 		this.mPoint -= amount;
+
+		return this.mPoint;
 	}
 
 	// 비고 설정
@@ -148,7 +155,7 @@ public class CustomerItem extends ListItem {
 	public static CustomerItem[] getPredefinedData() {
 		CustomerItem[] data = {
 				new CustomerItem(-1, LocalDate.now(), "이시관", LocalDate.of(1983, 5, 9),
-						"010-0000-8086", 9 * 10000 * 0, ""),
+						"010-0000-8086", 9 * 10000, ""),
 				new CustomerItem(-1, LocalDate.now(), "길근영", LocalDate.of(1983, 12, 19),
 						"010-0000-2794", 8 * 10000, ""),
 				new CustomerItem(-1, LocalDate.now(), "조현우", LocalDate.of(1991, 1, 1),

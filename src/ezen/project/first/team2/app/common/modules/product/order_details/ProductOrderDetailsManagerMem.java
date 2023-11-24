@@ -58,8 +58,37 @@ public class ProductOrderDetailsManagerMem extends ListManagerMem<ProductOrderDe
 
 	//
 
-	// 상품 구매 ID 기준 상세 구매 내역 아이템 얻기
-	public List<ProductOrderDetailItem> getProdOrderDetailItemsByProdOrderId(int prodOrderId) throws Exception {
+	// 상품 구매 ID, 상품 ID 기준으로 아이템 얻기
+	public ProductOrderDetailItem getItemByProdOrderIdAndProdId(int prodOrderId, int prodId)
+			throws Exception {
+		return find((_item, _idx) -> {
+			return _item.getProdOrderId() == prodOrderId && _item.getProdId() == prodId;
+		});
+	}
+
+	// 상품 구매 ID 기준으로 상세 구매 내역 아이템 얻기
+	public List<ProductOrderDetailItem> getItemsByProdOrderId(int prodOrderId)
+			throws Exception {
 		return this.findItems((item, idx) -> item.getProdOrderId() == prodOrderId);
+	}
+
+	// -------------------------------------------------------------------------
+
+	// 상품 수량 업데이트
+	public void updateQuantity(int prodOrderId, int prodId, int quantity) throws Exception {
+		var poi = this.find((item, idx) -> {
+			return item.getProdOrderId() == prodOrderId && item.getProdId() == prodId;
+		});
+
+		if (poi == null) {
+			String msg = String.format("[ProductOrderDetailsManagerMem.updateQuantity()]"
+					+
+					" Invalid prodOrderId(%d) and/or prodId(%d)!",
+					prodOrderId, prodId);
+			throw new Exception(msg);
+		}
+
+		poi.setQuantity(quantity);
+		this.updateById(poi.getId(), poi);
 	}
 }

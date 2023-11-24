@@ -66,25 +66,33 @@ public class ProductOrderItem extends ListItem {
 
 	// 구매자 설정. 상품을 구입한 후 결제 전에 설정한다.
 	public void setCustId(int custId) {
-		//
+		this.mCustId = custId;
 	}
 
 	// 사용할 포인트 설정
 	public void setUsedPoint(int point) throws Exception {
+		// 비회원인 경우 예외 발생!
 		if (this.getCustId() == CustomerItem.GUEST_ID) {
-			// 예외 발생!!
+			String msg = String.format("[ProductOrderItem.setUsedPoint()]" +
+					" Customer id is guest!");
+			throw new Exception(msg);
 		}
 
-		//
+		this.mUsedPoint = point;
 	}
 
 	// 적립된 포인트 업데이트. 최종 금액을 기준으로 계산되므로 나중에 호출해야 한다.
-	public void updateEarnedPoint() throws Exception {
+	public int calcEarnedPoint() throws Exception {
+		// 비회원인 경우 예외 발생!
 		if (this.getCustId() == CustomerItem.GUEST_ID) {
-			// 예외 발생!!
+			String msg = String.format("[ProductOrderItem.setUsedPoint()]" +
+					" Customer id is guest!");
+			throw new Exception(msg);
 		}
 
 		this.mEarnedPoint = (int) Math.floor(this.getFinalTotalPrice() * POINT_RATE);
+
+		return this.mEarnedPoint;
 	}
 
 	// -------------------------------------------------------------------------
@@ -151,7 +159,7 @@ public class ProductOrderItem extends ListItem {
 	// 상세 구매 내역 아이템 얻기
 	public List<ProductOrderDetailItem> getProdOrderDetailItems() throws Exception {
 		var prodOrderDetailsMngr = ProductOrderDetailsManagerMem.getInstance();
-		return prodOrderDetailsMngr.getProdOrderDetailItemsByProdOrderId(this.getId());
+		return prodOrderDetailsMngr.getItemsByProdOrderId(this.getId());
 	}
 
 	// -------------------------------------------------------------------------
@@ -180,7 +188,7 @@ public class ProductOrderItem extends ListItem {
 		try {
 			var poi = (ProductOrderItem) item;
 			this.setValues(poi.getId(), poi.getOrderDateTime(), poi.getCustId(), poi.mUsedPoint);
-			this.updateEarnedPoint();
+			this.calcEarnedPoint();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

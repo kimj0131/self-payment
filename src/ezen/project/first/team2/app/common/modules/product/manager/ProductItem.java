@@ -120,66 +120,72 @@ public class ProductItem extends ListItem {
 	// -------------------------------------------------------------------------
 
 	public static ProductItem[] getPredefinedProductData() {
-		ProductItem[] data = {
-				// 과자
-				// new ProductItem(-1, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200,
-				// ""),
-				// new ProductItem(-1, new ProductCode("S0002"), LocalDate.now(), "오감자", 1400,
-				// ""),
-				// new ProductItem(-1, new ProductCode("S0003"), LocalDate.now(), "썬칩", 1400,
-				// ""),
-				// new ProductItem(-1, new ProductCode("S0004"), LocalDate.now(), "포카칩", 1400,
-				// ""),
-				// new ProductItem(-1, new ProductCode("S0005"), LocalDate.now(), "에이스", 1400,
-				// ""),
-				//
-				new ProductItem(-1, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1000, ""),
-				new ProductItem(-1, new ProductCode("S0002"), LocalDate.now(), "오감자", 1000, ""),
-				new ProductItem(-1, new ProductCode("S0003"), LocalDate.now(), "썬칩", 1000, ""),
-				new ProductItem(-1, new ProductCode("S0004"), LocalDate.now(), "포카칩", 1000, ""),
-				new ProductItem(-1, new ProductCode("S0005"), LocalDate.now(), "에이스", 1000, ""),
-				//
-				new ProductItem(-1, new ProductCode("S0006"), LocalDate.now(), "죠리퐁", 1200, ""),
-				new ProductItem(-1, new ProductCode("S0007"), LocalDate.now(), "바나나킥", 1600, ""),
-				new ProductItem(-1, new ProductCode("S0008"), LocalDate.now(), "새우깡", 1500, ""),
-				new ProductItem(-1, new ProductCode("S0009"), LocalDate.now(), "홈런볼", 1380, ""),
-				new ProductItem(-1, new ProductCode("S0010"), LocalDate.now(), "칸", 2000, ""),
+		try {
+			ProductItem[] data = {
+					// 과자
+					// new ProductItem(-1, new ProductCode("S001"), LocalDate.now(), "빼빼로", 1200,
+					// ""),
+					// new ProductItem(-1, new ProductCode("S002"), LocalDate.now(), "오감자", 1400,
+					// ""),
+					// new ProductItem(-1, new ProductCode("S003"), LocalDate.now(), "썬칩", 1400,
+					// ""),
+					// new ProductItem(-1, new ProductCode("S004"), LocalDate.now(), "포카칩", 1400,
+					// ""),
+					// new ProductItem(-1, new ProductCode("S005"), LocalDate.now(), "에이스", 1400,
+					// ""),
+					//
+					new ProductItem(-1, new ProductCode("S001"), LocalDate.now(), "빼빼로", 1000, ""),
+					new ProductItem(-1, new ProductCode("S002"), LocalDate.now(), "오감자", 1000, ""),
+					new ProductItem(-1, new ProductCode("S003"), LocalDate.now(), "썬칩", 1000, ""),
+					new ProductItem(-1, new ProductCode("S004"), LocalDate.now(), "포카칩", 1000, ""),
+					new ProductItem(-1, new ProductCode("S005"), LocalDate.now(), "에이스", 1000, ""),
+					//
+					new ProductItem(-1, new ProductCode("S006"), LocalDate.now(), "죠리퐁", 1200, ""),
+					new ProductItem(-1, new ProductCode("S007"), LocalDate.now(), "바나나킥", 1600, ""),
+					new ProductItem(-1, new ProductCode("S008"), LocalDate.now(), "새우깡", 1500, ""),
+					new ProductItem(-1, new ProductCode("S009"), LocalDate.now(), "홈런볼", 1380, ""),
+					new ProductItem(-1, new ProductCode("S010"), LocalDate.now(), "칸", 2000, ""),
 
-				// 라면
-				new ProductItem(-1, new ProductCode("R0001"), LocalDate.now(), "진라면5봉", 3850, ""),
-				new ProductItem(-1, new ProductCode("R0002"), LocalDate.now(), "신라면5봉", 3900, ""),
-				new ProductItem(-1, new ProductCode("R0003"), LocalDate.now(), "삼양라면5봉", 3680, ""),
-				new ProductItem(-1, new ProductCode("R0004"), LocalDate.now(), "자파게티5봉", 4880, ""),
-				new ProductItem(-1, new ProductCode("R0005"), LocalDate.now(), "안성탕면5봉", 3700, ""),
+					// 라면
+					new ProductItem(-1, new ProductCode("R001"), LocalDate.now(), "진라면5봉", 3850, ""),
+					new ProductItem(-1, new ProductCode("R002"), LocalDate.now(), "신라면5봉", 3900, ""),
+					new ProductItem(-1, new ProductCode("R003"), LocalDate.now(), "삼양라면5봉", 3680, ""),
+					new ProductItem(-1, new ProductCode("R004"), LocalDate.now(), "자파게티5봉", 4880, ""),
+					new ProductItem(-1, new ProductCode("R005"), LocalDate.now(), "안성탕면5봉", 3700, ""),
 
-				// 주류
-				new ProductItem(-1, new ProductCode("D0001"), LocalDate.now(), "소주", 1800, ""),
-				new ProductItem(-1, new ProductCode("D0002"), LocalDate.now(), "양주", 15000, ""),
-				new ProductItem(-1, new ProductCode("D0003"), LocalDate.now(), "막걸리", 1400, ""),
-				new ProductItem(-1, new ProductCode("D0004"), LocalDate.now(), "맥주", 1800, ""),
-				new ProductItem(-1, new ProductCode("D0005"), LocalDate.now(), "와인", 36000, ""),
+					// 주류
+					new ProductItem(-1, new ProductCode("D001"), LocalDate.now(), "소주", 1800, ""),
+					new ProductItem(-1, new ProductCode("D002"), LocalDate.now(), "양주", 15000, ""),
+					new ProductItem(-1, new ProductCode("D003"), LocalDate.now(), "막걸리", 1400, ""),
+					new ProductItem(-1, new ProductCode("D004"), LocalDate.now(), "맥주", 1800, ""),
+					new ProductItem(-1, new ProductCode("D005"), LocalDate.now(), "와인", 36000, ""),
 
-				// 과일
-				new ProductItem(-1, new ProductCode("F0001"), LocalDate.now(), "바나나1송이", 5550, ""),
-				new ProductItem(-1, new ProductCode("F0002"), LocalDate.now(), "사과1개", 888, ""),
-				new ProductItem(-1, new ProductCode("F0003"), LocalDate.now(), "오렌지1개", 980, ""),
-				new ProductItem(-1, new ProductCode("F0004"), LocalDate.now(), "파인애플1통(약2kg)", 7500, ""),
-				new ProductItem(-1, new ProductCode("F0005"), LocalDate.now(), "포도1송이", 6500, ""),
+					// 과일
+					new ProductItem(-1, new ProductCode("F001"), LocalDate.now(), "바나나1송이", 5550, ""),
+					new ProductItem(-1, new ProductCode("F002"), LocalDate.now(), "사과1개", 888, ""),
+					new ProductItem(-1, new ProductCode("F003"), LocalDate.now(), "오렌지1개", 980, ""),
+					new ProductItem(-1, new ProductCode("F004"), LocalDate.now(), "파인애플1통(약2kg)", 7500, ""),
+					new ProductItem(-1, new ProductCode("F005"), LocalDate.now(), "포도1송이", 6500, ""),
 
-				// 채소
-				new ProductItem(-1, new ProductCode("V0001"), LocalDate.now(), "상추1kg", 2750, ""),
-				new ProductItem(-1, new ProductCode("V0002"), LocalDate.now(), "감자개당", 398, ""),
-				new ProductItem(-1, new ProductCode("V0003"), LocalDate.now(), "고구마개당", 599, ""),
-				new ProductItem(-1, new ProductCode("V0004"), LocalDate.now(), "무", 1700, ""),
-				new ProductItem(-1, new ProductCode("V0005"), LocalDate.now(), "배추1포기", 20800, ""),
-				new ProductItem(-1, new ProductCode("V0006"), LocalDate.now(), "브로콜리", 1058, ""),
-				new ProductItem(-1, new ProductCode("V0007"), LocalDate.now(), "애호박", 1590, ""),
-				new ProductItem(-1, new ProductCode("V0008"), LocalDate.now(), "당근", 750, ""),
-				new ProductItem(-1, new ProductCode("V0009"), LocalDate.now(), "양파", 330, ""),
-				new ProductItem(-1, new ProductCode("V0010"), LocalDate.now(), "파프리카", 1590, ""),
-		};
+					// 채소
+					new ProductItem(-1, new ProductCode("V001"), LocalDate.now(), "상추1kg", 2750, ""),
+					new ProductItem(-1, new ProductCode("V002"), LocalDate.now(), "감자개당", 398, ""),
+					new ProductItem(-1, new ProductCode("V003"), LocalDate.now(), "고구마개당", 599, ""),
+					new ProductItem(-1, new ProductCode("V004"), LocalDate.now(), "무", 1700, ""),
+					new ProductItem(-1, new ProductCode("V005"), LocalDate.now(), "배추1포기", 20800, ""),
+					new ProductItem(-1, new ProductCode("V006"), LocalDate.now(), "브로콜리", 1058, ""),
+					new ProductItem(-1, new ProductCode("V007"), LocalDate.now(), "애호박", 1590, ""),
+					new ProductItem(-1, new ProductCode("V008"), LocalDate.now(), "당근", 750, ""),
+					new ProductItem(-1, new ProductCode("V009"), LocalDate.now(), "양파", 330, ""),
+					new ProductItem(-1, new ProductCode("V010"), LocalDate.now(), "파프리카", 1590, ""),
+			};
 
-		return data;
+			return data;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	// -------------------------------------------------------------------------
