@@ -18,7 +18,7 @@ public class MainPage extends Page {
 	// 페이지 정보 상수 정의
 
 	public static final String TITLE = "회원 가입 프로그램";
-	public static final Dimension SIZE = new Dimension(640, 360);
+	public static final Dimension SIZE = new Dimension(480, 360);
 
 	public static final int VIEW_NUM_MAIN = 0;
 
