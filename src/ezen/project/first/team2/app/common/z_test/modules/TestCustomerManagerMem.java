@@ -32,8 +32,8 @@ public class TestCustomerManagerMem {
 			{
 				printSection("고객 리스트");
 
-				custMngr.iterate((info, idx) -> {
-					System.out.println("  " + info.toString());
+				custMngr.iterate((item, idx) -> {
+					System.out.println("  " + item.toString());
 
 					return true;
 				});

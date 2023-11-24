@@ -127,4 +127,17 @@ public class TimeUtils {
 	public static String localDateTimeToStr(LocalDateTime localDateTime) {
 		return localDateTimeToStr(localDateTime, true);
 	}
+
+	// 입력된 날짜가 유효한지 확인한다
+	public static boolean isValidDate(int year, int month, int day) {
+		try {
+			LocalDate.of(year, month, day);
+
+			return true;
+		} catch (Exception e) {
+			//
+		}
+
+		return false;
+	}
 }
