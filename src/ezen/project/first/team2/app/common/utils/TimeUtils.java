@@ -142,6 +142,6 @@ public class TimeUtils {
 	}
 
 	public static boolean isValidDate(LocalDate date) {
-		return isValidDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth())
+		return isValidDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
 	}
 }
