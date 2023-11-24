@@ -135,9 +135,13 @@ public class TimeUtils {
 
 			return true;
 		} catch (Exception e) {
-			//
+			e.printStackTrace();
 		}
 
 		return false;
+	}
+
+	public static boolean isValidDate(LocalDate date) {
+		return isValidDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth())
 	}
 }
