@@ -49,7 +49,6 @@ public class AdjustStockView extends View {
     JPanel mPanelResult = new JPanel();
     // 검색 컴포넌트
     JComboBox<String> mComboBoxSearchProperty;
-    String[] properties = { "상품명", "상품코드" };
     JTextField mTextFieldSearch = new JTextField(10);
     JButton mBtnSearch = new JButton("검색");
     // 검색결과 컴포넌트
@@ -124,6 +123,7 @@ public class AdjustStockView extends View {
         this.mSroll.setBorder(
                 BorderFactory.createEmptyBorder(10, 30, 30, 30));
         // 콤보박스 설정
+        String[] properties = { "상품명", "상품코드" };
         this.mComboBoxSearchProperty = new JComboBox<String>(properties);
 
         // 확정버튼 설정
@@ -161,7 +161,7 @@ public class AdjustStockView extends View {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     int row = mTableResultList.getSelectedRow();
-                    int col = mTableResultList.getSelectedColumn();
+                    // int col = mTableResultList.getSelectedColumn();
 
                     int editColumn = 5;
                     mTableResultList.changeSelection(row, editColumn, false, false);
@@ -199,10 +199,7 @@ public class AdjustStockView extends View {
                             String searchText = mTextFieldSearch.getText();
 
                             // 상품 아이템 얻기
-                            ProductItem prodItem = prodMngr.findByName(searchText);
-                            // 복수의 결과를 대비 아이템리스트 생성
-                            List<ProductItem> prodItemList = new ArrayList<>();
-                            prodItemList.add(prodItem);
+                            List<ProductItem> prodItemList = prodMngr.findByName(searchText);
 
                             searchItemAddtable(prodItemList);
 
@@ -227,7 +224,6 @@ public class AdjustStockView extends View {
                             ProductCode prodCode = new ProductCode(searchText);
                             ProductItem prodItem = prodMngr.findByProductCode(prodCode);
 
-                            // 복수의 결과를 대비 아이템리스트 생성
                             List<ProductItem> prodItemList = new ArrayList<>();
                             prodItemList.add(prodItem);
 

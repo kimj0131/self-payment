@@ -156,28 +156,10 @@ public class ListStockView extends View {
                             String searchText = mTextFieldSearch.getText();
 
                             // 상품 아이템 얻기
-                            ProductItem prodItem = prodMngr.findByName(searchText);
-                            // 복수의 결과를 대비 아이템리스트 생성
-                            List<ProductItem> prodItemList = new ArrayList<>();
-                            prodItemList.add(prodItem);
+                            List<ProductItem> prodItemList = prodMngr.findByName(searchText);
 
                             searchItemAddtable(prodItemList);
 
-                            //
-                            // // 상품 재고 아이템 얻기
-                            // ProductStocksManagerMem prodStocksMngr =
-                            // ProductStocksManagerMem.getInstance();
-                            // ProductStockItem psi = prodStocksMngr.findByProdItem(pi.getId());
-
-                            // // 상품 재고 수량 업데이트
-                            // psi.setQuantity(psi.getQuantity() + 10);
-                            // // psi.incQuantity(10); // increment
-                            // // psi.decQunatify(10); // decrement
-
-                            // // 상품 재고 매니저 업데이트
-                            // prodStocksMngr.updateById(psi.getId(), psi);
-
-                            //
                         } catch (Exception e1) {
                             System.out.println("[findByName()]No Search Result");
                             UiUtils.showMsgBox("검색결과가 없습니다", "");
@@ -199,32 +181,10 @@ public class ListStockView extends View {
                             ProductCode prodCode = new ProductCode(searchText);
                             ProductItem prodItem = prodMngr.findByProductCode(prodCode);
 
-                            // 복수의 결과를 대비 아이템리스트 생성
                             List<ProductItem> prodItemList = new ArrayList<>();
                             prodItemList.add(prodItem);
 
                             searchItemAddtable(prodItemList);
-
-                            // //
-                            // System.out.println("SearchText : " + searchText);
-
-                            // String compareText = prodItem.getProdCode().toString();
-                            // //
-                            // System.out.println("CompareText : " + compareText);
-
-                            // // prodItem.getProdCode();
-                            // // 부분검색
-                            // if (!(searchText.equals(compareText))
-                            // || !(searchText.contains(compareText))) {
-                            // System.out.println("진입 확인");
-                            // UiUtils.showMsgBox("검색결과가 없습니다", "");
-                            // } else if (searchText.equals(compareText)) {
-                            // // 단건 검색
-                            // prodItemList.add(prodItem);
-                            // }
-                            // // else if (searchText.contains(compareText)) {
-                            // // UiUtils.showMsgBox("일부만 동일", "");
-                            // // }
 
                         } catch (Exception e1) {
                             System.out.println("[findByName()]No Search Result");

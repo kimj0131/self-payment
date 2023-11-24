@@ -152,6 +152,8 @@ public class MainPage extends Page {
 		try {
 			// 상품재고매니저 초기화
 			prodStMngr.init();
+			// 상품할인매니저 초기화
+			prodDiscMngr.init();
 
 			// 고객 더미데이터 추가
 			custMngr.init();
@@ -169,7 +171,7 @@ public class MainPage extends Page {
 				// System.out.println(", " + di.getName());
 			}
 
-			prodStMngr.add(null);
+			// prodStMngr.add(null);
 
 		} catch (Exception e) {
 			e.printStackTrace();

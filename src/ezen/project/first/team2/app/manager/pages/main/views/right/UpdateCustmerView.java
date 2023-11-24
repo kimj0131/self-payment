@@ -21,9 +21,9 @@ public class UpdateCustmerView extends View {
 
     JLabel mLabelInfo = new JLabel("고객 데이터 수정");
 
-    // 고객 리스트를 테이블로 출력
+    // 고객 리스트를 테이블
     JTable mCustLisTable;
-    // 고객리스트를 출력할 패널생성
+    // 고객리스트 패널
     JPanel mPanelPropertyList = new JPanel();
     // 스크롤 삽입
     JScrollPane mScroll;
@@ -64,10 +64,9 @@ public class UpdateCustmerView extends View {
     @Override
     protected void onAddCtrls() {
 
-        // 열 이동불가
+        // 테이블 설정
         this.mCustLisTable.getTableHeader().setReorderingAllowed(false);
-        // 열 크기조절불가
-        // this.mCustLisTable.getTableHeader().setResizingAllowed(false);
+
         this.mLabelInfo.setOpaque(true);
         this.mLabelInfo.setBackground(Color.LIGHT_GRAY);
         this.mLabelInfo.setHorizontalAlignment(JLabel.CENTER);

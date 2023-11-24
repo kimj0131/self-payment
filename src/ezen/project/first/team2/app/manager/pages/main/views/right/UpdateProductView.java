@@ -2,14 +2,18 @@ package ezen.project.first.team2.app.manager.pages.main.views.right;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -24,6 +28,7 @@ import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
 import ezen.project.first.team2.app.common.utils.UiUtils;
+import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxType;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
@@ -34,21 +39,42 @@ public class UpdateProductView extends View {
 
     ProductManagerMem prodMngr = ProductManagerMem.getInstance();
 
-    // 검색, 결과용 패널
-    JPanel mPanelSearchResult = new JPanel();
-    // 검색용 패널
+    // 검색, 결과, 수정용 패널
+    JPanel mPanelSearchUpdate = new JPanel();
+    // 상품검색용 패널
     JPanel mPanelSearch = new JPanel();
     // 검색결과용 패널
     JPanel mPanelResult = new JPanel();
+    // 상품속성 수정패널
+    JPanel mPanelPropertyUpdate = new JPanel();
+
     // 검색 컴포넌트
     JComboBox<String> mComboBoxSearchProperty;
     String[] properties = { "상품명", "상품코드" };
     JTextField mTextFieldSearch = new JTextField(10);
-    JButton mBtnSearch = new JButton("검색");
+    JButton mBtnSearch = new JButton("상품검색");
     // 검색결과 컴포넌트
     JTable mTableResultList;
-    JScrollPane mSroll;
-    // 수정확정 버튼
+    JScrollPane mScroll;
+
+    // 상품수정 컴포넌트
+    JLabel mLabelPanelInfo = new JLabel("수정 항목");
+    JPanel mPanelUpdateIdCode = new JPanel();
+    JLabel mLabelUpdateProdId = new JLabel("상품 번호");
+    JTextField mTextFieldUpdateProdId = new JTextField(5);
+    JLabel mLabelUpdateProdCode = new JLabel("상품 코드");
+    JTextField mTextFieldUpdateProdCode = new JTextField(5);
+
+    JPanel mPanelUpdateNamePrice = new JPanel();
+    JLabel mLabelUpdateProdName = new JLabel("상품 이름");
+    JTextField mTextFieldUpdateName = new JTextField(10);
+    JLabel mLabelUpdateProdPrice = new JLabel("상품 가격");
+    JTextField mTextFieldUpdatePrice = new JTextField(10);
+
+    JPanel mPanelUpdateDesc = new JPanel();
+    JLabel mLabelUpdateDesc = new JLabel("비 고");
+    JTextField mTextFieldUpdateDesc = new JTextField(20);
+
     JButton mBtnUpdateComplete = new JButton("수정 확정");
 
     public UpdateProductView() {
@@ -62,7 +88,7 @@ public class UpdateProductView extends View {
             Object[] mPropertyColumn = {
                     "상품번호", "상품코드", "상품명", "가격", "등록일", "설명"
             };
-            Object[][] mProdListRows = new Object[mPropertyColumn.length][prodMngr.getCount()];
+            Object[][] mProdListRows = new Object[mPropertyColumn.length][0];
 
             DefaultTableModel model = new DefaultTableModel(mProdListRows, mPropertyColumn) {
                 // 셀 내용 수정 불가
@@ -81,8 +107,9 @@ public class UpdateProductView extends View {
     @Override
     protected void onSetLayout() {
         this.setLayout(new BorderLayout());
-        this.mPanelSearchResult.setLayout(new BorderLayout());
-        this.mPanelResult.setLayout(new BorderLayout());
+        this.mPanelSearchUpdate.setLayout(new BorderLayout());
+        this.mPanelResult.setLayout(new GridLayout(2, 1));
+        this.mPanelPropertyUpdate.setLayout(new BoxLayout(mPanelPropertyUpdate, BoxLayout.Y_AXIS));
 
     }
 
@@ -95,9 +122,9 @@ public class UpdateProductView extends View {
         // 테이블 설정
         this.mTableResultList.getTableHeader().setReorderingAllowed(false);
         // 스크롤 설정
-        this.mSroll = new JScrollPane(mTableResultList);
-        this.mSroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        this.mSroll.setBorder(
+        this.mScroll = new JScrollPane(mTableResultList);
+        this.mScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        this.mScroll.setBorder(
                 BorderFactory.createEmptyBorder(10, 30, 30, 30));
         // 콤보박스 설정
         this.mComboBoxSearchProperty = new JComboBox<String>(properties);
@@ -106,23 +133,51 @@ public class UpdateProductView extends View {
         this.mBtnUpdateComplete.setBorder(
                 BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        this.mTextFieldUpdateProdId.setEnabled(false);
+        this.mTextFieldUpdateProdCode.setEnabled(false);
+
+        this.mPanelPropertyUpdate.setBorder(
+                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // 페이지에 추가
         this.add(mLabelInfo, BorderLayout.NORTH);
-        this.add(mPanelSearchResult, BorderLayout.CENTER);
-        this.mPanelSearchResult.add(mPanelSearch, BorderLayout.NORTH);
-        this.mPanelSearchResult.add(mPanelResult, BorderLayout.CENTER);
+        this.add(mPanelSearchUpdate, BorderLayout.CENTER);
+
+        this.mPanelSearchUpdate.add(mPanelSearch, BorderLayout.NORTH);
+        this.mPanelSearchUpdate.add(mPanelResult, BorderLayout.CENTER);
+
         this.mPanelSearch.add(mComboBoxSearchProperty);
         this.mPanelSearch.add(mTextFieldSearch);
         this.mPanelSearch.add(mBtnSearch);
-        this.mPanelResult.add(mSroll, BorderLayout.CENTER);
-        this.mPanelResult.add(mBtnUpdateComplete, BorderLayout.SOUTH);
+
+        this.mPanelResult.add(mScroll);
+        this.mPanelResult.add(mPanelPropertyUpdate);
+
+        // 상품수정 패널
+        this.mPanelPropertyUpdate.add(mLabelPanelInfo);
+        this.mPanelPropertyUpdate.add(mPanelUpdateIdCode);
+        this.mPanelPropertyUpdate.add(mPanelUpdateNamePrice);
+        this.mPanelPropertyUpdate.add(mPanelUpdateDesc);
+
+        this.mPanelUpdateIdCode.add(mLabelUpdateProdId);
+        this.mPanelUpdateIdCode.add(mTextFieldUpdateProdId);
+        this.mPanelUpdateIdCode.add(mLabelUpdateProdCode);
+        this.mPanelUpdateIdCode.add(mTextFieldUpdateProdCode);
+
+        this.mPanelUpdateNamePrice.add(mLabelUpdateProdName);
+        this.mPanelUpdateNamePrice.add(mTextFieldUpdateName);
+        this.mPanelUpdateNamePrice.add(mLabelUpdateProdPrice);
+        this.mPanelUpdateNamePrice.add(mTextFieldUpdatePrice);
+
+        this.mPanelUpdateDesc.add(mLabelUpdateDesc);
+        this.mPanelUpdateDesc.add(mTextFieldUpdateDesc);
+
+        this.mPanelPropertyUpdate.add(mBtnUpdateComplete);
     }
 
     @Override
     protected void onAddEventListeners() {
-        mTextFieldSearch.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
+        mTextFieldSearch.addKeyListener(new KeyAdapter() {
 
             @Override
             public void keyPressed(KeyEvent e) {
@@ -130,31 +185,49 @@ public class UpdateProductView extends View {
                     mPanelSearch.getRootPane().setDefaultButton(mBtnSearch);
                 }
             }
+        });
 
+        mTableResultList.addMouseListener(new MouseAdapter() {
             @Override
-            public void keyReleased(KeyEvent e) {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int row = mTableResultList.getSelectedRow();
+
+                    int idColumn = 0;
+                    int findId = (int) mTableResultList.getValueAt(row, idColumn);
+
+                    try {
+                        ProductItem findedItem = prodMngr.findById(findId);
+
+                        searchItemAddTextField(findedItem);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+
+                }
             }
+
         });
 
         ActionListener listener = e -> {
-            if (e.getSource() == mBtnSearch) {
-                System.out.println("Pressed Search Button!");
+            JButton btn = (JButton) e.getSource();
+
+            if (btn == this.mBtnSearch) { // 상품검색
+
+                // 텍스트 필드를 비운다
+                allTextFieldReset();
 
                 String property = mComboBoxSearchProperty.getSelectedItem().toString();
-                System.out.println("Property : " + property);
 
                 switch (property) {
-
                     case "상품명":
                         try {
                             String searchText = mTextFieldSearch.getText();
 
-                            ProductItem pi = prodMngr.findByName(searchText);
-
-                            List<ProductItem> prodItemList = new ArrayList<>();
-                            prodItemList.add(pi);
+                            List<ProductItem> prodItemList = prodMngr.findByName(searchText);
 
                             searchItemAddtable(prodItemList);
+
                         } catch (Exception e1) {
                             System.out.println("[findByName()]No Search Result");
                             UiUtils.showMsgBox("검색결과가 없습니다", "");
@@ -181,6 +254,7 @@ public class UpdateProductView extends View {
                             prodItemList.add(prodItem);
 
                             searchItemAddtable(prodItemList);
+
                         } catch (Exception e1) {
                             System.out.println("[findByName()]No Search Result");
                             UiUtils.showMsgBox("검색결과가 없습니다", "");
@@ -188,10 +262,27 @@ public class UpdateProductView extends View {
                         }
                         break;
                 }
+            } else if (btn == mBtnUpdateComplete) { // 수정 확정
+
+                try {
+                    int updateId = Integer.valueOf(this.mTextFieldUpdateProdId.getText());
+
+                    ProductItem updateItem = prodMngr.findById(updateId);
+                    updateItem.setName(mTextFieldUpdateName.getText());
+                    updateItem.setPrice(Integer.valueOf(mTextFieldUpdatePrice.getText()));
+                    updateItem.setDesc(mTextFieldUpdateDesc.getText());
+
+                    prodMngr.updateById(updateId, updateItem);
+                } catch (Exception e1) {
+                    UiUtils.showMsgBox("유효하지 않은 동작입니다.", "", MsgBoxType.Error);
+                    // e1.printStackTrace();
+                }
+
             }
         };
 
         this.mBtnSearch.addActionListener(listener);
+        this.mBtnUpdateComplete.addActionListener(listener);
 
     }
 
@@ -199,6 +290,10 @@ public class UpdateProductView extends View {
     protected void onShow(boolean firstTime) {
         System.out.println("[ListProdStockView.onShow()]");
 
+        // 텍스트필드 비워놓기
+        allTextFieldReset();
+
+        // 상품목록을 테이블에 추가
         DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
         m.setRowCount(0);
         try {
@@ -237,11 +332,39 @@ public class UpdateProductView extends View {
         m.setRowCount(0);
 
         for (ProductItem pi : prodItemList) {
+            if (prodItemList.size() == 1) {
+
+                searchItemAddTextField(pi);
+            }
             m.addRow(new Object[] {
                     pi.getId(), pi.getProdCodeStr(),
                     pi.getName(), df.format(pi.getPrice()),
                     pi.getRegDateStr(), pi.getDesc()
             });
         }
+    }
+
+    // 검색한 결과를 텍스트 필드에 추가
+    private void searchItemAddTextField(ProductItem prodItem) {
+
+        UiUtils.showMsgBox(String.format(
+                "수정할 항목은\n[ 상품코드[%s] 상품명[%s] ] 입니다\n",
+                prodItem.getProdCodeStr(),
+                prodItem.getName()), "");
+
+        this.mTextFieldUpdateProdId.setText(prodItem.getId() + "");
+        this.mTextFieldUpdateProdCode.setText(prodItem.getProdCodeStr());
+        this.mTextFieldUpdateName.setText(prodItem.getName());
+        this.mTextFieldUpdatePrice.setText(prodItem.getPrice() + "");
+        this.mTextFieldUpdateDesc.setText(prodItem.getDesc());
+    }
+
+    // 텍스트 필드 비우기
+    private void allTextFieldReset() {
+        this.mTextFieldUpdateProdId.setText("");
+        this.mTextFieldUpdateProdCode.setText("");
+        this.mTextFieldUpdateName.setText("");
+        this.mTextFieldUpdatePrice.setText("");
+        this.mTextFieldUpdateDesc.setText("");
     }
 }
