@@ -289,6 +289,20 @@ public class ListManager<T extends ListItem> {
 
 	// -------------------------------------------------------------------------
 
+	public void loadFromDb(Iterator<T> iterator) {
+		//
+	}
+
+	public void saveToDb(Iterator<T> iterator) {
+		//
+	}
+
+	public void saveToDbById(int id) {
+		//
+	}
+
+	// -------------------------------------------------------------------------
+
 	// 초기화
 	protected void onInit() {
 	}

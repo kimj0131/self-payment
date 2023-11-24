@@ -196,7 +196,7 @@ public class TestProductPurchasing {
 					var pi = prodMngr.findByName(name).get(0);
 					pp._2_addProduct(pi.getId(), 1);
 
-					System.out.println("  - " + name + ", 1개");
+					System.out.println("  - " + name + ", 1개 => " + pp.getProdOrderItem().getFinalTotalPrice());
 				}
 				System.out.println();
 			}
@@ -206,26 +206,35 @@ public class TestProductPurchasing {
 				var ci = custMngr.findByPhoneNumber("010-0000-8086");
 				System.out.println("# 고객 정보");
 				if (ci != null) {
+					pp._3_applyCustomerPoint(ci.getId());
 					System.out.println("  - " + ci);
 					System.out.println();
-					pp._3_applyCustomerPoint(ci.getId(), 1000);
+					//
+					pp._4_setUsedPoint(1000);
+					System.out.println("  => 사용 가능 포인트: " + pp.getProdOrderItem().getCustItem().getPoint());
+					System.out.println("  => 적립 예정 포인트: " + pp.getProdOrderItem().calcEarnedPoint());
+					System.out.println();
 				} else {
 					System.out.println("  - 비회원");
 				}
 			}
 
-			// 4. 취소
+			// 5. 취소
 			{
 				final boolean ROLLBACK_FLAG = !true;
 				if (ROLLBACK_FLAG) {
 					System.out.println("취소!!");
 					System.out.println();
-					pp._4_rollback();
+					pp._5_rollback();
 				}
 			}
 
-			// 5. 완료
-			// pp._5_commit();
+			// ## 결제 시작 ##
+			// ~~
+			// ## 결제 완료 ##
+
+			// 6. 완료
+			pp._6_commit();
 
 			// 취소를 한 경우 pp.getProdOrderItem()가 null을 리턴한다
 			if (pp.getProdOrderItem() != null) {

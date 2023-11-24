@@ -150,7 +150,7 @@ public class ProductPurchasing {
 	}
 
 	// 3. 회원 포인트 적립
-	public void _3_applyCustomerPoint(int custId, int usedPoint) throws Exception {
+	public void _3_applyCustomerPoint(int custId) throws Exception {
 		var ci = this.mCustMngr.findById(custId);
 
 		// 고객 ID가 잘못된 경우
@@ -169,30 +169,40 @@ public class ProductPurchasing {
 			throw new Exception(msg);
 		}
 
+		// 고객 ID 설정
+		this.mProdOrderItem.setCustId(custId);
+	}
+
+	// 4. 사용할 포인트 설정
+	public void _4_setUsedPoint(int point) throws Exception {
+		var ci = this.mProdOrderItem.getCustItem();
+		if (ci == null) {
+			// 예외 발생~
+		}
+
 		// 가용 포인트 확인
-		if (ci.getPoint() < usedPoint) {
-			String msg = String.format("[ProductPurchasing._3_applyCustomerPoint()]" +
+		if (ci.getPoint() < point) {
+			String msg = String.format("[ProductPurchasing._4_setUsedPoint()]" +
 					" ci.getPoint()<%d> < usedPoint<%d>",
-					ci.getPoint(), usedPoint);
+					ci.getPoint(), point);
 			throw new Exception(msg);
 		}
 
-		// 고객 ID 설정
-		this.mProdOrderItem.setCustId(custId);
-
 		// 사용할 포인트 설정
-		this.mProdOrderItem.setUsedPoint(usedPoint);
+		this.mProdOrderItem.setUsedPoint(point);
 
-		// 사용할 포인트 감소
-		ci.decPoint(usedPoint);
+		// {
+		// // 사용할 포인트 감소
+		// ci.decPoint(point);
 
-		// 적립될 포인트 계산 및 증가
-		int earnedPoint = this.mProdOrderItem.calcEarnedPoint();
-		ci.incPoint(earnedPoint);
+		// // 적립될 포인트 계산 및 증가
+		// int earnedPoint = this.mProdOrderItem.calcEarnedPoint();
+		// ci.incPoint(earnedPoint);
+		// }
 	}
 
 	// 4. 취소
-	public void _4_rollback() throws Exception {
+	public void _5_rollback() throws Exception {
 		// 회원인 경우 포인트 관련 처리
 		var ci = this.mProdOrderItem.getCustItem();
 		if (ci != null) {
@@ -230,8 +240,19 @@ public class ProductPurchasing {
 	}
 
 	// 5. 완료
-	public void _5_commit() throws Exception {
-		//
+	public void _6_commit() throws Exception {
+		// 포인트 처리
+
+		var ci = this.mProdOrderItem.getCustItem();
+		if (ci == null) {
+			// 예외 발생~
+		}
+
+		ci.decPoint(this.mProdOrderItem.getUsedPoint());
+
+		// 적립될 포인트 계산 및 증가
+		int earnedPoint = this.mProdOrderItem.calcEarnedPoint();
+		ci.incPoint(earnedPoint);
 	}
 
 	// -------------------------------------------------------------------------
