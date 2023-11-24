@@ -3,11 +3,12 @@ package ezen.project.first.team2.app.manager.pages.main.views.right;
 import javax.swing.JLabel;
 
 import ezen.project.first.team2.app.common.framework.View;
+import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class AddProductView extends View {
 
-    JLabel mLabelInfo = new JLabel("상품 추가뷰 초기화면입니다");
+    JLabel mLabelInfo = new JLabel("상품 데이터 추가");
 
     public AddProductView() {
         super(MainPage.VIEW_NUM_PROD_ADD);
@@ -42,5 +43,13 @@ public class AddProductView extends View {
     @Override
     protected void onHide() {
         System.out.println("[AddProductView.onHide()]");
+    }
+
+    @Override
+    protected void onSetResources() {
+        Main main = (Main) this.getStatusManager();
+
+        JLabel lb1 = (JLabel) this.getComponents()[0];
+        lb1.setFont(main.mFont0);
     }
 }

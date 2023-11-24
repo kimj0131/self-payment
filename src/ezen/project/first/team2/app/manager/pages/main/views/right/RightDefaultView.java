@@ -10,7 +10,7 @@ import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class RightDefaultView extends View {
 
-    JLabel mLabelInfo = new JLabel("관리 시스템 초기화면");
+    JLabel mLabelInfo = new JLabel("◆Management System◆");
 
     public RightDefaultView() {
         super(MainPage.VIEW_NUM_RIGHT);
@@ -49,7 +49,8 @@ public class RightDefaultView extends View {
     @Override
     protected void onSetResources() {
         Main main = (Main) this.getStatusManager();
+
         JLabel lb = (JLabel) this.getComponents()[0];
-        lb.setFont(main.mFont1);
+        lb.setFont(main.mFont0);
     }
 }

@@ -2,6 +2,7 @@ package ezen.project.first.team2.app.manager.pages.main.views.right;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -16,9 +17,11 @@ import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class ListProductView extends View {
+    DecimalFormat df = new DecimalFormat("###,###");
+
     ProductManagerMem prodMngr = ProductManagerMem.getInstance();
 
-    JLabel mLabelInfo = new JLabel("상품 조회뷰 초기화면입니다");
+    JLabel mLabelInfo = new JLabel("상품 조회");
 
     // 상품리스트를 넣을 패널 생성
     JPanel mPanelProdList = new JPanel();
@@ -93,7 +96,7 @@ public class ListProductView extends View {
             prodMngr.iterate((info, idx) -> {
                 m.addRow(new Object[] {
                         info.getId(), info.getProdCodeStr(),
-                        info.getName(), info.getPrice(),
+                        info.getName(), df.format(info.getPrice()),
                         info.getRegDateStr(), info.getDesc()
                 });
                 return true;
@@ -114,6 +117,6 @@ public class ListProductView extends View {
         Main main = (Main) this.getStatusManager();
 
         JLabel lb = (JLabel) this.getComponents()[0];
-        lb.setFont(main.mFont2);
+        lb.setFont(main.mFont0);
     }
 }

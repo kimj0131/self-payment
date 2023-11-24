@@ -3,11 +3,12 @@ package ezen.project.first.team2.app.manager.pages.main.views.right;
 import javax.swing.JLabel;
 
 import ezen.project.first.team2.app.common.framework.View;
+import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class DeleteCustmerView extends View {
 
-    JLabel mLabelInfo = new JLabel("회원 제거뷰 초기화면입니다");
+    JLabel mLabelInfo = new JLabel("고객 데이터 삭제");
 
     public DeleteCustmerView() {
         super(MainPage.VIEW_NUM_CUST_DELETE);
@@ -41,5 +42,13 @@ public class DeleteCustmerView extends View {
     @Override
     protected void onHide() {
         System.out.println("[DeleteCustmerView.onHide()]");
+    }
+
+    @Override
+    protected void onSetResources() {
+        Main main = (Main) this.getStatusManager();
+
+        JLabel lb1 = (JLabel) this.getComponents()[0];
+        lb1.setFont(main.mFont0);
     }
 }

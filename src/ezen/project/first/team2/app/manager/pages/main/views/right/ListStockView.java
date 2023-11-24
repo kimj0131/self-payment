@@ -3,9 +3,9 @@ package ezen.project.first.team2.app.manager.pages.main.views.right;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.time.LocalDate;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,22 +17,25 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerHelper;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class ListStockView extends View {
+    DecimalFormat df = new DecimalFormat("###,###");
     // 수정예정
     ProductManagerMem prodMngr = ProductManagerMem.getInstance();
 
-    JLabel mLabelInfo = new JLabel("재고 조회뷰 초기화면입니다");
+    JLabel mLabelInfo = new JLabel("상품 재고 조회");
 
     // 검색, 결과용 패널
     JPanel mPanelSearchResult = new JPanel();
@@ -58,7 +61,7 @@ public class ListStockView extends View {
         // 테이블 설정
         try {
             Object[] mPropertyColumn = {
-                    "상품번호", "상품코드", "상품명", "가격", "등록일", "설명"
+                    "상품번호", "상품코드", "상품명", "가격", "현재 재고", "상품 설명"
             };
             Object[][] mProdListRows = new Object[mPropertyColumn.length][prodMngr.getCount()];
 
@@ -68,6 +71,9 @@ public class ListStockView extends View {
                 public boolean isCellEditable(int row, int column) {
                     return false;
                 };
+
+                // public void onUpdatedCell(int row, int col) {
+                // }
             };
 
             mTableResultList = new JTable(model);
@@ -92,11 +98,22 @@ public class ListStockView extends View {
 
         // 테이블 설정
         this.mTableResultList.getTableHeader().setReorderingAllowed(false);
+
+        DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+        dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+
+        TableColumnModel tcm = this.mTableResultList.getColumnModel();
+        tcm.getColumn(0).setMaxWidth(60);
+        tcm.getColumn(0).setCellRenderer(dtcr);
+        tcm.getColumn(1).setMaxWidth(100);
+        tcm.getColumn(1).setCellRenderer(dtcr);
+
         // 스크롤 설정
         this.mSroll = new JScrollPane(mTableResultList);
         this.mSroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.mSroll.setBorder(
                 BorderFactory.createEmptyBorder(10, 30, 30, 30));
+
         // 콤보박스 설정
         mComboBoxSearchProperty = new JComboBox<String>(properties);
 
@@ -112,20 +129,15 @@ public class ListStockView extends View {
 
     @Override
     protected void onAddEventListeners() {
-        mTextFieldSearch.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
+
+        // 텍스트필드에서 엔터 누르면 버튼이 눌림
+        mTextFieldSearch.addKeyListener(new KeyAdapter() {
 
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     mPanelSearch.getRootPane().setDefaultButton(mBtnSearch);
                 }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
             }
         });
 
@@ -139,14 +151,30 @@ public class ListStockView extends View {
                 switch (property) {
                     case "상품명":
                         try {
-                            DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
-                            ProductItem pi = prodMngr.findByName(mTextFieldSearch.getText());
-                            m.setRowCount(0);
-                            m.addRow(new Object[] {
-                                    pi.getId(), pi.getProdCodeStr(),
-                                    pi.getName(), pi.getPrice(),
-                                    pi.getRegDateStr(), pi.getDesc()
-                            });
+                            String searchText = mTextFieldSearch.getText();
+
+                            // 상품 아이템 얻기
+                            List<ProductItem> prodItemList = new ArrayList<>();
+                            ProductItem prodItem = prodMngr.findByName(searchText);
+                            prodItemList.add(prodItem);
+
+                            searchItemAddtable(prodItemList);
+
+                            //
+                            // // 상품 재고 아이템 얻기
+                            // ProductStocksManagerMem prodStocksMngr =
+                            // ProductStocksManagerMem.getInstance();
+                            // ProductStockItem psi = prodStocksMngr.findByProdItem(pi.getId());
+
+                            // // 상품 재고 수량 업데이트
+                            // psi.setQuantity(psi.getQuantity() + 10);
+                            // // psi.incQuantity(10); // increment
+                            // // psi.decQunatify(10); // decrement
+
+                            // // 상품 재고 매니저 업데이트
+                            // prodStocksMngr.updateById(psi.getId(), psi);
+
+                            //
                         } catch (Exception e1) {
                             System.out.println("[findByName()]No Search Result");
                             UiUtils.showMsgBox("검색결과가 없습니다", "");
@@ -157,6 +185,7 @@ public class ListStockView extends View {
                         try {
                             // 검색어 앞자리 대문자화
                             String searchText = mTextFieldSearch.getText();
+
                             char prodType = searchText.charAt(0);
                             StringBuilder sb = new StringBuilder(searchText);
                             if (prodType >= 'a' && prodType <= 'z') {
@@ -165,8 +194,12 @@ public class ListStockView extends View {
                             }
                             List<ProductItem> prodItemList = new ArrayList<>();
 
+                            // 리스트에 추가
                             ProductCode prodCode = new ProductCode(searchText);
                             ProductItem prodItem = prodMngr.findByProductCode(prodCode);
+                            prodItemList.add(prodItem);
+
+                            searchItemAddtable(prodItemList);
                             // //
                             // System.out.println("SearchText : " + searchText);
 
@@ -188,16 +221,6 @@ public class ListStockView extends View {
                             // // UiUtils.showMsgBox("일부만 동일", "");
                             // // }
 
-                            prodItemList.add(prodItem);
-                            DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
-                            m.setRowCount(0);
-                            for (ProductItem pi : prodItemList) {
-                                m.addRow(new Object[] {
-                                        pi.getId(), pi.getProdCodeStr(),
-                                        pi.getName(), pi.getPrice(),
-                                        pi.getRegDateStr(), pi.getDesc()
-                                });
-                            }
                         } catch (Exception e1) {
                             System.out.println("[findByName()]No Search Result");
                             UiUtils.showMsgBox("검색결과가 없습니다", "");
@@ -222,8 +245,7 @@ public class ListStockView extends View {
             prodMngr.iterate((info, idx) -> {
                 m.addRow(new Object[] {
                         info.getId(), info.getProdCodeStr(),
-                        info.getName(), info.getPrice(),
-                        info.getRegDateStr(), info.getDesc()
+                        info.getName(), df.format(info.getPrice()),
                 });
                 return true;
             });
@@ -243,7 +265,21 @@ public class ListStockView extends View {
         Main main = (Main) this.getStatusManager();
 
         JLabel lb = (JLabel) this.getComponents()[0];
-        lb.setFont(main.mFont2);
+        lb.setFont(main.mFont0);
     }
 
+    // 검색한 결과를 테이블에 추가
+    private void searchItemAddtable(List<ProductItem> prodItemList) {
+
+        DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
+
+        m.setRowCount(0);
+
+        for (ProductItem pi : prodItemList) {
+            m.addRow(new Object[] {
+                    pi.getId(), pi.getProdCodeStr(),
+                    pi.getName(), df.format(pi.getPrice()),
+            });
+        }
+    }
 }

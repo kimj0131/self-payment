@@ -12,6 +12,7 @@ import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
 import ezen.project.first.team2.app.common.pages.splash.SplashPageParams;
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;
+import ezen.project.first.team2.app.manager.pages.login.LoginPage;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class Main extends StatusManager {
@@ -36,8 +37,8 @@ public class Main extends StatusManager {
 	protected void onAddPages() {
 		try {
 			// 주석제거
-			// this.addPage(new SplashPage(this.getSplashPageParams()));
-			// this.addPage(new LoginPage());
+			this.addPage(new SplashPage(this.getSplashPageParams()));
+			this.addPage(new LoginPage());
 			this.addPage(new MainPage());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,9 +55,9 @@ public class Main extends StatusManager {
 	protected void onRun() {
 		try {
 			// 주석제거
-			// this.setSelectedPageByNum(PAGE_NUM_SPLASH);
+			this.setSelectedPageByNum(PAGE_NUM_SPLASH);
 			// this.setSelectedPageByNum(PAGE_NUM_LOGIN);
-			this.setSelectedPageByNum(PAGE_NUM_MAIN);
+			// this.setSelectedPageByNum(PAGE_NUM_MAIN);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -87,13 +88,13 @@ public class Main extends StatusManager {
 
 				switch (rsrcIdx) {
 					case 0:
-						main.mFont0 = new Font("견명조", Font.BOLD, 50);
+						main.mFont0 = new Font("견명조", Font.BOLD, 40);
 						break;
 					case 1:
 						main.mFont1 = new Font("견명조", Font.PLAIN, 30);
 						break;
 					case 2:
-						main.mFont2 = new Font("견명조", Font.BOLD, 20);
+						main.mFont2 = new Font("견명조", Font.BOLD, 18);
 						break;
 				}
 

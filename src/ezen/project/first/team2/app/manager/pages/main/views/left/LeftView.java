@@ -19,7 +19,7 @@ import ezen.project.first.team2.app.manager.pages.main.views.MainView;
 public class LeftView extends View {
 
     // 상단 로고 라벨
-    JLabel mLabelLogo = new JLabel("## Management System ##");
+    JLabel mLabelLogo = new JLabel("◆Management System◆");
     // 하단 조작 패널
     JPanel mPanelCtr = new JPanel();
     // 하단 패널 분할
@@ -42,7 +42,7 @@ public class LeftView extends View {
     JButton mBtnProdStockAdjust = new JButton("　　　재고 조정　　　");
     // 할인등록
     JLabel mLabelDiscountManage = new JLabel("　　■ 상품 할인");
-    JButton mBtnDiscountAdjust = new JButton("　상품 할인금액 조정　");
+    JButton mBtnDiscountAdjust = new JButton("　　　할인 설정　　　");
 
     public LeftView() {
         super(MainPage.VIEW_NUM_LEFT);

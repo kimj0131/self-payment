@@ -19,7 +19,7 @@ public class UpdateCustmerView extends View {
 
     CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
 
-    JLabel mLabelInfo = new JLabel("회원 수정뷰 초기화면입니다");
+    JLabel mLabelInfo = new JLabel("고객 데이터 수정");
 
     // 고객 리스트를 테이블로 출력
     JTable mCustLisTable;
@@ -132,7 +132,7 @@ public class UpdateCustmerView extends View {
         Main main = (Main) this.getStatusManager();
 
         JLabel lb = (JLabel) this.getComponents()[0];
-        lb.setFont(main.mFont2);
+        lb.setFont(main.mFont0);
 
     }
 

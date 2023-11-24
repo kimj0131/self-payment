@@ -18,7 +18,7 @@ import ezen.project.first.team2.app.manager.pages.main.MainPage;
 public class ListCustmerView extends View {
     CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
 
-    JLabel mLabelInfo = new JLabel("고객 조회뷰 초기화면입니다");
+    JLabel mLabelInfo = new JLabel("고객 조회");
 
     // 고객리스트를 넣을 패널생성
     JPanel mPanelCustList = new JPanel();
@@ -120,7 +120,7 @@ public class ListCustmerView extends View {
         Main main = (Main) this.getStatusManager();
 
         JLabel lb = (JLabel) this.getComponents()[0];
-        lb.setFont(main.mFont2);
+        lb.setFont(main.mFont0);
     }
 
 }

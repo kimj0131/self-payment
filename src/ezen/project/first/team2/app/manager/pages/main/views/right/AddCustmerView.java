@@ -31,7 +31,7 @@ public class AddCustmerView extends View {
 
     CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
 
-    JLabel mLabelInfo = new JLabel("고객 추가뷰 초기화면입니다");
+    JLabel mLabelInfo = new JLabel("고객 데이터 추가");
 
     // 고객정보 기입란 패널
     JPanel mPanelAddCust = new JPanel();
@@ -210,7 +210,7 @@ public class AddCustmerView extends View {
         Main main = (Main) this.getStatusManager();
 
         JLabel lb1 = (JLabel) this.getComponents()[0];
-        lb1.setFont(main.mFont2);
+        lb1.setFont(main.mFont0);
 
         JPanel[] panels = { mPanelAddCust, mPanelAddId, mPanelAddBirthday,
                 mPanelAddName, mPanelAddPhoneNum, mPanelAddRemark };
