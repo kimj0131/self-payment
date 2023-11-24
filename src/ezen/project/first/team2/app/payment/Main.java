@@ -11,6 +11,18 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 
 import ezen.project.first.team2.app.common.framework.StatusManager;
+import ezen.project.first.team2.app.common.modules.base.ListActionListener;
+import ezen.project.first.team2.app.common.modules.base.ListManager;
+import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountItem;
+import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManagerMem;
+import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStockItem;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
 import ezen.project.first.team2.app.common.pages.splash.SplashPageParams;
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;
@@ -33,6 +45,130 @@ public class Main extends StatusManager {
 	@Override
 	protected void onInit() {
 		System.out.println("[Main.onInit()]");
+		setTestData();
+	}
+	
+	private void setTestData() {
+		// Test를 위한 더미 데이터 설정 작업
+				var custMngr = CustomerManagerMem.getInstance();
+				var prodMngr = ProductManagerMem.getInstance();
+				var prodStocksMngr = ProductStocksManagerMem.getInstance();
+				var prodDiscntsMngr = ProductDiscountsManagerMem.getInstance();
+				var prodOrdersMngr = ProductOrdersManagerMem.getInstance();
+				var prodOrderDetailsMngr = ProductOrderDetailsManagerMem.getInstance();
+				
+				prodMngr.setActionListener(new ListActionListener<ProductItem>() {
+					
+					@Override
+					public void onUpdated(ListManager<ProductItem> mngr, ProductItem oldItem, ProductItem newItem) {}
+					
+					@Override
+					public void onInitialized(ListManager<ProductItem> mngr) {}
+					
+					@Override
+					public void onDeleted(ListManager<ProductItem> mngr, ProductItem item) {
+						try {
+							// [상품 재고 관리자]에서 상품 제거
+							var pi0 = prodStocksMngr.getItemByProdId(item.getId());
+							prodStocksMngr.deleteById(pi0.getId());
+
+							// [상품 할인 관리자]에서 상품 제거
+							var pi1 = prodDiscntsMngr.getItemByProdId(item.getId());
+							prodDiscntsMngr.deleteById(pi1.getId());
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
+					@Override
+					public void onDeinitializing(ListManager<ProductItem> mngr) {}
+					
+					@Override
+					public void onAdded(ListManager<ProductItem> mngr, ProductItem item) {
+						try {
+							// [상품 재고 관리자]에 상품 추가
+							prodStocksMngr.add(new ProductStockItem(item.getId()));
+							
+							// [상품 할인 관리자]에 상품 추가
+							prodDiscntsMngr.add(new ProductDiscountItem(item.getId()));
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+
+				try {
+					custMngr.init();
+					
+					prodMngr.init();
+					prodStocksMngr.init();
+					prodDiscntsMngr.init();
+					
+					prodOrdersMngr.init();
+					prodOrderDetailsMngr.init();
+					
+					// prodMngr에 ProductItem 더미 데이터 추가
+					for (int i = 0; i < ProductItem.getPredefinedProductData().length; i++) {
+						var item = ProductItem.getPredefinedProductData()[i];
+						prodMngr.add(item);
+					}
+					
+					// cumstMngr에 CustomerItem 더미 데이터 추가
+					for (int i = 0; i < CustomerItem.getPredefinedData().length; i++) {
+						var item = CustomerItem.getPredefinedData()[i];
+						custMngr.add(item);
+					}
+					
+					// 재고, 할인율 설정 => 관리 앱에서 설정
+					prodMngr.iterate((item, idx) -> {
+						try {
+							// 재고 10개씩 증가. "에이스" 과자는 제외. 상품 재고 수량 테스트.
+							if (!item.getName().equals("에이스"))
+								prodStocksMngr.setQuantityByProdId(item.getId(), 10);
+
+							// 할인율 100원씩 증가
+							if (item.getId() > 18)
+								prodDiscntsMngr.setAmountByProdId(item.getId(), 100);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						return true;
+					});
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					System.out.println("customers");
+					custMngr.iterate((item, idx) -> {
+						System.out.println("  " + item);
+						return true;
+					});
+					
+					System.out.println("products");
+					prodMngr.iterate((item, idx) -> {
+						System.out.println("  " + item);
+						return true;
+					});
+					
+					System.out.println("product_stocks");
+					prodStocksMngr.iterate((item, idx) -> {
+						System.out.println("  " + item);
+						return true;
+					});
+					
+					System.out.println("product_discounts");
+					prodDiscntsMngr.iterate((item, idx) -> {
+						System.out.println("  " + item);
+						return true;
+					});
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 	}
 
 	// 페이지 추가 작업

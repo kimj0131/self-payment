@@ -43,17 +43,17 @@ public class ListManagerMem<T extends ListItem> extends ListManager<T> {
 	}
 
 	@Override
-	protected String onAdd(T info) throws Exception {
-		this.mList.add(info);
+	protected String onAdd(T item) throws Exception {
+		this.mList.add(item);
 
 		return "";
 	}
 
 	@Override
-	protected String onUpdateById(int id, T info) throws Exception {
-		for (var _info : this.mList) {
-			if (_info.getId() == id) {
-				_info.setValuesFrom(info);
+	protected String onUpdateById(int id, T oldItem, T newItem) throws Exception {
+		for (var item : this.mList) {
+			if (item.getId() == id) {
+				item.setValuesFrom(newItem);
 
 				return "";
 			}
@@ -64,15 +64,15 @@ public class ListManagerMem<T extends ListItem> extends ListManager<T> {
 
 	@Override
 	protected String onDeleteById(int id) throws Exception {
-		this.mList.removeIf(info -> info.getId() == id);
+		this.mList.removeIf(item -> item.getId() == id);
 
 		return "";
 	}
 
 	@Override
 	protected boolean onIsDuplicatedId(int id) {
-		for (var info : this.mList) {
-			if (info.getId() == id)
+		for (var item : this.mList) {
+			if (item.getId() == id)
 				return true;
 		}
 
@@ -87,9 +87,8 @@ public class ListManagerMem<T extends ListItem> extends ListManager<T> {
 	@Override
 	protected void onIterate(Iterator<T> iterator) {
 		int i = 0;
-		for (var info : this.mList) {
-			if (!iterator.onGetItem(info, i++))
-			//	System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+		for (var item : this.mList) {
+			if (!iterator.onGetItem(item, i++))
 				break;
 		}
 	}
@@ -97,9 +96,9 @@ public class ListManagerMem<T extends ListItem> extends ListManager<T> {
 	@Override
 	protected T onFind(Iterator<T> iterator) {
 		int i = 0;
-		for (var info : this.mList) {
-			if (iterator.onGetItem(info, i++))
-				return info;
+		for (var item : this.mList) {
+			if (iterator.onGetItem(item, i++))
+				return item;
 		}
 
 		return null;
@@ -110,9 +109,9 @@ public class ListManagerMem<T extends ListItem> extends ListManager<T> {
 		List<T> items = new ArrayList<>();
 
 		int i = 0;
-		for (var info : this.mList) {
-			if (iterator.onGetItem(info, i++))
-				items.add(info);
+		for (var item : this.mList) {
+			if (iterator.onGetItem(item, i++))
+				items.add(item);
 		}
 
 		return items;
@@ -120,9 +119,9 @@ public class ListManagerMem<T extends ListItem> extends ListManager<T> {
 
 	@Override
 	protected T onFindById(int id) {
-		for (var info : this.mList) {
-			if (info.getId() == id)
-				return info;
+		for (var item : this.mList) {
+			if (item.getId() == id)
+				return item;
 		}
 
 		return null;

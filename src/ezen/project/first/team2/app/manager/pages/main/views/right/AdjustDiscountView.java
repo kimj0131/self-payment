@@ -3,11 +3,12 @@ package ezen.project.first.team2.app.manager.pages.main.views.right;
 import javax.swing.JLabel;
 
 import ezen.project.first.team2.app.common.framework.View;
+import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class AdjustDiscountView extends View {
 
-    JLabel mLabelInfo = new JLabel("할인금액 조정뷰 초기화면입니다");
+    JLabel mLabelInfo = new JLabel("가입고객대상 상품 할인금액 설정");
 
     public AdjustDiscountView() {
         super(MainPage.VIEW_NUM_DISCOUNT_ADJUST);
@@ -42,5 +43,13 @@ public class AdjustDiscountView extends View {
     @Override
     protected void onHide() {
         System.out.println("[AdjustDiscountView.onHide()]");
+    }
+
+    @Override
+    protected void onSetResources() {
+        Main main = (Main) this.getStatusManager();
+
+        JLabel lb1 = (JLabel) this.getComponents()[0];
+        lb1.setFont(main.mFont0);
     }
 }

@@ -8,9 +8,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
+import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
 public class LeftView0_OrderList extends View {
 	private static final int PADDING = 10;
@@ -31,6 +31,8 @@ public class LeftView0_OrderList extends View {
 		
 		mInfoMessage = new JLabel(INFO_MESSAGE_TEXT);
 		mSelfInputButton = new JButton(SELF_INPUT_TEXT);
+		
+		mSelfInputButton.setFocusable(false);
 	}
 
 	@Override
@@ -49,7 +51,12 @@ public class LeftView0_OrderList extends View {
 	@Override
 	protected void onAddEventListeners() {
 		mSelfInputButton.addActionListener(e -> {
-			UiUtils.showMsgBox("과일/채소", MainPage.TITLE);
+			try {
+				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
+				mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_FRUITS_SELECTOR_NUM);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		});
 	}
 

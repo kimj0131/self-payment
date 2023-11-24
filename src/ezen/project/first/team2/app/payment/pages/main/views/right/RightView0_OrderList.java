@@ -5,8 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.time.LocalDateTime;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,25 +17,40 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
+import ezen.project.first.team2.app.common.modules.base.ListActionAdapter;
+import ezen.project.first.team2.app.common.modules.base.ListManager;
+import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailItem;
+import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManagerMem;
+import ezen.project.first.team2.app.common.modules.product.orders.ProductOrderItem;
+import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
 public class RightView0_OrderList extends View {
 
 	private static final int PADDING = 10;
-	private final String[] TABLE_HEADER= {"상품번호", "상품명", "상품개수", "상품가격" };
+	private final String[] TABLE_HEADER= {"상품id", "상품명", "수량", "가격"};
 	
-	GridBagConstraints gbc = new GridBagConstraints();
+	GridBagConstraints mGbc;
+	
+	ProductManagerMem mProdMngr;
+	ProductStocksManagerMem mProdStocksMngr;
+	ProductDiscountsManagerMem mProdDiscntsMngr;
+	ProductOrdersManagerMem mProdOrdersMngr;
+	ProductOrderDetailsManagerMem mProdOrderDetailsMngr;
 
 	JTable mTable;
 	JScrollPane mScrolledTable;
 	DefaultTableModel mTableModel;
-//	JTextArea mTextArea0 = new JTextArea("상품번호\t상품명\t상품개수\t상품가격\n");
-//	JScrollPane mTextArea0_Scoll = new JScrollPane(mTextArea0);
 
-	JTextArea mTextArea1;
-	JButton mButton0;
+	JTextArea mSumTextArea;
+	JButton mBuyingButton;
+
+	int mSumPrice;
+	int mNewProductOrderID;
 
 	public RightView0_OrderList() {
 		super(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
@@ -45,14 +59,36 @@ public class RightView0_OrderList extends View {
 	@Override
 	protected void onInit() {
 		setBackground(Color.DARK_GRAY);
+		this.setTable();
+
+		mProdMngr = ProductManagerMem.getInstance();
+		mProdStocksMngr = ProductStocksManagerMem.getInstance();
+		mProdDiscntsMngr = ProductDiscountsManagerMem.getInstance();
+		mProdOrdersMngr = ProductOrdersManagerMem.getInstance();
+		mProdOrderDetailsMngr = ProductOrderDetailsManagerMem.getInstance();
 		
-//		테이블 초기화-----------------------------------------------------------------------------
+		mGbc = new GridBagConstraints();
+		mSumTextArea = new JTextArea("합계\n");
+		mBuyingButton = new JButton("결제하기");
+		
+		try {
+			// 구매 내역(영수증) ID 발급
+			mNewProductOrderID = mProdOrdersMngr.getNextID();
+			// 구매 내역(영수증) 아이템 생성 => 비회원 + 사용할 포인트 0.
+			var poi = new ProductOrderItem(mNewProductOrderID, LocalDateTime.now());
+			mProdOrdersMngr.add(poi);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void setTable() {
 		
 		DefaultTableModel headerModel = new DefaultTableModel(TABLE_HEADER, 0);
 		mTable = new JTable(headerModel);
 		mTableModel = (DefaultTableModel) mTable.getModel();
 		mScrolledTable = new JScrollPane(mTable);
-		
+
 //		mScrolledTable.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
 		mTable.setShowVerticalLines(false); // 세로 줄 안보이게하기
@@ -61,28 +97,30 @@ public class RightView0_OrderList extends View {
 		mTable.getTableHeader().setReorderingAllowed(false); // 헤더 이동불가
 		mTable.getTableHeader().setResizingAllowed(false); // 헤더 사이즈조절불가
 
-		mTable.setEnabled(false); // 셀 선택불가, 수정불가
+//		mTable.setEnabled(false); // 셀 선택불가, 수정불가
 
 		mTable.getParent().setBackground(Color.WHITE); // 테이블 배경색
 		
-		// 텍스트 정렬
+		// 셀크기 설정, 텍스트 정렬
 		DefaultTableCellRenderer center = new DefaultTableCellRenderer();
 		center.setHorizontalAlignment(JLabel.CENTER);
 		DefaultTableCellRenderer right = new DefaultTableCellRenderer();
 		right.setHorizontalAlignment(JLabel.RIGHT);
 
+		mTable.getColumn(TABLE_HEADER[0]).setPreferredWidth(10);
 		mTable.getColumn(TABLE_HEADER[0]).setCellRenderer(center);
+		
+		mTable.getColumn(TABLE_HEADER[1]).setPreferredWidth(150);
 		mTable.getColumn(TABLE_HEADER[1]).setCellRenderer(center);
+		
+		mTable.getColumn(TABLE_HEADER[2]).setPreferredWidth(10);
 		mTable.getColumn(TABLE_HEADER[2]).setCellRenderer(center);
+		
+		mTable.getColumn(TABLE_HEADER[3]).setPreferredWidth(90);
 		mTable.getColumn(TABLE_HEADER[3]).setCellRenderer(center);
 
-		
-//		---------------------------------------------------------------------------------------
-
-		mTextArea1 = new JTextArea("합계\n");
-		mButton0 = new JButton("결제하기");
 	}
-
+	
 	@Override
 	protected void onSetLayout() {
 		this.setBorder(BorderFactory.createEmptyBorder(
@@ -92,34 +130,48 @@ public class RightView0_OrderList extends View {
 
 	@Override
 	protected void onAddCtrls() {
-//		mTextArea0.setEditable(false);
-		mTextArea1.setEditable(false);
-
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 0.5;
-		gbc.weighty = 3;
-
-		gbc.gridx = 0;
-		gbc.gridy = 0;
 		
-		this.add(mScrolledTable, gbc);
-		//this.add(mTextArea0_Scoll, gbc);
+		mSumTextArea.setEditable(false);
 
-		gbc.weightx = 0.1;
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		this.add(mTextArea1, gbc);
+		mGbc.fill = GridBagConstraints.BOTH;
+		mGbc.weightx = 0.5;
+		mGbc.weighty = 3;
 
-		gbc.weighty = 0.1;
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.gridwidth = 2;
-		this.add(mButton0, gbc);
+		mGbc.gridx = 0;
+		mGbc.gridy = 0;
+		this.add(mScrolledTable, mGbc);
+
+		mGbc.weightx = 0.1;
+		mGbc.gridx = 1;
+		mGbc.gridy = 0;
+		this.add(mSumTextArea, mGbc);
+
+		mGbc.weighty = 0.1;
+		mGbc.gridx = 0;
+		mGbc.gridy = 1;
+		mGbc.gridwidth = 2;
+		this.add(mBuyingButton, mGbc);
 	}
 
 	@Override
 	protected void onAddEventListeners() {
-		mButton0.addActionListener(e -> {
+		
+		// 상세 구매 내역이 추가되면 해당 상품 재고 수량 감소
+		// 해당 상품에 재고가 없더라도 일단 수량 감소
+		mProdOrderDetailsMngr.setActionListener(new ListActionAdapter<ProductOrderDetailItem>() {
+			@Override
+			public void onAdded(ListManager<ProductOrderDetailItem> mngr, ProductOrderDetailItem item) {
+				try {
+					mProdStocksMngr.decQuantityByProdId(item.getProdId(), item.getQuantity());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		
+		
+		mBuyingButton.addActionListener(e -> {
 			try {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 				mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_CHECK_MEMBER_NUM);
@@ -128,58 +180,91 @@ public class RightView0_OrderList extends View {
 				ex.printStackTrace();
 			}
 		});
-
-		mScrolledTable.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("마우스눌림");
-				String[] record = {"1", "빼빼로", "1개", "3000"};
-				String[] record1 = {"1", "빼빼로", "1개", "3000"};
-				String[] record2 = {"1", "빼빼로", "1개", "3000"};
-				String[] record3 = {"1", "빼빼로", "1개", "3000"};
-				mTableModel.addRow(record);
-				mTableModel.addRow(record1);
-				mTableModel.addRow(record2);
-				mTableModel.addRow(record3);
-			}
-		});
 		
-		mScrolledTable.addKeyListener(new KeyAdapter() {
+		mSumTextArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				System.out.println("키보드 눌림");
-				String[] record = {"1", "빼빼로", "1개", "3000"};
-				String[] record1 = {"1", "빼빼로", "1개", "3000"};
-				String[] record2 = {"1", "빼빼로", "1개", "3000"};
-				String[] record3 = {"1", "빼빼로", "1개", "3000"};
-				mTableModel.addRow(record);
-				mTableModel.addRow(record1);
-				mTableModel.addRow(record2);
-				mTableModel.addRow(record3);
+			//	번호 상품명 수량 가격
+				try {
+//					mProdMngr.iterate((item, idx) -> {
+//						String[] row = new String[] {String.valueOf(item.getId()), item.getName(), "1", String.valueOf(item.getPrice())};
+//						mTableModel.addRow(row);
+//						return true;
+//					});
+
+					// 랜덤한 상품 하나 생성
+					int randomId = (int) (Math.random() * 35);
+					var productItem = mProdMngr.findById(randomId);
+					
+					// 생성된 상품을 상세 구매내역에 넣기
+					var pdi = mProdDiscntsMngr.getItemByProdId(productItem.getId());
+					var prodOrderDetailItem = new ProductOrderDetailItem(-1, mNewProductOrderID, productItem.getId(), pdi.getId(), 1);
+					mProdOrderDetailsMngr.add(prodOrderDetailItem);
+					
+					String[] row = new String[] {String.valueOf(productItem.getId()), productItem.getName(), "1", String.valueOf(productItem.getPrice())};
+					mTableModel.addRow(row);
+					
+					
+					
+					// 구매내역과 상세구매내역 변화를 보기위한 콘솔 출력
+					try {
+						System.out.println("구매내역");
+						mProdOrdersMngr.iterate((item, idx) -> {
+							System.out.println("  " + item);
+							return true;
+						});
+						
+						System.out.println("상세구매내역");
+						mProdOrderDetailsMngr.iterate((item, idx) -> {
+							System.out.println("  " + item);
+							return true;
+						});
+						
+						System.out.println("상품재고");
+						mProdStocksMngr.iterate((item, idx) -> {
+							System.out.println("  " + item);
+							return true;
+						});
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+					//-------------------------------------------
+					
+					
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
 			}
 		});
 		
-//		mTextArea0.addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyPressed(KeyEvent e) {
-//				// mTextArea0.setText(mTextArea0.getText() + "1\t바나나킥\t1\t1500\n");
+//		mTableModel.addTableModelListener(e -> {
+//			
+//			int currChangedCulmn = e.getColumn();
+//			// 셀 내용이 바뀐게 없다면 리턴
+//			if (currChangedCulmn == -1) {
+//				System.out.println("셀 내용이 바뀐게 없음");
+//				return;
+//			}
 //
-//				ProductItem pi = ProductItem.getPredefinedProductData()[0];
-//				mTextArea0.setText(pi.toString());
-//				
+//			int currChangedRow = e.getFirstRow();
+//
+//			try {
+//				String selectedItemId = (String) mTableModel.getValueAt(currChangedRow, 0);
+//
+//				ProductItem selectedItem = mProdMngr.findById(Integer.valueOf(selectedItemId));
+//				System.out.println("변경 전 아이템의 이름 >> " + selectedItem.getName());
+//
+//				// "번호", "상품명", "수량", "가격"
+//				if (currChangedCulmn == 1) {
+//					selectedItem.setName((String) mTableModel.getValueAt(currChangedRow, currChangedCulmn));
+//					System.out.println("변경 후 아이템의 이름 >> " + selectedItem.getName());
+//				}
+//
+//			} catch (NumberFormatException e1) {
+//				e1.printStackTrace();
+//			} catch (Exception e1) {
+//				e1.printStackTrace();
 //			}
 //		});
 	}

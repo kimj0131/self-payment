@@ -13,6 +13,7 @@ public class FirstPage extends Page {
 
 	// 뷰 번호 정의
 	public static final int VIEW_NUM_MY = 0;
+	public static final int POPUP_VIEW_NUM_MY = 100;
 
 	public FirstPage() {
 		super(Main.PAGE_NUM_FIRST, TITLE, SIZE,

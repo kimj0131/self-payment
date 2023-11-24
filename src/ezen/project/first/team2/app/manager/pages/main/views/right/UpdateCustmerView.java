@@ -19,12 +19,12 @@ public class UpdateCustmerView extends View {
 
     CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
 
-    JLabel mLabelInfo = new JLabel("회원 수정뷰 초기화면입니다");
+    JLabel mLabelInfo = new JLabel("고객 데이터 수정");
 
     // 고객 리스트를 테이블로 출력
     JTable mCustLisTable;
     // 고객리스트를 출력할 패널생성
-    JPanel mPanelAttributeList = new JPanel();
+    JPanel mPanelPropertyList = new JPanel();
     // 스크롤 삽입
     JScrollPane mScroll;
 
@@ -36,11 +36,11 @@ public class UpdateCustmerView extends View {
     protected void onInit() {
 
         try {
-            Object[] mAttributesColumn = {
+            Object[] mPropertyColumn = {
                     "고객번호", "가입일", "고객명", "생년월일", "전화번호", "비고" };
-            Object[][] mCustListRows = new Object[mAttributesColumn.length][custMngr.getCount()];
+            Object[][] mCustListRows = new Object[mPropertyColumn.length][custMngr.getCount()];
 
-            DefaultTableModel model = new DefaultTableModel(mCustListRows, mAttributesColumn) {
+            DefaultTableModel model = new DefaultTableModel(mCustListRows, mPropertyColumn) {
                 // 셀의 내용을 수정하지 못하게 설정
                 @Override
                 public boolean isCellEditable(int row, int column) {
@@ -58,7 +58,7 @@ public class UpdateCustmerView extends View {
     @Override
     protected void onSetLayout() {
         this.setLayout(new BorderLayout());
-        this.mPanelAttributeList.setLayout(new BorderLayout());
+        this.mPanelPropertyList.setLayout(new BorderLayout());
     }
 
     @Override
@@ -75,15 +75,12 @@ public class UpdateCustmerView extends View {
         this.mScroll = new JScrollPane(mCustLisTable);
         this.mScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        // this.mAttributes.setBorder(
-        // BorderFactory.createEmptyBorder(0, 30, 0, 30));
-
         this.mScroll.setBorder(
                 BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
         this.add(mLabelInfo, BorderLayout.NORTH);
-        this.add(mPanelAttributeList, BorderLayout.CENTER);
-        this.mPanelAttributeList.add(mScroll, BorderLayout.CENTER);
+        this.add(mPanelPropertyList, BorderLayout.CENTER);
+        this.mPanelPropertyList.add(mScroll, BorderLayout.CENTER);
     }
 
     @Override
@@ -135,7 +132,7 @@ public class UpdateCustmerView extends View {
         Main main = (Main) this.getStatusManager();
 
         JLabel lb = (JLabel) this.getComponents()[0];
-        lb.setFont(main.mFont2);
+        lb.setFont(main.mFont0);
 
     }
 

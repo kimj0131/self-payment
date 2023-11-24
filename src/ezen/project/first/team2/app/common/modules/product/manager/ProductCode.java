@@ -6,7 +6,7 @@
 
 package ezen.project.first.team2.app.common.modules.product.manager;
 
-public class ProductCode {
+public class ProductCode implements Cloneable {
 	// -------------------------------------------------------------------------
 
 	public enum Type {
@@ -119,5 +119,10 @@ public class ProductCode {
 	public boolean equals(Object arg0) {
 		var prodCode = (ProductCode) arg0;
 		return this.getType() == prodCode.getType() && this.getSn() == prodCode.getSn();
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return new ProductCode(mType, mSn);
 	}
 }

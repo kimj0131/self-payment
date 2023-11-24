@@ -10,7 +10,6 @@ import javax.swing.JTextArea;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
-import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
@@ -27,9 +26,9 @@ public class RightView2_PointInfo extends View {
 	int mEarnedPoints = 100;
 	int mAvailablePoints;
 
-	JTextArea mTextArea0 = new JTextArea();
-	JButton mUsePointButton = new JButton("포인트사용");
-	JButton mNotUsePointButton = new JButton("포인트사용안함");
+	JTextArea mPointInfo;
+	JButton mUsePointButton;
+	JButton mNotUsePointButton;
 
 	CustomerItem mCustomerItem;
 
@@ -40,6 +39,10 @@ public class RightView2_PointInfo extends View {
 	@Override
 	protected void onInit() {
 		setBackground(Color.DARK_GRAY);
+		
+		mPointInfo = new JTextArea();
+		mUsePointButton = new JButton("포인트사용");
+		mNotUsePointButton = new JButton("포인트사용안함");
 	}
 
 	@Override
@@ -51,8 +54,8 @@ public class RightView2_PointInfo extends View {
 
 	@Override
 	protected void onAddCtrls() {
-		mTextArea0.setEditable(false);
-		mTextArea0.setFocusable(false);
+		mPointInfo.setEditable(false);
+		mPointInfo.setFocusable(false);
 
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1.0;
@@ -61,7 +64,7 @@ public class RightView2_PointInfo extends View {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.gridwidth = 2;
-		this.add(mTextArea0, gbc);
+		this.add(mPointInfo, gbc);
 
 		gbc.weighty = 0.1;
 		gbc.gridx = 0;
@@ -78,7 +81,12 @@ public class RightView2_PointInfo extends View {
 	protected void onAddEventListeners() {
 		mUsePointButton.addActionListener(e -> {
 			try {
-				UiUtils.showMsgBox("포인트 사용 팝업", MainPage.TITLE);
+				try {
+					MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
+					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_USE_POINTS_NUM);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -96,13 +104,7 @@ public class RightView2_PointInfo extends View {
 	}
 
 	@Override
-	protected void onShow(boolean firstTime) {
-		MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-		RightView1_CheckMember rightView = (RightView1_CheckMember) mainView
-				.getViewByNum(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
-		mCustomerItem = rightView.getCustomerItem();
-		mTextArea0.setText(String.format(TEXT_AREA_TEXT_FORMAT, mEarnedPoints, mCustomerItem.getPoint()));
-	}
+	protected void onShow(boolean firstTime) {}
 
 	@Override
 	protected void onHide() {
@@ -111,7 +113,7 @@ public class RightView2_PointInfo extends View {
 	@Override
 	protected void onSetResources() {
 		Main main = (Main) this.getStatusManager();
-		mTextArea0.setFont(main.mFont0);
+		mPointInfo.setFont(main.mFont0);
 
 	}
 

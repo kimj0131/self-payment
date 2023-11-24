@@ -18,6 +18,7 @@ public class ListManager<T extends ListItem> {
 
 	// -------------------------------------------------------------------------
 
+	private ListActionListener<T> mActionListener = null;
 	private boolean mInited = false;
 
 	// -------------------------------------------------------------------------
@@ -37,6 +38,11 @@ public class ListManager<T extends ListItem> {
 
 	// -------------------------------------------------------------------------
 
+	// 액션 리스너 설정
+	public void setActionListener(ListActionListener<T> listener) {
+		this.mActionListener = listener;
+	}
+
 	// 초기화
 	public void init() throws Exception {
 		if (this.isInited()) {
@@ -47,6 +53,11 @@ public class ListManager<T extends ListItem> {
 
 		this.mInited = true;
 		this.onInit();
+
+		// 액션 리스너 호출
+		if (this.mActionListener != null) {
+			this.mActionListener.onInitialized(this);
+		}
 	}
 
 	// 종료
@@ -55,6 +66,11 @@ public class ListManager<T extends ListItem> {
 			String msg = String.format("[ListManager.deinit()]" +
 					" You must initialize!");
 			throw new Exception(msg);
+		}
+
+		// 액션 리스너 호출
+		if (this.mActionListener != null) {
+			this.mActionListener.onDeinitializing(this);
 		}
 
 		this.onDeinit();
@@ -78,7 +94,7 @@ public class ListManager<T extends ListItem> {
 	}
 
 	// 아이템 추가. id값이 -1이면 내부적으로 this.getNextID()를 호출하여 id를 할당한다.
-	public void add(T info) throws Exception {
+	public void add(T item) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
 			String msg = String.format("[ListManager.add()]" +
@@ -87,13 +103,13 @@ public class ListManager<T extends ListItem> {
 		}
 
 		// ID값 자동 부여
-		if (info.getId() == -1) {
+		if (item.getId() == -1) {
 			// [SGLEE:20231121TUE_150000] protected int mId = -1;
-			info.mId = this.getNextID();
+			item.mId = this.getNextID();
 		}
 
 		// 아이템 ID 중복 확인
-		final int id = info.getId();
+		final int id = item.getId();
 		if (this.isDuplicatedId(id)) {
 			String msg = String.format("[ListManager.add()]" +
 					" You have duplicated id(%d)!",
@@ -101,13 +117,19 @@ public class ListManager<T extends ListItem> {
 			throw new Exception(msg);
 		}
 
-		String errMsg = this.onAdd(info);
+		// 아이템 추가
+		String errMsg = this.onAdd(item);
 		if (!errMsg.isEmpty())
 			throw new Exception(errMsg);
+
+		// 액션 리스너 호출
+		if (this.mActionListener != null) {
+			this.mActionListener.onAdded(this, item);
+		}
 	}
 
 	// 아이템 수정
-	public void updateById(int id, T info) throws Exception {
+	public void updateById(int id, T item) throws Exception {
 		// 초기화 여부 확인
 		if (!this.isInited()) {
 			String msg = String.format("[ListManager.updateById()]" +
@@ -123,9 +145,20 @@ public class ListManager<T extends ListItem> {
 			throw new Exception(msg);
 		}
 
-		String errMsg = this.onUpdateById(id, info);
+		// [SGLEE:20231122WED_143800] 일단 경고 오프
+		@SuppressWarnings("unchecked")
+		T oldItem = (T) this.findById(id).clone();
+
+		// 아이템 수정
+		item.mId = id;
+		String errMsg = this.onUpdateById(id, oldItem, item);
 		if (!errMsg.isEmpty())
 			throw new Exception(errMsg);
+
+		// 액션 리스너 호출
+		if (this.mActionListener != null) {
+			this.mActionListener.onUpdated(this, oldItem, item);
+		}
 	}
 
 	// 아이템 삭제
@@ -145,9 +178,19 @@ public class ListManager<T extends ListItem> {
 			throw new Exception(msg);
 		}
 
+		// [SGLEE:20231122WED_143800] 일단 경고 오프
+		@SuppressWarnings("unchecked")
+		T oldItem = (T) this.findById(id).clone();
+
+		// 아이템 삭제
 		String errMsg = this.onDeleteById(id);
 		if (!errMsg.isEmpty())
 			throw new Exception(errMsg);
+
+		// 액션 리스너 호출
+		if (this.mActionListener != null) {
+			this.mActionListener.onDeleted(this, oldItem);
+		}
 	}
 
 	// 아이템 ID 중복(존재) 확인
@@ -238,12 +281,12 @@ public class ListManager<T extends ListItem> {
 	}
 
 	// 아이템 추가 -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
-	protected String onAdd(T info) throws Exception {
+	protected String onAdd(T item) throws Exception {
 		return "/ERROR/";
 	}
 
 	// 아이템 수정 -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
-	protected String onUpdateById(int id, T info) throws Exception {
+	protected String onUpdateById(int id, T oldItem, T newItem) throws Exception {
 		return "/ERROR/";
 	}
 

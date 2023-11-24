@@ -14,6 +14,10 @@ import ezen.project.first.team2.app.payment.pages.main.views.left.LeftView0_Orde
 import ezen.project.first.team2.app.payment.pages.main.views.left.LeftView1_CheckMember;
 import ezen.project.first.team2.app.payment.pages.main.views.left.LeftView2_PointInfo;
 import ezen.project.first.team2.app.payment.pages.main.views.left.LeftView3_Payment;
+import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView0_FruitsSelector;
+import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView1_VerifiedMemberInfo;
+import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView2_UnverifiedMemberInfo;
+import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView3_UsePoints;
 import ezen.project.first.team2.app.payment.pages.main.views.right.RightView0_OrderList;
 import ezen.project.first.team2.app.payment.pages.main.views.right.RightView1_CheckMember;
 import ezen.project.first.team2.app.payment.pages.main.views.right.RightView2_PointInfo;
@@ -57,6 +61,13 @@ public class MainView extends DualView {
 			addView(new RightView1_CheckMember());
 			addView(new RightView2_PointInfo());
 			addView(new RightView3_Payment());
+			
+			// Popup View
+			addView(new PopUpView0_FruitsSelector());
+			addView(new PopUpView1_VerifiedMemberInfo());
+			addView(new PopUpView2_UnverifiedMemberInfo());
+			addView(new PopUpView3_UsePoints());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

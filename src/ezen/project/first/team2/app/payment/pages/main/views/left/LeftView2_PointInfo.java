@@ -12,7 +12,6 @@ import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
-import ezen.project.first.team2.app.payment.pages.main.views.right.RightView1_CheckMember;
 
 public class LeftView2_PointInfo extends View {
 	
@@ -22,7 +21,6 @@ public class LeftView2_PointInfo extends View {
 	private static final String PREVIOUS_BUTTON_TEXT = "이전단계";
 	
 	String mMemberName;
-	String mTextFormat;
 	
 	JLabel mInfoMessage;
 	JButton mPreviousButton;
@@ -36,7 +34,7 @@ public class LeftView2_PointInfo extends View {
 	@Override
 	protected void onInit() {
 		setBackground(Color.GRAY);
-		mInfoMessage = new JLabel();
+		mInfoMessage = new JLabel("@@@고객");
 		mPreviousButton = new JButton(PREVIOUS_BUTTON_TEXT);
 	}
 
@@ -67,17 +65,7 @@ public class LeftView2_PointInfo extends View {
 	}
 
 	@Override
-	protected void onShow(boolean firstTime) {
-		MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-
-		RightView1_CheckMember rightView = (RightView1_CheckMember) mainView
-				.getViewByNum(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
-		mCustomerItem = rightView.getCustomerItem();
-
-		mMemberName = mCustomerItem.getName();
-		mInfoMessage.setText(String.format(INFO_MESSAGE_FORMAT, mMemberName));
-
-	}
+	protected void onShow(boolean firstTime) {}
 
 	@Override
 	protected void onHide() {

@@ -15,15 +15,14 @@ import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 public class LeftView3_Payment extends View {
 	private static final int PADDING = 10;
 
+	private static final String INFO_MESSAGE_FORMAT = "<html>총 금액<br>%d<br>할인 금액<br>%d<br>최종 금액<br>%d</html>";
 	private static final String PREVIOUS_BUTTON_TEXT = "이전단계";
 	
 	int mTotalAmount = 50000;
 	int mDiscountAmount = 5000;
-	String mTextFormat = String.format("<html>총 금액<br>%d<br>할인 금액<br>%d<br>최종 금액<br>%d</html>", 
-			mTotalAmount, mDiscountAmount, mTotalAmount - mDiscountAmount);
 	
-	JLabel mLabel0 = new JLabel();
-	JButton mPreviousButton = new JButton();
+	JLabel mInfoMessage;
+	JButton mPreviousButton;
 
 	public LeftView3_Payment() {
 		super(MainPage.LEFT_VIEW_PAYMENT_NUM);
@@ -32,6 +31,9 @@ public class LeftView3_Payment extends View {
 	@Override
 	protected void onInit() {
 		setBackground(Color.GRAY);
+		
+		mInfoMessage = new JLabel();
+		mPreviousButton = new JButton(PREVIOUS_BUTTON_TEXT);
 	}
 
 	@Override
@@ -43,10 +45,7 @@ public class LeftView3_Payment extends View {
 
 	@Override
 	protected void onAddCtrls() {
-		mLabel0.setText(mTextFormat);
-		this.add(this.mLabel0);
-
-		mPreviousButton.setText(PREVIOUS_BUTTON_TEXT);
+		this.add(this.mInfoMessage);
 		this.add(mPreviousButton);
 	}
 
@@ -55,8 +54,8 @@ public class LeftView3_Payment extends View {
 		mPreviousButton.addActionListener(e -> {
 			try {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-				mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_POINT_INFO_NUM);
-				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_POINT_INFO_NUM);
+				mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_CHECK_MEMBER_NUM);
+				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -65,6 +64,7 @@ public class LeftView3_Payment extends View {
 
 	@Override
 	protected void onShow(boolean firstTime) {
+		mInfoMessage.setText(String.format(INFO_MESSAGE_FORMAT, mTotalAmount, mDiscountAmount, mTotalAmount - mDiscountAmount));
 	}
 
 	@Override
@@ -74,6 +74,6 @@ public class LeftView3_Payment extends View {
 	@Override
 	protected void onSetResources() {
 		Main main = (Main) this.getStatusManager();
-		mLabel0.setFont(main.mFont0);
+		mInfoMessage.setFont(main.mFont0);
 	}
 }

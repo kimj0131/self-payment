@@ -30,22 +30,21 @@ public class ProductDiscountsManagerMem extends ListManagerMem<ProductDiscountIt
 
 	// -------------------------------------------------------------------------
 
-	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
-	@Override
-	protected String onAdd(ProductDiscountItem item) throws Exception {
-		return super.onAdd(item);
+	// 상품 Id로 아이템 얻기
+	public ProductDiscountItem getItemByProdId(int prodId) throws Exception {
+		return this.find((_item, _idx) -> _item.getProdId() == prodId);
 	}
 
-	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
-	@Override
-	protected String onUpdateById(int id, ProductDiscountItem item) throws Exception {
-		return super.onUpdateById(id, item);
+	// 상품 Id로 할인율 설정
+	public void setAmountByProdId(int prodId, int amount) throws Exception {
+		var item = this.getItemByProdId(prodId);
+		item.setAmount(amount);
+		this.updateById(item.getId(), item);
 	}
 
-	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
-	@Override
-	protected String onDeleteById(int id) throws Exception {
-		return super.onDeleteById(id);
+	// 상품 Id로 할인율 얻기
+	public int getAmountByProdId(int prodId) throws Exception {
+		var item = this.getItemByProdId(prodId);
+		return item.getAmount();
 	}
-
 }

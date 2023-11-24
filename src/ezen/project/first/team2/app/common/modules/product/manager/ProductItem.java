@@ -16,7 +16,7 @@ public class ProductItem extends ListItem {
 
 	// 상품 ID.
 	// private int mProdId = 0;
-	// 상품 코드
+	// 상품 코드. 한번 설정 후 변경하면 안 된다.
 	private ProductCode mProdCode = null;
 	// 등록일
 	private LocalDate mRegDate = LocalDate.now();
@@ -122,11 +122,23 @@ public class ProductItem extends ListItem {
 	public static ProductItem[] getPredefinedProductData() {
 		ProductItem[] data = {
 				// 과자
-				new ProductItem(-1, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200, ""),
-				new ProductItem(-1, new ProductCode("S0002"), LocalDate.now(), "오감자", 1400, ""),
-				new ProductItem(-1, new ProductCode("S0003"), LocalDate.now(), "썬칩", 1400, ""),
-				new ProductItem(-1, new ProductCode("S0004"), LocalDate.now(), "포카칩", 1400, ""),
-				new ProductItem(-1, new ProductCode("S0005"), LocalDate.now(), "에이스", 1400, ""),
+				// new ProductItem(-1, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1200,
+				// ""),
+				// new ProductItem(-1, new ProductCode("S0002"), LocalDate.now(), "오감자", 1400,
+				// ""),
+				// new ProductItem(-1, new ProductCode("S0003"), LocalDate.now(), "썬칩", 1400,
+				// ""),
+				// new ProductItem(-1, new ProductCode("S0004"), LocalDate.now(), "포카칩", 1400,
+				// ""),
+				// new ProductItem(-1, new ProductCode("S0005"), LocalDate.now(), "에이스", 1400,
+				// ""),
+				//
+				new ProductItem(-1, new ProductCode("S0001"), LocalDate.now(), "빼빼로", 1000, ""),
+				new ProductItem(-1, new ProductCode("S0002"), LocalDate.now(), "오감자", 1000, ""),
+				new ProductItem(-1, new ProductCode("S0003"), LocalDate.now(), "썬칩", 1000, ""),
+				new ProductItem(-1, new ProductCode("S0004"), LocalDate.now(), "포카칩", 1000, ""),
+				new ProductItem(-1, new ProductCode("S0005"), LocalDate.now(), "에이스", 1000, ""),
+				//
 				new ProductItem(-1, new ProductCode("S0006"), LocalDate.now(), "죠리퐁", 1200, ""),
 				new ProductItem(-1, new ProductCode("S0007"), LocalDate.now(), "바나나킥", 1600, ""),
 				new ProductItem(-1, new ProductCode("S0008"), LocalDate.now(), "새우깡", 1500, ""),
@@ -169,6 +181,7 @@ public class ProductItem extends ListItem {
 
 		return data;
 	}
+
 	// -------------------------------------------------------------------------
 
 	@Override
@@ -183,7 +196,7 @@ public class ProductItem extends ListItem {
 	@Override
 	protected void onSetValuesFrom(ListItem item) {
 		ProductItem pi = (ProductItem) item;
-		pi.setValues(pi.getId(), pi.getProdCode(), pi.getRegDate(),
+		this.setValues(pi.getId(), pi.getProdCode(), pi.getRegDate(),
 				pi.getName(), pi.getPrice(), pi.getDesc());
 	}
 }

@@ -7,6 +7,7 @@
 package ezen.project.first.team2.app.common.utils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
@@ -18,12 +19,12 @@ public class TimeUtils {
 
 	// return: "yyyy.mm.dd.ddd"
 	public static String currDateStr() {
-		final String[] WeekNames = { "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" };
+		final String[] WEEK_NAMES = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
 
 		LocalDate d = LocalDate.now();
 		String s = String.format("%04d.%02d.%02d.%s",
 				d.getYear(), d.getMonthValue(), d.getDayOfMonth(),
-				WeekNames[d.getDayOfWeek().getValue() - 1]);
+				WEEK_NAMES[d.getDayOfWeek().getValue() - 1]);
 
 		return s;
 	}
@@ -94,7 +95,7 @@ public class TimeUtils {
 
 	// return: "yyyy.mm.dd.ddd"
 	public static String localDateToStr(LocalDate localDate, boolean weekday) {
-		final String[] WEEK_NAMES = { "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" };
+		final String[] WEEK_NAMES = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
 
 		String s = String.format("%04d.%02d.%02d",
 				localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
@@ -105,6 +106,42 @@ public class TimeUtils {
 	}
 
 	public static String localDateToStr(LocalDate localDate) {
-		return localDateToStr(localDate, false);
+		return localDateToStr(localDate, true);
+	}
+
+	// return: "yyyy.mm.dd.ddd hh:mm:ss"
+	public static String localDateTimeToStr(LocalDateTime localDateTime, boolean weekday) {
+		final String[] WEEK_NAMES = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
+
+		String date = String.format("%04d.%02d.%02d",
+				localDateTime.getYear(), localDateTime.getMonthValue(), localDateTime.getDayOfMonth());
+		if (weekday)
+			date += "." + WEEK_NAMES[localDateTime.getDayOfWeek().getValue() - 1];
+
+		String time = String.format("%02d:%02d:%02d",
+				localDateTime.getHour(), localDateTime.getMinute(), localDateTime.getSecond());
+
+		return date + " " + time;
+	}
+
+	public static String localDateTimeToStr(LocalDateTime localDateTime) {
+		return localDateTimeToStr(localDateTime, true);
+	}
+
+	// 입력된 날짜가 유효한지 확인한다
+	public static boolean isValidDate(int year, int month, int day) {
+		try {
+			LocalDate.of(year, month, day);
+
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	public static boolean isValidDate(LocalDate date) {
+		return isValidDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
 	}
 }

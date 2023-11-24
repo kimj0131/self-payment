@@ -34,6 +34,13 @@ public class MainPage extends Page {
 	public static final int RIGHT_VIEW_CHECK_MEMBER_NUM = 201;
 	public static final int RIGHT_VIEW_POINT_INFO_NUM = 202;
 	public static final int RIGHT_VIEW_PAYMENT_NUM = 203;
+	
+	// PopUp view
+	public static final int POPUP_VIEW_FRUITS_SELECTOR_NUM = 300;
+	public static final int POPUP_VIEW_VERIFIED_MEMBER_INFO_NUM = 301;
+	public static final int POPUP_VIEW_UNVERIFIED_MEMBER_INFO_NUM = 302;
+	public static final int POPUP_VIEW_USE_POINTS_NUM = 303;
+	
 
 	// 생성자
 	public MainPage() {
@@ -51,7 +58,6 @@ public class MainPage extends Page {
 	@Override
 	protected void onInit() {
 		super.onInit();
-
 	}
 
 	// 뷰 추가

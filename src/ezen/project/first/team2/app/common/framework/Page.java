@@ -42,6 +42,7 @@ public class Page extends JFrame {
 
 	private boolean mFirstTimeShow = true;
 
+	
 	// -------------------------------------------------------------------------
 
 	// 생성자
