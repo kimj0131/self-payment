@@ -26,6 +26,7 @@ import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
@@ -34,6 +35,7 @@ public class ListStockView extends View {
     DecimalFormat df = new DecimalFormat("###,###");
     // 수정예정
     ProductManagerMem prodMngr = ProductManagerMem.getInstance();
+    ProductStocksManagerMem prodStMngr = ProductStocksManagerMem.getInstance();
 
     JLabel mLabelInfo = new JLabel("상품 재고 조회");
 
@@ -154,8 +156,9 @@ public class ListStockView extends View {
                             String searchText = mTextFieldSearch.getText();
 
                             // 상품 아이템 얻기
-                            List<ProductItem> prodItemList = new ArrayList<>();
                             ProductItem prodItem = prodMngr.findByName(searchText);
+                            // 복수의 결과를 대비 아이템리스트 생성
+                            List<ProductItem> prodItemList = new ArrayList<>();
                             prodItemList.add(prodItem);
 
                             searchItemAddtable(prodItemList);
@@ -183,23 +186,25 @@ public class ListStockView extends View {
                         break;
                     case "상품코드":
                         try {
-                            // 검색어 앞자리 대문자화
                             String searchText = mTextFieldSearch.getText();
 
+                            // 검색어 앞자리 대문자화
                             char prodType = searchText.charAt(0);
                             StringBuilder sb = new StringBuilder(searchText);
                             if (prodType >= 'a' && prodType <= 'z') {
                                 sb.setCharAt(0, (char) (prodType - 32));
                                 searchText = sb.toString();
                             }
-                            List<ProductItem> prodItemList = new ArrayList<>();
-
-                            // 리스트에 추가
+                            // 상품 아이템 찾기
                             ProductCode prodCode = new ProductCode(searchText);
                             ProductItem prodItem = prodMngr.findByProductCode(prodCode);
+
+                            // 복수의 결과를 대비 아이템리스트 생성
+                            List<ProductItem> prodItemList = new ArrayList<>();
                             prodItemList.add(prodItem);
 
                             searchItemAddtable(prodItemList);
+
                             // //
                             // System.out.println("SearchText : " + searchText);
 
@@ -243,10 +248,16 @@ public class ListStockView extends View {
         m.setRowCount(0);
         try {
             prodMngr.iterate((info, idx) -> {
-                m.addRow(new Object[] {
-                        info.getId(), info.getProdCodeStr(),
-                        info.getName(), df.format(info.getPrice()),
-                });
+                try {
+                    m.addRow(new Object[] {
+                            info.getId(), info.getProdCodeStr(),
+                            info.getName(), df.format(info.getPrice()),
+                            prodStMngr.getQuantityByProdId(info.getId()), info.getDesc()
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 return true;
             });
         } catch (Exception e) {

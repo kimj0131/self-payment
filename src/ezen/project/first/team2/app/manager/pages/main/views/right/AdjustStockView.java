@@ -28,6 +28,7 @@ import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
@@ -37,6 +38,7 @@ public class AdjustStockView extends View {
     DecimalFormat df = new DecimalFormat("###,###");
 
     ProductManagerMem prodMngr = ProductManagerMem.getInstance();
+    ProductStocksManagerMem prodStMngr = ProductStocksManagerMem.getInstance();
 
     JLabel mLabelInfo = new JLabel("상품 재고 조정");
     // 검색, 결과용 패널
@@ -70,17 +72,20 @@ public class AdjustStockView extends View {
             Object[][] mProdListRows = new Object[mPropertyColumn.length][prodMngr.getCount()];
 
             DefaultTableModel model = new DefaultTableModel(mProdListRows, mPropertyColumn) {
-                // 셀 내용 수정 불가
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
+                // '실재고'컬럼 외 내용 수정 불가
+                boolean[] canEdit = new boolean[] {
+                        false, false, false, false, false, true
                 };
 
-                // public void onUpdatedCell(int row, int col) {
-                // }
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return canEdit[column];
+                };
+
             };
 
-            mTableResultList = new JTable(model);
+            this.mTableResultList = new JTable(model);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -101,6 +106,8 @@ public class AdjustStockView extends View {
 
         // 테이블 설정
         this.mTableResultList.getTableHeader().setReorderingAllowed(false);
+        mTableResultList.setRowSelectionAllowed(false); // 선택하면 셀 하나만 선택되게 설정
+        mTableResultList.setCellSelectionEnabled(true);
 
         DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
         dtcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -154,15 +161,22 @@ public class AdjustStockView extends View {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     int row = mTableResultList.getSelectedRow();
-                    // int col = mTableResultList.getSelectionModel().
+                    int col = mTableResultList.getSelectedColumn();
+
+                    int editColumn = 5;
+                    mTableResultList.changeSelection(row, editColumn, false, false);
 
                     int idColumn = 0;
                     int findId = (int) mTableResultList.getValueAt(row, idColumn);
+                    DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
+                    m.isCellEditable(row, idColumn);
+
                     try {
                         UiUtils.showMsgBox(String.format(
                                 "수정할 항목은\n[ 상품코드[%s] 상품명[%s] ] 입니다\n",
                                 prodMngr.findById(findId).getProdCodeStr(),
                                 prodMngr.findById(findId).getName()), "");
+
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
@@ -185,27 +199,13 @@ public class AdjustStockView extends View {
                             String searchText = mTextFieldSearch.getText();
 
                             // 상품 아이템 얻기
-                            List<ProductItem> prodItemList = new ArrayList<>();
                             ProductItem prodItem = prodMngr.findByName(searchText);
+                            // 복수의 결과를 대비 아이템리스트 생성
+                            List<ProductItem> prodItemList = new ArrayList<>();
                             prodItemList.add(prodItem);
 
                             searchItemAddtable(prodItemList);
 
-                            //
-                            // // 상품 재고 아이템 얻기
-                            // ProductStocksManagerMem prodStocksMngr =
-                            // ProductStocksManagerMem.getInstance();
-                            // ProductStockItem psi = prodStocksMngr.findByProdItem(pi.getId());
-
-                            // // 상품 재고 수량 업데이트
-                            // psi.setQuantity(psi.getQuantity() + 10);
-                            // // psi.incQuantity(10); // increment
-                            // // psi.decQunatify(10); // decrement
-
-                            // // 상품 재고 매니저 업데이트
-                            // prodStocksMngr.updateById(psi.getId(), psi);
-
-                            //
                         } catch (Exception e1) {
                             System.out.println("[findByName()]No Search Result");
                             UiUtils.showMsgBox("검색결과가 없습니다", "");
@@ -214,43 +214,24 @@ public class AdjustStockView extends View {
                         break;
                     case "상품코드":
                         try {
-                            // 검색어 앞자리 대문자화
                             String searchText = mTextFieldSearch.getText();
 
+                            // 검색어 앞자리 대문자화
                             char prodType = searchText.charAt(0);
                             StringBuilder sb = new StringBuilder(searchText);
                             if (prodType >= 'a' && prodType <= 'z') {
                                 sb.setCharAt(0, (char) (prodType - 32));
                                 searchText = sb.toString();
                             }
-                            List<ProductItem> prodItemList = new ArrayList<>();
-
-                            // 리스트에 추가
+                            // 상품 아이템 찾기
                             ProductCode prodCode = new ProductCode(searchText);
                             ProductItem prodItem = prodMngr.findByProductCode(prodCode);
+
+                            // 복수의 결과를 대비 아이템리스트 생성
+                            List<ProductItem> prodItemList = new ArrayList<>();
                             prodItemList.add(prodItem);
 
                             searchItemAddtable(prodItemList);
-                            // //
-                            // System.out.println("SearchText : " + searchText);
-
-                            // String compareText = prodItem.getProdCode().toString();
-                            // //
-                            // System.out.println("CompareText : " + compareText);
-
-                            // // prodItem.getProdCode();
-                            // // 부분검색
-                            // if (!(searchText.equals(compareText))
-                            // || !(searchText.contains(compareText))) {
-                            // System.out.println("진입 확인");
-                            // UiUtils.showMsgBox("검색결과가 없습니다", "");
-                            // } else if (searchText.equals(compareText)) {
-                            // // 단건 검색
-                            // prodItemList.add(prodItem);
-                            // }
-                            // // else if (searchText.contains(compareText)) {
-                            // // UiUtils.showMsgBox("일부만 동일", "");
-                            // // }
 
                         } catch (Exception e1) {
                             System.out.println("[findByName()]No Search Result");
@@ -272,10 +253,18 @@ public class AdjustStockView extends View {
         m.setRowCount(0);
         try {
             prodMngr.iterate((info, idx) -> {
-                m.addRow(new Object[] {
-                        info.getId(), info.getProdCodeStr(),
-                        info.getName(), df.format(info.getPrice()),
-                });
+                try {
+                    m.addRow(new Object[] {
+                            info.getId(), info.getProdCodeStr(),
+                            info.getName(), df.format(info.getPrice()),
+                            // 현재고 불러오기
+                            prodStMngr.getQuantityByProdId(info.getId())
+
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 return true;
             });
         } catch (Exception e) {

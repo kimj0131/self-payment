@@ -239,6 +239,7 @@ public class AddCustmerView extends View {
             customerItem.setValues(custId, joinCustDate, mTextFieldAddName.getText(),
                     custBirthDate, mTextFieldAddPhoneNum.getText(),
                     defaultPoint, mTextFieldAddRemark.getText());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
