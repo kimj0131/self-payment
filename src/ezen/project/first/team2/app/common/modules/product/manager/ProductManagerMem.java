@@ -45,8 +45,8 @@ public class ProductManagerMem extends ListManagerMem<ProductItem>
 	}
 
 	@Override
-	public ProductItem findByName(String name) throws Exception {
-		return this.find((pi, idx) -> pi.getName().equals(name));
+	public List<ProductItem> findByName(String name) throws Exception {
+		return this.findItems((pi, idx) -> pi.getName().contains(name));
 	}
 
 	@Override

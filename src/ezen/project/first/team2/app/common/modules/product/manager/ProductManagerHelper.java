@@ -14,7 +14,7 @@ public interface ProductManagerHelper {
 
 	public List<ProductItem> findByRegDate(LocalDate date) throws Exception;
 
-	public ProductItem findByName(String name) throws Exception;
+	public List<ProductItem> findByName(String name) throws Exception;
 
 	public List<ProductItem> findByPrice(int price) throws Exception;
 }
