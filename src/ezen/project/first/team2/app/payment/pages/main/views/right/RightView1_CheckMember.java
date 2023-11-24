@@ -13,6 +13,7 @@ import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
 import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
+import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
@@ -30,9 +31,9 @@ public class RightView1_CheckMember extends View {
 	private JButton mPass_btn;
 
 	// 숫자패드
-	private JTextField mNums_tf; // 누른 번호가 표시되는 곳
 	private StringBuilder mPhoneNum; // 010-0000-0000
 	private StringBuilder mHidedPhoneNum; // 010 -****-***0
+	private JTextField mNums_tf; // 누른 번호가 표시되는 곳
 	private JPanel mNum_panel; // 숫자버튼을 담을 패널
 	private JButton[] mNum_btn_arr; // "숫자" 버튼을 모아두는 배열
 	private JButton mDel_btn; // 전체삭제 버튼
@@ -40,8 +41,7 @@ public class RightView1_CheckMember extends View {
 	//
 
 	private CustomerManagerMem mCustMngr;
-	private ProductOrdersManagerMem mProdOrdersMngr;
-
+	private ProductPurchasing mProdPurchasing;
 
 	public RightView1_CheckMember() {
 		super(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
@@ -69,7 +69,6 @@ public class RightView1_CheckMember extends View {
 		
 		// 매니저 인스턴스 가져오기
 		mCustMngr = CustomerManagerMem.getInstance();
-		mProdOrdersMngr = ProductOrdersManagerMem.getInstance();
 	}
 
 	@Override
@@ -88,6 +87,7 @@ public class RightView1_CheckMember extends View {
 		for (int i = 0; i < mNum_btn_arr.length; ++i) {
 			mNum_btn_arr[i] = new JButton(String.valueOf(i));
 		}
+		
 		// 숫자패널에 숫자, delete, undo 버튼 달기
 		for (JButton btn : mNum_btn_arr) {
 			if (btn.getName() != "0")
@@ -107,44 +107,29 @@ public class RightView1_CheckMember extends View {
 	protected void onAddEventListeners() {
 		mCheck_btn.addActionListener(e -> {
 
-			CustomerItem customerItem = null;
 			try {
-				customerItem = mCustMngr.findByPhoneNumber(mPhoneNum.toString());
+				// ProdPurchasing를 가져올때 이렇게 해야하는지? 겟인스턴스 메서드로 가져올수는 없는지?
+				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
+				RightView0_OrderList rightView0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
+				mProdPurchasing = rightView0.get_mProdPurchasing();
+
+				// 입력한 번호와 일치하는 고객아이템 가져오기
+				CustomerItem customerItem = mCustMngr.findByPhoneNumber(mPhoneNum.toString());
+				
+				// 확인된 회원
+				if (customerItem != null) {
+					
+					// 구매내역에 고객 아이디 설정
+					mProdPurchasing._3_applyCustomerPoint(customerItem.getId());
+					
+					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_VERIFIED_MEMBER_INFO_NUM);
+				// 없는 회원
+				} else
+					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_UNVERIFIED_MEMBER_INFO_NUM);
+
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-
-			MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-			if (customerItem != null) {
-				// 확인된 회원
-
-				// 구매내역에 고객 아이디 업데이트
-				RightView0_OrderList rightView0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
-				try {
-					var prodOrderItem = mProdOrdersMngr.findById(rightView0.get_mGeneratedProdOrderId());
-					prodOrderItem.setValues(prodOrderItem.getId(), prodOrderItem.getOrderDateTime(),
-							customerItem.getId(), prodOrderItem.getUsedPoint());
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-				
-				
-				// 유요한 회원 팝업 뷰 열기
-				try {
-					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_VERIFIED_MEMBER_INFO_NUM);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-
-			} else {
-				// 없는 회원
-				try {
-					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_UNVERIFIED_MEMBER_INFO_NUM);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-
 		});
 
 		mPass_btn.addActionListener(e -> {

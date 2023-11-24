@@ -7,11 +7,10 @@ import javax.swing.JTextArea;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
-import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
+import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 import ezen.project.first.team2.app.payment.pages.main.views.right.RightView0_OrderList;
-import ezen.project.first.team2.app.payment.pages.main.views.right.RightView1_CheckMember;
 
 public class PopUpView1_VerifiedMemberInfo extends View {
 	
@@ -28,7 +27,8 @@ public class PopUpView1_VerifiedMemberInfo extends View {
 	JButton mCancel_btn;
 	
 	private CustomerManagerMem mCustMngr;
-	private ProductOrdersManagerMem mProdOrdersMngr;
+	
+	private ProductPurchasing mProdPurchasing;
 
 	public PopUpView1_VerifiedMemberInfo() {
 		super(MainPage.POPUP_VIEW_VERIFIED_MEMBER_INFO_NUM);
@@ -44,7 +44,6 @@ public class PopUpView1_VerifiedMemberInfo extends View {
 		mMsg_ta.setBackground(Color.WHITE);
 		
 		mCustMngr = CustomerManagerMem.getInstance();
-		mProdOrdersMngr = ProductOrdersManagerMem.getInstance();
 	}
 
 	@Override
@@ -86,17 +85,19 @@ public class PopUpView1_VerifiedMemberInfo extends View {
 	@Override
 	protected void onShow(boolean firstTime) {
 		
+		MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
+		RightView0_OrderList rightView0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
+		mProdPurchasing = rightView0.get_mProdPurchasing();
+		
 		try {
-			MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-			RightView0_OrderList rightView0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
-			var prodOrderItem = mProdOrdersMngr.findById(rightView0.get_mGeneratedProdOrderId());
-			
+			var prodOrderItem = mProdPurchasing.getProdOrderItem();
 			// RightView0에서 발급된 구매내역id로 구매내역 찾고 구매내역에 있는 고객id로 고객 이름 가져오기
 			mMemName = mCustMngr.findById(prodOrderItem.getCustId()).getName();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		// 회원이름 설정
 		mMsg_ta.setText(String.format(MSG_TA_TEXT_FORMAT, mMemName));
 	}
 

@@ -11,6 +11,7 @@ import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
 import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
+import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
@@ -29,7 +30,8 @@ public class LeftView2_PointInfo extends View {
 	JButton mPrev_btn;
 	
 	private CustomerManagerMem mCustMngr;
-	private ProductOrdersManagerMem mProdOrdersMngr;
+	
+	private ProductPurchasing mProdPurchasing;
 	
 	
 	public LeftView2_PointInfo() {
@@ -43,7 +45,6 @@ public class LeftView2_PointInfo extends View {
 		mPrev_btn = new JButton(PREV_BTN_TEXT);
 		
 		mCustMngr = CustomerManagerMem.getInstance();
-		mProdOrdersMngr = ProductOrdersManagerMem.getInstance();
 	}
 
 	@Override
@@ -74,12 +75,14 @@ public class LeftView2_PointInfo extends View {
 
 	@Override
 	protected void onShow(boolean firstTime) {
+		MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
+		RightView0_OrderList rightView0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
+		mProdPurchasing = rightView0.get_mProdPurchasing();
+		
 		try {
-			MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-			RightView0_OrderList rightView0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
-			var prodOrderItem = mProdOrdersMngr.findById(rightView0.get_mGeneratedProdOrderId());
+			var prodOrderItem = mProdPurchasing.getProdOrderItem();
 			
-			// RightView0에서 발급된 구매내역id로 구매내역 찾고 구매내역에 있는 고객id로 고객 이름 가져오기
+			// 구매내역에 들어간 고객ID로 이름 가져오기
 			mMemName = mCustMngr.findById(prodOrderItem.getCustId()).getName();
 		} catch (Exception e) {
 			e.printStackTrace();

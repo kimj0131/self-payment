@@ -11,7 +11,7 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 
 import ezen.project.first.team2.app.common.framework.StatusManager;
-import ezen.project.first.team2.app.common.modules.base.ListActionListener;
+import ezen.project.first.team2.app.common.modules.base.ListActionAdapter;
 import ezen.project.first.team2.app.common.modules.base.ListManager;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
@@ -48,69 +48,126 @@ public class Main extends StatusManager {
 		setTestData();
 	}
 
+	// Test를 위한 더미 데이터 설정 작업
 	private void setTestData() {
-		// Test를 위한 더미 데이터 설정 작업
+		
 		var custMngr = CustomerManagerMem.getInstance();
+
 		var prodMngr = ProductManagerMem.getInstance();
 		var prodStocksMngr = ProductStocksManagerMem.getInstance();
 		var prodDiscntsMngr = ProductDiscountsManagerMem.getInstance();
-		var prodOrdersMngr = ProductOrdersManagerMem.getInstance();
-		var prodOrderDetailsMngr = ProductOrderDetailsManagerMem.getInstance();
+		
+		
+		try {
+			
+			// 고객 임시 데이터 생성
+			CustomerItem[] customerDummyData = CustomerItem.getPredefinedData();
+			
+			for (CustomerItem ci : customerDummyData)
+				custMngr.add(ci);
 
-		prodMngr.setActionListener(new ListActionListener<ProductItem>() {
-
-			@Override
-			public void onUpdated(ListManager<ProductItem> mngr, ProductItem oldItem, ProductItem newItem) {
-			}
-
-			@Override
-			public void onInitialized(ListManager<ProductItem> mngr) {
-			}
-
-			@Override
-			public void onDeleted(ListManager<ProductItem> mngr, ProductItem item) {
+			prodMngr.setActionListener(new ListActionAdapter<ProductItem>() {
+				@Override
+				public void onAdded(ListManager<ProductItem> mngr, ProductItem item) {
+					try {
+						// 상품 재고 관리자에 추가
+						prodStocksMngr.add(new ProductStockItem(item.getId()));
+						// 상품 할인 관리자에 추가
+						prodDiscntsMngr.add(new ProductDiscountItem(item.getId()));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			
+			
+			// 상품 임시 데이터 생성
+			ProductItem[] productDummyData = ProductItem.getPredefinedProductData();
+			
+			for (ProductItem pi : productDummyData)
+				prodMngr.add(pi);
+			
+			
+			// 상품 재고 생성
+			prodMngr.iterate((item, idx) -> {
 				try {
-					// [상품 재고 관리자]에서 상품 제거
-					var pi0 = prodStocksMngr.getItemByProdId(item.getId());
-					prodStocksMngr.deleteById(pi0.getId());
-
-					// [상품 할인 관리자]에서 상품 제거
-					var pi1 = prodDiscntsMngr.getItemByProdId(item.getId());
-					prodDiscntsMngr.deleteById(pi1.getId());
+					prodStocksMngr.updateQuantityByProdId(item.getId(), 10);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return true;
+			});
+			
+			
+			// 상품 할인율 설정
+			prodMngr.iterate((item, idx) -> {
+				try {
+					prodDiscntsMngr.setAmountByProdId(item.getId(), 100);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
-				
-//				try {
-//					System.out.println("customers");
-//					custMngr.iterate((item, idx) -> {
-//						System.out.println("  " + item);
-//						return true;
-//					});
-//					
-//					System.out.println("products");
-//					prodMngr.iterate((item, idx) -> {
-//						System.out.println("  " + item);
-//						return true;
-//					});
-//					
-//					System.out.println("product_stocks");
-//					prodStocksMngr.iterate((item, idx) -> {
-//						System.out.println("  " + item);
-//						return true;
-//					});
-//					
-//					System.out.println("product_discounts");
-//					prodDiscntsMngr.iterate((item, idx) -> {
-//						System.out.println("  " + item);
-//						return true;
-//					});
-//					
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
+				return true;
+			});
+			
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+
+		// 테스트용 데이터 확인을 위한 콘솔 출력
+		try {
+
+			System.out.println("고객 리스트");
+			custMngr.iterate((item, idx) -> {
+				System.out.println(" " + item);
+
+				return true;
+			});
+			
+			
+			System.out.println("------------------------------");
+			
+			
+			System.out.println("상품 리스트");
+			prodMngr.iterate((item, idx) -> {
+				System.out.println(" " + item);
+				
+				return true;
+			});
+			
+			
+			System.out.println("------------------------------");
+			
+			
+			System.out.println("상품 재고 리스트");
+			prodStocksMngr.iterate((item, idx) -> {
+				try {
+					System.out.println(item + " => " + item.getProdItem().getName());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return true;
+			});
+			
+			System.out.println("------------------------------");
+			
+			System.out.println("상품 할인 리스트");
+			prodDiscntsMngr.iterate((item, idx) -> {
+				System.out.println(" " + item);
+				return true;
+			});
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		
+		
+		
+		
 	}
 
 	// 페이지 추가 작업

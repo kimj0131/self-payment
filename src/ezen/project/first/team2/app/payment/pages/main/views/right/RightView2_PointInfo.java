@@ -12,6 +12,7 @@ import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
 import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
+import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
@@ -35,6 +36,9 @@ public class RightView2_PointInfo extends View {
 	private ProductOrdersManagerMem mProdOrdersMngr;
 	private CustomerManagerMem mCustMngr;
 
+	private ProductPurchasing mProdPurchasing;
+	
+	
 	public RightView2_PointInfo() {
 		super(MainPage.RIGHT_VIEW_POINT_INFO_NUM);
 	}
@@ -111,19 +115,19 @@ public class RightView2_PointInfo extends View {
 
 	@Override
 	protected void onShow(boolean firstTime) {
+		MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
+		RightView0_OrderList rightView0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
+		mProdPurchasing = rightView0.get_mProdPurchasing();
+		var prodOrderItem = mProdPurchasing.getProdOrderItem();
+		
 		int earnedPoint = 0;
 		int point = 0;
 		
 		try {
-			
-			MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-			RightView0_OrderList rightView0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
-			var prodOrderItem = mProdOrdersMngr.findById(rightView0.get_mGeneratedProdOrderId());
-			var customerItem = mCustMngr.findById(prodOrderItem.getCustId());
-			// 
-			earnedPoint = prodOrderItem.getEarnedPoint();
-			point = customerItem.getPoint();
-			
+			// 적립된 포인트 계산해서 구매내역에 설정하고 반환
+			System.out.println("회원가 적용된 최종가격입니다" + prodOrderItem.getFinalTotalPrice());
+			earnedPoint = prodOrderItem.calcEarnedPoint();
+			point = prodOrderItem.getCustItem().getPoint();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
