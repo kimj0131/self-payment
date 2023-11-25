@@ -2,6 +2,7 @@ package ezen.project.first.team2.app.payment.pages.main.views.right;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
@@ -62,13 +63,22 @@ public class RightView1_CheckMember extends View {
 		mNums_tf = new JTextField();
 		mNums_tf.setEditable(false);
 		
+		// 숫자 버튼 만들기
 		mNum_btn_arr = new JButton[10];
+		for (int i = 0; i < mNum_btn_arr.length; ++i) {
+			mNum_btn_arr[i] = new JButton(String.valueOf(i));
+		}
+		
 		mDel_btn = new JButton(DEL_BTN_TEXT);
 		mUndo_btn = new JButton(UNDO_BTN_TEXT);
 		mNum_panel = new JPanel();
 		
 		// 매니저 인스턴스 가져오기
 		mCustMngr = CustomerManagerMem.getInstance();
+		
+		// 메인 페이지에서 mProdPurchasing 가져오기
+		MainPage mainPage = (MainPage) this.getPage();
+		this.mProdPurchasing = mainPage.mProdPurchasing;
 	}
 
 	@Override
@@ -83,11 +93,6 @@ public class RightView1_CheckMember extends View {
 	@Override
 	protected void onAddCtrls() {
 
-		// 숫자 버튼 만들기
-		for (int i = 0; i < mNum_btn_arr.length; ++i) {
-			mNum_btn_arr[i] = new JButton(String.valueOf(i));
-		}
-		
 		// 숫자패널에 숫자, delete, undo 버튼 달기
 		for (JButton btn : mNum_btn_arr) {
 			if (btn.getName() != "0")
@@ -108,19 +113,21 @@ public class RightView1_CheckMember extends View {
 		mCheck_btn.addActionListener(e -> {
 
 			try {
-				// ProdPurchasing를 가져올때 이렇게 해야하는지? 겟인스턴스 메서드로 가져올수는 없는지?
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-				RightView0_OrderList rightView0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
-				mProdPurchasing = rightView0.get_mProdPurchasing();
 
 				// 입력한 번호와 일치하는 고객아이템 가져오기
 				CustomerItem customerItem = mCustMngr.findByPhoneNumber(mPhoneNum.toString());
 				
 				// 확인된 회원
 				if (customerItem != null) {
+					ProductOrdersManagerMem productOrder = ProductOrdersManagerMem.getInstance();
+					
+					System.out.println("고객아이디 등록 전 최종가격" + productOrder.findById(0).getFinalTotalPrice());
 					
 					// 구매내역에 고객 아이디 설정
 					mProdPurchasing._3_applyCustomerPoint(customerItem.getId());
+					
+					System.out.println("고객아이디 등록 후 최종가격" + productOrder.findById(0).getFinalTotalPrice());
 					
 					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_VERIFIED_MEMBER_INFO_NUM);
 				// 없는 회원
@@ -142,88 +149,77 @@ public class RightView1_CheckMember extends View {
 			}
 		});
 
-		// 숫자패드 버튼 액션리스너 만들기
-
-		ActionListener BtnActionListener = e -> {
-
-			for (int i = 0; i < mNum_btn_arr.length; ++i) {
-
-				if (e.getSource() == mNum_btn_arr[i]) {
-					// 폰번호를 다 입력했으면 버튼을 눌러도 번호가 추가되지 않는다
-					if (mPhoneNum.length() < 13) {
-
-						mPhoneNum.append(i);
-						mHidedPhoneNum.append(i);
-
-						// 010-숫자4자리가 될때 하이픈 추가
-						// OR 하이픈 다음에 숫자가 추가돠면 하이픈 앞 숫자 *로 바꾸기
-						if (mHidedPhoneNum.length() == 8) {
-							mPhoneNum.append('-');
-							mHidedPhoneNum.append('-');
-						} else if (mHidedPhoneNum.length() == 10) {
-							mHidedPhoneNum.setCharAt(7, '*');
-						}
-
-//						mNumberTextField.setText(mHidedPhoneNumber.toString());
-						mNums_tf.setText(mPhoneNum.toString());
-						
-						// 번호의 마지막 숫자를 *로 바꿈
-						if (mHidedPhoneNum.charAt(mHidedPhoneNum.length() - 1) != '-')
-							mHidedPhoneNum.setCharAt(mHidedPhoneNum.length() - 1, '*');
-						break;
-					}
-				}
-			}
-
-			if (e.getSource() == mDel_btn) {
-				mPhoneNum.delete(4, mPhoneNum.length());
-				mHidedPhoneNum.delete(4, mHidedPhoneNum.length());
-//				mNumberTextField.setText(mHidedPhoneNumber.toString());
-				mNums_tf.setText(mPhoneNum.toString());
-			}
-
-			if (e.getSource() == mUndo_btn) {
-
-				if (mPhoneNum.length() >= 5) {
-					// 하이픈 삭제 - 하이픈 다음에 숫자 입력이 없었을 경우
-					if (mHidedPhoneNum.charAt(mHidedPhoneNum.length() - 1) == '-'
-							&& mHidedPhoneNum.length() > 4) {
-						mHidedPhoneNum.deleteCharAt(mHidedPhoneNum.length() - 1);
-						mPhoneNum.deleteCharAt(mPhoneNum.length() - 1);
-					}
-
-					// 번호삭제
-					mPhoneNum.delete(mPhoneNum.length() - 1, mPhoneNum.length());
-					mHidedPhoneNum.delete(mHidedPhoneNum.length() - 1, mHidedPhoneNum.length());
-
-					// 하이픈 삭제 - 하이픈 다음에 숫자 입력이 있었을 경우
-					if (mHidedPhoneNum.charAt(mHidedPhoneNum.length() - 1) == '-'
-							&& mHidedPhoneNum.length() > 4) {
-						mHidedPhoneNum.deleteCharAt(mHidedPhoneNum.length() - 1);
-						mPhoneNum.deleteCharAt(mPhoneNum.length() - 1);
-					}
-
-					// 끝 숫자가 지워진 mHidedPhoneNumber의 끝 숫자를 *에서 숫자로 바꾸기
-					mHidedPhoneNum.setCharAt(mHidedPhoneNum.length() - 1,
-							mPhoneNum.charAt(mPhoneNum.length() - 1));
-
-//					mNumberTextField.setText(mHidedPhoneNumber.toString());
-					mNums_tf.setText(mPhoneNum.toString());
-
-					// 이후 추가될 번호를 위해 다시 mHidedPhoneNumber의 끝 숫자를 *로 바꾸기
-					if (mHidedPhoneNum.length() > 4)
-						mHidedPhoneNum.setCharAt(mHidedPhoneNum.length() - 1, '*');
-				}
-			}
-		};
-
 		// 버튼에 액션리스너 달기
 		for (JButton btn : mNum_btn_arr) {
-			btn.addActionListener(BtnActionListener);
-		}
-		mDel_btn.addActionListener(BtnActionListener);
-		mUndo_btn.addActionListener(BtnActionListener);
+			btn.addActionListener(e -> {
+				for (int i = 0; i < mNum_btn_arr.length; ++i) {
 
+					if (e.getSource() == mNum_btn_arr[i]) {
+						// 폰번호를 다 입력했으면 버튼을 눌러도 번호가 추가되지 않는다
+						if (mPhoneNum.length() < 13) {
+
+							mPhoneNum.append(i);
+							mHidedPhoneNum.append(i);
+
+							// 010-숫자4자리가 될때 하이픈 추가
+							// OR 하이픈 다음에 숫자가 추가돠면 하이픈 앞 숫자 *로 바꾸기
+							if (mHidedPhoneNum.length() == 8) {
+								mPhoneNum.append('-');
+								mHidedPhoneNum.append('-');
+							} else if (mHidedPhoneNum.length() == 10) {
+								mHidedPhoneNum.setCharAt(7, '*');
+							}
+
+//							mNumberTextField.setText(mHidedPhoneNumber.toString());
+							mNums_tf.setText(mPhoneNum.toString());
+
+							// 번호의 마지막 숫자를 *로 바꿈
+							if (mHidedPhoneNum.charAt(mHidedPhoneNum.length() - 1) != '-')
+								mHidedPhoneNum.setCharAt(mHidedPhoneNum.length() - 1, '*');
+							break;
+						}
+					}
+				}
+			});
+		}
+		
+		mDel_btn.addActionListener(e -> {
+			mPhoneNum.delete(4, mPhoneNum.length());
+			mHidedPhoneNum.delete(4, mHidedPhoneNum.length());
+//			mNumberTextField.setText(mHidedPhoneNumber.toString());
+			mNums_tf.setText(mPhoneNum.toString());
+		});
+		
+		mUndo_btn.addActionListener(e -> {
+			if (mPhoneNum.length() >= 5) {
+				// 하이픈 삭제 - 하이픈 다음에 숫자 입력이 없었을 경우
+				if (mHidedPhoneNum.charAt(mHidedPhoneNum.length() - 1) == '-' && mHidedPhoneNum.length() > 4) {
+					mHidedPhoneNum.deleteCharAt(mHidedPhoneNum.length() - 1);
+					mPhoneNum.deleteCharAt(mPhoneNum.length() - 1);
+				}
+
+				// 번호삭제
+				mPhoneNum.delete(mPhoneNum.length() - 1, mPhoneNum.length());
+				mHidedPhoneNum.delete(mHidedPhoneNum.length() - 1, mHidedPhoneNum.length());
+
+				// 하이픈 삭제 - 하이픈 다음에 숫자 입력이 있었을 경우
+				if (mHidedPhoneNum.charAt(mHidedPhoneNum.length() - 1) == '-' && mHidedPhoneNum.length() > 4) {
+					mHidedPhoneNum.deleteCharAt(mHidedPhoneNum.length() - 1);
+					mPhoneNum.deleteCharAt(mPhoneNum.length() - 1);
+				}
+
+				// 끝 숫자가 지워진 mHidedPhoneNumber의 끝 숫자를 *에서 숫자로 바꾸기
+				mHidedPhoneNum.setCharAt(mHidedPhoneNum.length() - 1, mPhoneNum.charAt(mPhoneNum.length() - 1));
+
+//				mNumberTextField.setText(mHidedPhoneNumber.toString());
+				mNums_tf.setText(mPhoneNum.toString());
+
+				// 이후 추가될 번호를 위해 다시 mHidedPhoneNumber의 끝 숫자를 *로 바꾸기
+				if (mHidedPhoneNum.length() > 4)
+					mHidedPhoneNum.setCharAt(mHidedPhoneNum.length() - 1, '*');
+			}
+		});
+		
 	}
 
 	@Override

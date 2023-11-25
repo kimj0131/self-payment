@@ -37,22 +37,26 @@ public class RightView0_OrderList extends View {
 	// 결제가 완료되지 않음	-> 이전 단계로 갔을때는 onShow에서 구매내역을 새로 만들지 않아야 함
 	public static boolean RECEIPT_ISSUANCE = false;
 	
-	// 그리드백 레이아웃을 사용하기 위한 constraint
-	private GridBagConstraints mGbc;
 
-	// 구매리스트 테이블
+	// 구매리스트 테이블 관련 변수
 	private JTable mTable;
 	private JScrollPane mScrolledTable;
 	private DefaultTableModel mTableModel;
 
+	//
 	private JTextArea mSum_ta;
 	private JButton mBuying_btn;
+	//
+	
+	// 그리드백 레이아웃을 사용하기 위한 constraint
+	private GridBagConstraints mGbc;
 
+	//
 	private ProductManagerMem mProdMngr;
 	private ProductOrderDetailsManagerMem mProdOrderDetailsMngr;
 	
 	private ProductPurchasing mProdPurchasing;
-	
+	//
 	
 	public RightView0_OrderList() {
 		super(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
@@ -60,18 +64,21 @@ public class RightView0_OrderList extends View {
 
 	@Override
 	protected void onInit() {
+		
 		setBackground(Color.DARK_GRAY);
 		this.setTable();
-		
-		mGbc = new GridBagConstraints();
 		
 		mSum_ta = new JTextArea(SUM_TA_TEXT);
 		mBuying_btn = new JButton(BUYING_BTN_TEXT);
 		
-		mProdPurchasing = new ProductPurchasing();
-		
+		mGbc = new GridBagConstraints();
+
 		mProdMngr = ProductManagerMem.getInstance();
 		mProdOrderDetailsMngr = ProductOrderDetailsManagerMem.getInstance();
+		
+		// 메인 페이지에서 mProdPurchasing 가져오기
+		MainPage mainPage = (MainPage) this.getPage();
+		this.mProdPurchasing = mainPage.mProdPurchasing;
 	}
 
 	private void setTable() {
@@ -281,7 +288,4 @@ public class RightView0_OrderList extends View {
 		//-------------------------------------------
 	}
 
-	public ProductPurchasing get_mProdPurchasing() {
-		return mProdPurchasing;
-	}
 }

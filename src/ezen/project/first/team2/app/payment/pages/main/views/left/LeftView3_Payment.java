@@ -8,21 +8,40 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import ezen.project.first.team2.app.common.framework.View;
+import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
+import ezen.project.first.team2.app.common.utils.UnitUtils;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
 public class LeftView3_Payment extends View {
+	
 	private static final int PADDING = 10;
-
-	private static final String AMOUNT_INFO_LABEL_TEXT_FORMAT = "<html>총 금액<br>%d<br>할인 금액<br>%d<br>최종 금액<br>%d</html>";
+	
+	private static final String ORG_PRICE_TITLE_LABEL_TEXT = "총 금액";
+	private static final String DISCOUNT_TITLE_lABEL_TEXT = "할인 금액";
+	private static final String FINAL_PRICE_TITLE_LABEL_TEXT = "최종 금액";
+	
 	private static final String PREV_BTN_TEXT = "이전단계";
 	
-	int mTotalAmount = 50000;
-	int mDiscountAmount = 5000;
+	// 타이틀 라벨, 금액표시 라벨, 금액
+	JLabel mOrgPrice_title_label;
+	JLabel mOrgPrice_label;
+	String mOrgPrice;
 	
-	JLabel mAmountInfo_label;
+	JLabel mDiscount_title_label;
+	JLabel mDiscount_label;
+	String mDiscount;
+	
+	JLabel mFinalPrice_title_label;
+	JLabel mFinalPrice_label;
+	String mFinalPrice;
+	//
+	
+	
 	JButton mPrev_btn;
+	
+	private ProductPurchasing mProdPurchasing;
 
 	public LeftView3_Payment() {
 		super(MainPage.LEFT_VIEW_PAYMENT_NUM);
@@ -32,7 +51,20 @@ public class LeftView3_Payment extends View {
 	protected void onInit() {
 		setBackground(Color.GRAY);
 		
-		mAmountInfo_label = new JLabel();
+		// 메인 페이지에서 mProdPurchasing 가져오기
+		MainPage mainPage = (MainPage) this.getPage();
+		this.mProdPurchasing = mainPage.mProdPurchasing;
+		
+		mOrgPrice_title_label = new JLabel(ORG_PRICE_TITLE_LABEL_TEXT);
+		mOrgPrice_label = new JLabel();
+		
+		mDiscount_title_label = new JLabel(DISCOUNT_TITLE_lABEL_TEXT);
+		mDiscount_label = new JLabel();
+		
+		mFinalPrice_title_label = new JLabel(FINAL_PRICE_TITLE_LABEL_TEXT);
+		mFinalPrice_label = new JLabel();
+		//
+		
 		mPrev_btn = new JButton(PREV_BTN_TEXT);
 	}
 
@@ -45,7 +77,16 @@ public class LeftView3_Payment extends View {
 
 	@Override
 	protected void onAddCtrls() {
-		this.add(this.mAmountInfo_label);
+		
+		this.add(mOrgPrice_title_label);
+		this.add(mOrgPrice_label);
+		
+		this.add(mDiscount_title_label);
+		this.add(mDiscount_label);
+		
+		this.add(mFinalPrice_title_label);
+		this.add(mFinalPrice_label);
+		
 		this.add(mPrev_btn);
 	}
 
@@ -64,7 +105,24 @@ public class LeftView3_Payment extends View {
 
 	@Override
 	protected void onShow(boolean firstTime) {
-		mAmountInfo_label.setText(String.format(AMOUNT_INFO_LABEL_TEXT_FORMAT, mTotalAmount, mDiscountAmount, mTotalAmount - mDiscountAmount));
+		System.out.println("적립된 포인트" + mProdPurchasing.getProdOrderItem().getEarnedPoint());
+		
+		// 금액 넣기
+		try {
+			mOrgPrice = UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getOrgTotalPrice());
+
+			mFinalPrice = UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getFinalTotalPrice());
+			
+			mDiscount = UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getFinalTotalPrice()
+					- mProdPurchasing.getProdOrderItem().getOrgTotalPrice());
+			
+			mOrgPrice_label.setText(mOrgPrice);
+			mFinalPrice_label.setText(mFinalPrice);
+			mDiscount_label.setText(mDiscount);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//
 	}
 
 	@Override
@@ -72,8 +130,5 @@ public class LeftView3_Payment extends View {
 	}
 
 	@Override
-	protected void onSetResources() {
-		Main main = (Main) this.getStatusManager();
-		mAmountInfo_label.setFont(main.mFont0);
-	}
+	protected void onSetResources() {}
 }

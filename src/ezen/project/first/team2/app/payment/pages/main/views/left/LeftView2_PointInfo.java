@@ -45,6 +45,10 @@ public class LeftView2_PointInfo extends View {
 		mPrev_btn = new JButton(PREV_BTN_TEXT);
 		
 		mCustMngr = CustomerManagerMem.getInstance();
+		
+		// 메인 페이지에서 mProdPurchasing 가져오기
+		MainPage mainPage = (MainPage) this.getPage();
+		this.mProdPurchasing = mainPage.mProdPurchasing;
 	}
 
 	@Override
@@ -75,9 +79,6 @@ public class LeftView2_PointInfo extends View {
 
 	@Override
 	protected void onShow(boolean firstTime) {
-		MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-		RightView0_OrderList rightView0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
-		mProdPurchasing = rightView0.get_mProdPurchasing();
 		
 		try {
 			var prodOrderItem = mProdPurchasing.getProdOrderItem();
