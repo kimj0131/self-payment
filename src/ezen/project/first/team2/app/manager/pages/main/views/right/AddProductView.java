@@ -4,18 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.text.DateFormat;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,7 +22,10 @@ import javax.swing.table.DefaultTableModel;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.utils.UiUtils;
+import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxType;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
@@ -61,14 +61,18 @@ public class AddProductView extends View {
     JLabel mLabelAddProdPrice = new JLabel("상품 가격");
     JTextField mTextFieldAddProdPrice = new JTextField(10);
 
-    JPanel mPanelAddRegDateDesc = new JPanel();
-    JLabel mLabelAddProdRegDate = new JLabel("입고 날짜");
-    DateFormat format = new SimpleDateFormat("yyyuMMdd");
-    JFormattedTextField mTextFieldAddProdRegDate = new JFormattedTextField(format);
+    JPanel mPanelAddDesc = new JPanel();
     JLabel mLabelAddProdDesc = new JLabel("비 고");
     JTextField mTextFieldAddProdDesc = new JTextField(20);
 
-    JButton mBtnAddProdComplete = new JButton("상품 추가");
+    // 상품 등록버튼
+    JPanel mPanelAddBtn = new JPanel();
+    JButton mBtnAddProdComplete = new JButton("상품 등록");
+
+    //
+    // [테스트] 상품정보 자동기입버튼
+    JButton mBtnAddTextFieldProd = new JButton("[테스트]자동기입");
+    //
 
     // 상품 리스트 테이블
     JTable mTableProdList;
@@ -86,7 +90,7 @@ public class AddProductView extends View {
             Object[] mPropertyColumn = {
                     "상품번호", "상품코드", "상품명", "가격", "등록일", "설명"
             };
-            Object[][] mProdListRows = new Object[mPropertyColumn.length][prodMngr.getCount()];
+            Object[][] mProdListRows = new Object[mPropertyColumn.length][10];
 
             DefaultTableModel model = new DefaultTableModel(mProdListRows, mPropertyColumn) {
                 // 셀 내용 수정 불가
@@ -106,6 +110,7 @@ public class AddProductView extends View {
     @Override
     protected void onSetLayout() {
         this.setLayout(new BorderLayout());
+        this.mPanelList.setLayout(new BorderLayout());
         this.mPanelListAdd.setLayout(new GridLayout(2, 1));
         this.mPanelAdd.setLayout(new BoxLayout(mPanelAdd, BoxLayout.Y_AXIS));
     }
@@ -120,16 +125,16 @@ public class AddProductView extends View {
         this.mTableProdList.getTableHeader().setReorderingAllowed(false);
         // 스크롤 설정
         this.mScroll = new JScrollPane(mTableProdList);
+        this.mScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.mScroll.setBorder(
                 BorderFactory.createEmptyBorder(10, 30, 30, 30));
         // 콤보박스
         String[] Types = { "과자", "라면", "주류", "과일", "채소" };
         this.mComboBoxCodeType = new JComboBox<String>(Types);
-        // 상품 번호, 상품 코드 접근 비활성화
+        // 상품 번호, 상품 코드, 등록 날짜 접근 비활성화
         this.mTextFieldAddProdId.setEnabled(false);
         this.mTextFieldAddProdCode.setEnabled(false);
 
-        this.mTextFieldAddProdRegDate.setColumns(10);
         try {
             // 상품번호는 자동으로 다음번호를 받는다.
             this.mTextFieldAddProdId.setText(String.valueOf(prodMngr.getNextID()));
@@ -150,7 +155,7 @@ public class AddProductView extends View {
         this.mPanelAdd.add(mLabelPanelInfo);
         this.mPanelAdd.add(mPanelAddIdCode);
         this.mPanelAdd.add(mPanelAddNamePrice);
-        this.mPanelAdd.add(mPanelAddRegDateDesc);
+        this.mPanelAdd.add(mPanelAddDesc);
 
         this.mPanelAddIdCode.add(mLabelAddProdId);
         this.mPanelAddIdCode.add(mTextFieldAddProdId);
@@ -163,42 +168,81 @@ public class AddProductView extends View {
         this.mPanelAddNamePrice.add(mLabelAddProdPrice);
         this.mPanelAddNamePrice.add(mTextFieldAddProdPrice);
 
-        this.mPanelAddRegDateDesc.add(mLabelAddProdRegDate);
-        this.mPanelAddRegDateDesc.add(mTextFieldAddProdRegDate);
-        this.mPanelAddRegDateDesc.add(mLabelAddProdDesc);
-        this.mPanelAddRegDateDesc.add(mTextFieldAddProdDesc);
+        this.mPanelAddDesc.add(mLabelAddProdDesc);
+        this.mPanelAddDesc.add(mTextFieldAddProdDesc);
 
-        this.mPanelAdd.add(mBtnAddProdComplete);
+        this.mPanelAdd.add(mPanelAddBtn);
+        this.mPanelAddBtn.add(mBtnAddProdComplete);
+        //
+        this.mPanelAddBtn.add(mBtnAddTextFieldProd);
+        //
     }
 
     @Override
     protected void onAddEventListeners() {
 
-        ActionListener listener = e -> {
-            if (e.getSource() == mComboBoxCodeType) {
-                mComboBoxCodeType.addFocusListener(new FocusAdapter() {
-                    @Override
-                    public void focusGained(FocusEvent e) {
-                        // 상품코드는 타입을 확인한 후 다음시리얼을 받는다.
-                        int nextSerial;
-                        try {
-                            nextSerial = prodMngr.getCount();
-                            mTextFieldAddProdCode.setText(getProductCodeType() + nextSerial);
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                });
+        mComboBoxCodeType.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                Object type = e.getItem();
+
+                try {
+                    int nextSerial = prodMngr.getCount() + 1;
+                    mTextFieldAddProdCode.setText(String.format("%s%03d",
+                            getProductCodeType(String.valueOf(type)), nextSerial));
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
             }
+        });
+
+        ActionListener listener = e -> {
+
+            // 테스트버튼
+            if (e.getSource() == mBtnAddTextFieldProd) {
+                this.setTestProdValue();
+            }
+            if (mTextFieldAddProdCode.getText().length() > 0 &&
+                    mTextFieldAddProdName.getText().length() > 0 &&
+                    mTextFieldAddProdPrice.getText().length() > 0) {
+
+                if (e.getSource() == mBtnAddProdComplete) {
+                    this.setProdValue();
+                    try {
+                        this.mTextFieldAddProdId.setText(String.valueOf(prodMngr.getNextID()));
+                        // 테이블 갱신
+                        insertItemTable();
+                        // 텍스트필드 초기화
+                        allTextFieldInitialize();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            } else {
+                // 미입력항목 있을 시 경고
+                UiUtils.showMsgBox("비고를 제외하고 모두 입력해야 합니다.",
+                        "", MsgBoxType.Warn);
+            }
+
         };
 
-        this.mComboBoxCodeType.addActionListener(listener);
+        // 추가완료 버튼 활성
+        this.mBtnAddProdComplete.addActionListener(listener);
 
+        // 테스트버튼 추가
+        this.mBtnAddTextFieldProd.addActionListener(listener);
     }
 
     @Override
     protected void onShow(boolean firstTime) {
         System.out.println("[AddProductView.onShow()]");
+
+        // 텍스트필드 비워놓기
+        allTextFieldInitialize();
+
+        // 상품목록을 테이블에 추가
+        insertItemTable();
     }
 
     @Override
@@ -214,23 +258,94 @@ public class AddProductView extends View {
         lb1.setFont(main.mFont0);
     }
 
+    // textField에 작성한 내용울 추가
+    private void setProdValue() {
+        ProductItem productItem = new ProductItem();
+
+        try {
+            int prodId = prodMngr.getNextID();
+            ProductCode prodCode = new ProductCode(mTextFieldAddProdCode.getText());
+            LocalDate prodRegDate = LocalDate.now();
+            String prodName = mTextFieldAddProdName.getText();
+            int prodPrice = Integer.valueOf(mTextFieldAddProdPrice.getText());
+            String prodDesc = mTextFieldAddProdDesc.getText();
+
+            productItem.setValues(prodId, prodCode, prodRegDate,
+                    prodName, prodPrice, prodDesc);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            prodMngr.add(productItem);
+            System.out.println("prod Add");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     // 상품코드 타입 받아오기
-    private String getProductCodeType() {
-
-        String type = this.mComboBoxCodeType.getSelectedItem().toString();
-
+    private String getProductCodeType(String type) {
         switch (type) {
             case "과자":
-                return "S";
+                return ProductCode.typeToStr(ProductCode.Type.Snack);
             case "라면":
-                return "R";
+                return ProductCode.typeToStr(ProductCode.Type.Ramen);
             case "주류":
-                return "D";
+                return ProductCode.typeToStr(ProductCode.Type.Drink);
             case "과일":
-                return "F";
+                return ProductCode.typeToStr(ProductCode.Type.Fruit);
             case "채소":
-                return "V";
+                return ProductCode.typeToStr(ProductCode.Type.Vegetable);
         }
         return "";
     }
+
+    // 상품목록을 테이블에 추가하는 메소드
+    private void insertItemTable() {
+        DefaultTableModel m = (DefaultTableModel) mTableProdList.getModel();
+        m.setRowCount(0);
+        try {
+            prodMngr.iterate((info, idx) -> {
+                m.addRow(new Object[] {
+                        info.getId(), info.getProdCodeStr(),
+                        info.getName(), df.format(info.getPrice()),
+                        info.getRegDateStr(), info.getDesc()
+                });
+                return true;
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mTableProdList.updateUI();
+    }
+
+    // 텍스트 필드 비우기
+    private void allTextFieldInitialize() {
+        // this.mTextFieldAddProdId.setText("");
+        this.mTextFieldAddProdCode.setText("");
+        this.mTextFieldAddProdName.setText("");
+        this.mTextFieldAddProdPrice.setText("");
+        this.mTextFieldAddProdDesc.setText("");
+    }
+
+    private void setTestProdValue() {
+        try {
+            int nextId = prodMngr.getNextID();
+            this.mTextFieldAddProdId.setText(String.valueOf(nextId));
+
+            int nextSerial = prodMngr.getCount() + 1;
+            mTextFieldAddProdCode.setText(String.format("%s%03d",
+                    "S", nextSerial));
+
+            this.mTextFieldAddProdName.setText("새우깡");
+            int rdPrice = (int) (Math.random() * 1000 + 1000);
+            this.mTextFieldAddProdPrice.setText(String.valueOf(rdPrice));
+            this.mTextFieldAddProdDesc.setText("새우로 만든 스낵");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

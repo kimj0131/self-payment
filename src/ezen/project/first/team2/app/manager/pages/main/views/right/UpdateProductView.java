@@ -58,7 +58,8 @@ public class UpdateProductView extends View {
     JScrollPane mScroll;
 
     // 상품수정 컴포넌트
-    JLabel mLabelPanelInfo = new JLabel("수정 항목");
+    JPanel mPanelPanelInfo = new JPanel();
+    JLabel mLabelPanelInfo = new JLabel("<html>상단 리스트에서 더블클릭<br><center>■ 상품 정보</center></html>");
     JPanel mPanelUpdateIdCode = new JPanel();
     JLabel mLabelUpdateProdId = new JLabel("상품 번호");
     JTextField mTextFieldUpdateProdId = new JTextField(5);
@@ -75,6 +76,7 @@ public class UpdateProductView extends View {
     JLabel mLabelUpdateDesc = new JLabel("비 고");
     JTextField mTextFieldUpdateDesc = new JTextField(20);
 
+    JPanel mPanelUpdateBtn = new JPanel();
     JButton mBtnUpdateComplete = new JButton("수정 확정");
 
     public UpdateProductView() {
@@ -88,7 +90,7 @@ public class UpdateProductView extends View {
             Object[] mPropertyColumn = {
                     "상품번호", "상품코드", "상품명", "가격", "등록일", "설명"
             };
-            Object[][] mProdListRows = new Object[mPropertyColumn.length][0];
+            Object[][] mProdListRows = new Object[mPropertyColumn.length][10];
 
             DefaultTableModel model = new DefaultTableModel(mProdListRows, mPropertyColumn) {
                 // 셀 내용 수정 불가
@@ -109,7 +111,8 @@ public class UpdateProductView extends View {
         this.setLayout(new BorderLayout());
         this.mPanelSearchUpdate.setLayout(new BorderLayout());
         this.mPanelResult.setLayout(new GridLayout(2, 1));
-        this.mPanelPropertyUpdate.setLayout(new BoxLayout(mPanelPropertyUpdate, BoxLayout.Y_AXIS));
+        this.mPanelPropertyUpdate.setLayout(new BoxLayout(
+                mPanelPropertyUpdate, BoxLayout.Y_AXIS));
 
     }
 
@@ -133,6 +136,7 @@ public class UpdateProductView extends View {
         this.mBtnUpdateComplete.setBorder(
                 BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        // 비활성화할 텍스트필드
         this.mTextFieldUpdateProdId.setEnabled(false);
         this.mTextFieldUpdateProdCode.setEnabled(false);
 
@@ -154,7 +158,9 @@ public class UpdateProductView extends View {
         this.mPanelResult.add(mPanelPropertyUpdate);
 
         // 상품수정 패널
-        this.mPanelPropertyUpdate.add(mLabelPanelInfo);
+        this.mPanelPropertyUpdate.add(mPanelPanelInfo);
+        this.mPanelPanelInfo.add(mLabelPanelInfo);
+
         this.mPanelPropertyUpdate.add(mPanelUpdateIdCode);
         this.mPanelPropertyUpdate.add(mPanelUpdateNamePrice);
         this.mPanelPropertyUpdate.add(mPanelUpdateDesc);
@@ -172,7 +178,8 @@ public class UpdateProductView extends View {
         this.mPanelUpdateDesc.add(mLabelUpdateDesc);
         this.mPanelUpdateDesc.add(mTextFieldUpdateDesc);
 
-        this.mPanelPropertyUpdate.add(mBtnUpdateComplete);
+        this.mPanelPropertyUpdate.add(mPanelUpdateBtn);
+        this.mPanelUpdateBtn.add(mBtnUpdateComplete);
     }
 
     @Override
@@ -215,7 +222,7 @@ public class UpdateProductView extends View {
             if (btn == this.mBtnSearch) { // 상품검색
 
                 // 텍스트 필드를 비운다
-                allTextFieldReset();
+                allTextFieldInitialize();
 
                 String property = mComboBoxSearchProperty.getSelectedItem().toString();
 
@@ -273,6 +280,13 @@ public class UpdateProductView extends View {
                     updateItem.setDesc(mTextFieldUpdateDesc.getText());
 
                     prodMngr.updateById(updateId, updateItem);
+                    UiUtils.showMsgBox("수정 완료", "");
+                    // 테이블 갱신
+                    insertItemTable();
+
+                    // 완료되면 필드를 지운다
+                    allTextFieldInitialize();
+
                 } catch (Exception e1) {
                     UiUtils.showMsgBox("유효하지 않은 동작입니다.", "", MsgBoxType.Error);
                     // e1.printStackTrace();
@@ -291,24 +305,10 @@ public class UpdateProductView extends View {
         System.out.println("[ListProdStockView.onShow()]");
 
         // 텍스트필드 비워놓기
-        allTextFieldReset();
+        allTextFieldInitialize();
 
         // 상품목록을 테이블에 추가
-        DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
-        m.setRowCount(0);
-        try {
-            prodMngr.iterate((info, idx) -> {
-                m.addRow(new Object[] {
-                        info.getId(), info.getProdCodeStr(),
-                        info.getName(), df.format(info.getPrice()),
-                        info.getRegDateStr(), info.getDesc()
-                });
-                return true;
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        mTableResultList.updateUI();
+        insertItemTable();
     }
 
     @Override
@@ -352,19 +352,38 @@ public class UpdateProductView extends View {
                 prodItem.getProdCodeStr(),
                 prodItem.getName()), "");
 
-        this.mTextFieldUpdateProdId.setText(prodItem.getId() + "");
+        this.mTextFieldUpdateProdId.setText(String.valueOf(prodItem.getId()));
         this.mTextFieldUpdateProdCode.setText(prodItem.getProdCodeStr());
         this.mTextFieldUpdateName.setText(prodItem.getName());
-        this.mTextFieldUpdatePrice.setText(prodItem.getPrice() + "");
+        this.mTextFieldUpdatePrice.setText(String.valueOf(prodItem.getPrice()));
         this.mTextFieldUpdateDesc.setText(prodItem.getDesc());
     }
 
     // 텍스트 필드 비우기
-    private void allTextFieldReset() {
+    private void allTextFieldInitialize() {
         this.mTextFieldUpdateProdId.setText("");
         this.mTextFieldUpdateProdCode.setText("");
         this.mTextFieldUpdateName.setText("");
         this.mTextFieldUpdatePrice.setText("");
         this.mTextFieldUpdateDesc.setText("");
+    }
+
+    // 상품목록을 테이블에 추가하는 메소드
+    private void insertItemTable() {
+        DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
+        m.setRowCount(0);
+        try {
+            prodMngr.iterate((info, idx) -> {
+                m.addRow(new Object[] {
+                        info.getId(), info.getProdCodeStr(),
+                        info.getName(), df.format(info.getPrice()),
+                        info.getRegDateStr(), info.getDesc()
+                });
+                return true;
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mTableResultList.updateUI();
     }
 }

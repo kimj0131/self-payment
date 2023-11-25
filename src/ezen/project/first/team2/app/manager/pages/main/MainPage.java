@@ -9,7 +9,7 @@ package ezen.project.first.team2.app.manager.pages.main;
 import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.framework.Page;
-import ezen.project.first.team2.app.common.modules.base.ListActionListener;
+import ezen.project.first.team2.app.common.modules.base.ListActionAdapter;
 import ezen.project.first.team2.app.common.modules.base.ListManager;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
@@ -117,15 +117,7 @@ public class MainPage extends Page {
 		var prodStMngr = ProductStocksManagerMem.getInstance();
 		var prodDiscMngr = ProductDiscountsManagerMem.getInstance();
 
-		prodMngr.setActionListener(new ListActionListener<ProductItem>() {
-
-			@Override
-			public void onInitialized(ListManager<ProductItem> mngr) {
-			}
-
-			@Override
-			public void onDeinitializing(ListManager<ProductItem> mngr) {
-			}
+		prodMngr.setActionListener(new ListActionAdapter<ProductItem>() {
 
 			@Override
 			public void onAdded(ListManager<ProductItem> mngr, ProductItem item) {
@@ -150,13 +142,8 @@ public class MainPage extends Page {
 		});
 
 		try {
-			// 상품재고매니저 초기화
-			prodStMngr.init();
-			// 상품할인매니저 초기화
-			prodDiscMngr.init();
 
 			// 고객 더미데이터 추가
-			custMngr.init();
 
 			for (var ci : CustomerItem.getPredefinedData()) {
 				custMngr.add(ci);
@@ -164,14 +151,11 @@ public class MainPage extends Page {
 			}
 
 			// 상품 더미데이터 추가
-			prodMngr.init();
 
 			for (var di : ProductItem.getPredefinedProductData()) {
 				prodMngr.add(di);
 				// System.out.println(", " + di.getName());
 			}
-
-			// prodStMngr.add(null);
 
 		} catch (Exception e) {
 			e.printStackTrace();
