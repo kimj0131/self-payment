@@ -11,18 +11,18 @@ import java.awt.GridLayout;
 import ezen.project.first.team2.app.common.framework.DualView;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 import ezen.project.first.team2.app.manager.pages.main.views.left.LeftView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.AddCustmerView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.DeleteCustmerView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.ListCustmerView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.ListStockView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.UpdateCustmerView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.AdjustStockView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.product.AddProductView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.product.DeleteProductView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.product.ListProductView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.product.UpdateProductView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.stock.AdjustStockView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.stock.ListStockView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.RightDefaultView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.AddProductView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.AdjustDiscountView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.DeleteProductView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.ListProductView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.UpdateProductView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.custmer.AddCustmerView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.custmer.DeleteCustmerView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.custmer.ListCustmerView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.custmer.UpdateCustmerView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.discount.AdjustDiscountView;
 
 public class MainView extends DualView {
 	// -------------------------------------------------------------------------

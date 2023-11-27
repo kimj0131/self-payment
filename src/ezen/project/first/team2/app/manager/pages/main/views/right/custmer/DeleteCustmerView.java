@@ -1,4 +1,4 @@
-package ezen.project.first.team2.app.manager.pages.main.views.right;
+package ezen.project.first.team2.app.manager.pages.main.views.right.custmer;
 
 import javax.swing.JLabel;
 
