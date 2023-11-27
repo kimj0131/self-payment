@@ -28,6 +28,8 @@ public class MainView extends View {
 	protected void onAddCtrls() {
 		this.mLabel0.setText("스플래시 페이지");
 
+		System.out.println(this.getBounds());
+
 		this.add(this.mLabel0);
 	}
 
@@ -37,10 +39,12 @@ public class MainView extends View {
 
 	@Override
 	protected void onShow(boolean firstTime) {
+		// System.out.println("[MainView.onShow()]");
 	}
 
 	@Override
 	protected void onHide() {
+		// System.out.println("[MainView.onHide()]");
 	}
 
 	public static void setSelectedViewByNum(int viewNumMain) {

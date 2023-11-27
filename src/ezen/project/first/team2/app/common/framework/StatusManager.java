@@ -115,6 +115,7 @@ public class StatusManager {
 
 	// 페이지 번호로 선택
 	public void setSelectedPageByNum(int num) throws Exception {
+		// 현재 페이지를 선택한다면 메시지 출력 후 리턴
 		if (num == this.mSelectedPageNum) {
 			System.out.printf(
 					"[StatusManager.selectPageByNum()] Same page number(%d)! \n",
@@ -122,7 +123,7 @@ public class StatusManager {
 			return;
 		}
 
-		// 유효한 페이지 번호인지 확인한다
+		// 페이지 번호가 유효한지 확인
 		if (!this.isValidPageNum(num)) {
 			String msg = String.format(
 					"[StatusManager.selectPageByNum()] " +

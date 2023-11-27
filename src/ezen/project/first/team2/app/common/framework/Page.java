@@ -8,12 +8,13 @@
 
 package ezen.project.first.team2.app.common.framework;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 
 public class Page extends JFrame {
 	// -------------------------------------------------------------------------
@@ -36,13 +37,14 @@ public class Page extends JFrame {
 
 	private List<View> mViewList = new ArrayList<>();
 	private int mSelectedViewNum = -1;
+	private JLayeredPane mLayeredPane = this.getLayeredPane();
+	private DimmedView mDimmedView = new DimmedView();
 
 	private boolean mInited = false;
 	private int mNumber = -1;
 
 	private boolean mFirstTimeShow = true;
 
-	
 	// -------------------------------------------------------------------------
 
 	// 생성자
@@ -83,11 +85,26 @@ public class Page extends JFrame {
 		this.mStatusManager = stsMngr;
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// 페이지 초기화 오버라이드 호출
 		this.onInit();
+
+		// 옵션 적용
+		this.applyOptions();
+
+		// [SGLEE:20231127MON_120500]
+		// 다음과 같이 하면 this.getContentPane()을 통해 뷰 크기를 얻을 수 있다
+		this.setPreferredSize(this.getSize());
+		this.pack();
+
+		// 뷰 추가 오버라이드 호출
 		this.onAddViews();
+
+		// 이벤트 리스너 오버라이드 호출
 		this.onAddEventListeners();
 
-		this.applyOptions();
+		// 팝업 뷰 관련 - dimmed view 추가
+		this.mDimmedView.init(this);
 	}
 
 	// 뷰 리스트 얻기
@@ -97,36 +114,49 @@ public class Page extends JFrame {
 
 	// -------------------------------------------------------------------------
 
-	public void performShow() {
+	void performShow() {
+		// System.out.println("[Page.performShow()] begin");
+
 		this.onShow(this.isFirstTimeShow());
 		this.setFirstTimeShow(false);
 
-		Dimension size = this.getSize();
-		this.pack();
-		this.setSize(size);
-
 		this.setVisible(true);
+
+		// 페이지에 추가된 뷰들의 크기를 설정한다
+		// var viewSize = this.getContentPane().getSize();
+		// var view = this.getSelectedView();
+		// view.setSize(viewSize);
+
+		// System.out.println("[Page.performshow()] end ");
 	}
 
-	public void performHide() {
+	void performHide() {
+		// System.out.println("[Page.performHide()] begin");
+
 		this.onHide();
 		this.setFirstTimeShow(true);
 
 		this.setVisible(false);
+
+		// System.out.println("[Page.performHide()] end ");
 	}
 
-	public void performSetResources() {
+	void performSetResources() {
 		for (View view : this.mViewList) {
 			view.performSetResources();
 		}
 	}
 
-	public void setFirstTimeShow(boolean flag) {
+	void setFirstTimeShow(boolean flag) {
 		this.mFirstTimeShow = flag;
 	}
 
-	public boolean isFirstTimeShow() {
+	boolean isFirstTimeShow() {
 		return this.mFirstTimeShow;
+	}
+
+	JPanel getDimmedView() {
+		return this.mDimmedView;
 	}
 
 	// -------------------------------------------------------------------------
@@ -138,14 +168,26 @@ public class Page extends JFrame {
 		if (viewNum == -1 || this.isValidViewNum(viewNum)) {
 			String msg = String.format(
 					"[StatusManager.addView()] " +
-							" Invalid or duplicated view number! => %d",
+							" Invalid or duplicated view number(%d)!",
 					viewNum);
 			throw new Exception(msg);
+		}
+
+		// 뷰 크기가 (0,0)인 경우 뷰 사이즈로 설정
+		if (view.getSize().getWidth() == 0 || view.getSize().getHeight() == 0) {
+			Dimension size = this.getViewSize();
+			// System.out.println("[Page.addView()] " + size);
+			view.setSize(size);
 		}
 
 		// 뷰 초기화 후 리스트에 추가
 		view.init(this.mStatusManager, this);
 		this.mViewList.add(view);
+
+		if (view instanceof PopupView)
+			this.mLayeredPane.add(view, JLayeredPane.POPUP_LAYER);
+		else
+			this.mLayeredPane.add(view, JLayeredPane.DEFAULT_LAYER);
 	}
 
 	// 뷰 개수 얻기
@@ -181,23 +223,15 @@ public class Page extends JFrame {
 			throw new Exception(msg);
 		}
 
-		// 기존 뷰 정리
-		View selView = this.getSelectedView();
-		if (selView != null) {
-			selView.onHide();
-		}
+		// 현재 뷰 숨김
+		View currView = this.getSelectedView();
+		if (currView != null)
+			currView.performHide();
 
 		// 선택한 뷰 표시
 		this.mSelectedViewNum = num;
 		View newView = this.getViewByNum(num);
 		newView.performShow();
-
-		// [SGLEE:20231115WED_153300] 기존 컨텐츠를 삭제하고 뷰를 추가한다
-		Container cp = this.getContentPane();
-		cp.removeAll();
-		cp.add(newView);
-		revalidate();
-		repaint();
 	}
 
 	// 선택된 뷰 번호 얻기
@@ -208,6 +242,32 @@ public class Page extends JFrame {
 	// 선택된 뷰 객체 얻기
 	public View getSelectedView() {
 		return this.getViewByNum(this.getSelectedViewNum());
+	}
+
+	// 뷰 사이즈 얻기
+	public Dimension getViewSize() {
+		return this.getContentPane().getSize();
+	}
+
+	// 팝업 뷰 표시
+	public void showPopupViewByNum(int num) throws Exception {
+		var popupView = this.getViewByNum(num);
+		if (!(popupView instanceof PopupView)) {
+			String msg = String.format("[Page.showPopupViewByNum()]" +
+					" View number(%s) is not popup view!", num);
+			throw new Exception(msg);
+		}
+
+		this.mDimmedView.setVisible(true);
+
+		// 팝업 뷰를 뷰 가운데로 설정
+		Dimension viewSize = this.getViewSize();
+		int x = (int) (viewSize.getWidth() - popupView.getWidth()) / 2;
+		int y = (int) (viewSize.getHeight() - popupView.getHeight()) / 2;
+		popupView.setLocation(x, y);
+
+		// 팝업 뷰 표시
+		popupView.performShow();
 	}
 
 	// -------------------------------------------------------------------------

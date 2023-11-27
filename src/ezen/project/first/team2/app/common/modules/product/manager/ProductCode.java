@@ -55,7 +55,7 @@ public class ProductCode implements Cloneable {
 
 	// 타입 문자열(한 문자) 얻기
 	public String getTypeStr() {
-		return this.typeToStr(this.getType());
+		return typeToStr(this.getType());
 	}
 
 	// 시리얼 얻기

@@ -27,12 +27,13 @@ public class View extends JPanel {
 
 	// 생성자
 	public View(int num) {
-		this.mNumber = num;
+		this(num, null);
 	}
 
 	public View(int num, Dimension size) {
 		this.mNumber = num;
-		this.setPreferredSize(size);
+		if (size != null)
+			this.setSize(size);
 	}
 
 	// -------------------------------------------------------------------------
@@ -73,9 +74,23 @@ public class View extends JPanel {
 	// -------------------------------------------------------------------------
 
 	public void performShow() {
+		// System.out.println("[View.performShow()] begin");
+
 		this.onShow(this.isFirstTimeShow());
 		this.setFirstTimeShow(false);
 
+		// [SGLEE:20231115WED_153300] 기존 컨텐츠를 삭제하고 뷰를 추가한다
+		// Container cp = this.getPage().getContentPane();
+		// cp.removeAll();
+		// cp.add(this);
+		// revalidate();
+		// repaint();
+
+		// 현재 뷰를 앞으로 이동
+		var lp = this.getPage().getLayeredPane();
+		lp.moveToFront(this);
+
+		// System.out.println("[View.performShow()] end");
 	}
 
 	public void performHide() {

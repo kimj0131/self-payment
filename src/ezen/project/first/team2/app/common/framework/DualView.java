@@ -7,7 +7,6 @@
 
 package ezen.project.first.team2.app.common.framework;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,17 +132,16 @@ public class DualView extends View {
 			throw new Exception(msg);
 		}
 
-		// 기존 뷰 정리
-		View selView = this.getSelectedRightView();
-		if (selView != null) {
-			selView.onHide();
-		}
+		// 기존 뷰 숨김
+		View currView = this.getSelectedRightView();
+		if (currView != null)
+			currView.onHide();
 
 		// 선택한 뷰 표시
 		this.mSelectedRightViewNum = num;
 		View newView = this.getViewByNum(num);
 		// [SGLEE:20231116THU_125700] 크기 설정을 해도 적용이 안 된다?
-		newView.setPreferredSize(new Dimension(this.mLeftViewWidth, 0));
+		// newView.setPreferredSize(new Dimension(this.mLeftViewWidth, 0));
 		newView.performShow();
 		this.mSplitPane.setRightComponent(newView);
 	}

@@ -78,6 +78,8 @@ public class SplashPage extends Page {
 
 	@Override
 	protected void onShow(boolean firstTime) {
+		// System.out.println("[SplashPage.onShow()]");
+
 		try {
 			this.setSelectedViewByNum(SplashPage.VIEW_NUM_MAIN);
 		} catch (Exception e) {
@@ -87,6 +89,7 @@ public class SplashPage extends Page {
 
 	@Override
 	protected void onHide() {
+		// System.out.println("[SplashPage.onHide()]");
 	}
 
 	private void setTimerIfValidNextPageNum() {
