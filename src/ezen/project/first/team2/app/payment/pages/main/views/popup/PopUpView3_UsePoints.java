@@ -3,8 +3,6 @@ package ezen.project.first.team2.app.payment.pages.main.views.popup;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -199,6 +197,7 @@ public class PopUpView3_UsePoints extends View {
 		
 		mCheck_btn.addActionListener(e -> {
 			try {
+			
 				mProdPurchasing._4_setUsedPoint(Integer.valueOf(mPointsToUse.toString()));
 				
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
@@ -236,7 +235,8 @@ public class PopUpView3_UsePoints extends View {
 	}
 
 	@Override
-	protected void onHide() {}
+	protected void onHide() {
+	}
 
 	@Override
 	protected void onSetResources() {}

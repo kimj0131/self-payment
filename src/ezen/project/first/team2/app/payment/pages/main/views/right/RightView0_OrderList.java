@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,9 +19,8 @@ import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
 import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManagerMem;
 import ezen.project.first.team2.app.common.modules.product.orders.ProductOrderItem;
-import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
-import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
+import ezen.project.first.team2.app.common.utils.UnitUtils;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
@@ -29,7 +28,7 @@ public class RightView0_OrderList extends View {
 
 	private static final int PADDING = 10;
 	
-	private static final String SUM_TA_TEXT = "합계\n";
+	private static final String SUM_TITLE_LABEL_TEXT = "합계";
 	private static final String[] TABLE_HEADER= {"상품id", "상품명", "수량", "가격"};
 	private static final String BUYING_BTN_TEXT = "결제하기";
 
@@ -42,11 +41,11 @@ public class RightView0_OrderList extends View {
 	private JTable mTable;
 	private JScrollPane mScrolledTable;
 	private DefaultTableModel mTableModel;
-
 	//
-	private JTextArea mSum_ta;
+	
+	private JLabel mSum_title_label;
+	private JTextField mSum_tf;
 	private JButton mBuying_btn;
-	//
 	
 	// 그리드백 레이아웃을 사용하기 위한 constraint
 	private GridBagConstraints mGbc;
@@ -68,7 +67,9 @@ public class RightView0_OrderList extends View {
 		setBackground(Color.DARK_GRAY);
 		this.setTable();
 		
-		mSum_ta = new JTextArea(SUM_TA_TEXT);
+		mSum_title_label = new JLabel(SUM_TITLE_LABEL_TEXT);
+		mSum_tf = new JTextField();
+		
 		mBuying_btn = new JButton(BUYING_BTN_TEXT);
 		
 		mGbc = new GridBagConstraints();
@@ -96,7 +97,7 @@ public class RightView0_OrderList extends View {
 		mTable.getTableHeader().setReorderingAllowed(false); // 헤더 이동불가
 		mTable.getTableHeader().setResizingAllowed(false); // 헤더 사이즈조절불가
 
-//		mTable.setEnabled(false); // 셀 선택불가, 수정불가
+		mTable.setEnabled(false); // 셀 선택불가, 수정불가
 
 		mTable.getParent().setBackground(Color.WHITE); // 테이블 배경색
 		
@@ -125,29 +126,40 @@ public class RightView0_OrderList extends View {
 		this.setBorder(BorderFactory.createEmptyBorder(
 				PADDING, PADDING, PADDING, PADDING));
 		this.setLayout(new GridBagLayout());
+		
+		mSum_title_label.setOpaque(true);
+		mSum_title_label.setBackground(Color.WHITE);
 	}
 
 	@Override
 	protected void onAddCtrls() {
 		
-		mSum_ta.setEditable(false);
+		mSum_tf.setEditable(false);
 
 		mGbc.fill = GridBagConstraints.BOTH;
 		mGbc.weightx = 0.5;
 		mGbc.weighty = 3;
 
+		mGbc.gridheight = 2;
 		mGbc.gridx = 0;
 		mGbc.gridy = 0;
 		this.add(mScrolledTable, mGbc);
 
 		mGbc.weightx = 0.1;
+		mGbc.weighty = 0.1;
+		mGbc.gridheight = 1;
 		mGbc.gridx = 1;
 		mGbc.gridy = 0;
-		this.add(mSum_ta, mGbc);
+		this.add(mSum_title_label, mGbc);
+		
+		mGbc.weighty = 3;
+		mGbc.gridx = 1;
+		mGbc.gridy = 1;
+		this.add(mSum_tf, mGbc);
 
 		mGbc.weighty = 0.1;
 		mGbc.gridx = 0;
-		mGbc.gridy = 1;
+		mGbc.gridy = 2;
 		mGbc.gridwidth = 2;
 		this.add(mBuying_btn, mGbc);
 	}
@@ -165,7 +177,7 @@ public class RightView0_OrderList extends View {
 			}
 		});
 		
-		mSum_ta.addKeyListener(new KeyAdapter() {
+		mSum_tf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 
@@ -189,9 +201,9 @@ public class RightView0_OrderList extends View {
 								String prodId = String.valueOf(item.getProdId());
 								String prodName = mProdMngr.findById(item.getProdId()).getName();
 								String prodQty = String.valueOf(item.getQuantity());
-								String prodPrice = String.valueOf(mProdMngr.findById(item.getProdId()).getPrice());
+								int prodPrice = mProdMngr.findById(item.getProdId()).getPrice();
 								
-								String[] row = new String[] {prodId, prodName, prodQty, prodPrice};
+								String[] row = new String[] {prodId, prodName, prodQty, UnitUtils.numToCurrencyStr(prodPrice)};
 								
 								mTableModel.addRow(row);
 								
@@ -205,7 +217,7 @@ public class RightView0_OrderList extends View {
 					
 					// 실시간으로 합계 구해서 표시
 					ProductOrderItem prodOrderItem = mProdPurchasing.getProdOrderItem();
-					mSum_ta.setText(SUM_TA_TEXT + prodOrderItem.getOrgTotalPrice());
+					mSum_tf.setText(UnitUtils.numToCurrencyStr(prodOrderItem.getOrgTotalPrice()));
 					
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -249,7 +261,8 @@ public class RightView0_OrderList extends View {
 	protected void onShow(boolean firstTime) {
 		
 		if (!RECEIPT_ISSUANCE) {
-			System.out.println("영수증이 발급 되었습니다");
+			System.out.println("rightview0_onShow - 영수증이 발급 되었습니다");
+			
 			RECEIPT_ISSUANCE = true;
 			
 			try {
@@ -264,28 +277,36 @@ public class RightView0_OrderList extends View {
 	@Override
 	protected void onHide() {
 		// 구매내역과 상세구매내역 변화를 보기위한 콘솔 출력
-		try {
-			System.out.println("구매내역");
-			ProductOrdersManagerMem.getInstance().iterate((item, idx) -> {
-				System.out.println("  " + item);
-				return true;
-			});
-			
-			System.out.println("상세구매내역");
-			ProductOrderDetailsManagerMem.getInstance().iterate((item, idx) -> {
-				System.out.println("  " + item);
-				return true;
-			});
-			
-			System.out.println("상품재고");
-			ProductStocksManagerMem.getInstance().iterate((item, idx) -> {
-				System.out.println("  " + item);
-				return true;
-			});
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+//		try {
+//			System.out.println("구매내역");
+//			ProductOrdersManagerMem.getInstance().iterate((item, idx) -> {
+//				System.out.println("  " + item);
+//				return true;
+//			});
+//			
+//			System.out.println("상세구매내역");
+//			ProductOrderDetailsManagerMem.getInstance().iterate((item, idx) -> {
+//				System.out.println("  " + item);
+//				return true;
+//			});
+//			
+//			System.out.println("상품재고");
+//			ProductStocksManagerMem.getInstance().iterate((item, idx) -> {
+//				System.out.println("  " + item);
+//				return true;
+//			});
+//		} catch (Exception ex) {
+//			ex.printStackTrace();
+//		}
 		//-------------------------------------------
 	}
 
+	// 결제 완료 된 경우 테이블 초기화 하기 위해 mTableModel이 필요할듯..?
+	public DefaultTableModel get_mTableModel() {
+		return mTableModel;
+	}
+	// 결제 완료 된 경우 합계 초기화 하기 위해 mSum_tf가 필요할듯..?
+	public JTextField get_mSum_tf() {
+		return mSum_tf;
+	}
 }

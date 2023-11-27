@@ -138,46 +138,46 @@ public class MainPage extends Page {
 		}
 
 		// 테스트용 데이터 확인을 위한 콘솔 출력
-		try {
-
-			System.out.println("고객 리스트");
-			custMngr.iterate((item, idx) -> {
-				System.out.println(" " + item);
-
-				return true;
-			});
-
-			System.out.println("------------------------------");
-
-			System.out.println("상품 리스트");
-			prodMngr.iterate((item, idx) -> {
-				System.out.println(" " + item);
-
-				return true;
-			});
-
-			System.out.println("------------------------------");
-
-			System.out.println("상품 재고 리스트");
-			prodStocksMngr.iterate((item, idx) -> {
-				try {
-					System.out.println(item + " => " + item.getProdItem().getName());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return true;
-			});
-
-			System.out.println("------------------------------");
-
-			System.out.println("상품 할인 리스트");
-			prodDiscntsMngr.iterate((item, idx) -> {
-				System.out.println(" " + item);
-				return true;
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//
+//			System.out.println("고객 리스트");
+//			custMngr.iterate((item, idx) -> {
+//				System.out.println(" " + item);
+//
+//				return true;
+//			});
+//
+//			System.out.println("------------------------------");
+//
+//			System.out.println("상품 리스트");
+//			prodMngr.iterate((item, idx) -> {
+//				System.out.println(" " + item);
+//
+//				return true;
+//			});
+//
+//			System.out.println("------------------------------");
+//
+//			System.out.println("상품 재고 리스트");
+//			prodStocksMngr.iterate((item, idx) -> {
+//				try {
+//					System.out.println(item + " => " + item.getProdItem().getName());
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//				return true;
+//			});
+//
+//			System.out.println("------------------------------");
+//
+//			System.out.println("상품 할인 리스트");
+//			prodDiscntsMngr.iterate((item, idx) -> {
+//				System.out.println(" " + item);
+//				return true;
+//			});
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 	}
 	

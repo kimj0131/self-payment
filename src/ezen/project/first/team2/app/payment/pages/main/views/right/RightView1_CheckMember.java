@@ -2,8 +2,6 @@ package ezen.project.first.team2.app.payment.pages.main.views.right;
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -13,7 +11,6 @@ import javax.swing.JTextField;
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
-import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
@@ -120,18 +117,15 @@ public class RightView1_CheckMember extends View {
 				
 				// 확인된 회원
 				if (customerItem != null) {
-					ProductOrdersManagerMem productOrder = ProductOrdersManagerMem.getInstance();
-					
-					System.out.println("고객아이디 등록 전 최종가격" + productOrder.findById(0).getFinalTotalPrice());
 					
 					// 구매내역에 고객 아이디 설정
 					mProdPurchasing._3_applyCustomerPoint(customerItem.getId());
-					
-					System.out.println("고객아이디 등록 후 최종가격" + productOrder.findById(0).getFinalTotalPrice());
-					
+
 					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_VERIFIED_MEMBER_INFO_NUM);
+					
 				// 없는 회원
 				} else
+					
 					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_UNVERIFIED_MEMBER_INFO_NUM);
 
 			} catch (Exception ex) {
@@ -225,6 +219,9 @@ public class RightView1_CheckMember extends View {
 	@Override
 	protected void onShow(boolean firstTime) {
 		
+		// 유효한 회원 번호 입력했다가 재입력 버튼을 누른경우 비회원으로 초기화
+		mProdPurchasing.getProdOrderItem().setCustId(0);
+		
 		mNums_tf.setText("010-");
 		
 		mPhoneNum.delete(0, mPhoneNum.length());
@@ -235,18 +232,6 @@ public class RightView1_CheckMember extends View {
 	}
 
 	@Override
-	protected void onHide() {
-	}
+	protected void onHide() {}
 
-	public JTextField get_mNumbersTextField() {
-		return this.mNums_tf;
-	}
-	
-	public StringBuilder get_mPhoneNumber() {
-		return mPhoneNum;
-	}
-	
-	public StringBuilder get_mHidedPhoneNumber() {
-		return mHidedPhoneNum;
-	}
 }

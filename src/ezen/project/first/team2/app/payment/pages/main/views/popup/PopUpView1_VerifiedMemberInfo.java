@@ -10,7 +10,6 @@ import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
-import ezen.project.first.team2.app.payment.pages.main.views.right.RightView0_OrderList;
 
 public class PopUpView1_VerifiedMemberInfo extends View {
 	
@@ -76,7 +75,6 @@ public class PopUpView1_VerifiedMemberInfo extends View {
 		});
 		
 		mCancel_btn.addActionListener(e -> {
-			// 유효한
 			try {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);

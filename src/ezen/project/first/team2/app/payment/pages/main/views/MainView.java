@@ -62,7 +62,7 @@ public class MainView extends DualView {
 			addView(new RightView2_PointInfo());
 			addView(new RightView3_Payment());
 			
-			// Popup View
+			// PopUp View
 			addView(new PopUpView0_FruitsSelector());
 			addView(new PopUpView1_VerifiedMemberInfo());
 			addView(new PopUpView2_UnverifiedMemberInfo());
@@ -76,15 +76,11 @@ public class MainView extends DualView {
 
 	// 컨트롤 추가
 	@Override
-	protected void onAddCtrls() {
-
-	}
+	protected void onAddCtrls() {}
 
 	// 이벤트 리스너 추가
 	@Override
-	protected void onAddEventListeners() {
-
-	}
+	protected void onAddEventListeners() {}
 
 	// 뷰가 표시될 때
 	@Override

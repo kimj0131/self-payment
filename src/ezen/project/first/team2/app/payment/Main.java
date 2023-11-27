@@ -11,18 +11,6 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 
 import ezen.project.first.team2.app.common.framework.StatusManager;
-import ezen.project.first.team2.app.common.modules.base.ListActionAdapter;
-import ezen.project.first.team2.app.common.modules.base.ListManager;
-import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
-import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountItem;
-import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManagerMem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
-import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManagerMem;
-import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
-import ezen.project.first.team2.app.common.modules.product.stocks.ProductStockItem;
-import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
 import ezen.project.first.team2.app.common.pages.splash.SplashPageParams;
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;

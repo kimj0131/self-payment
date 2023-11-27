@@ -117,8 +117,9 @@ public class RightView2_PointInfo extends View {
 		int point = 0;
 		
 		try {
-			// 적립된 포인트 계산해서 구매내역에 설정하고 반환
+			// 적립될 포인트 계산해서 구매내역에 설정하고 반환
 			earnedPoint = prodOrderItem.calcEarnedPoint();
+			// 고객이 가지고 있는 포인트
 			point = prodOrderItem.getCustItem().getPoint();
 		} catch (Exception e) {
 			e.printStackTrace();
