@@ -122,18 +122,16 @@ public class LeftView3_Payment extends View {
 		try {
 			mOrgPrice = UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getOrgTotalPrice());
 
-			int proddiscnt;
-			
-			mDiscount = UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getFinalTotalPrice()
-					- mProdPurchasing.getProdOrderItem().getOrgTotalPrice());
+			// 회원 할인가만 표시
+			mDiscount = UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getOrgTotalPrice()
+					- mProdPurchasing.getProdOrderItem().getUsedPoint());
 
 			mUsedPoints = UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getUsedPoint());
-			
 			mFinalPrice = UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getFinalTotalPrice());
-			
+
 			mOrgPrice_label.setText(mOrgPrice);
 			mDiscount_label.setText(mDiscount);
-			mUsedPoints_label.setText("-" + mUsedPoints);
+			mUsedPoints_label.setText(mUsedPoints);
 			mFinalPrice_label.setText(mFinalPrice);
 		} catch (Exception e) {
 			e.printStackTrace();

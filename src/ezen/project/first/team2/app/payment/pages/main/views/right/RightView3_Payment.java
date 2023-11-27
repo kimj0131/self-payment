@@ -60,6 +60,7 @@ public class RightView3_Payment extends View {
 				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
 				
 				RightView0_OrderList rv0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
+				
 				// 결제 완료가 됐다면 RightView0_OrdetList에 테이블 초기화
 				rv0.get_mTableModel().setNumRows(0);
 				// 결제 완료가 됐다면 RightView0_OrdetList에 총금액 텍스트필드 초기화
@@ -94,7 +95,7 @@ public class RightView3_Payment extends View {
 		// 결제완료 버튼을 눌러 결제가 완료되었다면 커밋한다
 		if (mIsPaymentComplete) {
 			try {
-				System.out.println("커밋되었습니다");
+				System.out.println("right3 - 커밋되었습니다");
 				mProdPurchasing._6_commit();
 			} catch (Exception e) {
 				e.printStackTrace();

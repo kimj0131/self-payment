@@ -110,24 +110,23 @@ public class RightView1_CheckMember extends View {
 		mCheck_btn.addActionListener(e -> {
 
 			try {
-				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
+				MainPage mainPage = (MainPage) this.getPage();
 
 				// 입력한 번호와 일치하는 고객아이템 가져오기
 				CustomerItem customerItem = mCustMngr.findByPhoneNumber(mPhoneNum.toString());
-				
+
 				// 확인된 회원
 				if (customerItem != null) {
-					
+
 					// 구매내역에 고객 아이디 설정
 					mProdPurchasing._3_applyCustomerPoint(customerItem.getId());
 
-					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_VERIFIED_MEMBER_INFO_NUM);
-					
-				// 없는 회원
-				} else
-					
-					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_UNVERIFIED_MEMBER_INFO_NUM);
+					mainPage.showPopupViewByNum(MainPage.POPUP_VIEW_VERIFIED_MEMBER_INFO_NUM);
 
+				} else {
+					// 없는 회원
+					mainPage.showPopupViewByNum(MainPage.POPUP_VIEW_UNVERIFIED_MEMBER_INFO_NUM);
+				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -164,7 +163,7 @@ public class RightView1_CheckMember extends View {
 								mHidedPhoneNum.setCharAt(7, '*');
 							}
 
-//							mNumberTextField.setText(mHidedPhoneNumber.toString());
+//							mNums_tf.setText(mHidedPhoneNumber.toString());
 							mNums_tf.setText(mPhoneNum.toString());
 
 							// 번호의 마지막 숫자를 *로 바꿈
@@ -180,7 +179,7 @@ public class RightView1_CheckMember extends View {
 		mDel_btn.addActionListener(e -> {
 			mPhoneNum.delete(4, mPhoneNum.length());
 			mHidedPhoneNum.delete(4, mHidedPhoneNum.length());
-//			mNumberTextField.setText(mHidedPhoneNumber.toString());
+//			mNums_tf.setText(mHidedPhoneNumber.toString());
 			mNums_tf.setText(mPhoneNum.toString());
 		});
 		
@@ -205,7 +204,7 @@ public class RightView1_CheckMember extends View {
 				// 끝 숫자가 지워진 mHidedPhoneNumber의 끝 숫자를 *에서 숫자로 바꾸기
 				mHidedPhoneNum.setCharAt(mHidedPhoneNum.length() - 1, mPhoneNum.charAt(mPhoneNum.length() - 1));
 
-//				mNumberTextField.setText(mHidedPhoneNumber.toString());
+//				mNums_tf.setText(mHidedPhoneNumber.toString());
 				mNums_tf.setText(mPhoneNum.toString());
 
 				// 이후 추가될 번호를 위해 다시 mHidedPhoneNumber의 끝 숫자를 *로 바꾸기
@@ -218,7 +217,14 @@ public class RightView1_CheckMember extends View {
 
 	@Override
 	protected void onShow(boolean firstTime) {
-		
+		resetPhoneNums();
+	}
+
+	@Override
+	protected void onHide() {}
+
+	
+	public void resetPhoneNums() {
 		// 유효한 회원 번호 입력했다가 재입력 버튼을 누른경우 비회원으로 초기화
 		mProdPurchasing.getProdOrderItem().setCustId(0);
 		
@@ -230,8 +236,4 @@ public class RightView1_CheckMember extends View {
 		mPhoneNum.append(PHONE_ID_NUMEBER_TEXT);
 		mHidedPhoneNum.append(PHONE_ID_NUMEBER_TEXT);
 	}
-
-	@Override
-	protected void onHide() {}
-
 }

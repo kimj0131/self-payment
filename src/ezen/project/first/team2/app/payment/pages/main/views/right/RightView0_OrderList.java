@@ -1,6 +1,8 @@
 package ezen.project.first.team2.app.payment.pages.main.views.right;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyAdapter;
@@ -26,11 +28,19 @@ import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
 public class RightView0_OrderList extends View {
 
-	private static final int PADDING = 10;
+	private static final int PADDING = 20;
 	
 	private static final String SUM_TITLE_LABEL_TEXT = "합계";
-	private static final String[] TABLE_HEADER= {"상품id", "상품명", "수량", "가격"};
+	private static final String[] TABLE_HEADER= {"상품코드", "상품명", "수량", "가격"};
 	private static final String BUYING_BTN_TEXT = "결제하기";
+	
+	private static final Color BACKGROUND_COLOR = new Color(244, 248, 251);
+	private static final Color TABLE_HEADER_FONT_COLOR = new Color(0, 0, 28);
+	
+	private static final Font TABLE_HEADER_FONT = new Font("맑은 고딕", Font.BOLD, 17);
+	private static final Font TABLE_FONT = new Font("맑은 고딕", Font.PLAIN, 17);
+	
+	
 
 	// 결제가 모두 완료		-> 구매내역 새로 만들어야함 / RightView3에서 결제가 모두 완료되면 onHide에서 true로 바꿈
 	// 결제가 완료되지 않음	-> 이전 단계로 갔을때는 onShow에서 구매내역을 새로 만들지 않아야 함
@@ -64,7 +74,7 @@ public class RightView0_OrderList extends View {
 	@Override
 	protected void onInit() {
 		
-		setBackground(Color.DARK_GRAY);
+		setBackground(BACKGROUND_COLOR);
 		this.setTable();
 		
 		mSum_title_label = new JLabel(SUM_TITLE_LABEL_TEXT);
@@ -80,6 +90,14 @@ public class RightView0_OrderList extends View {
 		// 메인 페이지에서 mProdPurchasing 가져오기
 		MainPage mainPage = (MainPage) this.getPage();
 		this.mProdPurchasing = mainPage.mProdPurchasing;
+		
+		// 디자인 관련 설정
+		mTable.getTableHeader().setFont(TABLE_HEADER_FONT);
+		mTable.getTableHeader().setForeground(TABLE_HEADER_FONT_COLOR);
+		mTable.setFont(TABLE_FONT);
+		mTable.setRowHeight(30);
+		
+		mTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
 	}
 
 	private void setTable() {
@@ -198,12 +216,12 @@ public class RightView0_OrderList extends View {
 						try {
 							if (item.getProdOrderId() == mProdPurchasing.getProdOrderId()) {
 								
-								String prodId = String.valueOf(item.getProdId());
+								String prodCode = item.getProdItem().getProdCodeStr();
 								String prodName = mProdMngr.findById(item.getProdId()).getName();
 								String prodQty = String.valueOf(item.getQuantity());
-								int prodPrice = mProdMngr.findById(item.getProdId()).getPrice();
+								int prodPrice = mProdMngr.findById(item.getProdId()).getPrice() * item.getQuantity();
 								
-								String[] row = new String[] {prodId, prodName, prodQty, UnitUtils.numToCurrencyStr(prodPrice)};
+								String[] row = new String[] {prodCode, prodName, prodQty, UnitUtils.numToCurrencyStr(prodPrice)};
 								
 								mTableModel.addRow(row);
 								
@@ -308,5 +326,25 @@ public class RightView0_OrderList extends View {
 	// 결제 완료 된 경우 합계 초기화 하기 위해 mSum_tf가 필요할듯..?
 	public JTextField get_mSum_tf() {
 		return mSum_tf;
+	}
+	
+}
+
+class MyTableCellRenderer extends DefaultTableCellRenderer {
+
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+
+		Component cell = getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+		if (!isSelected) {
+			if (row % 2 == 0) {
+				cell.setBackground(Color.WHITE);
+			} else {
+				cell.setBackground(Color.BLUE);
+			}
+		}
+		return cell;
 	}
 }

@@ -1,5 +1,6 @@
 package ezen.project.first.team2.app.payment.pages.main.views.popup;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -9,15 +10,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ezen.project.first.team2.app.common.framework.View;
+import ezen.project.first.team2.app.common.framework.PopupView;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.common.utils.UnitUtils;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
-public class PopUpView3_UsePoints extends View {
+public class PopUpView3_UsePoints extends PopupView {
 	
 	private static final int PADDING = 10;
+	private static final Dimension VIEW_SIZE = new Dimension(500, 300);
 	
 	// 컴포넌트에 설정되는 텍스트 모음
 	private static final String AVAIL_POINTS_TITLE_LABEL_TEXT = "사용가능한 포인트";
@@ -50,12 +52,12 @@ public class PopUpView3_UsePoints extends View {
 	private ProductPurchasing mProdPurchasing;
 	
 	public PopUpView3_UsePoints() {
-		super(MainPage.POPUP_VIEW_USE_POINTS_NUM);
+		super(MainPage.POPUP_VIEW_USE_POINTS_NUM, VIEW_SIZE);
 	}
 
 	@Override
 	protected void onInit() {
-		setSize(100, 100);
+		super.onInit();
 		
 		//
 		mAvailPoints_title_label = new JLabel(AVAIL_POINTS_TITLE_LABEL_TEXT);
@@ -197,8 +199,10 @@ public class PopUpView3_UsePoints extends View {
 		
 		mCheck_btn.addActionListener(e -> {
 			try {
-			
-				mProdPurchasing._4_setUsedPoint(Integer.valueOf(mPointsToUse.toString()));
+				performClose();
+				
+				if (mPointsToUse.length() != 0)
+					mProdPurchasing._4_setUsedPoint(Integer.valueOf(mPointsToUse.toString()));
 				
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 				mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_PAYMENT_NUM);
@@ -214,8 +218,7 @@ public class PopUpView3_UsePoints extends View {
 		
 		mCancel_btn.addActionListener(e -> {
 			try {
-				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_POINT_INFO_NUM);
+				performClose();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -226,6 +229,10 @@ public class PopUpView3_UsePoints extends View {
 	protected void onShow(boolean firstTime) {
 		
 		try {
+			// 이전 단계로 다시 왔을 경우를 대비해 리셋
+			mPointsToUse.delete(0, mPointsToUse.length());
+			mPointsToUse_tf.setText("");
+			
 			int custPoint = mProdPurchasing.getProdOrderItem().getCustItem().getPoint();
 			mAvailPoints_tf.setText(UnitUtils.numToCurrencyStr(custPoint));
 		} catch (Exception e) {
@@ -235,8 +242,7 @@ public class PopUpView3_UsePoints extends View {
 	}
 
 	@Override
-	protected void onHide() {
-	}
+	protected void onHide() {}
 
 	@Override
 	protected void onSetResources() {}

@@ -86,12 +86,8 @@ public class RightView2_PointInfo extends View {
 	protected void onAddEventListeners() {
 		mUsePoints_btn.addActionListener(e -> {
 			try {
-				try {
-					MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-					mainView.setSelectedRightViewByNum(MainPage.POPUP_VIEW_USE_POINTS_NUM);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+				MainPage mainPage = (MainPage) this.getPage();
+				mainPage.showPopupViewByNum(MainPage.POPUP_VIEW_USE_POINTS_NUM);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -117,8 +113,12 @@ public class RightView2_PointInfo extends View {
 		int point = 0;
 		
 		try {
+			// 이전 단계를 눌렀을 경우를 대비하여 리셋 시킨다
+			prodOrderItem.setUsedPoint(0);
+			
 			// 적립될 포인트 계산해서 구매내역에 설정하고 반환
 			earnedPoint = prodOrderItem.calcEarnedPoint();
+			
 			// 고객이 가지고 있는 포인트
 			point = prodOrderItem.getCustItem().getPoint();
 		} catch (Exception e) {

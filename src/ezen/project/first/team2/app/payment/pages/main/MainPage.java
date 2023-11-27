@@ -22,6 +22,10 @@ import ezen.project.first.team2.app.common.modules.product.stocks.ProductStockIt
 import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
+import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView0_FruitsSelector;
+import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView1_VerifiedMemberInfo;
+import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView2_UnverifiedMemberInfo;
+import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView3_UsePoints;
 
 public class MainPage extends Page {
 	// -------------------------------------------------------------------------
@@ -29,7 +33,7 @@ public class MainPage extends Page {
 	// 페이지 정보 상수 정의
 
 	public static final String TITLE = "결제 프로그램";
-	public static final Dimension SIZE = new Dimension(640, 360);
+	public static final Dimension SIZE = new Dimension(1280, 720);
 
 	// 뷰 번호 정의
 	public static final int VIEW_NUM_MAIN = 0;
@@ -60,7 +64,7 @@ public class MainPage extends Page {
 		super(Main.PAGE_NUM_MAIN, TITLE, SIZE,
 				OPTION_CENTER_IN_SCREEN |
 						OPTION_VISIBLE * 0 |
-						OPTION_BORDERLESS * 0 |
+						OPTION_BORDERLESS |
 						OPTION_FULL_SCREEN * 0 |
 						OPTION_FIXED_SIZE * 0);
 	}
@@ -181,12 +185,18 @@ public class MainPage extends Page {
 
 	}
 	
-	
 	// 뷰 추가
 	@Override
 	protected void onAddViews() {
 		try {
 			this.addView(new MainView());
+
+			// PopUp View
+			this.addView(new PopUpView0_FruitsSelector());
+			this.addView(new PopUpView1_VerifiedMemberInfo());
+			this.addView(new PopUpView2_UnverifiedMemberInfo());
+			this.addView(new PopUpView3_UsePoints());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

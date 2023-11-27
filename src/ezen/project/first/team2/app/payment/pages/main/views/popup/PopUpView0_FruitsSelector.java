@@ -1,5 +1,6 @@
 package ezen.project.first.team2.app.payment.pages.main.views.popup;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -16,21 +17,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import ezen.project.first.team2.app.common.framework.View;
+import ezen.project.first.team2.app.common.framework.PopupView;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
 import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManagerMem;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
-import ezen.project.first.team2.app.common.utils.TimeUtils;
 import ezen.project.first.team2.app.common.utils.UnitUtils;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 import ezen.project.first.team2.app.payment.pages.main.views.right.RightView0_OrderList;
 
-public class PopUpView0_FruitsSelector extends View {
+public class PopUpView0_FruitsSelector extends PopupView {
 	
 	private static final int PADDING = 10;
+	private static final Dimension VIEW_SIZE = new Dimension(500, 300);
 	
 	private static final String CANCEL_BTN_TEXT = "취소";
 	private static final int SCALED_IMG_WIDTH = 100;
@@ -106,11 +107,12 @@ public class PopUpView0_FruitsSelector extends View {
 
 
 	public PopUpView0_FruitsSelector() {
-		super(MainPage.POPUP_VIEW_FRUITS_SELECTOR_NUM);
+		super(MainPage.POPUP_VIEW_FRUITS_SELECTOR_NUM, VIEW_SIZE);
 	}
 
 	@Override
 	protected void onInit() {
+		super.onInit();
 		
 		// 채소&과일 이름표
 		mBanana_label = new JLabel(BANANA_LABEL_TEXT);
@@ -196,8 +198,7 @@ public class PopUpView0_FruitsSelector extends View {
 			mSweetPotato_img = new ImageIcon(sweetPotato_scaledImg);
 			mRadish_img = new ImageIcon(radish_scaledImg);
 			mPepper_img = new ImageIcon(pepper_scaledImg);
-			
-			System.out.println(TimeUtils.getElapsedTimeStr());
+
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -345,12 +346,7 @@ public class PopUpView0_FruitsSelector extends View {
 	@Override
 	protected void onAddEventListeners() {
 		mCancel_btn.addActionListener(e -> {
-			try {
-				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+			performHide();
 		});
 		
 		
@@ -475,9 +471,6 @@ public class PopUpView0_FruitsSelector extends View {
 
 	@Override
 	protected void onHide() {}
-
-	@Override
-	protected void onSetResources() {}
 	
 	
 	// 버튼 눌렀을때 상호작용 메서드
@@ -493,20 +486,21 @@ public class PopUpView0_FruitsSelector extends View {
 			// 상세 구매내역에 상품 추가
 			mProdPurchasing._2_addProduct(prodItem.getId(), 1);
 			
-			// rightView0에 있는 테이블에 상품 추가
+			// rightView0에 있는 테이블에 상품 추가 / 합계 표시
 			mProdOrderDetailsMngr.iterate((item, idx) -> {
 				try {
 					if (item.getProdOrderId() == mProdPurchasing.getProdOrderId()) {
 
-						String prodId = String.valueOf(item.getProdId());
+						String prodCode = item.getProdItem().getProdCodeStr();
 						String prodName = mProdMngr.findById(item.getProdId()).getName();
 						String prodQty = String.valueOf(item.getQuantity());
-						int prodPrice = mProdMngr.findById(item.getProdId()).getPrice();
-
-						String[] row = new String[] { prodId, prodName, prodQty,
-								UnitUtils.numToCurrencyStr(prodPrice) };
-
+						int prodPrice = mProdMngr.findById(item.getProdId()).getPrice() * item.getQuantity();
+						
+						String[] row = new String[] {prodCode, prodName, prodQty, UnitUtils.numToCurrencyStr(prodPrice)};
+						
 						rv0.get_mTableModel().addRow(row);
+						rv0.get_mSum_tf().setText(
+								UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getOrgTotalPrice()));
 
 					}
 				} catch (Exception ex) {
@@ -516,8 +510,8 @@ public class PopUpView0_FruitsSelector extends View {
 				return true;
 			});
 			
-			// 추가 한후 다시 rightView0으로 돌아가기
-			mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
+			performClose();
+			
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
