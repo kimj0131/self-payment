@@ -11,8 +11,7 @@ import java.util.List;
 
 import ezen.project.first.team2.app.common.modules.base.ListManagerMem;
 
-public class CustomerManagerMem extends ListManagerMem<CustomerItem>
-		implements CustomerManagerHelper {
+public class CustomerManagerMem extends ListManagerMem<CustomerItem> {
 	// -------------------------------------------------------------------------
 
 	private static CustomerManagerMem mInstance = null;
@@ -59,19 +58,30 @@ public class CustomerManagerMem extends ListManagerMem<CustomerItem>
 
 	// -------------------------------------------------------------------------
 
-	@Override
 	public CustomerItem findByName(String name) throws Exception {
 		return this.find((ci, idx) -> ci.getName().equals(name));
 	}
 
-	@Override
-	public List<CustomerItem> findByBirthday(LocalDate date) throws Exception {
+	public CustomerItem findByBirthday(LocalDate date) throws Exception {
+		return this.find((ci, idx) -> ci.getBirthday().equals(date));
+	}
+
+	public CustomerItem findByPhoneNumber(String phoneNumber) throws Exception {
+		return this.find((ci, idx) -> ci.getPhoneNumber().equals(phoneNumber));
+	}
+
+	//
+
+	public List<CustomerItem> findItemsByName(String name) throws Exception {
+		return this.findItems((ci, idx) -> ci.getName().equals(name));
+	}
+
+	public List<CustomerItem> findItemsByBirthday(LocalDate date) throws Exception {
 		return this.findItems((ci, idx) -> ci.getBirthday().equals(date));
 	}
 
-	@Override
-	public CustomerItem findByPhoneNumber(String phoneNumber) throws Exception {
-		return this.find((ci, idx) -> ci.getPhoneNumber().equals(phoneNumber));
+	public List<CustomerItem> findItemsByPhoneNumber(String phoneNumber) throws Exception {
+		return this.findItems((ci, idx) -> ci.getPhoneNumber().contains(phoneNumber));
 	}
 
 	// -------------------------------------------------------------------------

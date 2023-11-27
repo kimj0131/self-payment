@@ -88,7 +88,7 @@ public class TestCustomerManagerMem {
 			});
 
 			//
-			//custMngr.init();
+			// custMngr.init();
 			//
 
 			// 고객 추가
@@ -143,7 +143,7 @@ public class TestCustomerManagerMem {
 				printList();
 
 				CustomerItem ci = null;
-				List<CustomerItem> ciList = null;
+				// List<CustomerItem> ciList = null;
 
 				System.out.println("- findById()");
 				ci = custMngr.findById(6);
@@ -154,10 +154,8 @@ public class TestCustomerManagerMem {
 				System.out.println(ci);
 
 				System.out.println("- findByBirthday()");
-				ciList = custMngr.findByBirthday(LocalDate.of(1983, 5, 9));
-				for (var ci1 : ciList) {
-					System.out.println("  - " + ci1);
-				}
+				ci = custMngr.findByBirthday(LocalDate.of(1983, 5, 9));
+				System.out.println(ci);
 
 				System.out.println("- findByPhoneNumber()");
 				ci = custMngr.findByPhoneNumber("010-0000-8086");
@@ -167,7 +165,7 @@ public class TestCustomerManagerMem {
 			}
 
 			//
-			//custMngr.deinit();
+			// custMngr.deinit();
 			//
 		} catch (Exception e) {
 			e.printStackTrace();
