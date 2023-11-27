@@ -1,4 +1,4 @@
-package ezen.project.first.team2.app.manager.pages.main.views.right.product;
+package ezen.project.first.team2.app.manager.pages.main.views.right.customer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,7 +8,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,60 +23,59 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxType;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
-public class DeleteProductView extends View {
+public class DeleteCustomerView extends View {
 
-    DecimalFormat df = new DecimalFormat("###,###");
+    JLabel mLabelInfo = new JLabel("고객 데이터 삭제");
 
-    JLabel mLabelInfo = new JLabel("상품 데이터 삭제");
-
-    ProductManagerMem prodMngr = ProductManagerMem.getInstance();
+    CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
 
     // 검색, 결과용 패널
     JPanel mPanelSearchDelete = new JPanel();
-    // 상품검색용 패널
+    // 고객 검색용 패널
     JPanel mPanelSearch = new JPanel();
-    // 검색결과용 패널
+    // 검색 결과용 패널
     JPanel mPanelResult = new JPanel();
-    // 삭제할 상품 정보 패널
-    JPanel mPanelProdInfoDelete = new JPanel();
+    // 삭제할 고객 정보 패널
+    JPanel mPanelCustInfoDelete = new JPanel();
 
     // 검색 컴포넌트
     JComboBox<String> mComboBoxSearchProperty;
-    String[] properties = { "상품명", "상품코드" };
+    String[] properties = { "고객명", "휴대폰번호" };
     JTextField mTextFieldSearch = new JTextField(10);
-    JButton mBtnSearch = new JButton("상품검색");
+    JButton mBtnSearch = new JButton("검색");
     // 검색결과 컴포넌트
     JTable mTableResultList;
     JScrollPane mScroll;
 
-    // 제거할 상품정보 확인패널
+    // 제거할 고객정보 확인 패널
     JPanel mPanelPanelInfo = new JPanel();
-    JLabel mLabelPanelInfo = new JLabel("■ 상품 정보");
+    JLabel mLablePanelInfo = new JLabel("■ 고객 정보");
 
-    JPanel mPanelDelInfoIdCodeName = new JPanel();
-    JLabel mLabelDelProdId = new JLabel("■ 상품 번호 : ");
-    JLabel mLabelDelProdCode = new JLabel("■ 상품 코드 : ");
-    JLabel mLabelDelProdName = new JLabel("■ 상품명 : ");
+    JPanel mPanelDelInfoIdName = new JPanel();
+    JLabel mLabelDelCustId = new JLabel("■ 고객 번호 : ");
+    JLabel mLabelDelCustName = new JLabel("■ 고객명 : ");
 
-    JPanel mPanelDelInfoPriceRegDateDesc = new JPanel();
-    JLabel mLabelDelProdPrice = new JLabel("■ 가격 : ");
-    JLabel mLabelDelProdRegDate = new JLabel("■ 등록일 : ");
-    JLabel mLabelDelProdDesc = new JLabel("■ 비고 : ");
+    JPanel mPanelDelInfoBirthPhone = new JPanel();
+    JLabel mLabelDelCustBirthday = new JLabel("■ 생년월일 : ");
+    JLabel mLabelDelCustPhoneNum = new JLabel("■ 휴대폰 번호 : ");
+
+    JPanel mPanelDelInfoPointRemark = new JPanel();
+    JLabel mLabelDelCustPoint = new JLabel("■ 보유 포인트 : ");
+    JLabel mLabelDelCustRemark = new JLabel("■ 비고 : ");
 
     // 확정 버튼
     JPanel mPanelDelBtn = new JPanel();
     JButton mBtnDeleteComplete = new JButton("제거 확정");
 
-    public DeleteProductView() {
-        super(MainPage.VIEW_NUM_PROD_DELETE);
+    public DeleteCustomerView() {
+        super(MainPage.VIEW_NUM_CUST_DELETE);
     }
 
     @Override
@@ -85,7 +83,7 @@ public class DeleteProductView extends View {
         // 테이블 설정
         try {
             Object[] mPropertyColumn = {
-                    "상품번호", "상품코드", "상품명", "가격", "등록일", "설명"
+                    "고객번호", "가입일", "고객명", "생년월일", "휴대폰번호", "보유 포인트", "비고"
             };
             Object[][] mProdListRows = new Object[mPropertyColumn.length][10];
 
@@ -101,6 +99,7 @@ public class DeleteProductView extends View {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -108,11 +107,12 @@ public class DeleteProductView extends View {
         this.setLayout(new BorderLayout());
         this.mPanelSearchDelete.setLayout(new BorderLayout());
         this.mPanelResult.setLayout(new GridLayout(2, 1));
-        this.mPanelProdInfoDelete.setLayout(new BoxLayout(
-                mPanelProdInfoDelete, BoxLayout.Y_AXIS));
+        this.mPanelCustInfoDelete.setLayout(new BoxLayout(
+                mPanelCustInfoDelete, BoxLayout.Y_AXIS));
 
-        this.mPanelDelInfoIdCodeName.setLayout(new GridLayout(1, 3));
-        this.mPanelDelInfoPriceRegDateDesc.setLayout(new GridLayout(1, 3));
+        this.mPanelDelInfoIdName.setLayout(new GridLayout(1, 2));
+        this.mPanelDelInfoBirthPhone.setLayout(new GridLayout(1, 2));
+        this.mPanelDelInfoPointRemark.setLayout(new GridLayout(1, 2));
     }
 
     @Override
@@ -135,11 +135,14 @@ public class DeleteProductView extends View {
         this.mBtnDeleteComplete.setBorder(
                 BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // 상품정보 패널 설정
-        this.mPanelDelInfoIdCodeName.setBorder(
+        // 고객정보 패널 성정
+        this.mPanelDelInfoIdName.setBorder(
                 BorderFactory.createEmptyBorder(20, 200, 20, 200));
-        this.mPanelDelInfoPriceRegDateDesc.setBorder(
+        this.mPanelDelInfoBirthPhone.setBorder(
                 BorderFactory.createEmptyBorder(20, 200, 20, 200));
+        this.mPanelDelInfoPointRemark.setBorder(
+                BorderFactory.createEmptyBorder(20, 200, 20, 200));
+
         // 페이지에 추가
         this.add(mLabelInfo, BorderLayout.NORTH);
         this.add(mPanelSearchDelete, BorderLayout.CENTER);
@@ -152,28 +155,29 @@ public class DeleteProductView extends View {
         this.mPanelSearch.add(mBtnSearch);
 
         this.mPanelResult.add(mScroll);
-        this.mPanelResult.add(mPanelProdInfoDelete);
+        this.mPanelResult.add(mPanelCustInfoDelete);
 
-        this.mPanelProdInfoDelete.add(mPanelPanelInfo);
-        this.mPanelPanelInfo.add(mLabelPanelInfo);
+        this.mPanelCustInfoDelete.add(mPanelPanelInfo);
+        this.mPanelPanelInfo.add(mLablePanelInfo);
 
-        this.mPanelProdInfoDelete.add(mPanelDelInfoIdCodeName);
-        this.mPanelDelInfoIdCodeName.add(mLabelDelProdId);
-        this.mPanelDelInfoIdCodeName.add(mLabelDelProdCode);
-        this.mPanelDelInfoIdCodeName.add(mLabelDelProdName);
+        this.mPanelCustInfoDelete.add(mPanelDelInfoIdName);
+        this.mPanelDelInfoIdName.add(mLabelDelCustId);
+        this.mPanelDelInfoIdName.add(mLabelDelCustName);
 
-        this.mPanelProdInfoDelete.add(mPanelDelInfoPriceRegDateDesc);
-        this.mPanelDelInfoPriceRegDateDesc.add(mLabelDelProdPrice);
-        this.mPanelDelInfoPriceRegDateDesc.add(mLabelDelProdRegDate);
-        this.mPanelDelInfoPriceRegDateDesc.add(mLabelDelProdDesc);
+        this.mPanelCustInfoDelete.add(mPanelDelInfoBirthPhone);
+        this.mPanelDelInfoBirthPhone.add(mLabelDelCustBirthday);
+        this.mPanelDelInfoBirthPhone.add(mLabelDelCustPhoneNum);
 
-        this.mPanelProdInfoDelete.add(mPanelDelBtn);
+        this.mPanelCustInfoDelete.add(mPanelDelInfoPointRemark);
+        this.mPanelDelInfoPointRemark.add(mLabelDelCustPoint);
+        this.mPanelDelInfoPointRemark.add(mLabelDelCustRemark);
+
+        this.mPanelCustInfoDelete.add(mPanelDelBtn);
         this.mPanelDelBtn.add(mBtnDeleteComplete);
     }
 
     @Override
     protected void onAddEventListeners() {
-
         mTextFieldSearch.addKeyListener(new KeyAdapter() {
 
             @Override
@@ -194,7 +198,7 @@ public class DeleteProductView extends View {
                     int findId = (int) mTableResultList.getValueAt(row, idColumn);
 
                     try {
-                        ProductItem findedItem = prodMngr.findById(findId);
+                        CustomerItem findedItem = custMngr.findById(findId);
 
                         searchItemAddTextField(findedItem);
                     } catch (Exception e1) {
@@ -212,13 +216,14 @@ public class DeleteProductView extends View {
                 String property = mComboBoxSearchProperty.getSelectedItem().toString();
 
                 switch (property) {
-                    case "상품명":
+                    case "고객명":
                         try {
                             String searchText = mTextFieldSearch.getText();
 
-                            List<ProductItem> prodItemList = prodMngr.findByName(searchText);
+                            List<CustomerItem> custItemList = new ArrayList<>();
+                            custItemList.add(custMngr.findByName(searchText));
 
-                            searchItemAddtable(prodItemList);
+                            searchItemAddtable(custItemList);
 
                         } catch (Exception e1) {
                             System.out.println("[findByName()]No Search Result");
@@ -227,26 +232,14 @@ public class DeleteProductView extends View {
                         }
                         break;
 
-                    case "상품코드":
+                    case "휴대폰번호":
                         try {
                             String searchText = mTextFieldSearch.getText();
 
-                            // 검색어 앞자리 대문자화
-                            char prodType = searchText.charAt(0);
-                            StringBuilder sb = new StringBuilder(searchText);
-                            if (prodType >= 'a' && prodType <= 'z') {
-                                sb.setCharAt(0, (char) (prodType - 32));
-                                searchText = sb.toString();
-                            }
-                            List<ProductItem> prodItemList = new ArrayList<>();
+                            List<CustomerItem> custItemList = new ArrayList<>();
+                            custItemList.add(custMngr.findByPhoneNumber(searchText));
 
-                            // 리스트에 추가
-                            ProductCode prodCode = new ProductCode(searchText);
-                            ProductItem prodItem = prodMngr.findByProductCode(prodCode);
-                            prodItemList.add(prodItem);
-
-                            searchItemAddtable(prodItemList);
-
+                            searchItemAddtable(custItemList);
                         } catch (Exception e1) {
                             System.out.println("[findByName()]No Search Result");
                             UiUtils.showMsgBox("검색결과가 없습니다", "");
@@ -256,10 +249,10 @@ public class DeleteProductView extends View {
                 }
             } else if (btn == mBtnDeleteComplete) {
                 try {
-                    String findIdStr = mLabelDelProdId.getText().substring(10);
+                    String findIdStr = mLabelDelCustId.getText().substring(10);
                     int findId = Integer.valueOf(findIdStr);
 
-                    prodMngr.deleteById(findId);
+                    custMngr.deleteById(findId);
                     UiUtils.showMsgBox("제거 완료", "", MsgBoxType.Warn);
                     // 테이블 갱신
                     insertItemTable();
@@ -277,15 +270,14 @@ public class DeleteProductView extends View {
 
     @Override
     protected void onShow(boolean firstTime) {
-        System.out.println("[DeleteProductView.onShow()]");
+        System.out.println("[DeleteCustmerView.onShow()]");
 
-        // 상품목록을 테이블에 추가
         insertItemTable();
     }
 
     @Override
     protected void onHide() {
-        System.out.println("[DeleteProductView.onHide()]");
+        System.out.println("[DeleteCustmerView.onHide()]");
     }
 
     @Override
@@ -296,72 +288,80 @@ public class DeleteProductView extends View {
         lb1.setFont(main.mFont0);
     }
 
-    // 검색한 결과를 테이블에 추가
-    private void searchItemAddtable(List<ProductItem> prodItemList) {
-
-        DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
-
-        m.setRowCount(0);
-
-        for (ProductItem pi : prodItemList) {
-            m.addRow(new Object[] {
-                    pi.getId(), pi.getProdCodeStr(),
-                    pi.getName(), df.format(pi.getPrice()),
-                    pi.getRegDateStr(), pi.getDesc()
-            });
-        }
-    }
-
-    // 검색한 결과를 라벨에 설정
-    private void searchItemAddTextField(ProductItem prodItem) {
-        setLaberInitialize();
-
-        UiUtils.showMsgBox(String.format(
-                "삭제할 항목은\n[ 상품코드[%s] 상품명[%s] ] 입니다\n",
-                prodItem.getProdCodeStr(),
-                prodItem.getName()), "");
-
-        this.mLabelDelProdId.setText(
-                mLabelDelProdId.getText() + prodItem.getId());
-        this.mLabelDelProdCode.setText(
-                mLabelDelProdCode.getText() + prodItem.getProdCodeStr());
-        this.mLabelDelProdName.setText(
-                mLabelDelProdName.getText() + prodItem.getName());
-        this.mLabelDelProdPrice.setText(
-                mLabelDelProdPrice.getText() + prodItem.getPrice());
-        this.mLabelDelProdRegDate.setText(
-                mLabelDelProdRegDate.getText() + prodItem.getRegDate());
-        this.mLabelDelProdDesc.setText(
-                mLabelDelProdDesc.getText() + prodItem.getDesc());
-    }
-
-    // 라벨을 초기화
-    private void setLaberInitialize() {
-        this.mLabelDelProdId.setText("■ 상품 번호 : ");
-        this.mLabelDelProdCode.setText("■ 상품 코드 : ");
-        this.mLabelDelProdName.setText("■ 상품명 : ");
-        this.mLabelDelProdPrice.setText("■ 가격 : ");
-        this.mLabelDelProdRegDate.setText("■ 등록일 : ");
-        this.mLabelDelProdDesc.setText("■ 비고 : ");
-    }
-
-    // 상품목록을 테이블에 추가하는 메소드
+    // 고객목록 테이블에 추가하는 메소드
     private void insertItemTable() {
         DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
         m.setRowCount(0);
         try {
-            prodMngr.iterate((info, idx) -> {
+            custMngr.iterate((info, idx) -> {
                 m.addRow(new Object[] {
-                        info.getId(), info.getProdCodeStr(),
-                        info.getName(), df.format(info.getPrice()),
-                        info.getRegDateStr(), info.getDesc()
+                        info.getId(), info.getJoinDate(),
+                        info.getName(), info.getBirthday(),
+                        info.getPhoneNumber(), info.getPoint(), info.getRemark()
                 });
+
                 return true;
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         mTableResultList.updateUI();
+    }
+
+    // 검색한 결과를 테이블에 추가
+    private void searchItemAddtable(List<CustomerItem> custItemList) {
+
+        DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
+        m.setRowCount(0);
+        try {
+            custMngr.iterate((info, idx) -> {
+                m.addRow(new Object[] {
+                        info.getId(), info.getJoinDate(),
+                        info.getName(), info.getBirthday(),
+                        info.getPhoneNumber(), info.getPoint(), info.getRemark()
+                });
+
+                return true;
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mTableResultList.updateUI();
+    }
+
+    // 라벨을 초기화
+    private void setLaberInitialize() {
+        this.mLabelDelCustId.setText("■ 고객 번호 : ");
+        this.mLabelDelCustName.setText("■ 고객명 : ");
+        this.mLabelDelCustBirthday.setText("■ 생년월일 : ");
+        this.mLabelDelCustPhoneNum.setText("■ 휴대폰 번호 : ");
+        this.mLabelDelCustPoint.setText("■ 보유 포인트 : ");
+        this.mLabelDelCustRemark.setText("■ 비고 : ");
+    }
+
+    // 검색한 결과를 라벨에 설정
+    private void searchItemAddTextField(CustomerItem custItem) {
+        setLaberInitialize();
+
+        UiUtils.showMsgBox(String.format(
+                "삭제할 항목은\n[ 고객번호[%s] 고객명[%s] ] 입니다\n",
+                custItem.getId(),
+                custItem.getName()), "");
+
+        this.mLabelDelCustId.setText(
+                mLabelDelCustId.getText() + custItem.getId());
+        this.mLabelDelCustName.setText(
+                mLabelDelCustName.getText() + custItem.getName());
+        this.mLabelDelCustBirthday.setText(
+                mLabelDelCustBirthday.getText() + custItem.getBirthdayStr());
+        this.mLabelDelCustPhoneNum.setText(
+                mLabelDelCustPhoneNum.getText() + custItem.getPhoneNumber());
+        this.mLabelDelCustPoint.setText(
+                mLabelDelCustPoint.getText() + custItem.getPoint());
+        this.mLabelDelCustRemark.setText(
+                mLabelDelCustRemark.getText() + custItem.getRemark());
     }
 
 }

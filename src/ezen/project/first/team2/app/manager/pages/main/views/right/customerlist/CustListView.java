@@ -1,4 +1,4 @@
-package ezen.project.first.team2.app.manager.pages.main.views.right.custmerlist;
+package ezen.project.first.team2.app.manager.pages.main.views.right.customerlist;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;

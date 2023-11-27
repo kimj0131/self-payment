@@ -60,6 +60,7 @@ public class UpdateProductView extends View {
     // 상품수정 컴포넌트
     JPanel mPanelPanelInfo = new JPanel();
     JLabel mLabelPanelInfo = new JLabel("<html>상단 리스트에서 더블클릭<br><center>■ 상품 정보</center></html>");
+
     JPanel mPanelUpdateIdCode = new JPanel();
     JLabel mLabelUpdateProdId = new JLabel("상품 번호");
     JTextField mTextFieldUpdateProdId = new JTextField(5);
@@ -283,6 +284,8 @@ public class UpdateProductView extends View {
                     UiUtils.showMsgBox("수정 완료", "");
                     // 테이블 갱신
                     insertItemTable();
+                    // insertItemsIntoTable
+                    // updateTableDate()
 
                     // 완료되면 필드를 지운다
                     allTextFieldInitialize();

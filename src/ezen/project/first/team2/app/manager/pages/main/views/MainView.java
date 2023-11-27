@@ -18,10 +18,10 @@ import ezen.project.first.team2.app.manager.pages.main.views.right.product.Updat
 import ezen.project.first.team2.app.manager.pages.main.views.right.stock.AdjustStockView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.stock.ListStockView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.RightDefaultView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.custmer.AddCustmerView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.custmer.DeleteCustmerView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.custmer.ListCustmerView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.custmer.UpdateCustmerView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.customer.AddCustomerView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.customer.DeleteCustomerView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.customer.ListCustomerView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.customer.UpdateCustomerView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.discount.AdjustDiscountView;
 
 public class MainView extends DualView {
@@ -55,10 +55,10 @@ public class MainView extends DualView {
 			addView(new LeftView());
 			addView(new RightDefaultView());
 
-			addView(new ListCustmerView());
-			addView(new AddCustmerView());
-			addView(new UpdateCustmerView());
-			addView(new DeleteCustmerView());
+			addView(new ListCustomerView());
+			addView(new AddCustomerView());
+			addView(new UpdateCustomerView());
+			addView(new DeleteCustomerView());
 
 			addView(new ListProductView());
 			addView(new AddProductView());

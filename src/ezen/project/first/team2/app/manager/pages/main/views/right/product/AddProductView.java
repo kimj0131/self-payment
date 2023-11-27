@@ -138,7 +138,6 @@ public class AddProductView extends View {
         try {
             // 상품번호는 자동으로 다음번호를 받는다.
             this.mTextFieldAddProdId.setText(String.valueOf(prodMngr.getNextID()));
-
         } catch (Exception e) {
             e.printStackTrace();
         }

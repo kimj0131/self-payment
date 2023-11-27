@@ -1,4 +1,4 @@
-package ezen.project.first.team2.app.manager.pages.main.views.right.custmer;
+package ezen.project.first.team2.app.manager.pages.main.views.right.customer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,7 +15,7 @@ import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
-public class ListCustmerView extends View {
+public class ListCustomerView extends View {
     CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
 
     JLabel mLabelInfo = new JLabel("고객 조회");
@@ -27,7 +27,7 @@ public class ListCustmerView extends View {
     // 스크롤 삽입
     JScrollPane mScroll;
 
-    public ListCustmerView() {
+    public ListCustomerView() {
         super(MainPage.VIEW_NUM_CUST_LIST);
     }
 
@@ -36,7 +36,7 @@ public class ListCustmerView extends View {
 
         try {
             Object[] mPropertyColumn = {
-                    "고객번호", "가입일", "고객명", "생년월일", "전화번호", "비고"
+                    "고객번호", "가입일", "고객명", "생년월일", "전화번호", "보유 포인트", "비고"
             };
             Object[][] mCustListRows = new Object[mPropertyColumn.length][custMngr.getCount()];
 
@@ -97,7 +97,7 @@ public class ListCustmerView extends View {
                 m.addRow(new Object[] {
                         info.getId(), info.getJoinDate(),
                         info.getName(), info.getBirthday(),
-                        info.getPhoneNumber(), info.getRemark()
+                        info.getPhoneNumber(), info.getPoint(), info.getRemark()
                 });
 
                 return true;
