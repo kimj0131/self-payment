@@ -88,7 +88,7 @@ public class TestCustomerManagerMem {
 			});
 
 			//
-			custMngr.init();
+			//custMngr.init();
 			//
 
 			// 고객 추가
@@ -167,7 +167,7 @@ public class TestCustomerManagerMem {
 			}
 
 			//
-			custMngr.deinit();
+			//custMngr.deinit();
 			//
 		} catch (Exception e) {
 			e.printStackTrace();
