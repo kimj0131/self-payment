@@ -18,15 +18,21 @@ public class PopupViewTest {
 
     public static void main(String[] args) {
         JFrame f = new JFrame();
-        JLayeredPane cntr = new JLayeredPane();
+        JLayeredPane cntr = f.getLayeredPane();
 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setSize(640, 360);
+        f.setPreferredSize(new Dimension(640, 360));
+
+        f.pack();
+        Dimension viewSize = f.getContentPane().getSize();
+        System.out.printf("f.getBounds(): %s, viewSize: %s \n",
+                f.getBounds(), viewSize);
+
         f.setLocationRelativeTo(null);
 
         var view = new JPanel();
-        view.setSize(f.getSize());
-        view.setBackground(Color.WHITE);
+        view.setSize(viewSize);
+        view.setBackground(Color.GREEN);
         cntr.add(view, JLayeredPane.DEFAULT_LAYER);
 
         var dimmedView = new JPanel() {
@@ -43,7 +49,7 @@ public class PopupViewTest {
                 g2d.dispose();
             }
         };
-        dimmedView.setBounds(new Rectangle(0, 0, 640, 360));
+        dimmedView.setSize(viewSize);
         dimmedView.setOpaque(false);
         cntr.add(dimmedView, JLayeredPane.PALETTE_LAYER);
         dimmedView.setVisible(false);
@@ -75,7 +81,7 @@ public class PopupViewTest {
         });
 
         var popupView = new JPanel();
-        popupView.setSize(new Dimension(200, 100));
+        popupView.setSize(new Dimension(160, 90));
         popupView.setBackground(Color.BLUE);
         cntr.add(popupView, JLayeredPane.POPUP_LAYER);
         popupView.setVisible(false);
@@ -89,13 +95,14 @@ public class PopupViewTest {
 
         var showPopupBtn = new JButton("팝업");
         showPopupBtn.addActionListener(e -> {
+            int x = (int) ((viewSize.getWidth() - popupView.getWidth()) / 2);
+            int y = (int) ((viewSize.getHeight() - popupView.getHeight()) / 2);
+            popupView.setLocation(x, y);
 
             dimmedView.setVisible(true);
             popupView.setVisible(true);
         });
         view.add(showPopupBtn);
-
-        f.add(cntr);
 
         f.setVisible(true);
     }
