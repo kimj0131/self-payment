@@ -74,7 +74,7 @@ public class CustomerManager extends ListManager<CustomerItem> {
 	//
 
 	public List<CustomerItem> findItemsByName(String name) {
-		return this.findItems((ci, idx) -> ci.getName().equals(name));
+		return this.findItems((ci, idx) -> ci.getName().contains(name));
 	}
 
 	public List<CustomerItem> findItemsByBirthday(LocalDate date) {
