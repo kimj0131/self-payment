@@ -167,7 +167,7 @@ public class Page extends JFrame {
 		int viewNum = view.getNumber();
 		if (viewNum == -1 || this.isValidViewNum(viewNum)) {
 			String msg = String.format(
-					"[StatusManager.addView()] " +
+					"[Page.addView()] " +
 							" Invalid or duplicated view number(%d)!",
 					viewNum);
 			throw new Exception(msg);
@@ -207,14 +207,14 @@ public class Page extends JFrame {
 
 	// 뷰 번호로 선택
 	public void setSelectedViewByNum(int num) throws Exception {
+		// 현재 뷰를 선택한 경우
 		if (num == this.mSelectedViewNum) {
-			System.out.printf(
-					"[Page.setSelectedViewByNum()] Same view number(%d)! \n",
+			String msg = String.format("[Page.setSelectedViewByNum()] Same view number(%d)! \n",
 					num);
-			return;
+			throw new Exception(msg);
 		}
 
-		// 유효한 뷰 번호인지 확인한다
+		// 뷰 번호 유효성 확인
 		if (!this.isValidViewNum(num)) {
 			String msg = String.format(
 					"[Page.selectViewByNum()] " +
@@ -252,6 +252,7 @@ public class Page extends JFrame {
 	// 팝업 뷰 표시
 	public void showPopupViewByNum(int num) throws Exception {
 		var popupView = this.getViewByNum(num);
+		// 표시 하려는 뷰가 팝업 뷰가 아닌 경우
 		if (!(popupView instanceof PopupView)) {
 			String msg = String.format("[Page.showPopupViewByNum()]" +
 					" View number(%s) is not popup view!", num);
@@ -266,7 +267,6 @@ public class Page extends JFrame {
 		int y = (int) (viewSize.getHeight() - popupView.getHeight()) / 2;
 		popupView.setLocation(x, y);
 
-		// 팝업 뷰 표시
 		popupView.performShow();
 	}
 

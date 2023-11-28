@@ -11,12 +11,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class ListCustomerView extends View {
-    CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
+    CustomerManager custMngr = CustomerManager.getInstance();
 
     JLabel mLabelInfo = new JLabel("고객 조회");
 

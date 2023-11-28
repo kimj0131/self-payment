@@ -189,7 +189,7 @@ public class CustomerItem extends ListItem {
 
 	@Override
 	protected void onSetValuesFrom(ListItem item) {
-		CustomerItem ci = (CustomerItem) item;
+		var ci = (CustomerItem) item;
 		this.setValues(ci.getId(), ci.getJoinDate(), ci.getName(),
 				ci.getBirthday(), ci.getPhoneNumber(), ci.getPoint(), ci.getRemark());
 	}

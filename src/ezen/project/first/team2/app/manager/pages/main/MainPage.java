@@ -12,13 +12,13 @@ import ezen.project.first.team2.app.common.framework.Page;
 import ezen.project.first.team2.app.common.modules.base.ListActionAdapter;
 import ezen.project.first.team2.app.common.modules.base.ListManager;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountItem;
-import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManagerMem;
+import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManager;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 import ezen.project.first.team2.app.common.modules.product.stocks.ProductStockItem;
-import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManager;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.views.MainView;
 
@@ -112,10 +112,10 @@ public class MainPage extends Page {
 
 	// 더미데이터 메모리 추가
 	private void setDummyData() {
-		var custMngr = CustomerManagerMem.getInstance();
-		var prodMngr = ProductManagerMem.getInstance();
-		var prodStMngr = ProductStocksManagerMem.getInstance();
-		var prodDiscMngr = ProductDiscountsManagerMem.getInstance();
+		var custMngr = CustomerManager.getInstance();
+		var prodMngr = ProductManager.getInstance();
+		var prodStMngr = ProductStocksManager.getInstance();
+		var prodDiscMngr = ProductDiscountsManager.getInstance();
 
 		prodMngr.setActionListener(new ListActionAdapter<ProductItem>() {
 

@@ -21,7 +21,7 @@ public class DualView extends View {
 	// super.onInit() 미호출 시, mSplitPane이 null이므로 사용 중 에러 발생한다.
 	private JSplitPane mSplitPane = null;
 
-	private int mLeftViewWidth = 0;
+	// private int mLeftViewWidth = 0;
 
 	private List<View> mViewList = new ArrayList<>();
 	private int mSelectedLeftViewNum = -1;
@@ -33,7 +33,8 @@ public class DualView extends View {
 	public DualView(int num, int leftViewWidth) {
 		super(num);
 
-		this.mLeftViewWidth = leftViewWidth;
+		// this.mLeftViewWidth = leftViewWidth;
+		System.out.printf("[DualView.ctor()] leftViewWidth: %d \n", leftViewWidth);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -83,12 +84,12 @@ public class DualView extends View {
 
 	// 뷰 번호로 왼쪽 뷰 선택
 	public void setSelectedLeftViewByNum(int num) throws Exception {
+		// 현재 뷰를 선택한 경우
 		if (num == this.mSelectedLeftViewNum) {
-			System.out.printf(
-					"[DualView.setSelectedLeftViewByNum()]" +
-							" Same view number(%d)! \n",
+			String msg = String.format("[DualView.setSelectedLeftViewByNum()]" +
+					" Same view number(%d)! \n",
 					num);
-			return;
+			throw new Exception(msg);
 		}
 
 		// 유효한 뷰 번호인지 확인한다
@@ -115,12 +116,12 @@ public class DualView extends View {
 
 	// 뷰 번호로 오른쪽 뷰 선택
 	public void setSelectedRightViewByNum(int num) throws Exception {
+		// 현재 뷰를 선택한 경우
 		if (num == this.mSelectedRightViewNum) {
-			System.out.printf(
-					"[DualView.setSelectedRightViewByNum()]" +
-							" Same view number(%d)! \n",
+			String msg = String.format("[DualView.setSelectedRightViewByNum()]" +
+					" Same view number(%d)! \n",
 					num);
-			return;
+			throw new Exception(msg);
 		}
 
 		// 유효한 뷰 번호인지 확인한다

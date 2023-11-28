@@ -201,7 +201,7 @@ public class ProductItem extends ListItem {
 
 	@Override
 	protected void onSetValuesFrom(ListItem item) {
-		ProductItem pi = (ProductItem) item;
+		var pi = (ProductItem) item;
 		this.setValues(pi.getId(), pi.getProdCode(), pi.getRegDate(),
 				pi.getName(), pi.getPrice(), pi.getDesc());
 	}

@@ -3,14 +3,14 @@ package ezen.project.first.team2.app.common.z_test.modules;
 import ezen.project.first.team2.app.common.modules.base.ListActionAdapter;
 import ezen.project.first.team2.app.common.modules.base.ListManager;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountItem;
-import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManagerMem;
+import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManager;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.common.modules.product.stocks.ProductStockItem;
-import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManager;
 
 public class TestProductPurchasing {
 	static void printTitle(String text) {
@@ -31,7 +31,7 @@ public class TestProductPurchasing {
 		printSection("고객 리스트");
 
 		try {
-			var custMngr = CustomerManagerMem.getInstance();
+			var custMngr = CustomerManager.getInstance();
 			custMngr.iterate((item, idx) -> {
 				System.out.println(item);
 
@@ -48,7 +48,7 @@ public class TestProductPurchasing {
 		printSection("상품 리스트");
 
 		try {
-			var prodMngr = ProductManagerMem.getInstance();
+			var prodMngr = ProductManager.getInstance();
 			prodMngr.iterate((item, idx) -> {
 				System.out.println(item);
 
@@ -65,7 +65,7 @@ public class TestProductPurchasing {
 		printSection("상품 재고 리스트");
 
 		try {
-			var prodStocksMngr = ProductStocksManagerMem.getInstance();
+			var prodStocksMngr = ProductStocksManager.getInstance();
 			prodStocksMngr.iterate((item, idx) -> {
 				try {
 					System.out.println(item + " => " + item.getProdItem().getName());
@@ -86,7 +86,7 @@ public class TestProductPurchasing {
 		printSection("상품 할인 리스트");
 
 		try {
-			var prodDiscntMngr = ProductDiscountsManagerMem.getInstance();
+			var prodDiscntMngr = ProductDiscountsManager.getInstance();
 			prodDiscntMngr.iterate((item, idx) -> {
 				System.out.println(item);
 
@@ -100,11 +100,11 @@ public class TestProductPurchasing {
 	}
 
 	public static void main(String[] args) {
-		var custMngr = CustomerManagerMem.getInstance();
+		var custMngr = CustomerManager.getInstance();
 		//
-		var prodMngr = ProductManagerMem.getInstance();
-		var prodStockMngr = ProductStocksManagerMem.getInstance();
-		var prodDiscntsMngr = ProductDiscountsManagerMem.getInstance();
+		var prodMngr = ProductManager.getInstance();
+		var prodStockMngr = ProductStocksManager.getInstance();
+		var prodDiscntsMngr = ProductDiscountsManager.getInstance();
 
 		try {
 			// 고객

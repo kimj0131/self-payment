@@ -7,17 +7,18 @@
 package ezen.project.first.team2.app.common.modules.product.purchasing;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import ezen.project.first.team2.app.common.modules.base.ListActionListener;
 import ezen.project.first.team2.app.common.modules.base.ListManager;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
-import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
+import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManager;
 import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailItem;
-import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManagerMem;
+import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManager;
 import ezen.project.first.team2.app.common.modules.product.orders.ProductOrderItem;
-import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
-import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
+import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManager;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManager;
 
 public class ProductPurchasing {
 	// -------------------------------------------------------------------------
@@ -25,22 +26,22 @@ public class ProductPurchasing {
 	private ProductPurchasingActionListener mActionListener;
 
 	// 고객 관리자
-	private CustomerManagerMem mCustMngr = CustomerManagerMem.getInstance();
+	private CustomerManager mCustMngr = CustomerManager.getInstance();
 
 	// 상품 관리자
-	// private ProductManagerMem mProdMngr = ProductManagerMem.getInstance();
+	// private ProductManagerMem mProdMngr = ProductManager.getInstance();
 
 	// 상품 재고 관리자
-	private ProductStocksManagerMem mProdStocksMngr = ProductStocksManagerMem.getInstance();
+	private ProductStocksManager mProdStocksMngr = ProductStocksManager.getInstance();
 
 	// 상품 할인 관리자
-	private ProductDiscountsManagerMem mProdDiscntMngr = ProductDiscountsManagerMem.getInstance();
+	private ProductDiscountsManager mProdDiscntMngr = ProductDiscountsManager.getInstance();
 
 	// 구매 내역 관리자
-	private ProductOrdersManagerMem mProdOrdersMngr = ProductOrdersManagerMem.getInstance();
+	private ProductOrdersManager mProdOrdersMngr = ProductOrdersManager.getInstance();
 
 	// 상세 구매 내역 관리자
-	private ProductOrderDetailsManagerMem mProdOrderDetailMngr = ProductOrderDetailsManagerMem.getInstance();
+	private ProductOrderDetailsManager mProdOrderDetailMngr = ProductOrderDetailsManager.getInstance();
 
 	// 구매 내역(영수증) ID
 	private int mProdOrderId = -1;
@@ -84,15 +85,6 @@ public class ProductPurchasing {
 
 		// 상세 구매 내역 액션 리스너
 		this.mProdOrderDetailMngr.setActionListener(new ListActionListener<ProductOrderDetailItem>() {
-
-			@Override
-			public void onInitialized(ListManager<ProductOrderDetailItem> mngr) {
-			}
-
-			@Override
-			public void onDeinitializing(ListManager<ProductOrderDetailItem> mngr) {
-			}
-
 			// 상세 구매 내역이 추가되면 해당 상품 재고 수량 감소
 			// => 해당 상품에 재고가 없더라도 일단 수량 감소
 			@Override
@@ -113,6 +105,13 @@ public class ProductPurchasing {
 			public void onDeleted(ListManager<ProductOrderDetailItem> mngr, ProductOrderDetailItem item) {
 			}
 
+			@Override
+			public void onDeleteItems(ListManager<ProductOrderDetailItem> mngr, List<Integer> idList) {
+			}
+
+			@Override
+			public void onDeletedItems(ListManager<ProductOrderDetailItem> mngr, List<Integer> idList) {
+			}
 		});
 	}
 
@@ -190,15 +189,6 @@ public class ProductPurchasing {
 
 		// 사용할 포인트 설정
 		this.mProdOrderItem.setUsedPoint(point);
-
-		// {
-		// // 사용할 포인트 감소
-		// ci.decPoint(point);
-
-		// // 적립될 포인트 계산 및 증가
-		// int earnedPoint = this.mProdOrderItem.calcEarnedPoint();
-		// ci.incPoint(earnedPoint);
-		// }
 	}
 
 	// 4. 취소
@@ -242,17 +232,17 @@ public class ProductPurchasing {
 	// 5. 완료
 	public void _6_commit() throws Exception {
 		// 포인트 처리
-
 		var ci = this.mProdOrderItem.getCustItem();
-		if (ci == null) {
-			// 예외 발생~
+		if (ci != null) {
+			// 포인트 감소
+			ci.decPoint(this.mProdOrderItem.getUsedPoint());
+
+			// 적립될 포인트 계산 및 증가
+			int earnedPoint = this.mProdOrderItem.calcEarnedPoint();
+			ci.incPoint(earnedPoint);
 		}
 
-		ci.decPoint(this.mProdOrderItem.getUsedPoint());
-
-		// 적립될 포인트 계산 및 증가
-		int earnedPoint = this.mProdOrderItem.calcEarnedPoint();
-		ci.incPoint(earnedPoint);
+		// DB 저장
 	}
 
 	// -------------------------------------------------------------------------

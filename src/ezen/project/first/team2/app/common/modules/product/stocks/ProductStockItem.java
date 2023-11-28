@@ -8,7 +8,7 @@ package ezen.project.first.team2.app.common.modules.product.stocks;
 
 import ezen.project.first.team2.app.common.modules.base.ListItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 
 public class ProductStockItem extends ListItem {
 	// -------------------------------------------------------------------------
@@ -72,8 +72,8 @@ public class ProductStockItem extends ListItem {
 	//
 
 	// 상품 아이템 얻기
-	public ProductItem getProdItem() throws Exception {
-		var prodMngr = ProductManagerMem.getInstance();
+	public ProductItem getProdItem() {
+		var prodMngr = ProductManager.getInstance();
 		return prodMngr.findById(this.getProdId());
 	}
 

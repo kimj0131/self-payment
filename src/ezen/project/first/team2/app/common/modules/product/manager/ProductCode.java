@@ -19,6 +19,8 @@ public class ProductCode implements Cloneable {
 
 	// -------------------------------------------------------------------------
 
+	private static final String CodeFormat = "XNNN";
+
 	private Type mType;
 	private int mSn;
 
@@ -32,14 +34,16 @@ public class ProductCode implements Cloneable {
 
 	// 생성자 - 제품 코드 문자열 입력
 	public ProductCode(String prodCode) throws Exception {
-		if (prodCode.length() != 4) {
-			String msg = String.format("[ProductCode.ctro()]",
+		if (prodCode.length() != CodeFormat.length()) {
+			String msg = String.format("[ProductCode.ctor()]",
 					" Invalid prodCode(%s)!",
 					prodCode);
 			throw new Exception(msg);
 		}
 
+		// 1st char
 		String typeStr = prodCode.substring(0, 1);
+		// 2nd char ~
 		String snStr = prodCode.substring(1);
 
 		this.mType = strToType(typeStr);

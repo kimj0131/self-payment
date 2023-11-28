@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
@@ -24,7 +24,7 @@ public class RightView1_CheckMember extends View {
 	private static final String DEL_BTN_TEXT = "전체삭제";
 	private static final String UNDO_BTN_TEXT = "삭제";
 	private static final String PHONE_ID_NUMEBER_TEXT = "010-";
-	
+
 	private JButton mCheck_btn;
 	private JButton mPass_btn;
 
@@ -38,7 +38,7 @@ public class RightView1_CheckMember extends View {
 	private JButton mUndo_btn; // 한칸지우기 버튼
 	//
 
-	private CustomerManagerMem mCustMngr;
+	private CustomerManager mCustMngr;
 	private ProductPurchasing mProdPurchasing;
 
 	public RightView1_CheckMember() {
@@ -56,23 +56,23 @@ public class RightView1_CheckMember extends View {
 		// 숫자패드 초기화
 		mPhoneNum = new StringBuilder();
 		mHidedPhoneNum = new StringBuilder();
-		
+
 		mNums_tf = new JTextField();
 		mNums_tf.setEditable(false);
-		
+
 		// 숫자 버튼 만들기
 		mNum_btn_arr = new JButton[10];
 		for (int i = 0; i < mNum_btn_arr.length; ++i) {
 			mNum_btn_arr[i] = new JButton(String.valueOf(i));
 		}
-		
+
 		mDel_btn = new JButton(DEL_BTN_TEXT);
 		mUndo_btn = new JButton(UNDO_BTN_TEXT);
 		mNum_panel = new JPanel();
-		
+
 		// 매니저 인스턴스 가져오기
-		mCustMngr = CustomerManagerMem.getInstance();
-		
+		mCustMngr = CustomerManager.getInstance();
+
 		// 메인 페이지에서 mProdPurchasing 가져오기
 		MainPage mainPage = (MainPage) this.getPage();
 		this.mProdPurchasing = mainPage.mProdPurchasing;
@@ -163,7 +163,7 @@ public class RightView1_CheckMember extends View {
 								mHidedPhoneNum.setCharAt(7, '*');
 							}
 
-//							mNums_tf.setText(mHidedPhoneNumber.toString());
+							// mNums_tf.setText(mHidedPhoneNumber.toString());
 							mNums_tf.setText(mPhoneNum.toString());
 
 							// 번호의 마지막 숫자를 *로 바꿈
@@ -175,14 +175,14 @@ public class RightView1_CheckMember extends View {
 				}
 			});
 		}
-		
+
 		mDel_btn.addActionListener(e -> {
 			mPhoneNum.delete(4, mPhoneNum.length());
 			mHidedPhoneNum.delete(4, mHidedPhoneNum.length());
-//			mNums_tf.setText(mHidedPhoneNumber.toString());
+			// mNums_tf.setText(mHidedPhoneNumber.toString());
 			mNums_tf.setText(mPhoneNum.toString());
 		});
-		
+
 		mUndo_btn.addActionListener(e -> {
 			if (mPhoneNum.length() >= 5) {
 				// 하이픈 삭제 - 하이픈 다음에 숫자 입력이 없었을 경우
@@ -204,7 +204,7 @@ public class RightView1_CheckMember extends View {
 				// 끝 숫자가 지워진 mHidedPhoneNumber의 끝 숫자를 *에서 숫자로 바꾸기
 				mHidedPhoneNum.setCharAt(mHidedPhoneNum.length() - 1, mPhoneNum.charAt(mPhoneNum.length() - 1));
 
-//				mNums_tf.setText(mHidedPhoneNumber.toString());
+				// mNums_tf.setText(mHidedPhoneNumber.toString());
 				mNums_tf.setText(mPhoneNum.toString());
 
 				// 이후 추가될 번호를 위해 다시 mHidedPhoneNumber의 끝 숫자를 *로 바꾸기
@@ -212,7 +212,7 @@ public class RightView1_CheckMember extends View {
 					mHidedPhoneNum.setCharAt(mHidedPhoneNum.length() - 1, '*');
 			}
 		});
-		
+
 	}
 
 	@Override
@@ -221,18 +221,18 @@ public class RightView1_CheckMember extends View {
 	}
 
 	@Override
-	protected void onHide() {}
+	protected void onHide() {
+	}
 
-	
 	public void resetPhoneNums() {
 		// 유효한 회원 번호 입력했다가 재입력 버튼을 누른경우 비회원으로 초기화
 		mProdPurchasing.getProdOrderItem().setCustId(0);
-		
+
 		mNums_tf.setText("010-");
-		
+
 		mPhoneNum.delete(0, mPhoneNum.length());
 		mHidedPhoneNum.delete(0, mHidedPhoneNum.length());
-		
+
 		mPhoneNum.append(PHONE_ID_NUMEBER_TEXT);
 		mHidedPhoneNum.append(PHONE_ID_NUMEBER_TEXT);
 	}

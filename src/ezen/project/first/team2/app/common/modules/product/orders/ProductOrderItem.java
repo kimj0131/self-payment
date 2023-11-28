@@ -11,9 +11,9 @@ import java.util.List;
 
 import ezen.project.first.team2.app.common.modules.base.ListItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailItem;
-import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManagerMem;
+import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManager;
 import ezen.project.first.team2.app.common.utils.TimeUtils;
 import ezen.project.first.team2.app.common.utils.UnitUtils;
 
@@ -41,25 +41,26 @@ public class ProductOrderItem extends ListItem {
 
 	// 생성자
 	public ProductOrderItem(int id, LocalDateTime orderDateTime, int custId,
-			int usedPoint) {
-		this.setValues(id, orderDateTime, custId, usedPoint);
+			int usedPoint, int earnedPoint) {
+		this.setValues(id, orderDateTime, custId, usedPoint, earnedPoint);
 	}
 
 	// 생성자 => 고객 ID : 0(비회원), 사용할 포인트: 0
 	public ProductOrderItem(int id, LocalDateTime orderDateTime) {
-		this.setValues(id, orderDateTime, CustomerItem.GUEST_ID, 0);
+		this.setValues(id, orderDateTime, CustomerItem.GUEST_ID, 0, 0);
 	}
 
 	// -------------------------------------------------------------------------
 
 	// 개별 값으로 설정
 	public void setValues(int id, LocalDateTime orderDateTime, int custId,
-			int usedPoint) {
+			int usedPoint, int earnedPoint) {
 		this.mId = id;
 
 		this.mOrderDateTime = orderDateTime;
 		this.mCustId = custId;
 		this.mUsedPoint = usedPoint;
+		this.mEarnedPoint = earnedPoint;
 	}
 
 	// -------------------------------------------------------------------------
@@ -125,7 +126,7 @@ public class ProductOrderItem extends ListItem {
 	//
 
 	// 원래 금액 얻기 => 상세 구매 내역 [원래 금액] 합계
-	public int getOrgTotalPrice() throws Exception {
+	public int getOrgTotalPrice() {
 		var items = this.getProdOrderDetailItems();
 		int sum = 0;
 		for (var i : items) {
@@ -136,7 +137,7 @@ public class ProductOrderItem extends ListItem {
 	}
 
 	// 최종 금액 얻기 => 상세 구매 내역 [최종 합계] - 사용한 포인트
-	public int getFinalTotalPrice() throws Exception {
+	public int getFinalTotalPrice() {
 		var items = this.getProdOrderDetailItems();
 		int sum = 0;
 		for (var i : items) {
@@ -149,16 +150,16 @@ public class ProductOrderItem extends ListItem {
 	//
 
 	// 고객 아이템 얻기
-	public CustomerItem getCustItem() throws Exception {
-		var custMngr = CustomerManagerMem.getInstance();
+	public CustomerItem getCustItem() {
+		var custMngr = CustomerManager.getInstance();
 		return custMngr.findById(this.getCustId());
 	}
 
 	//
 
 	// 상세 구매 내역 아이템 얻기
-	public List<ProductOrderDetailItem> getProdOrderDetailItems() throws Exception {
-		var prodOrderDetailsMngr = ProductOrderDetailsManagerMem.getInstance();
+	public List<ProductOrderDetailItem> getProdOrderDetailItems() {
+		var prodOrderDetailsMngr = ProductOrderDetailsManager.getInstance();
 		return prodOrderDetailsMngr.getItemsByProdOrderId(this.getId());
 	}
 
@@ -185,13 +186,9 @@ public class ProductOrderItem extends ListItem {
 
 	@Override
 	protected void onSetValuesFrom(ListItem item) {
-		try {
-			var poi = (ProductOrderItem) item;
-			this.setValues(poi.getId(), poi.getOrderDateTime(), poi.getCustId(), poi.mUsedPoint);
-			this.calcEarnedPoint();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		var poi = (ProductOrderItem) item;
+		this.setValues(poi.getId(), poi.getOrderDateTime(), poi.getCustId(),
+				poi.getUsedPoint(), poi.getEarnedPoint());
 	}
 
 }

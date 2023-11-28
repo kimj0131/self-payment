@@ -12,14 +12,14 @@ import ezen.project.first.team2.app.common.framework.Page;
 import ezen.project.first.team2.app.common.modules.base.ListActionAdapter;
 import ezen.project.first.team2.app.common.modules.base.ListManager;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountItem;
-import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManagerMem;
+import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManager;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.common.modules.product.stocks.ProductStockItem;
-import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManager;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView0_FruitsSelector;
@@ -49,13 +49,13 @@ public class MainPage extends Page {
 	public static final int RIGHT_VIEW_CHECK_MEMBER_NUM = 201;
 	public static final int RIGHT_VIEW_POINT_INFO_NUM = 202;
 	public static final int RIGHT_VIEW_PAYMENT_NUM = 203;
-	
+
 	// PopUp view
 	public static final int POPUP_VIEW_FRUITS_SELECTOR_NUM = 300;
 	public static final int POPUP_VIEW_VERIFIED_MEMBER_INFO_NUM = 301;
 	public static final int POPUP_VIEW_UNVERIFIED_MEMBER_INFO_NUM = 302;
 	public static final int POPUP_VIEW_USE_POINTS_NUM = 303;
-	
+
 	// ProductPurchasing
 	public ProductPurchasing mProdPurchasing;
 
@@ -82,11 +82,11 @@ public class MainPage extends Page {
 	// Test를 위한 더미 데이터 설정 작업
 	private void setTestData() {
 
-		var custMngr = CustomerManagerMem.getInstance();
+		var custMngr = CustomerManager.getInstance();
 
-		var prodMngr = ProductManagerMem.getInstance();
-		var prodStocksMngr = ProductStocksManagerMem.getInstance();
-		var prodDiscntsMngr = ProductDiscountsManagerMem.getInstance();
+		var prodMngr = ProductManager.getInstance();
+		var prodStocksMngr = ProductStocksManager.getInstance();
+		var prodDiscntsMngr = ProductDiscountsManager.getInstance();
 
 		try {
 
@@ -142,49 +142,49 @@ public class MainPage extends Page {
 		}
 
 		// 테스트용 데이터 확인을 위한 콘솔 출력
-//		try {
-//
-//			System.out.println("고객 리스트");
-//			custMngr.iterate((item, idx) -> {
-//				System.out.println(" " + item);
-//
-//				return true;
-//			});
-//
-//			System.out.println("------------------------------");
-//
-//			System.out.println("상품 리스트");
-//			prodMngr.iterate((item, idx) -> {
-//				System.out.println(" " + item);
-//
-//				return true;
-//			});
-//
-//			System.out.println("------------------------------");
-//
-//			System.out.println("상품 재고 리스트");
-//			prodStocksMngr.iterate((item, idx) -> {
-//				try {
-//					System.out.println(item + " => " + item.getProdItem().getName());
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//				return true;
-//			});
-//
-//			System.out.println("------------------------------");
-//
-//			System.out.println("상품 할인 리스트");
-//			prodDiscntsMngr.iterate((item, idx) -> {
-//				System.out.println(" " + item);
-//				return true;
-//			});
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		// try {
+		//
+		// System.out.println("고객 리스트");
+		// custMngr.iterate((item, idx) -> {
+		// System.out.println(" " + item);
+		//
+		// return true;
+		// });
+		//
+		// System.out.println("------------------------------");
+		//
+		// System.out.println("상품 리스트");
+		// prodMngr.iterate((item, idx) -> {
+		// System.out.println(" " + item);
+		//
+		// return true;
+		// });
+		//
+		// System.out.println("------------------------------");
+		//
+		// System.out.println("상품 재고 리스트");
+		// prodStocksMngr.iterate((item, idx) -> {
+		// try {
+		// System.out.println(item + " => " + item.getProdItem().getName());
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		// return true;
+		// });
+		//
+		// System.out.println("------------------------------");
+		//
+		// System.out.println("상품 할인 리스트");
+		// prodDiscntsMngr.iterate((item, idx) -> {
+		// System.out.println(" " + item);
+		// return true;
+		// });
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 
 	}
-	
+
 	// 뷰 추가
 	@Override
 	protected void onAddViews() {
@@ -196,7 +196,7 @@ public class MainPage extends Page {
 			this.addView(new PopUpView1_VerifiedMemberInfo());
 			this.addView(new PopUpView2_UnverifiedMemberInfo());
 			this.addView(new PopUpView3_UsePoints());
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -12,14 +12,14 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class ListProductView extends View {
     DecimalFormat df = new DecimalFormat("###,###");
 
-    ProductManagerMem prodMngr = ProductManagerMem.getInstance();
+    ProductManager prodMngr = ProductManager.getInstance();
 
     JLabel mLabelInfo = new JLabel("상품 조회");
 

@@ -28,14 +28,14 @@ import javax.swing.table.DefaultTableModel;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class UpdateCustomerView extends View {
 
-    CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
+    CustomerManager custMngr = CustomerManager.getInstance();
 
     JLabel mLabelInfo = new JLabel("고객 데이터 수정");
 
@@ -323,7 +323,7 @@ public class UpdateCustomerView extends View {
 
     // 고객목록을 테이블에 추가하는 메소드
     private void insertItemTable() {
-        CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
+        CustomerManager custMngr = CustomerManager.getInstance();
 
         DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
         m.setRowCount(0);

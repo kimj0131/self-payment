@@ -9,24 +9,23 @@ package ezen.project.first.team2.app.common.modules.product.manager;
 import java.time.LocalDate;
 import java.util.List;
 
-import ezen.project.first.team2.app.common.modules.base.ListManagerMem;
+import ezen.project.first.team2.app.common.modules.base.ListManager;
 
-public class ProductManagerMem extends ListManagerMem<ProductItem>
-		implements ProductManagerHelper {
+public class ProductManager extends ListManager<ProductItem> {
 	// -------------------------------------------------------------------------
 
-	private static ProductManagerMem mInstance = null;
+	private static ProductManager mInstance = null;
 
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	private ProductManagerMem() {
+	private ProductManager() {
 	}
 
 	// 인스턴스 얻기
-	public static ProductManagerMem getInstance() {
+	public static ProductManager getInstance() {
 		if (mInstance == null) {
-			mInstance = new ProductManagerMem();
+			mInstance = new ProductManager();
 		}
 
 		return mInstance;
@@ -34,23 +33,19 @@ public class ProductManagerMem extends ListManagerMem<ProductItem>
 
 	// -------------------------------------------------------------------------
 
-	@Override
-	public ProductItem findByProductCode(ProductCode prodCode) throws Exception {
+	public ProductItem findByProductCode(ProductCode prodCode) {
 		return this.find((pi, idx) -> pi.getProdCode().equals(prodCode));
 	}
 
-	@Override
-	public List<ProductItem> findByRegDate(LocalDate date) throws Exception {
+	public List<ProductItem> findByRegDate(LocalDate date) {
 		return this.findItems((pi, idx) -> pi.getRegDate().equals(date));
 	}
 
-	@Override
-	public List<ProductItem> findByName(String name) throws Exception {
+	public List<ProductItem> findByName(String name) {
 		return this.findItems((pi, idx) -> pi.getName().contains(name));
 	}
 
-	@Override
-	public List<ProductItem> findByPrice(int price) throws Exception {
+	public List<ProductItem> findByPrice(int price) {
 		return this.findItems((pi, idx) -> pi.getPrice() == price);
 	}
 
@@ -58,9 +53,9 @@ public class ProductManagerMem extends ListManagerMem<ProductItem>
 
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
-	protected String onAdd(ProductItem item) throws Exception {
+	protected String onAdd(ProductItem item) {
 		if (this.findByProductCode(item.getProdCode()) != null) {
-			String msg = String.format("[ProductManagerMem.onAdd()]" +
+			String msg = String.format("[ProductManager.onAdd()]" +
 					" You have same product code(%s)!", item.getProdCode().toString());
 
 			return msg;
@@ -71,18 +66,22 @@ public class ProductManagerMem extends ListManagerMem<ProductItem>
 
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
-	protected String onUpdateById(int id,
-			ProductItem oldItem, ProductItem newItem) throws Exception {
+	protected String onUpdateById(int id, ProductItem oldItem, ProductItem newItem) {
+		try {
+			// Product Code 복사
+			newItem.setProdCode((ProductCode) oldItem.getProdCode().clone());
 
-		// Product Code 복사
-		newItem.setProdCode((ProductCode) oldItem.getProdCode().clone());
+			return super.onUpdateById(id, oldItem, newItem);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-		return super.onUpdateById(id, oldItem, newItem);
+		return "";
 	}
 
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
-	protected String onDeleteById(int id) throws Exception {
+	protected String onDeleteById(int id) {
 		return super.onDeleteById(id);
 	}
 }

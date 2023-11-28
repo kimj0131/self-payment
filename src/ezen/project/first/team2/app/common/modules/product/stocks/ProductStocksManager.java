@@ -6,23 +6,23 @@
 
 package ezen.project.first.team2.app.common.modules.product.stocks;
 
-import ezen.project.first.team2.app.common.modules.base.ListManagerMem;
+import ezen.project.first.team2.app.common.modules.base.ListManager;
 
-public class ProductStocksManagerMem extends ListManagerMem<ProductStockItem> {
+public class ProductStocksManager extends ListManager<ProductStockItem> {
 	// -------------------------------------------------------------------------
 
-	private static ProductStocksManagerMem mInstance = null;
+	private static ProductStocksManager mInstance = null;
 
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	private ProductStocksManagerMem() {
+	private ProductStocksManager() {
 	}
 
 	// 인스턴스 얻기
-	public static ProductStocksManagerMem getInstance() {
+	public static ProductStocksManager getInstance() {
 		if (mInstance == null) {
-			mInstance = new ProductStocksManagerMem();
+			mInstance = new ProductStocksManager();
 		}
 
 		return mInstance;
@@ -31,7 +31,7 @@ public class ProductStocksManagerMem extends ListManagerMem<ProductStockItem> {
 	// -------------------------------------------------------------------------
 
 	// 상품 Id로 아이템 얻기
-	public ProductStockItem getItemByProdId(int prodId) throws Exception {
+	public ProductStockItem getItemByProdId(int prodId) {
 		return this.find((_item, _idx) -> _item.getProdId() == prodId);
 	}
 

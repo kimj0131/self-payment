@@ -6,23 +6,23 @@
 
 package ezen.project.first.team2.app.common.modules.product.orders;
 
-import ezen.project.first.team2.app.common.modules.base.ListManagerMem;
+import ezen.project.first.team2.app.common.modules.base.ListManager;
 
-public class ProductOrdersManagerMem extends ListManagerMem<ProductOrderItem> {
+public class ProductOrdersManager extends ListManager<ProductOrderItem> {
 	// -------------------------------------------------------------------------
 
-	private static ProductOrdersManagerMem mInstance = null;
+	private static ProductOrdersManager mInstance = null;
 
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	private ProductOrdersManagerMem() {
+	private ProductOrdersManager() {
 	}
 
 	// 인스턴스 얻기
-	public static ProductOrdersManagerMem getInstance() {
+	public static ProductOrdersManager getInstance() {
 		if (mInstance == null) {
-			mInstance = new ProductOrdersManagerMem();
+			mInstance = new ProductOrdersManager();
 		}
 
 		return mInstance;

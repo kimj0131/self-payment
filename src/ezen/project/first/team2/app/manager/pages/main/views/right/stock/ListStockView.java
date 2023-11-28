@@ -25,8 +25,8 @@ import javax.swing.table.TableColumnModel;
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
-import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManager;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
@@ -34,8 +34,8 @@ import ezen.project.first.team2.app.manager.pages.main.MainPage;
 public class ListStockView extends View {
     DecimalFormat df = new DecimalFormat("###,###");
     // 수정예정
-    ProductManagerMem prodMngr = ProductManagerMem.getInstance();
-    ProductStocksManagerMem prodStMngr = ProductStocksManagerMem.getInstance();
+    ProductManager prodMngr = ProductManager.getInstance();
+    ProductStocksManager prodStMngr = ProductStocksManager.getInstance();
 
     JLabel mLabelInfo = new JLabel("상품 재고 조회");
 

@@ -29,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxType;
 import ezen.project.first.team2.app.manager.Main;
@@ -37,7 +37,7 @@ import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
 public class AddCustomerView extends View {
 
-    CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
+    CustomerManager custMngr = CustomerManager.getInstance();
 
     JLabel mLabelInfo = new JLabel("고객 데이터 추가");
 

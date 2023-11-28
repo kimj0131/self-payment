@@ -45,6 +45,7 @@ public class BlueThread {
 
 	// 스레드 시작
 	public void start() throws Exception {
+		// 이미 실행 중인 경우 예외 발생
 		if (this.isRunning()) {
 			String msg = String.format(
 					"[BlueThread.start()] " +
@@ -77,6 +78,7 @@ public class BlueThread {
 	// 스레드 종료
 	// 스레드 내에서 종료를 하려면 Listener.onRun() 메소드에서 false를 리턴한다.
 	public void stop() throws Exception {
+		// 실행 중이 아니라면 예외 발생
 		if (!isRunning()) {
 			String msg = String.format(
 					"[BlueThread.stop()] " +
@@ -84,6 +86,7 @@ public class BlueThread {
 			throw new Exception(msg);
 		}
 
+		// 스스로 스레드를 종료하려고 하다면 예외 발생
 		if (Thread.currentThread() == mThread) {
 			String msg = String.format(
 					"[BlueThread.stop()] " +
@@ -104,6 +107,7 @@ public class BlueThread {
 
 	// 스레드 종료 대기
 	public void join() throws Exception {
+		// 스레드가 실행 중이 아니라면 예외 발생
 		if (!isRunning()) {
 			String msg = String.format(
 					"[BlueThread.join()] " +

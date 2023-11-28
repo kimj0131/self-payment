@@ -6,17 +6,9 @@
 
 package ezen.project.first.team2.app.common.modules.base;
 
+import java.util.List;
+
 public class ListActionAdapter<T extends ListItem> implements ListActionListener<T> {
-
-	@Override
-	public void onInitialized(ListManager<T> mngr) {
-	}
-
-	@Override
-	public void onDeinitializing(ListManager<T> mngr) {
-	}
-
-	// --------------------------------------------------------------------------
 
 	@Override
 	public void onAdded(ListManager<T> mngr, T item) {
@@ -28,6 +20,14 @@ public class ListActionAdapter<T extends ListItem> implements ListActionListener
 
 	@Override
 	public void onDeleted(ListManager<T> mngr, T item) {
+	}
+
+	@Override
+	public void onDeleteItems(ListManager<T> mngr, List<Integer> idList) {
+	}
+
+	@Override
+	public void onDeletedItems(ListManager<T> mngr, List<Integer> idList) {
 	}
 
 }

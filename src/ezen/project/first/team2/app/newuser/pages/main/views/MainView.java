@@ -25,7 +25,7 @@ import javax.swing.text.PlainDocument;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxType;
 import ezen.project.first.team2.app.newuser.pages.main.MainPage;
@@ -79,7 +79,7 @@ public class MainView extends View {
    GridBagLayout gb;
    GridBagConstraints gbc;
 
-   CustomerManagerMem mCustMngr = CustomerManagerMem.getInstance();
+   CustomerManager mCustMngr = CustomerManager.getInstance();
 
    // -------------------------------------------------------------------------
 
@@ -99,13 +99,6 @@ public class MainView extends View {
    @Override
    protected void onInit() {
       super.onInit();
-
-      try {
-         this.mCustMngr.init();
-      } catch (Exception e) {
-
-         e.printStackTrace();
-      }
    }
 
    // 레이아웃 설정
@@ -209,71 +202,66 @@ public class MainView extends View {
          Matcher matcher2 = pattern2.matcher(phoneNumber);
 
          if (matcher2.matches()) {
-            UiUtils.showMsgBox("유효한 번호입니다.","전화번호 확인");
+            UiUtils.showMsgBox("유효한 번호입니다.", "전화번호 확인");
             mAddBtn.setEnabled(true);
 
-            
          } else {
             UiUtils.showMsgBox("유효하지 않은 전화번호입니다.", "전화번호 확인",
-            MsgBoxType.Error);
+                  MsgBoxType.Error);
             mAddBtn.setEnabled(false);
          }
 
          try {
-         // 전화번호 중복 검사 수행
-         if (this.mCustMngr.findByPhoneNumber(this.phoneNumber) != null) {
-         UiUtils.showMsgBox("이미 등록된 전화번호입니다.", "전화번호 중복", MsgBoxType.Error);
-         mAddBtn.setEnabled(false);
-         return; // 고객 추가 진행하지 않음             
-         }
+            // 전화번호 중복 검사 수행
+            if (this.mCustMngr.findByPhoneNumber(this.phoneNumber) != null) {
+               UiUtils.showMsgBox("이미 등록된 전화번호입니다.", "전화번호 중복", MsgBoxType.Error);
+               mAddBtn.setEnabled(false);
+               return; // 고객 추가 진행하지 않음
+            }
          } catch (Exception ex) {
-               ex.printStackTrace();
+            ex.printStackTrace();
          }
-         
+
       });
 
-      
       this.mAddBtn.addActionListener(e -> {
          // 이름에 유효하지 않는 문자가 포함되어 있는지 검사
          String koreanPattern = "^[가-힣]+$";
          Pattern pattern = Pattern.compile(koreanPattern);
          Matcher matcher = pattern.matcher(tfUserName.getText());
-     
+
          if (!matcher.matches()) {
-             UiUtils.showMsgBox("이름에 유효하지 않는 문자가 포함되어 있습니다.", "경고", MsgBoxType.Error);
-             tfUserName.requestFocus();
-             return;
+            UiUtils.showMsgBox("이름에 유효하지 않는 문자가 포함되어 있습니다.", "경고", MsgBoxType.Error);
+            tfUserName.requestFocus();
+            return;
          }
-         
-     
+
          this.phoneNumber = String.format("%s-%s-%s",
-                 this.strFirstPhoneNum, this.tfPhoneNum2.getText(), this.tfPhoneNum3.getText());
+               this.strFirstPhoneNum, this.tfPhoneNum2.getText(), this.tfPhoneNum3.getText());
 
          try {
-         // 전화번호 중복 검사 수행
-         if (this.mCustMngr.findByPhoneNumber(this.phoneNumber) != null) {
-         UiUtils.showMsgBox("이미 등록된 전화번호입니다.", "전화번호 중복", MsgBoxType.Error);
-         mAddBtn.setEnabled(false);
-         return; // 고객 추가 진행하지 않음             
-         }
+            // 전화번호 중복 검사 수행
+            if (this.mCustMngr.findByPhoneNumber(this.phoneNumber) != null) {
+               UiUtils.showMsgBox("이미 등록된 전화번호입니다.", "전화번호 중복", MsgBoxType.Error);
+               mAddBtn.setEnabled(false);
+               return; // 고객 추가 진행하지 않음
+            }
          } catch (Exception ex) {
-               ex.printStackTrace();
+            ex.printStackTrace();
          }
 
-     
          this.birthDay = String.format("%s", this.tfBirth.getText());
-     
+
          try {
-             this.lDBirth = LocalDate.parse(birthDay, DateTimeFormatter.ofPattern("yyyyMMdd"));
+            this.lDBirth = LocalDate.parse(birthDay, DateTimeFormatter.ofPattern("yyyyMMdd"));
          } catch (Exception ex) {
-             UiUtils.showMsgBox("생년월일을 다시 입력해주세요. ex)20000101", "생년월일 오류", MsgBoxType.Error);
-             this.tfBirth.requestFocus();
-             return;
+            UiUtils.showMsgBox("생년월일을 다시 입력해주세요. ex)20000101", "생년월일 오류", MsgBoxType.Error);
+            this.tfBirth.requestFocus();
+            return;
          }
-     
-     
+
          joinDateString = String.format(this.mJoinDate);
-     
+
          CustomerItem info = new CustomerItem();
          int id = Integer.parseInt(this.tfUserNum.getText());
          String name = this.tfUserName.getText();
@@ -281,19 +269,19 @@ public class MainView extends View {
          String phoneNum = phoneNumber;
          int point = 0;
          String remark = "";
-     
+
          System.out.println(birthDay);
          System.out.println(phoneNum);
          info.setValues(id, lDJoinDate, name, birthday, phoneNum, point, remark);
-     
+
          try {
-             this.mCustMngr.add(info);
+            this.mCustMngr.add(info);
          } catch (Exception e1) {
-             e1.printStackTrace();
+            e1.printStackTrace();
          }
-     
+
          UiUtils.showMsgBox("가입이 완료되었습니다.", MainPage.TITLE);
-     });
+      });
 
       this.mResetBtn.addActionListener(e -> {
          tfPhoneNum2.setText("");
@@ -378,6 +366,5 @@ public class MainView extends View {
    public void setFont(Font font) {
 
    }
-  
 
 }

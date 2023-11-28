@@ -26,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxType;
 import ezen.project.first.team2.app.manager.Main;
@@ -37,7 +37,7 @@ public class UpdateProductView extends View {
 
     JLabel mLabelInfo = new JLabel("상품 데이터 수정");
 
-    ProductManagerMem prodMngr = ProductManagerMem.getInstance();
+    ProductManager prodMngr = ProductManager.getInstance();
 
     // 검색, 결과, 수정용 패널
     JPanel mPanelSearchUpdate = new JPanel();

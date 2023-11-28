@@ -6,7 +6,7 @@ import java.util.List;
 import ezen.project.first.team2.app.common.modules.base.ListActionListener;
 import ezen.project.first.team2.app.common.modules.base.ListManager;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 
 public class TestCustomerManagerMem {
 
@@ -25,7 +25,7 @@ public class TestCustomerManagerMem {
 	}
 
 	static void printList() {
-		CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
+		CustomerManager custMngr = CustomerManager.getInstance();
 
 		try {
 			// 고객 리스트
@@ -47,21 +47,10 @@ public class TestCustomerManagerMem {
 	}
 
 	public static void main(String[] args) {
-		CustomerManagerMem custMngr = CustomerManagerMem.getInstance();
+		CustomerManager custMngr = CustomerManager.getInstance();
 
 		try {
 			custMngr.setActionListener(new ListActionListener<CustomerItem>() {
-
-				@Override
-				public void onInitialized(ListManager<CustomerItem> mngr) {
-					System.out.println("[TestCustomerManagerMem] onInitialized()");
-				}
-
-				@Override
-				public void onDeinitializing(ListManager<CustomerItem> mngr) {
-					System.out.println("[TestCustomerManagerMem] onDeinitializing()");
-				}
-
 				@Override
 				public void onAdded(ListManager<CustomerItem> mngr, CustomerItem item) {
 					System.out.println("[TestCustomerManagerMem] onAdded()");
@@ -85,6 +74,13 @@ public class TestCustomerManagerMem {
 					System.out.println();
 				}
 
+				@Override
+				public void onDeleteItems(ListManager<CustomerItem> mngr, List<Integer> idList) {
+				}
+
+				@Override
+				public void onDeletedItems(ListManager<CustomerItem> mngr, List<Integer> idList) {
+				}
 			});
 
 			//

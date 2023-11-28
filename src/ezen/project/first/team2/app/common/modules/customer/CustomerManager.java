@@ -9,23 +9,23 @@ package ezen.project.first.team2.app.common.modules.customer;
 import java.time.LocalDate;
 import java.util.List;
 
-import ezen.project.first.team2.app.common.modules.base.ListManagerMem;
+import ezen.project.first.team2.app.common.modules.base.ListManager;
 
-public class CustomerManagerMem extends ListManagerMem<CustomerItem> {
+public class CustomerManager extends ListManager<CustomerItem> {
 	// -------------------------------------------------------------------------
 
-	private static CustomerManagerMem mInstance = null;
+	private static CustomerManager mInstance = null;
 
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	private CustomerManagerMem() {
+	private CustomerManager() {
 	}
 
 	// 인스턴스 얻기
-	public static CustomerManagerMem getInstance() {
+	public static CustomerManager getInstance() {
 		if (mInstance == null) {
-			mInstance = new CustomerManagerMem();
+			mInstance = new CustomerManager();
 
 			try {
 				// 비회원 객체 추가
@@ -44,8 +44,9 @@ public class CustomerManagerMem extends ListManagerMem<CustomerItem> {
 	public void updatePoint(int custId, int point) throws Exception {
 		var ci = this.findById(custId);
 
+		// 비회원인 경우 예외 발생
 		if (ci == null) {
-			String msg = String.format("[CustomerManagerMem.updatePoint()]"
+			String msg = String.format("[CustomerManager.updatePoint()]"
 					+
 					" Invalid custId(%d)!",
 					custId);
@@ -58,29 +59,29 @@ public class CustomerManagerMem extends ListManagerMem<CustomerItem> {
 
 	// -------------------------------------------------------------------------
 
-	public CustomerItem findByName(String name) throws Exception {
+	public CustomerItem findByName(String name) {
 		return this.find((ci, idx) -> ci.getName().equals(name));
 	}
 
-	public CustomerItem findByBirthday(LocalDate date) throws Exception {
+	public CustomerItem findByBirthday(LocalDate date) {
 		return this.find((ci, idx) -> ci.getBirthday().equals(date));
 	}
 
-	public CustomerItem findByPhoneNumber(String phoneNumber) throws Exception {
+	public CustomerItem findByPhoneNumber(String phoneNumber) {
 		return this.find((ci, idx) -> ci.getPhoneNumber().equals(phoneNumber));
 	}
 
 	//
 
-	public List<CustomerItem> findItemsByName(String name) throws Exception {
+	public List<CustomerItem> findItemsByName(String name) {
 		return this.findItems((ci, idx) -> ci.getName().equals(name));
 	}
 
-	public List<CustomerItem> findItemsByBirthday(LocalDate date) throws Exception {
+	public List<CustomerItem> findItemsByBirthday(LocalDate date) {
 		return this.findItems((ci, idx) -> ci.getBirthday().equals(date));
 	}
 
-	public List<CustomerItem> findItemsByPhoneNumber(String phoneNumber) throws Exception {
+	public List<CustomerItem> findItemsByPhoneNumber(String phoneNumber) {
 		return this.findItems((ci, idx) -> ci.getPhoneNumber().contains(phoneNumber));
 	}
 
@@ -88,9 +89,9 @@ public class CustomerManagerMem extends ListManagerMem<CustomerItem> {
 
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
-	protected String onAdd(CustomerItem item) throws Exception {
+	protected String onAdd(CustomerItem item) {
 		if (this.findByPhoneNumber(item.getPhoneNumber()) != null) {
-			String msg = String.format("[CustomerManagerMem.onAdd()]" +
+			String msg = String.format("[CustomerManager.onAdd()]" +
 					" You have same phone number(%s)!", item.getPhoneNumber());
 
 			return msg;
@@ -102,13 +103,13 @@ public class CustomerManagerMem extends ListManagerMem<CustomerItem> {
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
 	protected String onUpdateById(int id,
-			CustomerItem oldItem, CustomerItem newItem) throws Exception {
+			CustomerItem oldItem, CustomerItem newItem) {
 		return super.onUpdateById(id, oldItem, newItem);
 	}
 
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
 	@Override
-	protected String onDeleteById(int id) throws Exception {
+	protected String onDeleteById(int id) {
 		return super.onDeleteById(id);
 	}
 }

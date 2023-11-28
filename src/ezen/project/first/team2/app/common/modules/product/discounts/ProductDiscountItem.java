@@ -8,7 +8,7 @@ package ezen.project.first.team2.app.common.modules.product.discounts;
 
 import ezen.project.first.team2.app.common.modules.base.ListItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 import ezen.project.first.team2.app.common.utils.UnitUtils;
 
 public class ProductDiscountItem extends ListItem {
@@ -63,8 +63,8 @@ public class ProductDiscountItem extends ListItem {
 	//
 
 	// 상품 아이템 얻기
-	public ProductItem getProdItem() throws Exception {
-		var prodMngr = ProductManagerMem.getInstance();
+	public ProductItem getProdItem() {
+		var prodMngr = ProductManager.getInstance();
 		return prodMngr.findById(this.getProdId());
 	}
 

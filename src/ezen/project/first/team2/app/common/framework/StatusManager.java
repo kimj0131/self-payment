@@ -58,7 +58,7 @@ public class StatusManager {
 		// 페이지 초기화
 		page.init(this);
 
-		// 뷰 개수 확인
+		// 페이지에는 뷰가 반드시 있어야 한다!
 		if (page.getViewCount() == 0) {
 			String msg = String.format(
 					"[StatusManager.addPage()] " +
@@ -115,15 +115,14 @@ public class StatusManager {
 
 	// 페이지 번호로 선택
 	public void setSelectedPageByNum(int num) throws Exception {
-		// 현재 페이지를 선택한다면 메시지 출력 후 리턴
+		// 현재 페이지를 선택한 경우
 		if (num == this.mSelectedPageNum) {
-			System.out.printf(
-					"[StatusManager.selectPageByNum()] Same page number(%d)! \n",
+			String msg = String.format("[StatusManager.selectPageByNum()] Same page number(%d)! \n",
 					num);
-			return;
+			throw new Exception(msg);
 		}
 
-		// 페이지 번호가 유효한지 확인
+		// 페이지 번호 유효성 확인
 		if (!this.isValidPageNum(num)) {
 			String msg = String.format(
 					"[StatusManager.selectPageByNum()] " +

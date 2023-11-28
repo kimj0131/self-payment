@@ -8,18 +8,18 @@ import ezen.project.first.team2.app.common.modules.base.ListActionAdapter;
 import ezen.project.first.team2.app.common.modules.base.ListActionListener;
 import ezen.project.first.team2.app.common.modules.base.ListManager;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountItem;
-import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManagerMem;
+import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManager;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailItem;
-import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManagerMem;
+import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManager;
 import ezen.project.first.team2.app.common.modules.product.orders.ProductOrderItem;
-import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManagerMem;
+import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManager;
 import ezen.project.first.team2.app.common.modules.product.stocks.ProductStockItem;
-import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManagerMem;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManager;
 
 public class TestProductManager {
 	static void printTitle(String text) {
@@ -37,9 +37,9 @@ public class TestProductManager {
 	}
 
 	static void printList() {
-		var prodMngr = ProductManagerMem.getInstance();
-		var prodStocksMngr = ProductStocksManagerMem.getInstance();
-		var prodDiscntsMngr = ProductDiscountsManagerMem.getInstance();
+		var prodMngr = ProductManager.getInstance();
+		var prodStocksMngr = ProductStocksManager.getInstance();
+		var prodDiscntsMngr = ProductDiscountsManager.getInstance();
 
 		try {
 			// 상품 리스트
@@ -92,28 +92,17 @@ public class TestProductManager {
 	}
 
 	public static void main(String[] args) {
-		var custMngr = CustomerManagerMem.getInstance();
+		var custMngr = CustomerManager.getInstance();
 
-		var prodMngr = ProductManagerMem.getInstance();
-		var prodStocksMngr = ProductStocksManagerMem.getInstance();
-		var prodDiscntsMngr = ProductDiscountsManagerMem.getInstance();
+		var prodMngr = ProductManager.getInstance();
+		var prodStocksMngr = ProductStocksManager.getInstance();
+		var prodDiscntsMngr = ProductDiscountsManager.getInstance();
 
-		var prodOrdersMngr = ProductOrdersManagerMem.getInstance();
-		var prodOrderDetailsMngr = ProductOrderDetailsManagerMem.getInstance();
+		var prodOrdersMngr = ProductOrdersManager.getInstance();
+		var prodOrderDetailsMngr = ProductOrderDetailsManager.getInstance();
 
 		try {
 			prodMngr.setActionListener(new ListActionListener<ProductItem>() {
-
-				@Override
-				public void onInitialized(ListManager<ProductItem> mngr) {
-					System.out.println("[TestProductManagerMem] onInitialized()");
-				}
-
-				@Override
-				public void onDeinitializing(ListManager<ProductItem> mngr) {
-					System.out.println("[TestProductManagerMem] onDeinitializing()");
-				}
-
 				@Override
 				public void onAdded(ListManager<ProductItem> mngr, ProductItem item) {
 					System.out.println("[TestProductManagerMem] onAdded()");
@@ -159,18 +148,15 @@ public class TestProductManager {
 						e.printStackTrace();
 					}
 				}
-			});
 
-			//
-			custMngr.init();
-			//
-			prodMngr.init();
-			prodStocksMngr.init();
-			prodDiscntsMngr.init();
-			//
-			prodOrdersMngr.init();
-			prodOrderDetailsMngr.init();
-			//
+				@Override
+				public void onDeleteItems(ListManager<ProductItem> mngr, List<Integer> idList) {
+				}
+
+				@Override
+				public void onDeletedItems(ListManager<ProductItem> mngr, List<Integer> idList) {
+				}
+			});
 
 			// 상품 추가
 			{
@@ -359,17 +345,6 @@ public class TestProductManager {
 
 				System.out.println();
 			}
-
-			// [SGLEE:20231123THU_122400] 상황에 따라서 역순으로 deinit()를 호출하는 경우도 있다
-			custMngr.deinit();
-			//
-			prodMngr.deinit();
-			prodStocksMngr.deinit();
-			prodDiscntsMngr.deinit();
-			//
-			prodOrdersMngr.deinit();
-			prodOrderDetailsMngr.deinit();
-			//
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

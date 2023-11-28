@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
-import ezen.project.first.team2.app.common.modules.product.manager.ProductManagerMem;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxType;
 import ezen.project.first.team2.app.manager.Main;
@@ -34,7 +34,7 @@ public class AddProductView extends View {
 
     JLabel mLabelInfo = new JLabel("상품 데이터 추가");
 
-    ProductManagerMem prodMngr = ProductManagerMem.getInstance();
+    ProductManager prodMngr = ProductManager.getInstance();
 
     // 상품 리스트, 상품 추가용 패널
     JPanel mPanelListAdd = new JPanel();

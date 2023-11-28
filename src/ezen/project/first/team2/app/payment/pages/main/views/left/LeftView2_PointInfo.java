@@ -8,29 +8,28 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.modules.customer.CustomerManagerMem;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
 public class LeftView2_PointInfo extends View {
-	
+
 	private static final int PADDING = 10;
 
 	private static final String MSG_LABEL_TEXT_FORMAT = "<html>%s 고객님<br>확인해<br>주셔서<br>감사합니다</html>";
 	private static final String PREV_BTN_TEXT = "이전단계";
-	
+
 	private String mMemName;
-	
+
 	JLabel mMsg_label;
 	JButton mPrev_btn;
-	
-	private CustomerManagerMem mCustMngr;
-	
+
+	private CustomerManager mCustMngr;
+
 	private ProductPurchasing mProdPurchasing;
-	
-	
+
 	public LeftView2_PointInfo() {
 		super(MainPage.LEFT_VIEW_POINT_INFO_NUM);
 	}
@@ -40,9 +39,9 @@ public class LeftView2_PointInfo extends View {
 		setBackground(Color.GRAY);
 		mMsg_label = new JLabel();
 		mPrev_btn = new JButton(PREV_BTN_TEXT);
-		
-		mCustMngr = CustomerManagerMem.getInstance();
-		
+
+		mCustMngr = CustomerManager.getInstance();
+
 		// 메인 페이지에서 mProdPurchasing 가져오기
 		MainPage mainPage = (MainPage) this.getPage();
 		this.mProdPurchasing = mainPage.mProdPurchasing;
@@ -76,18 +75,18 @@ public class LeftView2_PointInfo extends View {
 
 	@Override
 	protected void onShow(boolean firstTime) {
-		
+
 		try {
 			var prodOrderItem = mProdPurchasing.getProdOrderItem();
-			
+
 			// 구매내역에 들어간 고객ID로 이름 가져오기
 			mMemName = mCustMngr.findById(prodOrderItem.getCustId()).getName();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		mMsg_label.setText(String.format(MSG_LABEL_TEXT_FORMAT, mMemName));
-		
+
 		System.out.println();
 	}
 
