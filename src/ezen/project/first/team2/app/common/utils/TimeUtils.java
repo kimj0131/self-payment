@@ -77,7 +77,7 @@ public class TimeUtils {
 		return et;
 	}
 
-	public static String getElapsedTimeStr() {
+	public static String getElapsedTimeStr(boolean brackets) {
 		long millis = getElapsedTime();
 		long hours = TimeUnit.MILLISECONDS.toHours(millis);
 		millis -= hours * 60 * 60 * 1000;
@@ -88,9 +88,14 @@ public class TimeUtils {
 
 		String s = String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, millis);
 
-		s = String.format("(%d.%03ds)", seconds, millis);
+		if (brackets)
+			s = String.format("(%d.%03ds)", seconds, millis);
 
 		return s;
+	}
+
+	public static String getElapsedTimeStr() {
+		return getElapsedTimeStr(false);
 	}
 
 	// return: "yyyy.mm.dd.ddd"
