@@ -30,6 +30,7 @@ import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.common.utils.UiUtils;
+import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxType;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
@@ -59,25 +60,26 @@ public class UpdateCustomerView extends View {
 
     // 고객정보 수정 컴포넌트
     JPanel mPanelPanelInfo = new JPanel();
-    JLabel mLabelPanelInfo = new JLabel("<html>상단 리스트에서 더블클릭<br><center>■ 고객 정보</center></html>");
+    JLabel mLabelPanelInfo_1 = new JLabel("상단 리스트에서 더블클릭");
+    JLabel mLabelPanelInfo_2 = new JLabel("■ 고객 정보");
 
     JPanel mPanelUpdateIdName = new JPanel();
     JLabel mLabelUpdateCustId = new JLabel("고객 번호");
-    JTextField mTextFieldUpdateCustId = new JTextField(5);
+    JTextField mTextFieldUpdateCustId = new JTextField(10);
     JLabel mLabelUpdateCustName = new JLabel("고객명");
     JTextField mTextFieldUpdateCustName = new JTextField(10);
 
     JPanel mPanelUpdateBirthPhone = new JPanel();
-    JLabel mLabelUpdateBirthday = new JLabel("생년월일 : ");
+    JLabel mLabelUpdateBirthday = new JLabel("생년월일");
     DateFormat format = new SimpleDateFormat("yyyyMMdd");
     JFormattedTextField mTextFieldUpdateBirthday = new JFormattedTextField(format);
-    JLabel mLabelUpdatePhoneNum = new JLabel("휴대폰번호 : ");
+    JLabel mLabelUpdatePhoneNum = new JLabel("휴대폰번호");
     JTextField mTextFieldUpdatePhoneNum = new JTextField(10);
 
     JPanel mPanelUpdatePointRemark = new JPanel();
-    JLabel mLabelUpdatePoing = new JLabel("포인트 : ");
-
-    JLabel mLabelUpdateRemark = new JLabel("비 고 : ");
+    JLabel mLabelUpdatePoint = new JLabel("포인트");
+    JTextField mTextFieldUpdatePoint = new JTextField(10);
+    JLabel mLabelUpdateRemark = new JLabel("비 고");
     JTextField mTextFieldUpdateRemark = new JTextField(20);
 
     JPanel mPanelUpdateBtn = new JPanel();
@@ -92,7 +94,7 @@ public class UpdateCustomerView extends View {
 
         try {
             Object[] mPropertyColumn = {
-                    "고객번호", "가입일", "고객명", "생년월일", "휴대폰번호", "비고" };
+                    "고객번호", "가입일", "고객명", "생년월일", "휴대폰번호", "보유 포인트", "비고" };
             Object[][] mCustListRows = new Object[mPropertyColumn.length][custMngr.getCount()];
 
             DefaultTableModel model = new DefaultTableModel(mCustListRows, mPropertyColumn) {
@@ -117,6 +119,12 @@ public class UpdateCustomerView extends View {
         this.mPanelResult.setLayout(new GridLayout(2, 1));
         this.mPanelInformationUpdate.setLayout(new BoxLayout(
                 mPanelInformationUpdate, BoxLayout.Y_AXIS));
+
+        this.mPanelPanelInfo.setLayout(new GridLayout(2, 1));
+
+        this.mPanelUpdateIdName.setLayout(new GridLayout(1, 2));
+        this.mPanelUpdateBirthPhone.setLayout(new GridLayout(1, 2));
+        this.mPanelUpdatePointRemark.setLayout(new GridLayout(1, 2));
 
     }
 
@@ -144,8 +152,28 @@ public class UpdateCustomerView extends View {
 
         this.mTextFieldUpdateBirthday.setColumns(10);
 
+        // 라벨 설정
+        this.mLabelPanelInfo_1.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelPanelInfo_2.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelUpdateCustId.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelUpdateCustName.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelUpdateBirthday.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelUpdatePhoneNum.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelUpdatePoint.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelUpdateRemark.setHorizontalAlignment(JLabel.CENTER);
+
+        // 패널 설정
         this.mPanelInformationUpdate.setBorder(
                 BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        this.mPanelPanelInfo.setBorder(
+                BorderFactory.createEmptyBorder(5, 200, 5, 200));
+        this.mPanelUpdateIdName.setBorder(
+                BorderFactory.createEmptyBorder(5, 200, 5, 200));
+        this.mPanelUpdateBirthPhone.setBorder(
+                BorderFactory.createEmptyBorder(5, 200, 5, 200));
+        this.mPanelUpdatePointRemark.setBorder(
+                BorderFactory.createEmptyBorder(5, 200, 5, 200));
 
         this.add(mLabelInfo, BorderLayout.NORTH);
         this.add(mPanelSearchUpdate);
@@ -162,7 +190,8 @@ public class UpdateCustomerView extends View {
 
         // 고객정보 수정 패널
         this.mPanelInformationUpdate.add(mPanelPanelInfo);
-        this.mPanelPanelInfo.add(mLabelPanelInfo);
+        this.mPanelPanelInfo.add(mLabelPanelInfo_1);
+        this.mPanelPanelInfo.add(mLabelPanelInfo_2);
 
         this.mPanelInformationUpdate.add(mPanelUpdateIdName);
         this.mPanelInformationUpdate.add(mPanelUpdateBirthPhone);
@@ -178,6 +207,8 @@ public class UpdateCustomerView extends View {
         this.mPanelUpdateBirthPhone.add(mLabelUpdatePhoneNum);
         this.mPanelUpdateBirthPhone.add(mTextFieldUpdatePhoneNum);
 
+        this.mPanelUpdatePointRemark.add(mLabelUpdatePoint);
+        this.mPanelUpdatePointRemark.add(mTextFieldUpdatePoint);
         this.mPanelUpdatePointRemark.add(mLabelUpdateRemark);
         this.mPanelUpdatePointRemark.add(mTextFieldUpdateRemark);
 
@@ -261,18 +292,40 @@ public class UpdateCustomerView extends View {
                     CustomerItem updateItem = custMngr.findById(updateId);
                     updateItem.setName(mTextFieldUpdateCustName.getText());
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-                    LocalDate updateDate = LocalDate.parse(mTextFieldUpdateBirthday.getName(), formatter);
-                    updateItem.setBirthday(updateDate);
+                    System.out.println(LocalDate.parse(mTextFieldUpdateBirthday.getText(), formatter));
+
+                    LocalDate updateBirthday = LocalDate.parse(mTextFieldUpdateBirthday.getText(), formatter);
+                    updateItem.setBirthday(updateBirthday);
                     updateItem.setPhoneNumber(mTextFieldUpdatePhoneNum.getText());
-                    updateItem.setRemark(mTextFieldUpdateRemark.getText());
+
+                    updateItem.setPoint(Integer.valueOf(mTextFieldUpdatePoint.getText()));
+                    updateItem.setRemark(mTextFieldUpdateRemark.getText() + "");
+
+                    custMngr.updateById(updateId, updateItem);
+
+                    // 업데이트를 진행한 아이템 row만 갱신
+                    DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
+                    for (int row = 0; row < mTableResultList.getRowCount(); row++) {
+                        if ((int) mTableResultList.getValueAt(row, 0) == updateId) {
+
+                            m.removeRow(row);
+
+                            Object[] item = { updateItem.getId(), updateItem.getJoinDate(),
+                                    updateItem.getName(), updateItem.getBirthday(),
+                                    updateItem.getPhoneNumber(), updateItem.getPoint(),
+                                    updateItem.getRemark() };
+                            m.insertRow(row, item);
+
+                            break;
+                        }
+                    }
+
+                    // 완료되면 레이블을 지운다
+                    initializeTextField();
 
                     UiUtils.showMsgBox("수정 완료", "");
-
-                    // 테이블 갱신
-                    insertItemTable();
-                    // 완료되면 레이블을 지운다
-                    allTextFieldInitialize();
                 } catch (Exception e1) {
+                    UiUtils.showMsgBox("유효하지 않은 동작입니다.", "", MsgBoxType.Error);
                     e1.printStackTrace();
                 }
             }
@@ -286,10 +339,10 @@ public class UpdateCustomerView extends View {
     protected void onShow(boolean firstTime) {
         System.out.println("[ListCustmerView.onShow()]");
 
-        // 텍스트필드 비워놓기
-        allTextFieldInitialize();
-
-        insertItemTable();
+        // 텍스트필드 초기화
+        initializeTextField();
+        // 리스트를 출력
+        insertItemsIntoTable();
     }
 
     @Override
@@ -316,14 +369,16 @@ public class UpdateCustomerView extends View {
 
         this.mTextFieldUpdateCustId.setText(String.valueOf(custItem.getId()));
         this.mTextFieldUpdateCustName.setText(custItem.getName());
-        this.mTextFieldUpdateBirthday.setText(custItem.getBirthdayStr());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String bthday = custItem.getBirthday().format(formatter);
+        this.mTextFieldUpdateBirthday.setText(bthday);
         this.mTextFieldUpdatePhoneNum.setText(custItem.getPhoneNumber());
+        this.mTextFieldUpdatePoint.setText(String.valueOf(custItem.getPoint()));
         this.mTextFieldUpdateRemark.setText(custItem.getRemark());
     }
 
     // 고객목록을 테이블에 추가하는 메소드
-    private void insertItemTable() {
-        CustomerManager custMngr = CustomerManager.getInstance();
+    private void insertItemsIntoTable() {
 
         DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
         m.setRowCount(0);
@@ -333,7 +388,7 @@ public class UpdateCustomerView extends View {
 
                     m.addRow(new Object[] { info.getId(), info.getJoinDate(),
                             info.getName(), info.getBirthday(),
-                            info.getPhoneNumber(), info.getRemark() });
+                            info.getPhoneNumber(), info.getPoint(), info.getRemark() });
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -358,7 +413,7 @@ public class UpdateCustomerView extends View {
                 m.addRow(new Object[] {
                         info.getId(), info.getJoinDate(),
                         info.getName(), info.getBirthday(),
-                        info.getPhoneNumber(), info.getRemark()
+                        info.getPhoneNumber(), info.getPoint(), info.getRemark()
                 });
 
                 return true;
@@ -371,11 +426,12 @@ public class UpdateCustomerView extends View {
     }
 
     // 텍스트 필드 비우기
-    private void allTextFieldInitialize() {
+    private void initializeTextField() {
         this.mTextFieldUpdateCustId.setText("");
         this.mTextFieldUpdateCustName.setText("");
         this.mTextFieldUpdateBirthday.setText("");
         this.mTextFieldUpdatePhoneNum.setText("");
+        this.mTextFieldUpdatePoint.setText("");
         this.mTextFieldUpdateRemark.setText("");
     }
 

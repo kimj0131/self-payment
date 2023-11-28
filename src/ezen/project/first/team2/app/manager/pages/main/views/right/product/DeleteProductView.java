@@ -28,6 +28,7 @@ import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 import ezen.project.first.team2.app.common.utils.UiUtils;
+import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxBtn;
 import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxType;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
@@ -256,15 +257,26 @@ public class DeleteProductView extends View {
                 }
             } else if (btn == mBtnDeleteComplete) {
                 try {
+                    UiUtils.showMsgBox("정말 삭제 하시겠습니까?", "경고", MsgBoxType.Warn, MsgBoxBtn.YesNo);
+
                     String findIdStr = mLabelDelProdId.getText().substring(10);
                     int findId = Integer.valueOf(findIdStr);
 
                     prodMngr.deleteById(findId);
-                    UiUtils.showMsgBox("제거 완료", "", MsgBoxType.Warn);
-                    // 테이블 갱신
-                    insertItemTable();
+
+                    // 삭제를 진행한 아이템 row만 테이블에서 제거
+                    DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
+                    for (int row = 0; row < mTableResultList.getRowCount(); row++) {
+                        if ((int) mTableResultList.getValueAt(row, 0) == findId) {
+                            m.removeRow(row);
+                            break;
+                        }
+                    }
+
                     // 완료되면 레이블을 지운다
-                    setLaberInitialize();
+                    initializeTextField();
+
+                    UiUtils.showMsgBox("제거 완료", "", MsgBoxType.Warn);
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -280,7 +292,7 @@ public class DeleteProductView extends View {
         System.out.println("[DeleteProductView.onShow()]");
 
         // 상품목록을 테이블에 추가
-        insertItemTable();
+        insertItemsIntoTable();
     }
 
     @Override
@@ -314,12 +326,7 @@ public class DeleteProductView extends View {
 
     // 검색한 결과를 라벨에 설정
     private void searchItemAddTextField(ProductItem prodItem) {
-        setLaberInitialize();
-
-        UiUtils.showMsgBox(String.format(
-                "삭제할 항목은\n[ 상품코드[%s] 상품명[%s] ] 입니다\n",
-                prodItem.getProdCodeStr(),
-                prodItem.getName()), "");
+        initializeTextField();
 
         this.mLabelDelProdId.setText(
                 mLabelDelProdId.getText() + prodItem.getId());
@@ -336,7 +343,7 @@ public class DeleteProductView extends View {
     }
 
     // 라벨을 초기화
-    private void setLaberInitialize() {
+    private void initializeTextField() {
         this.mLabelDelProdId.setText("■ 상품 번호 : ");
         this.mLabelDelProdCode.setText("■ 상품 코드 : ");
         this.mLabelDelProdName.setText("■ 상품명 : ");
@@ -346,7 +353,7 @@ public class DeleteProductView extends View {
     }
 
     // 상품목록을 테이블에 추가하는 메소드
-    private void insertItemTable() {
+    private void insertItemsIntoTable() {
         DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
         m.setRowCount(0);
         try {

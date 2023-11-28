@@ -59,17 +59,22 @@ public class UpdateProductView extends View {
 
     // 상품수정 컴포넌트
     JPanel mPanelPanelInfo = new JPanel();
-    JLabel mLabelPanelInfo = new JLabel("<html>상단 리스트에서 더블클릭<br><center>■ 상품 정보</center></html>");
+    JLabel mLabelPanelInfo_1 = new JLabel("상단 리스트에서 더블클릭");
+    JLabel mLabelPanelInfo_2 = new JLabel("■ 상품 정보");
 
     JPanel mPanelUpdateIdCode = new JPanel();
+    JPanel mPanelUpdateProdId = new JPanel();
     JLabel mLabelUpdateProdId = new JLabel("상품 번호");
-    JTextField mTextFieldUpdateProdId = new JTextField(5);
+    JTextField mTextFieldUpdateProdId = new JTextField(10);
+    JPanel mPanelUpdateProdCod = new JPanel();
     JLabel mLabelUpdateProdCode = new JLabel("상품 코드");
-    JTextField mTextFieldUpdateProdCode = new JTextField(5);
+    JTextField mTextFieldUpdateProdCode = new JTextField(10);
 
     JPanel mPanelUpdateNamePrice = new JPanel();
-    JLabel mLabelUpdateProdName = new JLabel("상품 이름");
+    JPanel mPanelUpdateProdName = new JPanel();
+    JLabel mLabelUpdateProdName = new JLabel("상품명");
     JTextField mTextFieldUpdateName = new JTextField(10);
+    JPanel mPanelUpdateProdPrice = new JPanel();
     JLabel mLabelUpdateProdPrice = new JLabel("상품 가격");
     JTextField mTextFieldUpdatePrice = new JTextField(10);
 
@@ -110,10 +115,14 @@ public class UpdateProductView extends View {
     @Override
     protected void onSetLayout() {
         this.setLayout(new BorderLayout());
+        this.mPanelPanelInfo.setLayout(new GridLayout(2, 1));
         this.mPanelSearchUpdate.setLayout(new BorderLayout());
         this.mPanelResult.setLayout(new GridLayout(2, 1));
         this.mPanelPropertyUpdate.setLayout(new BoxLayout(
                 mPanelPropertyUpdate, BoxLayout.Y_AXIS));
+
+        this.mPanelUpdateIdCode.setLayout(new GridLayout(1, 2));
+        this.mPanelUpdateNamePrice.setLayout(new GridLayout(1, 2));
 
     }
 
@@ -133,15 +142,27 @@ public class UpdateProductView extends View {
         // 콤보박스 설정
         this.mComboBoxSearchProperty = new JComboBox<String>(properties);
 
-        // 확정버튼 설정
-        this.mBtnUpdateComplete.setBorder(
-                BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
         // 비활성화할 텍스트필드
         this.mTextFieldUpdateProdId.setEnabled(false);
         this.mTextFieldUpdateProdCode.setEnabled(false);
 
+        // 라벨설정
+        this.mLabelPanelInfo_1.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelPanelInfo_2.setHorizontalAlignment(JLabel.CENTER);
+
+        // 패널 설정
         this.mPanelPropertyUpdate.setBorder(
+                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        this.mPanelUpdateIdCode.setBorder(
+                BorderFactory.createEmptyBorder(10, 200, 10, 200));
+        this.mPanelUpdateNamePrice.setBorder(
+                BorderFactory.createEmptyBorder(10, 200, 10, 200));
+        this.mPanelUpdateDesc.setBorder(
+                BorderFactory.createEmptyBorder(10, 200, 10, 200));
+
+        // 버튼 설정
+        this.mBtnUpdateComplete.setBorder(
                 BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // 페이지에 추가
@@ -160,21 +181,26 @@ public class UpdateProductView extends View {
 
         // 상품수정 패널
         this.mPanelPropertyUpdate.add(mPanelPanelInfo);
-        this.mPanelPanelInfo.add(mLabelPanelInfo);
+        this.mPanelPanelInfo.add(mLabelPanelInfo_1);
+        this.mPanelPanelInfo.add(mLabelPanelInfo_2);
 
         this.mPanelPropertyUpdate.add(mPanelUpdateIdCode);
         this.mPanelPropertyUpdate.add(mPanelUpdateNamePrice);
         this.mPanelPropertyUpdate.add(mPanelUpdateDesc);
 
-        this.mPanelUpdateIdCode.add(mLabelUpdateProdId);
-        this.mPanelUpdateIdCode.add(mTextFieldUpdateProdId);
-        this.mPanelUpdateIdCode.add(mLabelUpdateProdCode);
-        this.mPanelUpdateIdCode.add(mTextFieldUpdateProdCode);
+        this.mPanelUpdateIdCode.add(mPanelUpdateProdId);
+        this.mPanelUpdateProdId.add(mLabelUpdateProdId);
+        this.mPanelUpdateProdId.add(mTextFieldUpdateProdId);
+        this.mPanelUpdateIdCode.add(mPanelUpdateProdCod);
+        this.mPanelUpdateProdCod.add(mLabelUpdateProdCode);
+        this.mPanelUpdateProdCod.add(mTextFieldUpdateProdCode);
 
-        this.mPanelUpdateNamePrice.add(mLabelUpdateProdName);
-        this.mPanelUpdateNamePrice.add(mTextFieldUpdateName);
-        this.mPanelUpdateNamePrice.add(mLabelUpdateProdPrice);
-        this.mPanelUpdateNamePrice.add(mTextFieldUpdatePrice);
+        this.mPanelUpdateNamePrice.add(mPanelUpdateProdName);
+        this.mPanelUpdateProdName.add(mLabelUpdateProdName);
+        this.mPanelUpdateProdName.add(mTextFieldUpdateName);
+        this.mPanelUpdateNamePrice.add(mPanelUpdateProdPrice);
+        this.mPanelUpdateProdPrice.add(mLabelUpdateProdPrice);
+        this.mPanelUpdateProdPrice.add(mTextFieldUpdatePrice);
 
         this.mPanelUpdateDesc.add(mLabelUpdateDesc);
         this.mPanelUpdateDesc.add(mTextFieldUpdateDesc);
@@ -223,7 +249,7 @@ public class UpdateProductView extends View {
             if (btn == this.mBtnSearch) { // 상품검색
 
                 // 텍스트 필드를 비운다
-                allTextFieldInitialize();
+                initializeTextField();
 
                 String property = mComboBoxSearchProperty.getSelectedItem().toString();
 
@@ -281,15 +307,27 @@ public class UpdateProductView extends View {
                     updateItem.setDesc(mTextFieldUpdateDesc.getText());
 
                     prodMngr.updateById(updateId, updateItem);
-                    UiUtils.showMsgBox("수정 완료", "");
-                    // 테이블 갱신
-                    insertItemTable();
-                    // insertItemsIntoTable
-                    // updateTableDate()
+
+                    // 업데이트를 진행한 아이템 row만 갱신
+                    DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
+                    for (int row = 0; row < mTableResultList.getRowCount(); row++) {
+                        if ((int) mTableResultList.getValueAt(row, 0) == updateId) {
+
+                            m.removeRow(row);
+
+                            Object[] item = { updateItem.getId(), updateItem.getProdCodeStr(),
+                                    updateItem.getName(), df.format(updateItem.getPrice()),
+                                    updateItem.getRegDateStr(), updateItem.getDesc() };
+                            m.insertRow(row, item);
+
+                            break;
+                        }
+                    }
 
                     // 완료되면 필드를 지운다
-                    allTextFieldInitialize();
+                    initializeTextField();
 
+                    UiUtils.showMsgBox("수정 완료", "");
                 } catch (Exception e1) {
                     UiUtils.showMsgBox("유효하지 않은 동작입니다.", "", MsgBoxType.Error);
                     // e1.printStackTrace();
@@ -308,10 +346,10 @@ public class UpdateProductView extends View {
         System.out.println("[ListProdStockView.onShow()]");
 
         // 텍스트필드 비워놓기
-        allTextFieldInitialize();
+        initializeTextField();
 
         // 상품목록을 테이블에 추가
-        insertItemTable();
+        insertItemsIntoTable();
     }
 
     @Override
@@ -363,7 +401,7 @@ public class UpdateProductView extends View {
     }
 
     // 텍스트 필드 비우기
-    private void allTextFieldInitialize() {
+    private void initializeTextField() {
         this.mTextFieldUpdateProdId.setText("");
         this.mTextFieldUpdateProdCode.setText("");
         this.mTextFieldUpdateName.setText("");
@@ -372,7 +410,7 @@ public class UpdateProductView extends View {
     }
 
     // 상품목록을 테이블에 추가하는 메소드
-    private void insertItemTable() {
+    private void insertItemsIntoTable() {
         DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
         m.setRowCount(0);
         try {

@@ -2,6 +2,7 @@ package ezen.project.first.team2.app.manager.pages.main.views.right.stock;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -28,6 +30,7 @@ import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStockItem;
 import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManager;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.manager.Main;
@@ -47,15 +50,50 @@ public class AdjustStockView extends View {
     JPanel mPanelSearch = new JPanel();
     // 검색결과용 패널
     JPanel mPanelResult = new JPanel();
+    // 재고조정 패널
+    JPanel mPanelStockAdjust = new JPanel();
+
     // 검색 컴포넌트
     JComboBox<String> mComboBoxSearchProperty;
+    String[] properties = { "상품명", "상품코드" };
     JTextField mTextFieldSearch = new JTextField(10);
     JButton mBtnSearch = new JButton("검색");
     // 검색결과 컴포넌트
     JTable mTableResultList;
     JScrollPane mSroll;
+
+    // 재고조정 컴포넌트
+    JPanel mPanelPanelInfo = new JPanel();
+    JLabel mLabelPanelInfo_1 = new JLabel("상단 리스트에서 더블클릭");
+    JLabel mLabelPanelInfo_2 = new JLabel("■ 상품 정보");
+
+    JPanel mPanelProductIdCode = new JPanel();
+    JPanel mPanelProductId = new JPanel();
+    JLabel mLabelProductId = new JLabel("상품 번호");
+    JTextField mTextFieldProductId = new JTextField(10);
+    JPanel mPanelProductCode = new JPanel();
+    JLabel mLabelProductCode = new JLabel("상품 코드");
+    JTextField mTextFieldProductCode = new JTextField(10);
+
+    JPanel mPanelProductNamePrice = new JPanel();
+    JPanel mPanelProductName = new JPanel();
+    JLabel mLabelProductName = new JLabel("상품명");
+    JTextField mTextFieldProductName = new JTextField(10);
+    JPanel mPanelProductPrice = new JPanel();
+    JLabel mLabelProductPrice = new JLabel("상품 가격");
+    JTextField mTextFieldProductPrice = new JTextField(10);
+
+    JPanel mPanelAdjustCurrentActual = new JPanel();
+    JPanel mPanelAdjustCurrent = new JPanel();
+    JLabel mLabelAdjustCurrent = new JLabel("현재 재고");
+    JTextField mTextFieldAdjustCurrent = new JTextField(5);
+    JPanel mPanelAdjustActual = new JPanel();
+    JLabel mLabelAdjustActual = new JLabel("실제 재고");
+    JTextField mTextFieldAdjustActual = new JTextField(5);
+
     // 조정확정 버튼
-    JButton mBtnAdjustComplete = new JButton("조정 확정");
+    JPanel mPanelAdjustBtn = new JPanel();
+    JButton mBtnAdjustComplete = new JButton("재고 조정 확정");
 
     public AdjustStockView() {
         super(MainPage.VIEW_NUM_STOCK_ADJUST);
@@ -66,7 +104,7 @@ public class AdjustStockView extends View {
         // 테이블 설정
         try {
             Object[] mPropertyColumn = {
-                    "상품번호", "상품코드", "상품명", "가격", "현재 재고", "실제 재고"
+                    "상품번호", "상품코드", "상품명", "가격", "현재 재고"
             };
             Object[][] mProdListRows = new Object[mPropertyColumn.length][prodMngr.getCount()];
 
@@ -93,8 +131,11 @@ public class AdjustStockView extends View {
     @Override
     protected void onSetLayout() {
         this.setLayout(new BorderLayout());
+        this.mPanelPanelInfo.setLayout(new GridLayout(2, 1));
         this.mPanelSearchResult.setLayout(new BorderLayout());
-        this.mPanelResult.setLayout(new BorderLayout());
+        this.mPanelResult.setLayout(new GridLayout(2, 1));
+        this.mPanelStockAdjust.setLayout(new BoxLayout(
+                mPanelStockAdjust, BoxLayout.Y_AXIS));
     }
 
     @Override
@@ -123,10 +164,30 @@ public class AdjustStockView extends View {
         this.mSroll.setBorder(
                 BorderFactory.createEmptyBorder(10, 30, 30, 30));
         // 콤보박스 설정
-        String[] properties = { "상품명", "상품코드" };
         this.mComboBoxSearchProperty = new JComboBox<String>(properties);
 
-        // 확정버튼 설정
+        // 비활성화할 텍스트필드
+        this.mTextFieldProductId.setEditable(false);
+        this.mTextFieldProductCode.setEditable(false);
+        this.mTextFieldProductName.setEditable(false);
+        this.mTextFieldProductPrice.setEditable(false);
+
+        // 라벨설정
+        this.mLabelPanelInfo_1.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelPanelInfo_2.setHorizontalAlignment(JLabel.CENTER);
+
+        // 패널 설정
+        this.mPanelStockAdjust.setBorder(
+                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        this.mPanelProductIdCode.setBorder(
+                BorderFactory.createEmptyBorder(5, 200, 5, 200));
+        this.mPanelProductNamePrice.setBorder(
+                BorderFactory.createEmptyBorder(5, 200, 5, 200));
+        this.mPanelAdjustCurrentActual.setBorder(
+                BorderFactory.createEmptyBorder(5, 200, 5, 200));
+
+        // 버튼 설정
         this.mBtnAdjustComplete.setBorder(
                 BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
@@ -134,11 +195,46 @@ public class AdjustStockView extends View {
         this.add(mPanelSearchResult, BorderLayout.CENTER);
         this.mPanelSearchResult.add(mPanelSearch, BorderLayout.NORTH);
         this.mPanelSearchResult.add(mPanelResult, BorderLayout.CENTER);
+
         this.mPanelSearch.add(mComboBoxSearchProperty);
         this.mPanelSearch.add(mTextFieldSearch);
         this.mPanelSearch.add(mBtnSearch);
-        this.mPanelResult.add(mSroll, BorderLayout.CENTER);
-        this.mPanelResult.add(mBtnAdjustComplete, BorderLayout.SOUTH);
+
+        this.mPanelResult.add(mSroll);
+        this.mPanelResult.add(mPanelStockAdjust);
+
+        this.mPanelStockAdjust.add(mPanelPanelInfo);
+        this.mPanelPanelInfo.add(mLabelPanelInfo_1);
+        this.mPanelPanelInfo.add(mLabelPanelInfo_2);
+
+        this.mPanelStockAdjust.add(mPanelProductIdCode);
+        this.mPanelStockAdjust.add(mPanelProductNamePrice);
+        this.mPanelStockAdjust.add(mPanelAdjustCurrentActual);
+
+        this.mPanelProductIdCode.add(mPanelProductId);
+        this.mPanelProductId.add(mLabelProductId);
+        this.mPanelProductId.add(mTextFieldProductId);
+        this.mPanelProductIdCode.add(mPanelProductCode);
+        this.mPanelProductCode.add(mLabelProductCode);
+        this.mPanelProductCode.add(mTextFieldProductCode);
+
+        this.mPanelProductNamePrice.add(mPanelProductName);
+        this.mPanelProductName.add(mLabelProductName);
+        this.mPanelProductName.add(mTextFieldProductName);
+        this.mPanelProductNamePrice.add(mPanelProductPrice);
+        this.mPanelProductPrice.add(mLabelProductPrice);
+        this.mPanelProductPrice.add(mTextFieldProductPrice);
+
+        this.mPanelAdjustCurrentActual.add(mPanelAdjustCurrent);
+        this.mPanelAdjustCurrent.add(mLabelAdjustCurrent);
+        this.mPanelAdjustCurrent.add(mTextFieldAdjustCurrent);
+        this.mPanelAdjustCurrentActual.add(mPanelAdjustActual);
+        this.mPanelAdjustActual.add(mLabelAdjustActual);
+        this.mPanelAdjustActual.add(mTextFieldAdjustActual);
+
+        this.mPanelStockAdjust.add(mPanelAdjustBtn);
+        this.mPanelAdjustBtn.add(mBtnAdjustComplete);
+
     }
 
     @Override
@@ -161,22 +257,14 @@ public class AdjustStockView extends View {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     int row = mTableResultList.getSelectedRow();
-                    // int col = mTableResultList.getSelectedColumn();
-
-                    int editColumn = 5;
-                    mTableResultList.changeSelection(row, editColumn, false, false);
 
                     int idColumn = 0;
                     int findId = (int) mTableResultList.getValueAt(row, idColumn);
-                    DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
-                    m.isCellEditable(row, idColumn);
 
                     try {
-                        UiUtils.showMsgBox(String.format(
-                                "수정할 항목은\n[ 상품코드[%s] 상품명[%s] ] 입니다\n",
-                                prodMngr.findById(findId).getProdCodeStr(),
-                                prodMngr.findById(findId).getName()), "");
+                        ProductItem findedItem = prodMngr.findById(findId);
 
+                        searchItemAddTextField(findedItem);
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
@@ -187,11 +275,11 @@ public class AdjustStockView extends View {
         });
 
         ActionListener listener = e -> {
-            if (e.getSource() == mBtnSearch) {
-                System.out.println("Pressed Search Button!");
+            JButton btn = (JButton) e.getSource();
+
+            if (btn == this.mBtnSearch) {
 
                 String property = mComboBoxSearchProperty.getSelectedItem().toString();
-                System.out.println("Property : " + property);
 
                 switch (property) {
                     case "상품명":
@@ -206,7 +294,6 @@ public class AdjustStockView extends View {
                         } catch (Exception e1) {
                             System.out.println("[findByName()]No Search Result");
                             UiUtils.showMsgBox("검색결과가 없습니다", "");
-                            // e1.printStackTrace();
                         }
                         break;
                     case "상품코드":
@@ -232,41 +319,49 @@ public class AdjustStockView extends View {
                         } catch (Exception e1) {
                             System.out.println("[findByName()]No Search Result");
                             UiUtils.showMsgBox("검색결과가 없습니다", "");
-                            // e1.printStackTrace();
                         }
                         break;
                 }
+            } else if (btn == mBtnAdjustComplete) {
+                int adjustId = Integer.valueOf(this.mTextFieldProductId.getText());
+
+                ProductItem findItem = prodMngr.findById(adjustId);
+
+                ProductStockItem adjustItem = prodStMngr.findById(adjustId);
+                adjustItem.setQuantity(Integer.valueOf(mTextFieldAdjustActual.getText()));
+
+                DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
+                for (int row = 0; row < mTableResultList.getRowCount(); row++) {
+                    if ((int) mTableResultList.getValueAt(row, 0) == adjustId) {
+
+                        m.removeRow(row);
+
+                        Object[] item = { findItem.getId(), findItem.getProdCodeStr(),
+                                findItem.getName(), df.format(findItem.getPrice()),
+                                adjustItem.getQuantity() };
+                        m.insertRow(row, item);
+
+                        break;
+                    }
+                }
+                UiUtils.showMsgBox("재고 조정 완료", "");
+
+                // 완료되면 필드를 지운다
+                initializeTextField();
+
             }
         };
         this.mBtnSearch.addActionListener(listener);
+        this.mBtnAdjustComplete.addActionListener(listener);
     }
 
     @Override
     protected void onShow(boolean firstTime) {
         System.out.println("[AdjustStockView.onShow()]");
 
-        DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
-        m.setRowCount(0);
-        try {
-            prodMngr.iterate((info, idx) -> {
-                try {
-                    m.addRow(new Object[] {
-                            info.getId(), info.getProdCodeStr(),
-                            info.getName(), df.format(info.getPrice()),
-                            // 현재고 불러오기
-                            prodStMngr.getQuantityByProdId(info.getId())
+        initializeTextField();
 
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                return true;
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        mTableResultList.updateUI();
+        insertItemsIntoTable();
     }
 
     @Override
@@ -296,5 +391,61 @@ public class AdjustStockView extends View {
                     pi.getName(), df.format(pi.getPrice()),
             });
         }
+    }
+
+    // 검색한 결과를 텍스트 필드에 추가
+    private void searchItemAddTextField(ProductItem prodItem) {
+
+        UiUtils.showMsgBox(String.format(
+                "수정할 항목은\n[ 상품코드[%s] 상품명[%s] ] 입니다\n",
+                prodItem.getProdCodeStr(),
+                prodItem.getName()), "");
+
+        try {
+            this.mTextFieldProductId.setText(String.valueOf(prodItem.getId()));
+            this.mTextFieldProductCode.setText(prodItem.getProdCodeStr());
+            this.mTextFieldProductName.setText(prodItem.getName());
+            this.mTextFieldProductPrice.setText(String.valueOf(prodItem.getPrice()));
+            this.mTextFieldAdjustCurrent.setText(
+                    String.valueOf(prodStMngr.getQuantityByProdId(prodItem.getId())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 텍스트 필드 비우기
+    private void initializeTextField() {
+        this.mTextFieldProductId.setText("");
+        this.mTextFieldProductCode.setText("");
+        this.mTextFieldProductName.setText("");
+        this.mTextFieldProductPrice.setText("");
+        this.mTextFieldAdjustCurrent.setText("");
+        this.mTextFieldAdjustActual.setText("");
+    }
+
+    // 상품목록을 테이블에 추가하는 메소드
+    private void insertItemsIntoTable() {
+        DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
+        m.setRowCount(0);
+        try {
+            prodMngr.iterate((info, idx) -> {
+                try {
+                    m.addRow(new Object[] {
+                            info.getId(), info.getProdCodeStr(),
+                            info.getName(), df.format(info.getPrice()),
+                            // 현재고 불러오기
+                            prodStMngr.getQuantityByProdId(info.getId())
+
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return true;
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mTableResultList.updateUI();
     }
 }

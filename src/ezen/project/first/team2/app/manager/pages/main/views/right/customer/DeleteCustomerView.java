@@ -8,7 +8,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -26,6 +25,7 @@ import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.common.utils.UiUtils;
+import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxBtn;
 import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxType;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
@@ -212,7 +212,6 @@ public class DeleteCustomerView extends View {
             JButton btn = (JButton) e.getSource();
 
             if (btn == this.mBtnSearch) { // 상품검색
-
                 String property = mComboBoxSearchProperty.getSelectedItem().toString();
 
                 switch (property) {
@@ -220,8 +219,7 @@ public class DeleteCustomerView extends View {
                         try {
                             String searchText = mTextFieldSearch.getText();
 
-                            List<CustomerItem> custItemList = new ArrayList<>();
-                            custItemList.add(custMngr.findByName(searchText));
+                            List<CustomerItem> custItemList = custMngr.findItemsByName(searchText);
 
                             searchItemAddtable(custItemList);
 
@@ -236,8 +234,7 @@ public class DeleteCustomerView extends View {
                         try {
                             String searchText = mTextFieldSearch.getText();
 
-                            List<CustomerItem> custItemList = new ArrayList<>();
-                            custItemList.add(custMngr.findByPhoneNumber(searchText));
+                            List<CustomerItem> custItemList = custMngr.findItemsByPhoneNumber(searchText);
 
                             searchItemAddtable(custItemList);
                         } catch (Exception e1) {
@@ -247,17 +244,30 @@ public class DeleteCustomerView extends View {
                         }
                         break;
                 }
-            } else if (btn == mBtnDeleteComplete) {
+            } else if (btn == this.mBtnDeleteComplete) {
                 try {
+                    UiUtils.showMsgBox("정말 삭제 하시겠습니까?", "경고", MsgBoxType.Warn, MsgBoxBtn.YesNo);
+
                     String findIdStr = mLabelDelCustId.getText().substring(10);
                     int findId = Integer.valueOf(findIdStr);
 
                     custMngr.deleteById(findId);
-                    UiUtils.showMsgBox("제거 완료", "", MsgBoxType.Warn);
-                    // 테이블 갱신
-                    insertItemTable();
+
+                    // 삭제를 진행한 아이템 row만 테이블에서 제거
+                    DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
+                    for (int row = 0; row < mTableResultList.getRowCount(); row++) {
+                        if ((int) mTableResultList.getValueAt(row, 0) == findId) {
+                            // System.out.println("table id : " + (int) mTableResultList.getValueAt(row, 0)
+                            // + ", row : " + row + ", findId : " + findId);
+                            m.removeRow(row);
+                            break;
+                        }
+                    }
+
                     // 완료되면 레이블을 지운다
-                    setLaberInitialize();
+                    initializeTextField();
+
+                    UiUtils.showMsgBox("삭제 완료", "", MsgBoxType.Info);
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -272,7 +282,8 @@ public class DeleteCustomerView extends View {
     protected void onShow(boolean firstTime) {
         System.out.println("[DeleteCustmerView.onShow()]");
 
-        insertItemTable();
+        insertItemsIntoTable();
+        initializeTextField();
     }
 
     @Override
@@ -289,7 +300,7 @@ public class DeleteCustomerView extends View {
     }
 
     // 고객목록 테이블에 추가하는 메소드
-    private void insertItemTable() {
+    private void insertItemsIntoTable() {
         DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
         m.setRowCount(0);
         try {
@@ -313,26 +324,23 @@ public class DeleteCustomerView extends View {
     private void searchItemAddtable(List<CustomerItem> custItemList) {
 
         DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
-        m.setRowCount(0);
-        try {
-            custMngr.iterate((info, idx) -> {
-                m.addRow(new Object[] {
-                        info.getId(), info.getJoinDate(),
-                        info.getName(), info.getBirthday(),
-                        info.getPhoneNumber(), info.getPoint(), info.getRemark()
-                });
 
-                return true;
+        m.setRowCount(0);
+        for (CustomerItem info : custItemList) {
+
+            m.addRow(new Object[] {
+                    info.getId(), info.getJoinDate(),
+                    info.getName(), info.getBirthday(),
+                    info.getPhoneNumber(), info.getPoint(), info.getRemark()
             });
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
         mTableResultList.updateUI();
     }
 
-    // 라벨을 초기화
-    private void setLaberInitialize() {
+    // 검색창과 라벨을 초기화
+    private void initializeTextField() {
+        this.mTextFieldSearch.setText("");
         this.mLabelDelCustId.setText("■ 고객 번호 : ");
         this.mLabelDelCustName.setText("■ 고객명 : ");
         this.mLabelDelCustBirthday.setText("■ 생년월일 : ");
@@ -343,12 +351,12 @@ public class DeleteCustomerView extends View {
 
     // 검색한 결과를 라벨에 설정
     private void searchItemAddTextField(CustomerItem custItem) {
-        setLaberInitialize();
+        initializeTextField();
 
-        UiUtils.showMsgBox(String.format(
-                "삭제할 항목은\n[ 고객번호[%s] 고객명[%s] ] 입니다\n",
-                custItem.getId(),
-                custItem.getName()), "");
+        // UiUtils.showMsgBox(String.format(
+        // "삭제할 항목은\n[ 고객번호[%s] 고객명[%s] ] 입니다\n",
+        // custItem.getId(),
+        // custItem.getName()), "");
 
         this.mLabelDelCustId.setText(
                 mLabelDelCustId.getText() + custItem.getId());

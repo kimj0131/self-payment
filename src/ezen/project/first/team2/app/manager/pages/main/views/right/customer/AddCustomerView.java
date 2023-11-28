@@ -48,25 +48,28 @@ public class AddCustomerView extends View {
     // 고객추가 패널
     JPanel mPanelAdd = new JPanel();
 
+    JPanel mPanelPanelInfo = new JPanel();
     JLabel mLabelPanelInfo = new JLabel("고객 정보 입력");
 
     // 고객정보 기입란 컴포넌트들
     // 각 속성들의 패널로 텍스트필드 왼쪽에 속성이 들어갈수 있게설정
     JPanel mPanelAddIdName = new JPanel();
-    JLabel mLabelAddId = new JLabel("고객번호 : ");
+    JLabel mLabelAddId = new JLabel("고객번호");
     JTextField mTextFieldAddId = new JTextField(5);
-    JLabel mLabelAddName = new JLabel("* 고객명 : ");
+    JLabel mLabelAddName = new JLabel("* 고객명");
     JTextField mTextFieldAddName = new JTextField("", 10);
 
     JPanel mPanelAddBirthdayPhoneNum = new JPanel();
-    JLabel mLabelAddBirthday = new JLabel("* 생년월일 : ");
+    JLabel mLabelAddBirthday = new JLabel("* 생년월일");
     DateFormat format = new SimpleDateFormat("yyyyMMdd");
     JFormattedTextField mTextFieldAddBirthday = new JFormattedTextField(format);
-    JLabel mLabelAddPhoneNum = new JLabel("* 휴대폰번호 : ");
+    JLabel mLabelAddPhoneNum = new JLabel("* 휴대폰번호");
     JTextField mTextFieldAddPhoneNum = new JTextField(10);
 
-    JPanel mPanelAddRemark = new JPanel();
-    JLabel mLabelAddRemark = new JLabel("비 고 : ");
+    JPanel mPanelAddPointRemark = new JPanel();
+    JLabel mLabelAddPoint = new JLabel("보유 포인트");
+    JTextField mTextFieldAddPoint = new JTextField(10);
+    JLabel mLabelAddRemark = new JLabel("비 고");
     JTextField mTextFieldAddRemark = new JTextField(20);
 
     // 고객 추가 버튼
@@ -88,7 +91,7 @@ public class AddCustomerView extends View {
         // 테이블 설정
         try {
             Object[] mPropertyColumn = {
-                    "고객번호", "가입일", "고객명", "생년월일", "휴대폰번호", "비고"
+                    "고객번호", "가입일", "고객명", "생년월일", "휴대폰번호", "보유 포인트", "비고"
             };
             Object[][] mProdListRows = new Object[mPropertyColumn.length][10];
 
@@ -114,6 +117,10 @@ public class AddCustomerView extends View {
         this.mPanelListAdd.setLayout(new GridLayout(2, 1));
         this.mPanelAdd.setLayout(new BoxLayout(mPanelAdd, BoxLayout.Y_AXIS));
 
+        this.mPanelAddIdName.setLayout(new GridLayout(1, 2));
+        this.mPanelAddBirthdayPhoneNum.setLayout(new GridLayout(1, 2));
+        this.mPanelAddPointRemark.setLayout(new GridLayout(1, 2));
+
     }
 
     @Override
@@ -129,17 +136,48 @@ public class AddCustomerView extends View {
         this.mScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.mScroll.setBorder(
                 BorderFactory.createEmptyBorder(10, 30, 30, 30));
-        // 고객번호 접근 비활성화
+        // 고객번호, 포인트 접근 비활성화
         this.mTextFieldAddId.setEnabled(false);
+        this.mTextFieldAddPoint.setEnabled(false);
 
         this.mTextFieldAddBirthday.setColumns(10);
-        this.mTextFieldAddBirthday.setText("ex : 19001231");
+        this.mTextFieldAddBirthday.setText("ex)19001231");
+        this.mTextFieldAddBirthday.setToolTipText("ex)19001231");
+        this.mTextFieldAddPoint.setText("0");
         try {
             // 고객번호는 자동으로 다음번호를 받는다.
             this.mTextFieldAddId.setText(String.valueOf(custMngr.getNextID()));
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // 버튼설정
+        this.mBtnAddCustComplete.setBorder(
+                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        this.mBtnAddTextFieldCust.setBorder(
+                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // 라벨설정
+        this.mLabelPanelInfo.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelAddId.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelAddName.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelAddBirthday.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelAddPhoneNum.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelAddPoint.setHorizontalAlignment(JLabel.CENTER);
+        this.mLabelAddRemark.setHorizontalAlignment(JLabel.CENTER);
+
+        // 패널설정
+        this.mPanelAdd.setBorder(
+                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        this.mPanelPanelInfo.setBorder(
+                BorderFactory.createEmptyBorder(10, 200, 10, 200));
+        this.mPanelAddIdName.setBorder(
+                BorderFactory.createEmptyBorder(10, 200, 10, 200));
+        this.mPanelAddBirthdayPhoneNum.setBorder(
+                BorderFactory.createEmptyBorder(10, 200, 10, 200));
+        this.mPanelAddPointRemark.setBorder(
+                BorderFactory.createEmptyBorder(10, 200, 10, 200));
 
         // 컴포넌트 추가
         this.add(mLabelInfo, BorderLayout.NORTH);
@@ -150,10 +188,12 @@ public class AddCustomerView extends View {
         this.mPanelList.add(mScroll);
 
         // 고객 추가 패널
-        this.mPanelAdd.add(mLabelPanelInfo);
+        this.mPanelAdd.add(mPanelPanelInfo);
+        this.mPanelPanelInfo.add(mLabelPanelInfo);
+
         this.mPanelAdd.add(mPanelAddIdName);
         this.mPanelAdd.add(mPanelAddBirthdayPhoneNum);
-        this.mPanelAdd.add(mPanelAddRemark);
+        this.mPanelAdd.add(mPanelAddPointRemark);
 
         this.mPanelAddIdName.add(mLabelAddId);
         this.mPanelAddIdName.add(mTextFieldAddId);
@@ -165,8 +205,10 @@ public class AddCustomerView extends View {
         this.mPanelAddBirthdayPhoneNum.add(mLabelAddPhoneNum);
         this.mPanelAddBirthdayPhoneNum.add(mTextFieldAddPhoneNum);
 
-        this.mPanelAddRemark.add(mLabelAddRemark);
-        this.mPanelAddRemark.add(mTextFieldAddRemark);
+        this.mPanelAddPointRemark.add(mLabelAddPoint);
+        this.mPanelAddPointRemark.add(mTextFieldAddPoint);
+        this.mPanelAddPointRemark.add(mLabelAddRemark);
+        this.mPanelAddPointRemark.add(mTextFieldAddRemark);
 
         this.mPanelAdd.add(mPanelAddBtn);
         this.mPanelAddBtn.add(mBtnAddCustComplete);
@@ -202,7 +244,7 @@ public class AddCustomerView extends View {
 
             // 테스트용 자동기입
             if (e.getSource() == mBtnAddTextFieldCust) {
-                this.setTestCustValue();
+                this.testCustAddTextField();
             }
 
             // Remark, Id를 제외한 TextField를 채웠는지 확인
@@ -212,16 +254,43 @@ public class AddCustomerView extends View {
 
                 if (e.getSource() == mBtnAddCustComplete) {
                     // 입력, 추가 완료 후 TextField 초기화
-                    this.setCustValue();
                     try {
+                        CustomerItem customerItem = new CustomerItem();
+
+                        int custId = custMngr.getNextID();
+                        int defaultPoint = 0;
+                        LocalDate joinCustDate = LocalDate.now();
+
+                        String dateStr = mTextFieldAddBirthday.getText();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
+                                "yyyyMMdd");
+                        LocalDate custBirthDate = LocalDate.parse(dateStr, formatter);
+
+                        customerItem.setValues(custId, joinCustDate, mTextFieldAddName.getText(),
+                                custBirthDate, mTextFieldAddPhoneNum.getText(),
+                                defaultPoint, mTextFieldAddRemark.getText());
+
+                        custMngr.add(customerItem);
+                        System.out.println("cust Add");
                         this.mTextFieldAddId.setText(String.valueOf(custMngr.getNextID()));
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
+
+                        // 추가한 고객(item) 컬럼에 추가
+                        DefaultTableModel m = (DefaultTableModel) mTableCustList.getModel();
+                        Object[] item = { customerItem.getId(), customerItem.getJoinDate(), customerItem.getName(),
+                                customerItem.getBirthday(), customerItem.getPhoneNumber(), customerItem.getPoint(),
+                                customerItem.getRemark() };
+                        m.addRow(item);
+
+                        // 텍스트필드를 초기화
+                        initializeTextField();
+
+                        UiUtils.showMsgBox("추가 완료", "");
+
+                    } catch (Exception ex) {
+                        UiUtils.showMsgBox("입력하신 휴대폰번호는 이미 등록되어있습니다.",
+                                "", MsgBoxType.Warn);
+                        // e.printStackTrace();
                     }
-                    // 텍스트필드를 초기화
-                    allTextFieldInitialize();
-                    // 테이블을 갱신
-                    insertItemTable();
 
                 }
             } else {
@@ -242,7 +311,7 @@ public class AddCustomerView extends View {
     protected void onShow(boolean firstTime) {
         System.out.println("[AddCustmerView.onShow()]");
 
-        insertItemTable();
+        insertItemsIntoTable();
     }
 
     @Override
@@ -258,42 +327,10 @@ public class AddCustomerView extends View {
         lb1.setFont(main.mFont0);
     }
 
-    // textField에 작성한 내용을 추가
-    private void setCustValue() {
-        CustomerItem customerItem = new CustomerItem();
-        try {
-            int custId = custMngr.getNextID();
-            int defaultPoint = 0;
-            LocalDate joinCustDate = LocalDate.now();
-
-            // 생년월일 LocalDate로 변환
-            String dateStr = mTextFieldAddBirthday.getText();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
-                    "yyyyMMdd");
-            LocalDate custBirthDate = LocalDate.parse(dateStr, formatter);
-
-            customerItem.setValues(custId, joinCustDate, mTextFieldAddName.getText(),
-                    custBirthDate, mTextFieldAddPhoneNum.getText(),
-                    defaultPoint, mTextFieldAddRemark.getText());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            custMngr.add(customerItem);
-            System.out.println("cust Add");
-        } catch (Exception e1) {
-            e1.printStackTrace();
-            UiUtils.showMsgBox("입력하신 휴대폰번호는 이미 등록되어있습니다.",
-                    "", MsgBoxType.Warn);
-        }
-        // System.out.println("추가된 정보" + memberInfo.toString());
-    }
-
     // 텍스트필드 비우기
-    private void allTextFieldInitialize() {
-        this.mTextFieldAddBirthday.setText("ex : 19001231");
+    private void initializeTextField() {
+        this.mTextFieldAddBirthday.setText("ex)19001231");
+        this.mTextFieldAddPoint.setText("0");
 
         this.mTextFieldAddName.setText("");
         this.mTextFieldAddPhoneNum.setText("");
@@ -301,7 +338,7 @@ public class AddCustomerView extends View {
     }
 
     // 고객목록 테이블에 추가하는 메소드
-    private void insertItemTable() {
+    private void insertItemsIntoTable() {
         DefaultTableModel m = (DefaultTableModel) mTableCustList.getModel();
         m.setRowCount(0);
         try {
@@ -309,7 +346,7 @@ public class AddCustomerView extends View {
                 m.addRow(new Object[] {
                         info.getId(), info.getJoinDate(),
                         info.getName(), info.getBirthday(),
-                        info.getPhoneNumber(), info.getRemark()
+                        info.getPhoneNumber(), info.getPoint(), info.getRemark()
                 });
 
                 return true;
@@ -322,7 +359,7 @@ public class AddCustomerView extends View {
     }
 
     // 테스트용 자동기입 메소드
-    private void setTestCustValue() {
+    private void testCustAddTextField() {
 
         try {
             int nextNum = custMngr.getNextID();
