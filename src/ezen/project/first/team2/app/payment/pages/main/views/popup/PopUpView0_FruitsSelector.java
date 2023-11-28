@@ -1,10 +1,13 @@
 package ezen.project.first.team2.app.payment.pages.main.views.popup;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,10 +33,22 @@ import ezen.project.first.team2.app.payment.pages.main.views.right.RightView0_Or
 
 public class PopUpView0_FruitsSelector extends PopupView {
 
+	private static final Dimension VIEW_SIZE = new Dimension(600, 500);
 	private static final int PADDING = 10;
-	private static final Dimension VIEW_SIZE = new Dimension(500, 300);
 
 	private static final String CANCEL_BTN_TEXT = "취소";
+	
+	// this.View
+	private static final Color BACKGROUND_COLOR = new Color(244, 248, 251);
+	
+	// Buying Button
+	private static final Font CANCEL_BTN_FONT = new Font("맑은 고딕", Font.BOLD, 19);
+	private static final Color CANCEL_BTN_FONT_COLOR = new Color(255, 255, 255);
+	private static final Color CANCEL_BTN_COLOR = new Color(21, 150, 136);
+	
+	// FV panel
+	private static final Color FV_PANEL_COLOR = new Color(255, 255, 255);
+
 	private static final int SCALED_IMG_WIDTH = 100;
 	private static final int SCALED_IMG_HEIGHT = 100;
 
@@ -211,7 +226,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mSweetPotato_btn.setIcon(mSweetPotato_img);
 		mRadish_btn.setIcon(mRadish_img);
 		mPepper_btn.setIcon(mPepper_img);
-
+		
 		mFV_panel = new JPanel();
 		mScrolledFV_pane = new JScrollPane(mFV_panel);
 
@@ -230,13 +245,29 @@ public class PopUpView0_FruitsSelector extends PopupView {
 	protected void onSetLayout() {
 		this.setBorder(BorderFactory.createEmptyBorder(
 				PADDING, PADDING, PADDING, PADDING));
-		this.setLayout(new GridLayout(2, 1));
+		this.setLayout(new GridBagLayout());
+		this.setBackground(BACKGROUND_COLOR);
 
 		mFV_panel.setLayout(new GridBagLayout());
+		mFV_panel.setBackground(FV_PANEL_COLOR);
+		
+		//
+		mCancel_btn.setBackground(CANCEL_BTN_COLOR);
+		mCancel_btn.setForeground(CANCEL_BTN_FONT_COLOR);
+		mCancel_btn.setFont(CANCEL_BTN_FONT);
+		
+		//
+		mBanana_btn.setBorderPainted(false);
+		mBanana_btn.setBackground(Color.CYAN);
 	}
 
 	@Override
 	protected void onAddCtrls() {
+		
+		mGbc.fill = GridBagConstraints.BOTH;
+		mGbc.weightx = 1;
+		
+		mGbc.insets = new Insets(10, 10, 10, 10);
 
 		// 0번 행 <과일 버튼 0번>
 		mGbc.gridx = 0;
@@ -326,14 +357,28 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mGbc.gridy = 7;
 		mFV_panel.add(mPepper_label, mGbc);
 
-		this.add(mScrolledFV_pane);
-		this.add(mCancel_btn);
+		/////////////////////////////////////////////////////////////
+		
+		mGbc.insets = new Insets(0, 0, 10, 0);
+		
+		mGbc.weightx = 1;
+		mGbc.weighty = 1;
+		mGbc.gridx = 0;
+		mGbc.gridy = 0;
+		this.add(mScrolledFV_pane, mGbc);
+		
+		mGbc.insets = new Insets(0, 0, 0, 0);
+		
+		mGbc.weighty = 0.05;
+		mGbc.gridx = 0;
+		mGbc.gridy = 1;
+		this.add(mCancel_btn, mGbc);
 	}
 
 	@Override
 	protected void onAddEventListeners() {
 		mCancel_btn.addActionListener(e -> {
-			performHide();
+			performClose();
 		});
 
 		// 과일버튼
@@ -344,7 +389,8 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 			try {
 				ProductItem bananaItem = mProdMngr.findByProductCode(new ProductCode("F001"));
-				btnInteraction(bananaItem);
+				interactToRightView0(bananaItem);
+				
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -355,7 +401,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 			try {
 				ProductItem appleItem = mProdMngr.findByProductCode(new ProductCode("F002"));
-				btnInteraction(appleItem);
+				interactToRightView0(appleItem);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -366,7 +412,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 			try {
 				ProductItem orangeItem = mProdMngr.findByProductCode(new ProductCode("F003"));
-				btnInteraction(orangeItem);
+				interactToRightView0(orangeItem);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -377,7 +423,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 			try {
 				ProductItem pineappleItem = mProdMngr.findByProductCode(new ProductCode("F004"));
-				btnInteraction(pineappleItem);
+				interactToRightView0(pineappleItem);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -388,7 +434,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 			try {
 				ProductItem grapeItem = mProdMngr.findByProductCode(new ProductCode("F005"));
-				btnInteraction(grapeItem);
+				interactToRightView0(grapeItem);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -401,7 +447,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 			try {
 				ProductItem lettuceItem = mProdMngr.findByProductCode(new ProductCode("V001"));
-				btnInteraction(lettuceItem);
+				interactToRightView0(lettuceItem);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -412,7 +458,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 			try {
 				ProductItem potatoItem = mProdMngr.findByProductCode(new ProductCode("V002"));
-				btnInteraction(potatoItem);
+				interactToRightView0(potatoItem);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -423,7 +469,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 			try {
 				ProductItem sweetpotatoItem = mProdMngr.findByProductCode(new ProductCode("V003"));
-				btnInteraction(sweetpotatoItem);
+				interactToRightView0(sweetpotatoItem);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -434,7 +480,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 			try {
 				ProductItem RadishItem = mProdMngr.findByProductCode(new ProductCode("V004"));
-				btnInteraction(RadishItem);
+				interactToRightView0(RadishItem);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -460,7 +506,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 	}
 
 	// 버튼 눌렀을때 상호작용 메서드
-	private void btnInteraction(ProductItem prodItem) {
+	private void interactToRightView0(ProductItem prodItem) {
 		try {
 			MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 			RightView0_OrderList rv0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
@@ -486,7 +532,8 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 						rv0.get_mTableModel().addRow(row);
 						rv0.get_mSum_tf().setText(
-								UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getOrgTotalPrice()));
+								UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getOrgTotalPrice())
+										+ "원");
 
 					}
 				} catch (Exception ex) {

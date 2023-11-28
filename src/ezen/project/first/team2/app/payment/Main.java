@@ -16,6 +16,7 @@ import ezen.project.first.team2.app.common.pages.splash.SplashPageParams;
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;
 import ezen.project.first.team2.app.common.utils.TimeUtils;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
+import ezen.project.first.team2.app.payment.pages.stanby.StanbyPage;
 
 public class Main extends StatusManager {
 	// 페이지 번호 정의 - 뷰에서도 사용하므로 public으로 선언
@@ -39,8 +40,8 @@ public class Main extends StatusManager {
 	@Override
 	protected void onAddPages() {
 		try {
-			// this.addPage(new SplashPage(this.getSplashPageParams()));
-			// this.addPage(new StanbyPage());
+			//this.addPage(new SplashPage(this.getSplashPageParams()));
+			//this.addPage(new StanbyPage());
 			this.addPage(new MainPage());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,7 +57,7 @@ public class Main extends StatusManager {
 	@Override
 	protected void onRun() {
 		try {
-			// this.setSelectedPageByNum(PAGE_NUM_SPLASH);
+			//this.setSelectedPageByNum(PAGE_NUM_SPLASH);
 			this.setSelectedPageByNum(Main.PAGE_NUM_MAIN);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -2,20 +2,25 @@ package ezen.project.first.team2.app.payment.pages.main.views.right;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
@@ -30,20 +35,38 @@ public class RightView0_OrderList extends View {
 
 	private static final int PADDING = 20;
 
-	private static final String SUM_TITLE_LABEL_TEXT = "합계";
-	private static final String[] TABLE_HEADER = { "상품코드", "상품명", "수량", "가격" };
+	private static final String SUM_TITLE_LABEL_TEXT = "합  계";
+	private static final String[] TABLE_HEADER= {"상품코드", "상품명", "수량", "가격"};
 	private static final String BUYING_BTN_TEXT = "결제하기";
 
+	// this.View
 	private static final Color BACKGROUND_COLOR = new Color(244, 248, 251);
-	private static final Color TABLE_HEADER_FONT_COLOR = new Color(0, 0, 28);
 
+	// Table Header
 	private static final Font TABLE_HEADER_FONT = new Font("맑은 고딕", Font.BOLD, 17);
+	private static final Color TABLE_HEADER_FONT_COLOR = new Color(54, 70, 81);
+
+	// Table row
 	private static final Font TABLE_FONT = new Font("맑은 고딕", Font.PLAIN, 17);
 
-	// 결제가 모두 완료 -> 구매내역 새로 만들어야함 / RightView3에서 결제가 모두 완료되면 onHide에서 true로 바꿈
-	// 결제가 완료되지 않음 -> 이전 단계로 갔을때는 onShow에서 구매내역을 새로 만들지 않아야 함
+	// Buying Button
+	private static final Font BUYING_BTN_FONT = new Font("맑은 고딕", Font.BOLD, 19);
+	private static final Color BUYING_BTN_FONT_COLOR = new Color(255, 255, 255);
+	private static final Color BUYING_BTN_COLOR = new Color(79, 175, 86);
+	
+	// Sum Title Label
+	private static final Font SUM_TITLE_LABEL_FONT = new Font("맑은 고딕", Font.BOLD, 19);
+	private static final Color SUM_TITLE_LABEL_COLOR = new Color(225, 239, 248);
+	
+	// Sum TextField
+	private static final Font SUM_TF_FONT = new Font("맑은 고딕", Font.PLAIN, 27);
+	private static final Color SUM_TF_COLOR = new Color(225, 239, 248);
+	
+	// 결제가 모두 완료		-> 구매내역 새로 만들어야함 / RightView3에서 결제가 모두 완료되면 onHide에서 true로 바꿈
+	// 결제가 완료되지 않음	-> 이전 단계로 갔을때는 onShow에서 구매내역을 새로 만들지 않아야 함
 	public static boolean RECEIPT_ISSUANCE = false;
 
+	
 	// 구매리스트 테이블 관련 변수
 	private JTable mTable;
 	private JScrollPane mScrolledTable;
@@ -52,6 +75,7 @@ public class RightView0_OrderList extends View {
 
 	private JLabel mSum_title_label;
 	private JTextField mSum_tf;
+	
 	private JButton mBuying_btn;
 
 	// 그리드백 레이아웃을 사용하기 위한 constraint
@@ -70,10 +94,7 @@ public class RightView0_OrderList extends View {
 
 	@Override
 	protected void onInit() {
-
-		setBackground(BACKGROUND_COLOR);
-		this.setTable();
-
+		
 		mSum_title_label = new JLabel(SUM_TITLE_LABEL_TEXT);
 		mSum_tf = new JTextField();
 
@@ -88,19 +109,56 @@ public class RightView0_OrderList extends View {
 		MainPage mainPage = (MainPage) this.getPage();
 		this.mProdPurchasing = mainPage.mProdPurchasing;
 
-		// 디자인 관련 설정
-		mTable.getTableHeader().setFont(TABLE_HEADER_FONT);
-		mTable.getTableHeader().setForeground(TABLE_HEADER_FONT_COLOR);
-		mTable.setFont(TABLE_FONT);
-		mTable.setRowHeight(30);
-
-		mTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
 	}
 
+
+	
+	@Override
+	protected void onSetLayout() {
+		this.setBorder(BorderFactory.createEmptyBorder(
+				PADDING, PADDING, PADDING, PADDING));
+		this.setLayout(new GridBagLayout());
+		this.setTable();
+		this.setBackground(BACKGROUND_COLOR);
+		
+		//
+		mSum_title_label.setBorder(BorderFactory.createEmptyBorder(
+				10, 10, 0, 10));
+		mSum_title_label.setOpaque(true);
+		mSum_title_label.setBackground(SUM_TITLE_LABEL_COLOR);
+		mSum_title_label.setFont(SUM_TITLE_LABEL_FONT);
+		mSum_title_label.setHorizontalAlignment(JLabel.RIGHT);
+		
+		//
+		mSum_tf.setBackground(SUM_TF_COLOR);
+		mSum_tf.setFont(SUM_TF_FONT);
+		mSum_tf.setHorizontalAlignment(JTextField.RIGHT);
+		mSum_tf.setBorder(BorderFactory.createEmptyBorder(
+				0, 10, 0, 10));
+		
+		//
+		mBuying_btn.setFont(BUYING_BTN_FONT);
+		mBuying_btn.setForeground(BUYING_BTN_FONT_COLOR);
+		mBuying_btn.setBackground(BUYING_BTN_COLOR);
+	}
+	
 	private void setTable() {
 
 		DefaultTableModel headerModel = new DefaultTableModel(TABLE_HEADER, 0);
-		mTable = new JTable(headerModel);
+		mTable = new JTable(headerModel) {
+			@Override
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+				
+				JComponent cp = (JComponent) super.prepareRenderer(renderer, row, column);
+				
+				if (row % 2 == 0) {
+					cp.setBackground(BACKGROUND_COLOR);
+				} else {
+					cp.setBackground(Color.WHITE);
+				}
+				return cp;
+			}
+		};
 		mTableModel = (DefaultTableModel) mTable.getModel();
 		mScrolledTable = new JScrollPane(mTable);
 
@@ -122,28 +180,29 @@ public class RightView0_OrderList extends View {
 		DefaultTableCellRenderer right = new DefaultTableCellRenderer();
 		right.setHorizontalAlignment(JLabel.RIGHT);
 
-		mTable.getColumn(TABLE_HEADER[0]).setPreferredWidth(10);
+		mTable.getColumn(TABLE_HEADER[0]).setPreferredWidth(5);
 		mTable.getColumn(TABLE_HEADER[0]).setCellRenderer(center);
 
 		mTable.getColumn(TABLE_HEADER[1]).setPreferredWidth(150);
 		mTable.getColumn(TABLE_HEADER[1]).setCellRenderer(center);
-
-		mTable.getColumn(TABLE_HEADER[2]).setPreferredWidth(10);
+		
+		mTable.getColumn(TABLE_HEADER[2]).setPreferredWidth(5);
 		mTable.getColumn(TABLE_HEADER[2]).setCellRenderer(center);
 
 		mTable.getColumn(TABLE_HEADER[3]).setPreferredWidth(90);
 		mTable.getColumn(TABLE_HEADER[3]).setCellRenderer(center);
 
-	}
 
-	@Override
-	protected void onSetLayout() {
-		this.setBorder(BorderFactory.createEmptyBorder(
-				PADDING, PADDING, PADDING, PADDING));
-		this.setLayout(new GridBagLayout());
+		// 디자인 관련 설정
+		JTableHeader header = mTable.getTableHeader();
+		header.setFont(TABLE_HEADER_FONT);
+		header.setForeground(TABLE_HEADER_FONT_COLOR);
+		header.setBackground(Color.WHITE);
+		header.setPreferredSize(new Dimension(10, 40)); // 헤더 높이 설정
+		
+		mTable.setFont(TABLE_FONT);
+		mTable.setRowHeight(35);
 
-		mSum_title_label.setOpaque(true);
-		mSum_title_label.setBackground(Color.WHITE);
 	}
 
 	@Override
@@ -155,27 +214,32 @@ public class RightView0_OrderList extends View {
 		mGbc.weightx = 0.5;
 		mGbc.weighty = 3;
 
-		mGbc.gridheight = 2;
+		mGbc.gridheight = 3;
 		mGbc.gridx = 0;
 		mGbc.gridy = 0;
 		this.add(mScrolledTable, mGbc);
 
+		mGbc.insets = new Insets(0, PADDING, 0, 0);
+		
+		mGbc.gridheight = 1;
 		mGbc.weightx = 0.1;
 		mGbc.weighty = 0.1;
-		mGbc.gridheight = 1;
 		mGbc.gridx = 1;
 		mGbc.gridy = 0;
 		this.add(mSum_title_label, mGbc);
-
+		
+		mGbc.insets = new Insets(0, PADDING, 500, 0);
+		
 		mGbc.weighty = 3;
 		mGbc.gridx = 1;
 		mGbc.gridy = 1;
 		this.add(mSum_tf, mGbc);
 
-		mGbc.weighty = 0.1;
-		mGbc.gridx = 0;
+		mGbc.insets = new Insets(0, PADDING, 0, 0);
+		
+		mGbc.weighty = 3;
+		mGbc.gridx = 1;
 		mGbc.gridy = 2;
-		mGbc.gridwidth = 2;
 		this.add(mBuying_btn, mGbc);
 	}
 
@@ -189,56 +253,6 @@ public class RightView0_OrderList extends View {
 				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
 			} catch (Exception ex) {
 				ex.printStackTrace();
-			}
-		});
-
-		mSum_tf.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-
-				try {
-					// 테이블 초기화 작업
-					mTableModel.setNumRows(0);
-
-					// 랜덤한 상품 하나 생성
-					int randomId = (int) (Math.random() * 35);
-					var productItem = mProdMngr.findById(randomId);
-					System.out.println("추가한 상품\n " + productItem);
-
-					// 생성된 상품을 상세 구매내역에 넣기
-					mProdPurchasing._2_addProduct(productItem.getId(), 1);
-
-					// 테이블에 추가
-					mProdOrderDetailsMngr.iterate((item, idx) -> {
-						try {
-							if (item.getProdOrderId() == mProdPurchasing.getProdOrderId()) {
-
-								String prodCode = item.getProdItem().getProdCodeStr();
-								String prodName = mProdMngr.findById(item.getProdId()).getName();
-								String prodQty = String.valueOf(item.getQuantity());
-								int prodPrice = mProdMngr.findById(item.getProdId()).getPrice() * item.getQuantity();
-
-								String[] row = new String[] { prodCode, prodName, prodQty,
-										UnitUtils.numToCurrencyStr(prodPrice) };
-
-								mTableModel.addRow(row);
-
-							}
-						} catch (Exception ex) {
-							ex.printStackTrace();
-						}
-
-						return true;
-					});
-
-					// 실시간으로 합계 구해서 표시
-					ProductOrderItem prodOrderItem = mProdPurchasing.getProdOrderItem();
-					mSum_tf.setText(UnitUtils.numToCurrencyStr(prodOrderItem.getOrgTotalPrice()));
-
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-
 			}
 		});
 
@@ -329,23 +343,4 @@ public class RightView0_OrderList extends View {
 		return mSum_tf;
 	}
 
-}
-
-class MyTableCellRenderer extends DefaultTableCellRenderer {
-
-	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
-
-		Component cell = getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-		if (!isSelected) {
-			if (row % 2 == 0) {
-				cell.setBackground(Color.WHITE);
-			} else {
-				cell.setBackground(Color.BLUE);
-			}
-		}
-		return cell;
-	}
 }
