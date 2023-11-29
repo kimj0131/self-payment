@@ -1,130 +1,166 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-// [SGLEE:20231129WED_110100] Created
+// [SGLEE:20231129WED_144500] Created
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 package ezen.project.first.team2.app.common.modules.database;
 
-import java.sql.Connection;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import ezen.project.first.team2.app.common.utils.thread.BlueThread;
-import ezen.project.first.team2.app.common.utils.thread.BlueThreadListener;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.time.LocalDate;
 
 public class DBTable {
-	// --------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
-	public static final int DEFAULT_PORT_NUM = 1531;
+	public static interface ListIterator {
+		public boolean onGetRecord(ResultSet rs, int idx, int count);
+	}
 
-	// --------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
-	private DBTableActionListener mListener;
+	private String mTableName;
 
-	private AtomicBoolean mConnected = new AtomicBoolean(false);
-	private BlueThread mDbThread;
-
-	private String mHost;
-	private int mPortNum;
-	private String mId;
-	private String mPasswd;
-
-	private Connection mDbConn;
-
-	// --------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	// 생성자
-	public DBTable() {
+	public DBTable(String tableName) {
+		this.mTableName = tableName;
 	}
 
-	// --------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
-	// 액션 리스너 설정 (필수)
-	public void setActionListener(DBTableActionListener listener) {
-		this.mListener = listener;
+	public String getTableName() {
+		return this.mTableName;
 	}
 
-	// 데이터베이스 연결
-	public void connect(String host, int portNum, String id, String passwd) throws Exception {
-		// 액션 리스너 설정 확인
-		if (this.mListener == null) {
-			String msg = String.format("[DBTable.connect()]" +
-					" You must call setActionListener()!");
+	// -------------------------------------------------------------------------
+
+	// 레코드셋 리스팅
+	public void listRecordset(String[] fieldset, String where, String orderBy,
+			ListIterator iterator) throws Exception {
+		var dbConn = DBConnector.getInstance();
+		if (!dbConn.isConnected()) {
+			String msg = String.format("[DBTable.listRecordset()]" +
+					" You must connect database!");
 			throw new Exception(msg);
 		}
 
-		// 연결 여부 확인
-		if (this.isConnected()) {
-			String msg = String.format("[DBTable.connect()]" +
-					" Already connected!");
-			throw new Exception(msg);
-		}
+		String _fieldset = "*";
+		String _where = "";
+		String _orderBy = "";
 
-		this.mHost = host;
-		this.mPortNum = portNum;
-		this.mId = id;
-		this.mPasswd = passwd;
-
-		// DB 스레드 시작
-		this.startDbThread();
-	}
-
-	// 데이터베이스 연결 해제
-	public void disconnect() throws Exception {
-		// 액션 리스너 설정 확인
-		if (this.mListener == null) {
-			String msg = String.format("[DBTable.disconnect()]" +
-					" You must call setActionListener()!");
-			throw new Exception(msg);
-		}
-
-		// 연결 여부 확인
-		if (!this.isConnected()) {
-			String msg = String.format("[DBTable.connect()]" +
-					" Already disconnected!");
-			throw new Exception(msg);
-		}
-
-		// DB 스레드 종료
-		this.stopDbThread();
-	}
-
-	// 데이터베이스 연결 여부 확인
-	public boolean isConnected() {
-		return this.mConnected.get();
-	}
-
-	// --------------------------------------------------------------------------
-
-	private void startDbThread() {
-		this.mDbThread = new BlueThread(new BlueThreadListener() {
-
-			@Override
-			public void onStart(BlueThread sender, Object param) {
+		if (fieldset != null && fieldset.length > 0) {
+			for (var f : fieldset) {
+				_fieldset += f + ",";
 			}
 
-			@Override
-			public boolean onRun(BlueThread sender, Object param) {
+			// 마지막 comma(,) 제거
+			_fieldset = _fieldset.substring(0, _fieldset.length() - 2);
+		}
 
-				// DB 연결
+		if (where != null && !where.isEmpty()) {
+			_where = " where " + where;
+		}
 
-				// DB 연결 해제
+		if (orderBy != null && !orderBy.isEmpty()) {
+			_orderBy = " order by " + orderBy;
+		}
 
-				return true;
-			}
+		String sql = String.format("select %s from %s %s%s",
+				_fieldset, this.getTableName(), _where, _orderBy);
+		// System.out.println(sql);
 
-			@Override
-			public void onStop(BlueThread sender, Object param, boolean interrupted) {
-			}
-
-		}, this);
-	}
-
-	private void stopDbThread() {
 		try {
-			this.mDbThread.join();
+			PreparedStatement pstmt = dbConn.getConnection().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet rs = pstmt.executeQuery();
+
+			// 레코드 개수 얻기
+			int rCnt = 0;
+			while (rs.next()) {
+				rCnt++;
+			}
+			rs.beforeFirst();
+
+			int idx = 0;
+			while (rs.next()) {
+				if (!iterator.onGetRecord(rs, idx++, rCnt)) {
+					break;
+				}
+			}
+
+			rs.close();
+			pstmt.close();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
+	// 레코드 추가
+	public void addRecord(String[] fieldset, Object[] values) throws Exception {
+		var dbConn = DBConnector.getInstance();
+		if (!dbConn.isConnected()) {
+			String msg = String.format("[DBTable.listRecordset()]" +
+					" You must connect database!");
+			throw new Exception(msg);
+		}
+
+		String _fieldset = "";
+		String _values = "";
+
+		if (fieldset != null && fieldset.length > 0) {
+			for (var f : fieldset) {
+				_fieldset += f + ",";
+			}
+
+			// 마지막 comma(,) 제거
+			_fieldset = _fieldset.substring(0, _fieldset.length() - 2);
+
+			// ()로 묶기
+			_fieldset = "(" + _fieldset + ")";
+		}
+
+		int idx = 0;
+		for (var v : values) {
+			if (v instanceof String) {
+				String s = (String) v;
+				if (s.contains("seq.nextval"))
+					_values += String.format("%s,", v);
+				else
+					_values += String.format("'%s',", v);
+
+			} else if (v instanceof Integer) {
+				_values += String.format("%d,", (Integer) v);
+			} else if (v instanceof Double) {
+				_values += String.format("%f,", (Double) v);
+			} else if (v instanceof LocalDate) {
+				_values += String.format("'%s',", Date.valueOf((LocalDate) v).toString());
+			} else if (v == null) {
+				_values += "null,";
+			} else {
+				String msg = String.format("[DBTable.addRecord()]" +
+						" Invalid type at %d", idx);
+				throw new Exception(msg);
+			}
+		}
+
+		// 마지막 comma(,) 제거
+		_values = _values.substring(0, _values.length() - 2);
+
+		String sql = String.format("insert into %s%s values(%s)",
+				this.getTableName(), _fieldset, _values);
+		System.out.println(sql);
+
+		PreparedStatement pstmt = dbConn.getConnection().prepareStatement(sql);
+		int rows = pstmt.executeUpdate();
+
+		pstmt.close();
+	}
+
+	// 레코드 수정
+
+	// 레코드 삭제
 }

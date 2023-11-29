@@ -141,7 +141,7 @@ public class JdbcTest {
 			// ----------
 			Connection conn = DriverManager.getConnection(str, id, pw);
 			// ----------
-			System.out.printf("[%s]   => elapsed: %s \n", TimeUtils.currTimeStr(), TimeUtils.getElapsedTimeStr());
+			System.out.printf("[%s]  => elapsed: %s \n", TimeUtils.currTimeStr(), TimeUtils.getElapsedTimeStr());
 			System.out.println();
 
 			// select 쿼리

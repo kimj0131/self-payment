@@ -20,13 +20,15 @@ public class TestBlueThread {
 			private int mIndex = 0;
 
 			@Override
-			public void onStart(BlueThread sender, Object param) {
+			public boolean onStart(BlueThread sender, Object param) {
 				System.out.println("[worker.onStart()] ");
 
 				// int[] nums = (int[]) param;
 				// for (int i = 0; i < nums.length; i++) {
 				// nums[i] = (i + 1) * 1000;
 				// }
+
+				return true;
 			}
 
 			@Override

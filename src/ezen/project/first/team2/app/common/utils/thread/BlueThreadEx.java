@@ -22,9 +22,11 @@ public class BlueThreadEx extends BlueThread {
         super(new BlueThreadListener() {
 
             @Override
-            public void onStart(BlueThread sender, Object param) {
-                if (listener != null)
-                    listener.onStart(sender, param);
+            public boolean onStart(BlueThread sender, Object param) {
+                if (listener != null && !listener.onStart(sender, param))
+                    return false;
+
+                return true;
             }
 
             @Override

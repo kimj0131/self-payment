@@ -48,7 +48,13 @@ public class BlueThread {
 		}
 
 		this.mThread = new Thread(() -> {
-			this.mListener.onStart(this, this.mParam);
+			// onStart()에서 false를 리턴하면 스레드를 종료한다.
+			if (!this.mListener.onStart(this, this.mParam)) {
+				this.mListener.onStop(this, this.mParam, false);
+				this.mIsRunning.set(false);
+
+				return;
+			}
 
 			while (mIsRunning.get()) {
 				if (!this.mListener.onRun(this, this.mParam)) {

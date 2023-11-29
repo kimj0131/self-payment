@@ -2,7 +2,7 @@ package ezen.project.first.team2.app.common.utils.thread;
 
 public interface BlueThreadListener {
 	// 호출 스레드(ex, 메인 스레드)에서 호출
-	void onStart(BlueThread sender, Object param);
+	boolean onStart(BlueThread sender, Object param);
 
 	// 워커 스레드에서 호출
 	// return: true => continue, false => break

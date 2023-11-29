@@ -115,12 +115,14 @@ public class SplashPage extends Page {
 			private int mRsrcIdx = 0;
 
 			@Override
-			public void onStart(BlueThread sender, Object param) {
+			public boolean onStart(BlueThread sender, Object param) {
 				// 페이지가 추가될 때까지 잠시 기다린다
 				// SystemUtils.sleep(100);
 
 				// 1초 동안 스플래시 화면을 표시한다
 				SystemUtils.sleep(1 * 1000);
+
+				return true;
 			}
 
 			@Override

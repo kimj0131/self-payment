@@ -19,8 +19,10 @@ public class TestBlueThreadEx {
 			var t = new BlueThreadEx(new BlueThreadExListener() {
 
 				@Override
-				public void onStart(BlueThread sender, Object param) {
+				public boolean onStart(BlueThread sender, Object param) {
 					System.out.println("[worker] start");
+
+					return true;
 				}
 
 				@Override

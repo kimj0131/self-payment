@@ -6,20 +6,20 @@
 
 package ezen.project.first.team2.app.common.modules.database;
 
-public interface DBTableActionListener {
+public interface DBConnectorListener {
 	// --------------------------------------------------------------------------
 
 	// 커넥션 중일 때
-	public void onConnecting(DBTable table);
+	public void onConnecting(DBConnector sender);
 
 	// 커넥션 되었을 때
-	public void onConnected(DBTable table);
+	public void onConnected(DBConnector sender);
 
 	// 커넥션에 실패했을 때
-	public void onConnectionFailure(DBTable table, String reason);
+	public void onConnectionFailure(DBConnector sender, String reason);
 
 	// 디스커넥션 되었을 때
-	public void onDisconnected();
+	public void onDisconnected(DBConnector sender);
 
 	// --------------------------------------------------------------------------
 
