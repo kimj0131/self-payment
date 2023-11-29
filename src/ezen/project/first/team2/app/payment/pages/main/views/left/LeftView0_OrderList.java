@@ -31,7 +31,7 @@ public class LeftView0_OrderList extends View {
 	private static final String SELF_INPUT_BTN_TEXT = "<html>과일/채소<br>직접입력</html>";
 	private static final String RAN_BARCORDE_BTN_TEXT = "바코드 찍기";
 	
-	// background
+	// this.View
 	private static final Color BACKGROUND_COLOR = new Color(244, 248, 251);
 
 	// title
@@ -39,14 +39,14 @@ public class LeftView0_OrderList extends View {
 	private static final Color TITLE_FONT_COLOR = new Color(103, 121, 133);
 
 	// SelfInput button
-	private static final Font SELF_INPUT_BUTTON_FONT = new Font("맑은 고딕", Font.BOLD, 19);
-	private static final Color SELF_INPUT_BUTTON_FONT_COLOR = new Color(255, 255, 255);
-	private static final Color SELF_INPUT_BUTTON_COLOR = new Color(21, 150, 136);
+	private static final Font SELF_INPUT_BTN_FONT = new Font("맑은 고딕", Font.BOLD, 19);
+	private static final Color SELF_INPUT_BTN_FONT_COLOR = new Color(255, 255, 255);
+	private static final Color SELF_INPUT_BTN_COLOR = new Color(21, 150, 136);
 	
 	// RanBarCode_btn
-	private static final Font RAN_BARCODE_BUTTON_FONT = new Font("맑은 고딕", Font.BOLD, 19);
-	private static final Color RAN_BARCODE_BUTTON_FONT_COLOR = new Color(255, 255, 255);
-	private static final Color RAN_BARCODE_BUTTON_COLOR = new Color(21, 150, 136);
+	private static final Font RAN_BARCODE_BTN_FONT = new Font("맑은 고딕", Font.BOLD, 19);
+	private static final Color RAN_BARCODE_BTN_FONT_COLOR = new Color(255, 255, 255);
+	private static final Color RAN_BARCODE_BTN_COLOR = new Color(21, 150, 136);
 
 	
 	JLabel mTitle_label;
@@ -67,8 +67,7 @@ public class LeftView0_OrderList extends View {
 
 	@Override
 	protected void onInit() {
-
-		setBackground(BACKGROUND_COLOR);
+		this.setBackground(BACKGROUND_COLOR);
 		
 		mTitle_label = new JLabel(MSG_LABEL_TEXT);
 		mSelfInput_btn = new JButton(SELF_INPUT_BTN_TEXT);
@@ -76,6 +75,7 @@ public class LeftView0_OrderList extends View {
 		
 		mSelfInput_btn.setFocusable(false);
 		
+		// 그리드백 레이아웃을 사용하기 위한 constraint
 		mGbc = new GridBagConstraints();
 		
 		mProdMngr = ProductManager.getInstance();
@@ -88,6 +88,7 @@ public class LeftView0_OrderList extends View {
 
 	@Override
 	protected void onSetLayout() {
+		
 		this.setBorder(BorderFactory.createEmptyBorder(
 				PADDING, PADDING, PADDING, 0));
 		this.setLayout(new GridBagLayout());
@@ -96,13 +97,13 @@ public class LeftView0_OrderList extends View {
 		mTitle_label.setFont(TITLE_FONT);
 		mTitle_label.setForeground(TITLE_FONT_COLOR);
 		
-		mSelfInput_btn.setFont(SELF_INPUT_BUTTON_FONT);
-		mSelfInput_btn.setBackground(SELF_INPUT_BUTTON_COLOR);
-		mSelfInput_btn.setForeground(SELF_INPUT_BUTTON_FONT_COLOR);
+		mSelfInput_btn.setFont(SELF_INPUT_BTN_FONT);
+		mSelfInput_btn.setBackground(SELF_INPUT_BTN_COLOR);
+		mSelfInput_btn.setForeground(SELF_INPUT_BTN_FONT_COLOR);
 		
-		mRanBarCode_btn.setFont(SELF_INPUT_BUTTON_FONT);
-		mRanBarCode_btn.setBackground(SELF_INPUT_BUTTON_COLOR);
-		mRanBarCode_btn.setForeground(SELF_INPUT_BUTTON_FONT_COLOR);
+		mRanBarCode_btn.setFont(RAN_BARCODE_BTN_FONT);
+		mRanBarCode_btn.setBackground(RAN_BARCODE_BTN_COLOR);
+		mRanBarCode_btn.setForeground(RAN_BARCODE_BTN_FONT_COLOR);
 		mRanBarCode_btn.setFocusable(false);
 	}
 

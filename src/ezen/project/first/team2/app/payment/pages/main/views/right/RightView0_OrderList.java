@@ -99,7 +99,8 @@ public class RightView0_OrderList extends View {
 		mSum_tf = new JTextField();
 
 		mBuying_btn = new JButton(BUYING_BTN_TEXT);
-
+		
+		// 그리드백 레이아웃을 사용하기 위한 constraint
 		mGbc = new GridBagConstraints();
 
 		mProdMngr = ProductManager.getInstance();
@@ -115,11 +116,11 @@ public class RightView0_OrderList extends View {
 	
 	@Override
 	protected void onSetLayout() {
+		this.setBackground(BACKGROUND_COLOR);
 		this.setBorder(BorderFactory.createEmptyBorder(
 				PADDING, PADDING, PADDING, PADDING));
 		this.setLayout(new GridBagLayout());
 		this.setTable();
-		this.setBackground(BACKGROUND_COLOR);
 		
 		//
 		mSum_title_label.setBorder(BorderFactory.createEmptyBorder(

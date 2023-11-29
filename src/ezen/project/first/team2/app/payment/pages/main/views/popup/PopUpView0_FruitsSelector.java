@@ -5,9 +5,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -48,9 +48,9 @@ public class PopUpView0_FruitsSelector extends PopupView {
 	
 	// FV panel
 	private static final Color FV_PANEL_COLOR = new Color(255, 255, 255);
-
-	private static final int SCALED_IMG_WIDTH = 100;
-	private static final int SCALED_IMG_HEIGHT = 100;
+	
+	// 채소,과일 이름표
+	private static final Font FV_LABEL_FONT = new Font("맑은 고딕", Font.BOLD, 12);
 
 	private static final String BANANA_LABEL_TEXT = "바나나";
 	private static final String APPLE_LABEL_TEXT = "사과";
@@ -63,6 +63,10 @@ public class PopUpView0_FruitsSelector extends PopupView {
 	private static final String RADISH_LABEL_TEXT = "무";
 	private static final String PEPPER_LABEL_TEXT = "고추";
 
+	// 이미지 사이즈
+	private int mScaled_img_width = 125;
+	private int mScaled_img_height = 125;
+	
 	// 채소&과일 이름표
 	private JLabel mBanana_label;
 	private JLabel mApple_label;
@@ -128,104 +132,37 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		super.onInit();
 
 		// 채소&과일 이름표
-		mBanana_label = new JLabel(BANANA_LABEL_TEXT);
-		mApple_label = new JLabel(APPLE_LABEL_TEXT);
-		mOrange_label = new JLabel(ORANGE_LABEL_TEXT);
-		mPineapple_label = new JLabel(PINEAPPLE_LABEL_TEXT);
-		mGrape_label = new JLabel(GRAPE_LABEL_TEXT);
+		mBanana_label = makeVfLabel(BANANA_LABEL_TEXT, FV_LABEL_FONT);
+		mApple_label = makeVfLabel(APPLE_LABEL_TEXT, FV_LABEL_FONT);
+		mOrange_label = makeVfLabel(ORANGE_LABEL_TEXT, FV_LABEL_FONT);
+		mPineapple_label = makeVfLabel(PINEAPPLE_LABEL_TEXT, FV_LABEL_FONT);
+		mGrape_label = makeVfLabel(GRAPE_LABEL_TEXT, FV_LABEL_FONT);
 
-		mLettuce_label = new JLabel(LETTUCE_LABEL_TEXT);
-		mPotato_label = new JLabel(POTATO_LABEL_TEXT);
-		mSweetPotato_label = new JLabel(SWEETPOTATO_LABEL_TEXT);
-		mRadish_label = new JLabel(RADISH_LABEL_TEXT);
-		mPepper_label = new JLabel(PEPPER_LABEL_TEXT);
+		mLettuce_label = makeVfLabel(LETTUCE_LABEL_TEXT, FV_LABEL_FONT);
+		mPotato_label = makeVfLabel(POTATO_LABEL_TEXT, FV_LABEL_FONT);
+		mSweetPotato_label = makeVfLabel(SWEETPOTATO_LABEL_TEXT, FV_LABEL_FONT);
+		mRadish_label = makeVfLabel(RADISH_LABEL_TEXT, FV_LABEL_FONT);
+		mPepper_label = makeVfLabel(PEPPER_LABEL_TEXT, FV_LABEL_FONT);
 
 		// 과일버튼
-		mBanana_btn = new JButton();
-		mApple_btn = new JButton();
-		mOrange_btn = new JButton();
-		mPineapple_btn = new JButton();
-		mGrape_btn = new JButton();
+		mBanana_btn = makeVFbutton();
+		mApple_btn = makeVFbutton();
+		mOrange_btn = makeVFbutton();
+		mPineapple_btn = makeVFbutton();
+		mGrape_btn = makeVFbutton();
 
 		// 채소버튼
-		mLettuce_btn = new JButton();
-		mPotato_btn = new JButton();
-		mSweetPotato_btn = new JButton();
-		mRadish_btn = new JButton();
-		mPepper_btn = new JButton();
+		mLettuce_btn = makeVFbutton();
+		mPotato_btn = makeVFbutton();
+		mSweetPotato_btn = makeVFbutton();
+		mRadish_btn = makeVFbutton();
+		mPepper_btn = makeVFbutton();
+		
+		// 버튼에 이미지 세팅
+		setImageIntoButton();
 
 		// 취소 버튼
 		mCancel_btn = new JButton(CANCEL_BTN_TEXT);
-
-		// 과일&채소 이미지 세팅
-		try {
-
-			// BuffImage
-			BufferedImage banana_buff = ImageIO.read(new File("resources/images/fruits&vegetables/banana.png"));
-			BufferedImage apple_buff = ImageIO.read(new File("resources/images/fruits&vegetables/apple.png"));
-			BufferedImage orange_buff = ImageIO.read(new File("resources/images/fruits&vegetables/orange.png"));
-			BufferedImage pineapple_buff = ImageIO.read(new File("resources/images/fruits&vegetables/pineapple.jpg"));
-			BufferedImage grape_buff = ImageIO.read(new File("resources/images/fruits&vegetables/grape.png"));
-
-			BufferedImage lettuce_buff = ImageIO.read(new File("resources/images/fruits&vegetables/lettuce.png"));
-			BufferedImage potato_buff = ImageIO.read(new File("resources/images/fruits&vegetables/potato.png"));
-			BufferedImage sweetpotato_buff = ImageIO
-					.read(new File("resources/images/fruits&vegetables/sweetpotato.png"));
-			BufferedImage radish_buff = ImageIO.read(new File("resources/images/fruits&vegetables/radish.png"));
-			BufferedImage pepper_buff = ImageIO.read(new File("resources/images/fruits&vegetables/pepper.png"));
-
-			// ScaledImage
-			Image banana_scaledImg = banana_buff.getScaledInstance(SCALED_IMG_WIDTH, SCALED_IMG_HEIGHT,
-					Image.SCALE_SMOOTH);
-			Image apple_scaledImg = apple_buff.getScaledInstance(SCALED_IMG_WIDTH, SCALED_IMG_HEIGHT,
-					Image.SCALE_SMOOTH);
-			Image orange_scaledImg = orange_buff.getScaledInstance(SCALED_IMG_WIDTH, SCALED_IMG_HEIGHT,
-					Image.SCALE_SMOOTH);
-			Image pineapple_scaledImg = pineapple_buff.getScaledInstance(SCALED_IMG_WIDTH, SCALED_IMG_HEIGHT,
-					Image.SCALE_SMOOTH);
-			Image grape_scaledImg = grape_buff.getScaledInstance(SCALED_IMG_WIDTH, SCALED_IMG_HEIGHT,
-					Image.SCALE_SMOOTH);
-
-			Image lettuce_scaledImg = lettuce_buff.getScaledInstance(SCALED_IMG_WIDTH, SCALED_IMG_HEIGHT,
-					Image.SCALE_SMOOTH);
-			Image potato_scaledImg = potato_buff.getScaledInstance(SCALED_IMG_WIDTH, SCALED_IMG_HEIGHT,
-					Image.SCALE_SMOOTH);
-			Image sweetPotato_scaledImg = sweetpotato_buff.getScaledInstance(SCALED_IMG_WIDTH, SCALED_IMG_HEIGHT,
-					Image.SCALE_SMOOTH);
-			Image radish_scaledImg = radish_buff.getScaledInstance(SCALED_IMG_WIDTH, SCALED_IMG_HEIGHT,
-					Image.SCALE_SMOOTH);
-			Image pepper_scaledImg = pepper_buff.getScaledInstance(SCALED_IMG_WIDTH, SCALED_IMG_HEIGHT,
-					Image.SCALE_SMOOTH);
-
-			//
-			mBanana_img = new ImageIcon(banana_scaledImg);
-			mApple_img = new ImageIcon(apple_scaledImg);
-			mOrange_img = new ImageIcon(orange_scaledImg);
-			mPineapple_img = new ImageIcon(pineapple_scaledImg);
-			mGrape_img = new ImageIcon(grape_scaledImg);
-
-			mLettuce_img = new ImageIcon(lettuce_scaledImg);
-			mPotato_img = new ImageIcon(potato_scaledImg);
-			mSweetPotato_img = new ImageIcon(sweetPotato_scaledImg);
-			mRadish_img = new ImageIcon(radish_scaledImg);
-			mPepper_img = new ImageIcon(pepper_scaledImg);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		// 버튼에 이미지 달기
-		mBanana_btn.setIcon(mBanana_img);
-		mApple_btn.setIcon(mApple_img);
-		mOrange_btn.setIcon(mOrange_img);
-		mPineapple_btn.setIcon(mPineapple_img);
-		mGrape_btn.setIcon(mGrape_img);
-
-		mLettuce_btn.setIcon(mLettuce_img);
-		mPotato_btn.setIcon(mPotato_img);
-		mSweetPotato_btn.setIcon(mSweetPotato_img);
-		mRadish_btn.setIcon(mRadish_img);
-		mPepper_btn.setIcon(mPepper_img);
 		
 		mFV_panel = new JPanel();
 		mScrolledFV_pane = new JScrollPane(mFV_panel);
@@ -243,31 +180,28 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 	@Override
 	protected void onSetLayout() {
+		this.setBackground(BACKGROUND_COLOR);
 		this.setBorder(BorderFactory.createEmptyBorder(
 				PADDING, PADDING, PADDING, PADDING));
 		this.setLayout(new GridBagLayout());
-		this.setBackground(BACKGROUND_COLOR);
 
 		mFV_panel.setLayout(new GridBagLayout());
 		mFV_panel.setBackground(FV_PANEL_COLOR);
+		mFV_panel.setBorder(BorderFactory.createEmptyBorder(
+				PADDING, PADDING, PADDING, PADDING));
 		
 		//
 		mCancel_btn.setBackground(CANCEL_BTN_COLOR);
 		mCancel_btn.setForeground(CANCEL_BTN_FONT_COLOR);
 		mCancel_btn.setFont(CANCEL_BTN_FONT);
-		
-		//
-		mBanana_btn.setBorderPainted(false);
-		mBanana_btn.setBackground(Color.CYAN);
 	}
 
 	@Override
 	protected void onAddCtrls() {
 		
-		mGbc.fill = GridBagConstraints.BOTH;
+	//	mGbc.fill = GridBagConstraints.BOTH;
 		mGbc.weightx = 1;
-		
-		mGbc.insets = new Insets(10, 10, 10, 10);
+		mGbc.weighty = 1;
 
 		// 0번 행 <과일 버튼 0번>
 		mGbc.gridx = 0;
@@ -286,7 +220,9 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mGbc.gridy = 0;
 		mFV_panel.add(mPineapple_btn, mGbc);
 
+		
 		// 1번 행 <과일 이름표 0번>
+		mGbc.insets = new Insets(0, 0, 20, 0);
 		mGbc.gridx = 0;
 		mGbc.gridy = 1;
 		mFV_panel.add(mBanana_label, mGbc);
@@ -303,17 +239,21 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mGbc.gridy = 1;
 		mFV_panel.add(mPineapple_label, mGbc);
 
+		
 		// 2번 행 <과일 버튼 1번>
+		mGbc.insets = new Insets(0, 0, 0, 0);
 		mGbc.gridx = 0;
 		mGbc.gridy = 2;
 		mFV_panel.add(mGrape_btn, mGbc);
 
 		// 3번 행 <과일 이름표 1번>
+		mGbc.insets = new Insets(0, 0, 20, 0);
 		mGbc.gridx = 0;
 		mGbc.gridy = 3;
 		mFV_panel.add(mGrape_label, mGbc);
 
 		// 4번 행 <채소 버튼 0번>
+		mGbc.insets = new Insets(0, 0, 0, 0);
 		mGbc.gridx = 0;
 		mGbc.gridy = 4;
 		mFV_panel.add(mLettuce_btn, mGbc);
@@ -331,6 +271,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mFV_panel.add(mRadish_btn, mGbc);
 
 		// 5번 행 <채소 이름표 0번>
+		mGbc.insets = new Insets(0, 0, 20, 0);
 		mGbc.gridx = 0;
 		mGbc.gridy = 5;
 		mFV_panel.add(mLettuce_label, mGbc);
@@ -348,16 +289,19 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mFV_panel.add(mRadish_label, mGbc);
 
 		// 6번 행 <채소 버튼 1번>
+		mGbc.insets = new Insets(0, 0, 0, 0);
 		mGbc.gridx = 0;
 		mGbc.gridy = 6;
 		mFV_panel.add(mPepper_btn, mGbc);
 
 		// 7번 행 <채소 이름표 1번>
+		mGbc.insets = new Insets(0, 0, 20, 0);
 		mGbc.gridx = 0;
 		mGbc.gridy = 7;
 		mFV_panel.add(mPepper_label, mGbc);
 
 		/////////////////////////////////////////////////////////////
+		mGbc.fill = GridBagConstraints.BOTH;
 		
 		mGbc.insets = new Insets(0, 0, 10, 0);
 		
@@ -373,6 +317,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mGbc.gridx = 0;
 		mGbc.gridy = 1;
 		this.add(mCancel_btn, mGbc);
+		
 	}
 
 	@Override
@@ -381,130 +326,138 @@ public class PopUpView0_FruitsSelector extends PopupView {
 			performClose();
 		});
 
-		// 과일버튼
-
-		mBanana_btn.putClientProperty("pcode", "F001");
-
-		mBanana_btn.addActionListener(e -> {
-
+		ActionListener listener = e -> {
+			JButton btn = (JButton) e.getSource();
 			try {
-				ProductItem bananaItem = mProdMngr.findByProductCode(new ProductCode("F001"));
-				interactToRightView0(bananaItem);
+				if (btn == mBanana_btn) {
+					ProductItem bananaItem = mProdMngr.findByProductCode(new ProductCode("F001"));
+					interactToRightView0(bananaItem);
+				} else if (btn == mApple_btn) {
+					ProductItem appleItem = mProdMngr.findByProductCode(new ProductCode("F002"));
+					interactToRightView0(appleItem);
+				} else if (btn == mOrange_btn) {
+					ProductItem orangeItem = mProdMngr.findByProductCode(new ProductCode("F003"));
+					interactToRightView0(orangeItem);
+				} else if (btn == mPineapple_btn) {
+					ProductItem pineappleItem = mProdMngr.findByProductCode(new ProductCode("F004"));
+					interactToRightView0(pineappleItem);
+				} else if (btn == mGrape_btn) {
+					ProductItem grapeItem = mProdMngr.findByProductCode(new ProductCode("F005"));
+					interactToRightView0(grapeItem);
+				} else if (btn == mLettuce_btn) {
+					ProductItem lettuceItem = mProdMngr.findByProductCode(new ProductCode("V001"));
+					interactToRightView0(lettuceItem);
+				} else if (btn == mPotato_btn) {
+					ProductItem potatoItem = mProdMngr.findByProductCode(new ProductCode("V002"));
+					interactToRightView0(potatoItem);
+				} else if (btn == mSweetPotato_btn) {
+					ProductItem sweetpotatoItem = mProdMngr.findByProductCode(new ProductCode("V003"));
+					interactToRightView0(sweetpotatoItem);
+				} else if (btn == mRadish_btn) {
+					ProductItem RadishItem = mProdMngr.findByProductCode(new ProductCode("V004"));
+					interactToRightView0(RadishItem);
+				} else if (btn == mPepper_btn) {
+
+				}
 				
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-
-		});
-
-		mApple_btn.addActionListener(e -> {
-
-			try {
-				ProductItem appleItem = mProdMngr.findByProductCode(new ProductCode("F002"));
-				interactToRightView0(appleItem);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-		});
-
-		mOrange_btn.addActionListener(e -> {
-
-			try {
-				ProductItem orangeItem = mProdMngr.findByProductCode(new ProductCode("F003"));
-				interactToRightView0(orangeItem);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-		});
-
-		mPineapple_btn.addActionListener(e -> {
-
-			try {
-				ProductItem pineappleItem = mProdMngr.findByProductCode(new ProductCode("F004"));
-				interactToRightView0(pineappleItem);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-		});
-
-		mGrape_btn.addActionListener(e -> {
-
-			try {
-				ProductItem grapeItem = mProdMngr.findByProductCode(new ProductCode("F005"));
-				interactToRightView0(grapeItem);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-		});
+		};
+		
+		// 과일버튼
+		mBanana_btn.addActionListener(listener);
+		mApple_btn.addActionListener(listener);
+		mOrange_btn.addActionListener(listener);
+		mPineapple_btn.addActionListener(listener);
+		mGrape_btn.addActionListener(listener);
 
 		// 채소버튼
-
-		mLettuce_btn.addActionListener(e -> {
-
-			try {
-				ProductItem lettuceItem = mProdMngr.findByProductCode(new ProductCode("V001"));
-				interactToRightView0(lettuceItem);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-		});
-
-		mPotato_btn.addActionListener(e -> {
-
-			try {
-				ProductItem potatoItem = mProdMngr.findByProductCode(new ProductCode("V002"));
-				interactToRightView0(potatoItem);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-		});
-
-		mSweetPotato_btn.addActionListener(e -> {
-
-			try {
-				ProductItem sweetpotatoItem = mProdMngr.findByProductCode(new ProductCode("V003"));
-				interactToRightView0(sweetpotatoItem);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-		});
-
-		mRadish_btn.addActionListener(e -> {
-
-			try {
-				ProductItem RadishItem = mProdMngr.findByProductCode(new ProductCode("V004"));
-				interactToRightView0(RadishItem);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-		});
-
-		mPepper_btn.addActionListener(e -> {
-			try {
-				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-		});
+		mLettuce_btn.addActionListener(listener);
+		mPotato_btn.addActionListener(listener);
+		mSweetPotato_btn.addActionListener(listener);
+		mRadish_btn.addActionListener(listener);
+		mPepper_btn.addActionListener(listener);
 	}
 
 	@Override
-	protected void onShow(boolean firstTime) {
-	}
+	protected void onShow(boolean firstTime) {}
 
 	@Override
 	protected void onHide() {
 	}
+	
+	private void setImageIntoButton() {
+		// 과일&채소 이미지 세팅
+		try {
+			// BuffImage
+			BufferedImage banana_buff = ImageIO.read(new File("resources/images/fruits&vegetables/banana.png"));
+			BufferedImage apple_buff = ImageIO.read(new File("resources/images/fruits&vegetables/apple.png"));
+			BufferedImage orange_buff = ImageIO.read(new File("resources/images/fruits&vegetables/orange.png"));
+			BufferedImage pineapple_buff = ImageIO.read(new File("resources/images/fruits&vegetables/pineapple.jpg"));
+			BufferedImage grape_buff = ImageIO.read(new File("resources/images/fruits&vegetables/grape.png"));
 
+			BufferedImage lettuce_buff = ImageIO.read(new File("resources/images/fruits&vegetables/lettuce.png"));
+			BufferedImage potato_buff = ImageIO.read(new File("resources/images/fruits&vegetables/potato.png"));
+			BufferedImage sweetpotato_buff = ImageIO
+					.read(new File("resources/images/fruits&vegetables/sweetpotato.png"));
+			BufferedImage radish_buff = ImageIO.read(new File("resources/images/fruits&vegetables/radish.png"));
+			BufferedImage pepper_buff = ImageIO.read(new File("resources/images/fruits&vegetables/pepper.png"));
+
+			// ScaledImage
+			Image banana_scaledImg = banana_buff.getScaledInstance(mScaled_img_width, mScaled_img_height,
+					Image.SCALE_SMOOTH);
+			Image apple_scaledImg = apple_buff.getScaledInstance(mScaled_img_width, mScaled_img_height,
+					Image.SCALE_SMOOTH);
+			Image orange_scaledImg = orange_buff.getScaledInstance(mScaled_img_width, mScaled_img_height,
+					Image.SCALE_SMOOTH);
+			Image pineapple_scaledImg = pineapple_buff.getScaledInstance(mScaled_img_width, mScaled_img_height,
+					Image.SCALE_SMOOTH);
+			Image grape_scaledImg = grape_buff.getScaledInstance(mScaled_img_width, mScaled_img_height,
+					Image.SCALE_SMOOTH);
+
+			Image lettuce_scaledImg = lettuce_buff.getScaledInstance(mScaled_img_width, mScaled_img_height,
+					Image.SCALE_SMOOTH);
+			Image potato_scaledImg = potato_buff.getScaledInstance(mScaled_img_width, mScaled_img_height,
+					Image.SCALE_SMOOTH);
+			Image sweetPotato_scaledImg = sweetpotato_buff.getScaledInstance(mScaled_img_width, mScaled_img_height,
+					Image.SCALE_SMOOTH);
+			Image radish_scaledImg = radish_buff.getScaledInstance(mScaled_img_width, mScaled_img_height,
+					Image.SCALE_SMOOTH);
+			Image pepper_scaledImg = pepper_buff.getScaledInstance(mScaled_img_width, mScaled_img_height,
+					Image.SCALE_SMOOTH);
+
+			//
+			mBanana_img = new ImageIcon(banana_scaledImg);
+			mApple_img = new ImageIcon(apple_scaledImg);
+			mOrange_img = new ImageIcon(orange_scaledImg);
+			mPineapple_img = new ImageIcon(pineapple_scaledImg);
+			mGrape_img = new ImageIcon(grape_scaledImg);
+
+			mLettuce_img = new ImageIcon(lettuce_scaledImg);
+			mPotato_img = new ImageIcon(potato_scaledImg);
+			mSweetPotato_img = new ImageIcon(sweetPotato_scaledImg);
+			mRadish_img = new ImageIcon(radish_scaledImg);
+			mPepper_img = new ImageIcon(pepper_scaledImg);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// 버튼에 이미지 달기
+		mBanana_btn.setIcon(mBanana_img);
+		mApple_btn.setIcon(mApple_img);
+		mOrange_btn.setIcon(mOrange_img);
+		mPineapple_btn.setIcon(mPineapple_img);
+		mGrape_btn.setIcon(mGrape_img);
+
+		mLettuce_btn.setIcon(mLettuce_img);
+		mPotato_btn.setIcon(mPotato_img);
+		mSweetPotato_btn.setIcon(mSweetPotato_img);
+		mRadish_btn.setIcon(mRadish_img);
+		mPepper_btn.setIcon(mPepper_img);
+	}
+	
 	// 버튼 눌렀을때 상호작용 메서드
 	private void interactToRightView0(ProductItem prodItem) {
 		try {
@@ -534,7 +487,6 @@ public class PopUpView0_FruitsSelector extends PopupView {
 						rv0.get_mSum_tf().setText(
 								UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getOrgTotalPrice())
 										+ "원");
-
 					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -548,5 +500,20 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+	}
+
+	//
+	private JButton makeVFbutton() {
+		JButton vfBtn = new JButton();
+		vfBtn.setMargin(new Insets(0, 0, 0, 0));
+		vfBtn.setContentAreaFilled(false);
+		vfBtn.setBorderPainted(false);
+		return vfBtn;
+	}
+	
+	private JLabel makeVfLabel(String text, Font font) {
+		JLabel vfLabel = new JLabel(text);
+		vfLabel.setFont(font);
+		return vfLabel;
 	}
 }

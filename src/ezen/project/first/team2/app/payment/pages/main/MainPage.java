@@ -7,6 +7,7 @@
 package ezen.project.first.team2.app.payment.pages.main;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import ezen.project.first.team2.app.common.framework.Page;
 import ezen.project.first.team2.app.common.modules.base.ListActionAdapter;
@@ -34,6 +35,7 @@ public class MainPage extends Page {
 
 	public static final String TITLE = "결제 프로그램";
 	public static final Dimension SIZE = new Dimension(1280, 720);
+	//public static final Dimension SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 
 	// 뷰 번호 정의
 	public static final int VIEW_NUM_MAIN = 0;

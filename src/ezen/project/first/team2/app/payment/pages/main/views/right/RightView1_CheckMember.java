@@ -1,7 +1,11 @@
 package ezen.project.first.team2.app.payment.pages.main.views.right;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,26 +21,40 @@ import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
 public class RightView1_CheckMember extends View {
 
-	private static final int PADDING = 10;
+	private static final int PADDING = 20;
 
 	private static final String CHECK_BTN_TEXT = "확인";
 	private static final String PASS_BTN_TEXT = "적립안함";
 	private static final String DEL_BTN_TEXT = "전체삭제";
 	private static final String UNDO_BTN_TEXT = "삭제";
 	private static final String PHONE_ID_NUMEBER_TEXT = "010-";
+	
+	// this.View
+	private static final Color BACKGROUND_COLOR = new Color(244, 248, 251);
+	
+	// Pass button
+	private static final Font PASS_BTN_FONT = new Font("맑은 고딕", Font.BOLD, 19);
+	private static final Color PASS_BTN_FONT_COLOR = new Color(255, 255, 255);
+	private static final Color PASS_BTN_COLOR = new Color(79, 175, 86);
 
 	private JButton mCheck_btn;
 	private JButton mPass_btn;
 
 	// 숫자패드
+	private JPanel mNum_panel; // 숫자버튼을 담을 패널
 	private StringBuilder mPhoneNum; // 010-0000-0000
 	private StringBuilder mHidedPhoneNum; // 010 -****-***0
 	private JTextField mNums_tf; // 누른 번호가 표시되는 곳
-	private JPanel mNum_panel; // 숫자버튼을 담을 패널
 	private JButton[] mNum_btn_arr; // "숫자" 버튼을 모아두는 배열
 	private JButton mDel_btn; // 전체삭제 버튼
 	private JButton mUndo_btn; // 한칸지우기 버튼
 	//
+	
+	// mNums_tf, mNum_panel, Check_btn 이 들어가는 패널
+	private JPanel mTop_panel;
+	
+	// 그리드백 레이아웃을 사용하기 위한 constraint
+	private GridBagConstraints mGbc;
 
 	private CustomerManager mCustMngr;
 	private ProductPurchasing mProdPurchasing;
@@ -69,10 +87,15 @@ public class RightView1_CheckMember extends View {
 		mDel_btn = new JButton(DEL_BTN_TEXT);
 		mUndo_btn = new JButton(UNDO_BTN_TEXT);
 		mNum_panel = new JPanel();
+		
+		mTop_panel = new JPanel();
+
+		// 그리드백 레이아웃을 사용하기 위한 constraint
+		mGbc = new GridBagConstraints();
 
 		// 매니저 인스턴스 가져오기
 		mCustMngr = CustomerManager.getInstance();
-
+		
 		// 메인 페이지에서 mProdPurchasing 가져오기
 		MainPage mainPage = (MainPage) this.getPage();
 		this.mProdPurchasing = mainPage.mProdPurchasing;
@@ -80,11 +103,20 @@ public class RightView1_CheckMember extends View {
 
 	@Override
 	protected void onSetLayout() {
+		this.setBackground(BACKGROUND_COLOR);
 		this.setBorder(BorderFactory.createEmptyBorder(
 				PADDING, PADDING, PADDING, PADDING));
-		this.setLayout(new GridLayout(2, 2));
+		this.setLayout(new GridBagLayout());
+
+		mTop_panel.setLayout(new GridBagLayout());
+		mTop_panel.setBackground(Color.WHITE);
 
 		mNum_panel.setLayout(new GridLayout(4, 3));
+		
+		// 디자인 관련 설정
+		mPass_btn.setFont(PASS_BTN_FONT);
+		mPass_btn.setBackground(PASS_BTN_COLOR);
+		mPass_btn.setForeground(PASS_BTN_FONT_COLOR);
 	}
 
 	@Override
@@ -99,10 +131,46 @@ public class RightView1_CheckMember extends View {
 		mNum_panel.add(mNum_btn_arr[0]);
 		mNum_panel.add(mUndo_btn);
 
-		this.add(mNums_tf);
-		this.add(mCheck_btn);
-		this.add(mNum_panel);
-		this.add(mPass_btn);
+		
+		// mTop_panel
+		mGbc.weightx = 1;
+		mGbc.weighty = 1;
+		
+		mGbc.gridx = 0;
+		mGbc.gridy = 0;
+		mTop_panel.add(mNums_tf, mGbc);
+		
+		mGbc.gridx = 0;
+		mGbc.gridy = 1;
+		mTop_panel.add(mCheck_btn, mGbc);
+
+		mGbc.fill = GridBagConstraints.BOTH;
+		mGbc.gridheight = 2;
+		mGbc.gridx = 1;
+		mGbc.gridy = 0;
+		mTop_panel.add(mNum_panel, mGbc);
+
+
+		// this.View
+		mGbc.fill = GridBagConstraints.BOTH;
+		mGbc.anchor = GridBagConstraints.NORTH;
+		
+		mGbc.insets = new Insets(0, 0, 100, 0);
+		
+		mGbc.gridwidth = 3;
+		mGbc.gridheight = 1;
+		mGbc.gridx = 0;
+		mGbc.gridy = 0;
+		this.add(mTop_panel, mGbc);
+		
+		mGbc.insets = new Insets(0, 0, 0, 0);
+		
+		mGbc.weighty = 0.06;
+		mGbc.anchor = GridBagConstraints.LINE_END;
+		mGbc.fill = GridBagConstraints.VERTICAL;
+		mGbc.gridx = 2;
+		mGbc.gridy = 1;
+		this.add(mPass_btn, mGbc);
 	}
 
 	@Override
@@ -117,12 +185,9 @@ public class RightView1_CheckMember extends View {
 
 				// 확인된 회원
 				if (customerItem != null) {
-
 					// 구매내역에 고객 아이디 설정
 					mProdPurchasing._3_applyCustomerPoint(customerItem.getId());
-
 					mainPage.showPopupViewByNum(MainPage.POPUP_VIEW_VERIFIED_MEMBER_INFO_NUM);
-
 				} else {
 					// 없는 회원
 					mainPage.showPopupViewByNum(MainPage.POPUP_VIEW_UNVERIFIED_MEMBER_INFO_NUM);
