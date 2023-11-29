@@ -43,6 +43,11 @@ public class BlueThread {
 		this(listener, param, DEFAULT_SLEEP_IN_MILLIS);
 	}
 
+	// 생성자
+	public BlueThread(Listener listener) {
+		this(listener, null);
+	}
+
 	// 스레드 시작
 	public void start() throws Exception {
 		// 이미 실행 중인 경우 예외 발생
