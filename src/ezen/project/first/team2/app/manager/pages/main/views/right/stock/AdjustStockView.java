@@ -109,14 +109,10 @@ public class AdjustStockView extends View {
             Object[][] mProdListRows = new Object[mPropertyColumn.length][prodMngr.getCount()];
 
             DefaultTableModel model = new DefaultTableModel(mProdListRows, mPropertyColumn) {
-                // '실재고'컬럼 외 내용 수정 불가
-                boolean[] canEdit = new boolean[] {
-                        false, false, false, false, false, true
-                };
 
                 @Override
                 public boolean isCellEditable(int row, int column) {
-                    return canEdit[column];
+                    return false;
                 };
 
             };
@@ -171,6 +167,7 @@ public class AdjustStockView extends View {
         this.mTextFieldProductCode.setEditable(false);
         this.mTextFieldProductName.setEditable(false);
         this.mTextFieldProductPrice.setEditable(false);
+        this.mTextFieldAdjustCurrent.setEditable(false);
 
         // 라벨설정
         this.mLabelPanelInfo_1.setHorizontalAlignment(JLabel.CENTER);
@@ -385,11 +382,16 @@ public class AdjustStockView extends View {
 
         m.setRowCount(0);
 
-        for (ProductItem pi : prodItemList) {
-            m.addRow(new Object[] {
-                    pi.getId(), pi.getProdCodeStr(),
-                    pi.getName(), df.format(pi.getPrice()),
-            });
+        try {
+            for (ProductItem pi : prodItemList) {
+                m.addRow(new Object[] {
+                        pi.getId(), pi.getProdCodeStr(),
+                        pi.getName(), df.format(pi.getPrice()),
+                        prodStMngr.getQuantityByProdId(pi.getId())
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
