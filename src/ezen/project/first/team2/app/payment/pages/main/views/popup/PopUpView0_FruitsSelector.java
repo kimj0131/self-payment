@@ -41,10 +41,10 @@ public class PopUpView0_FruitsSelector extends PopupView {
 	// this.View
 	private static final Color BACKGROUND_COLOR = new Color(244, 248, 251);
 	
-	// Buying Button
+	// Cancel Button
 	private static final Font CANCEL_BTN_FONT = new Font("맑은 고딕", Font.BOLD, 19);
 	private static final Color CANCEL_BTN_FONT_COLOR = new Color(255, 255, 255);
-	private static final Color CANCEL_BTN_COLOR = new Color(21, 150, 136);
+	private static final Color CANCEL_BTN_COLOR = new Color(3, 181, 208);
 	
 	// FV panel
 	private static final Color FV_PANEL_COLOR = new Color(255, 255, 255);
@@ -301,6 +301,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mFV_panel.add(mPepper_label, mGbc);
 
 		/////////////////////////////////////////////////////////////
+		
 		mGbc.fill = GridBagConstraints.BOTH;
 		
 		mGbc.insets = new Insets(0, 0, 10, 0);

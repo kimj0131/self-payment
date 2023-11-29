@@ -9,6 +9,7 @@ package ezen.project.first.team2.app.payment;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
+import javax.swing.UIManager;
 
 import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
@@ -16,7 +17,6 @@ import ezen.project.first.team2.app.common.pages.splash.SplashPageParams;
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;
 import ezen.project.first.team2.app.common.utils.TimeUtils;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
-import ezen.project.first.team2.app.payment.pages.stanby.StanbyPage;
 
 public class Main extends StatusManager {
 	// 페이지 번호 정의 - 뷰에서도 사용하므로 public으로 선언
@@ -33,6 +33,11 @@ public class Main extends StatusManager {
 	// 초기화 작업 - DB 커넥션 등
 	@Override
 	protected void onInit() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.out.println("[Main.onInit()]");
 	}
 

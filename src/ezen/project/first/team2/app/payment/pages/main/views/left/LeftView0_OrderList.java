@@ -1,12 +1,9 @@
 package ezen.project.first.team2.app.payment.pages.main.views.left;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,12 +16,12 @@ import ezen.project.first.team2.app.common.modules.product.order_details.Product
 import ezen.project.first.team2.app.common.modules.product.orders.ProductOrderItem;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.common.utils.UnitUtils;
-import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 import ezen.project.first.team2.app.payment.pages.main.views.right.RightView0_OrderList;
 
 public class LeftView0_OrderList extends View {
+	
 	private static final int PADDING = 20;
 
 	private static final String MSG_LABEL_TEXT = "<html>구매하실<br>상품을<br>스캔해주세요</html>";
@@ -48,7 +45,6 @@ public class LeftView0_OrderList extends View {
 	private static final Color RAN_BARCODE_BTN_FONT_COLOR = new Color(255, 255, 255);
 	private static final Color RAN_BARCODE_BTN_COLOR = new Color(21, 150, 136);
 
-	
 	JLabel mTitle_label;
 	JButton mSelfInput_btn;
 	JButton mRanBarCode_btn;
@@ -147,6 +143,9 @@ public class LeftView0_OrderList extends View {
 				RightView0_OrderList rv0 = (RightView0_OrderList) mainView
 						.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
 
+				// 상품 추가됐으면 RightView0에 있는 결제하기 버튼 활성화
+				rv0.activateButton();
+				
 				// 테이블 초기화 작업
 				rv0.get_mTableModel().setNumRows(0);
 

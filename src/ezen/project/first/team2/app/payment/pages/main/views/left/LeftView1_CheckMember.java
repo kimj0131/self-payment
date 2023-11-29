@@ -6,7 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -18,7 +17,7 @@ import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 public class LeftView1_CheckMember extends View {
 	private static final int PADDING = 20;
 
-	private static final String MSG_LABEL_TEXT = "<html>회원인 경우<br>휴대폰 번호를<br>입력해주세요</html>";
+	private static final String TITLE_LABEL_TEXT = "<html>회원인 경우<br>휴대폰 번호를<br>입력해주세요</html>";
 	private static final String PREV_BTN_TEXT = "이전단계";
 	
 	// this.View
@@ -45,7 +44,7 @@ public class LeftView1_CheckMember extends View {
 
 	@Override
 	protected void onInit() {
-		mTitle_label = new JLabel(MSG_LABEL_TEXT);
+		mTitle_label = new JLabel(TITLE_LABEL_TEXT);
 		mPrev_btn = new JButton(PREV_BTN_TEXT);
 		
 		// 그리드백 레이아웃을 사용하기 위한 constraint

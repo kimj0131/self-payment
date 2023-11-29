@@ -1,12 +1,14 @@
 package ezen.project.first.team2.app.payment.pages.main.views.right;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JTextArea;
+import javax.swing.JLabel;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
@@ -16,22 +18,39 @@ import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
 public class RightView2_PointInfo extends View {
 
-	private static final int PADDING = 10;
+	private static final int PADDING = 20;
 	
-	private static final String POINT_INFO_TEXT_FORMAT = "결제 완료 후 포인트가 적립 됩니다\n"
-			+ "[ 적립 예정 포인트 : %d P ]\n"
-			+ "[ 사용 가능한 포인트 : %d P ]";
+	private static final String POINT_INFO_TEXT_FORMAT = 
+			"<html><center>"
+			+ "결제 완료 후 포인트가 적립됩니다<br><br>"
+			+ "[ 적립 예정 포인트 : %d P ]<br>"
+			+ "[ 사용 가능한 포인트 : %d P ]"
+			+ "</center></html>";
+
 	private static final String USE_POINTS_BTN_TEXT = "포인트 사용";
 	private static final String NOT_USE_POINTS_BTN_TEXT = "포인트 사용안함";
 	
-	GridBagConstraints gbc = new GridBagConstraints();
-
-	JTextArea mPointsInfo_ta;
+	// this.View
+	private static final Color BACKGROUND_COLOR = new Color(244, 248, 251);
+	
+	// PointsInfo Label
+	private static final Font MASSAGE_LABEL_FONT = new Font("맑은 고딕", Font.PLAIN, 29);
+	private static final Color MASSAGE_LABEL_FONT_COLOR = new Color(103, 121, 133);
+	private static final Color MASSAGE_LABEL_COLOR = new Color(255, 255, 255);
+	
+	// UsePoints & NotUsePoints Button
+	private static final Font BTN_FONT = new Font("맑은 고딕", Font.BOLD, 19);
+	private static final Color BTN_FONT_COLOR = new Color(255, 255, 255);
+	private static final Color BTN_COLOR = new Color(79, 175, 86);
+	
+	JLabel mPointsInfo_label;
 	JButton mUsePoints_btn;
 	JButton mNotUsePoints_btn;
 
+	// 그리드백 레이아웃을 사용하기 위한 constraint
+	private GridBagConstraints mGbc;
+
 	private ProductPurchasing mProdPurchasing;
-	
 	
 	public RightView2_PointInfo() {
 		super(MainPage.RIGHT_VIEW_POINT_INFO_NUM);
@@ -39,11 +58,13 @@ public class RightView2_PointInfo extends View {
 
 	@Override
 	protected void onInit() {
-		setBackground(Color.DARK_GRAY);
 		
-		mPointsInfo_ta = new JTextArea();
+		mPointsInfo_label = new JLabel();
 		mUsePoints_btn = new JButton(USE_POINTS_BTN_TEXT);
 		mNotUsePoints_btn = new JButton(NOT_USE_POINTS_BTN_TEXT);
+		
+		// 그리드백 레이아웃을 사용하기 위한 constraint
+		mGbc = new GridBagConstraints();
 		
 		// 메인 페이지에서 mProdPurchasing 가져오기
 		MainPage mainPage = (MainPage) this.getPage();
@@ -52,34 +73,55 @@ public class RightView2_PointInfo extends View {
 
 	@Override
 	protected void onSetLayout() {
+		this.setBackground(BACKGROUND_COLOR);
 		this.setBorder(BorderFactory.createEmptyBorder(
 				PADDING, PADDING, PADDING, PADDING));
 		this.setLayout(new GridBagLayout());
+		
+		// 디자인 관련 설정
+		mPointsInfo_label.setOpaque(true);
+		mPointsInfo_label.setBackground(MASSAGE_LABEL_COLOR);
+		mPointsInfo_label.setForeground(MASSAGE_LABEL_FONT_COLOR);
+		mPointsInfo_label.setFont(MASSAGE_LABEL_FONT);
+		mPointsInfo_label.setHorizontalAlignment(JLabel.CENTER);
+		
+		mUsePoints_btn.setFont(BTN_FONT);
+		mUsePoints_btn.setBackground(BTN_COLOR);
+		mUsePoints_btn.setForeground(BTN_FONT_COLOR);
+		
+		mNotUsePoints_btn.setFont(BTN_FONT);
+		mNotUsePoints_btn.setBackground(BTN_COLOR);
+		mNotUsePoints_btn.setForeground(BTN_FONT_COLOR);
 	}
 
 	@Override
 	protected void onAddCtrls() {
-		mPointsInfo_ta.setEditable(false);
-		mPointsInfo_ta.setFocusable(false);
 
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1.0;
-		gbc.weighty = 1.0;
+		mGbc.fill = GridBagConstraints.BOTH;
+		mGbc.weightx = 1;
+		mGbc.weighty = 1;
+		
+		mGbc.gridwidth = 2;
+		
+		mGbc.gridx = 0;
+		mGbc.gridy = 0;
+		this.add(mPointsInfo_label, mGbc);
 
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 2;
-		this.add(mPointsInfo_ta, gbc);
+		mGbc.insets = new Insets(PADDING, 0, 0, PADDING / 2);
+		
+		mGbc.gridwidth = 1;
+		
+		mGbc.weighty = 0.05;
+		mGbc.gridx = 0;
+		mGbc.gridy = 1;
+		this.add(mUsePoints_btn, mGbc);
 
-		gbc.weighty = 0.1;
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		this.add(mUsePoints_btn, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		this.add(mNotUsePoints_btn, gbc);
+		
+		mGbc.insets = new Insets(PADDING, PADDING / 2, 0, 0);
+		
+		mGbc.gridx = 1;
+		mGbc.gridy = 1;
+		this.add(mNotUsePoints_btn, mGbc);
 	}
 
 	@Override
@@ -125,7 +167,7 @@ public class RightView2_PointInfo extends View {
 			e.printStackTrace();
 		}
 		
-		mPointsInfo_ta.setText(String.format(POINT_INFO_TEXT_FORMAT, earnedPoint, point));
+		mPointsInfo_label.setText(String.format(POINT_INFO_TEXT_FORMAT, earnedPoint, point));
 		
 	}
 
@@ -136,7 +178,7 @@ public class RightView2_PointInfo extends View {
 	@Override
 	protected void onSetResources() {
 		Main main = (Main) this.getStatusManager();
-		mPointsInfo_ta.setFont(main.mFont0);
+		mPointsInfo_label.setFont(main.mFont0);
 	}
 
 }

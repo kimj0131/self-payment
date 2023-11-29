@@ -2,10 +2,15 @@ package ezen.project.first.team2.app.payment.pages.main.views.right;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -26,16 +31,31 @@ public class RightView1_CheckMember extends View {
 	private static final String CHECK_BTN_TEXT = "확인";
 	private static final String PASS_BTN_TEXT = "적립안함";
 	private static final String DEL_BTN_TEXT = "전체삭제";
-	private static final String UNDO_BTN_TEXT = "삭제";
+	private static final String UNDO_BTN_TEXT = "<";
 	private static final String PHONE_ID_NUMEBER_TEXT = "010-";
 	
 	// this.View
 	private static final Color BACKGROUND_COLOR = new Color(244, 248, 251);
+
+	// Check Button
+	private static final Font CHECK_BTN_FONT = new Font("맑은 고딕", Font.BOLD, 19);
+	private static final Color CHECK_BTN_FONT_COLOR = new Color(255, 255, 255);
+	private static final Color CHECK_BTN_COLOR = new Color(79, 175, 86);
 	
-	// Pass button
+	// Pass Button
 	private static final Font PASS_BTN_FONT = new Font("맑은 고딕", Font.BOLD, 19);
 	private static final Color PASS_BTN_FONT_COLOR = new Color(255, 255, 255);
 	private static final Color PASS_BTN_COLOR = new Color(79, 175, 86);
+	
+	// number pad Button
+	private static final Font NUM_BTN_FONT = new Font("맑은 고딕", Font.BOLD, 25);
+	private static final Color NUM_BTN_FONT_COLOR = new Color(91, 111, 125);
+	private static final Color NUM_BTN_COLOR = new Color(255, 255, 255);
+	
+	// mNums_tf
+	private static final Font NUMS_TF_FONT = new Font("맑은 고딕", Font.PLAIN, 40);
+	private static final Color NUMS_TF_FONT_COLOR = new Color(54, 70, 81);
+	private static final Color NUMS_TF_COLOR = new Color(225, 239, 248);
 
 	private JButton mCheck_btn;
 	private JButton mPass_btn;
@@ -81,11 +101,11 @@ public class RightView1_CheckMember extends View {
 		// 숫자 버튼 만들기
 		mNum_btn_arr = new JButton[10];
 		for (int i = 0; i < mNum_btn_arr.length; ++i) {
-			mNum_btn_arr[i] = new JButton(String.valueOf(i));
+			mNum_btn_arr[i] = makeButton(String.valueOf(i));
 		}
 
-		mDel_btn = new JButton(DEL_BTN_TEXT);
-		mUndo_btn = new JButton(UNDO_BTN_TEXT);
+		mDel_btn = makeButton(DEL_BTN_TEXT);
+		mUndo_btn = makeButton(UNDO_BTN_TEXT);
 		mNum_panel = new JPanel();
 		
 		mTop_panel = new JPanel();
@@ -110,13 +130,29 @@ public class RightView1_CheckMember extends View {
 
 		mTop_panel.setLayout(new GridBagLayout());
 		mTop_panel.setBackground(Color.WHITE);
+		mTop_panel.setBorder(BorderFactory.createEmptyBorder(
+				PADDING, PADDING, PADDING, PADDING));
 
-		mNum_panel.setLayout(new GridLayout(4, 3));
+		GridLayout numPanalGrl = new GridLayout(4, 3);
+		numPanalGrl.setHgap(10);
+		numPanalGrl.setVgap(10);
+		mNum_panel.setLayout(numPanalGrl);
+		mNum_panel.setBackground(Color.WHITE);
 		
 		// 디자인 관련 설정
+		mCheck_btn.setFont(CHECK_BTN_FONT);
+		mCheck_btn.setBackground(CHECK_BTN_COLOR);
+		mCheck_btn.setForeground(CHECK_BTN_FONT_COLOR);
+		
 		mPass_btn.setFont(PASS_BTN_FONT);
 		mPass_btn.setBackground(PASS_BTN_COLOR);
 		mPass_btn.setForeground(PASS_BTN_FONT_COLOR);
+		
+		mNums_tf.setFont(NUMS_TF_FONT);
+		mNums_tf.setBackground(NUMS_TF_COLOR);
+		mNums_tf.setForeground(NUMS_TF_FONT_COLOR);
+		mNums_tf.setHorizontalAlignment(JTextField.CENTER);
+		mNums_tf.setBorder(null);
 	}
 
 	@Override
@@ -136,15 +172,20 @@ public class RightView1_CheckMember extends View {
 		mGbc.weightx = 1;
 		mGbc.weighty = 1;
 		
+		mGbc.fill = GridBagConstraints.BOTH;
 		mGbc.gridx = 0;
 		mGbc.gridy = 0;
 		mTop_panel.add(mNums_tf, mGbc);
 		
+		mGbc.insets = new Insets(PADDING, 0, 0, 0);
+		
+		mGbc.weighty = 0.5;
 		mGbc.gridx = 0;
 		mGbc.gridy = 1;
 		mTop_panel.add(mCheck_btn, mGbc);
+		
+		mGbc.insets = new Insets(0, PADDING, 0, 0);
 
-		mGbc.fill = GridBagConstraints.BOTH;
 		mGbc.gridheight = 2;
 		mGbc.gridx = 1;
 		mGbc.gridy = 0;
@@ -300,5 +341,50 @@ public class RightView1_CheckMember extends View {
 
 		mPhoneNum.append(PHONE_ID_NUMEBER_TEXT);
 		mHidedPhoneNum.append(PHONE_ID_NUMEBER_TEXT);
+	}
+	
+	
+	private JButton makeButton(String text) {
+		
+		JButton numBtn = new JButton(text) {
+			@Override
+			protected void paintComponent(Graphics g) {
+				int width = getWidth();
+				int height = getHeight();
+				Graphics2D graphics = (Graphics2D) g;
+				graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				
+				// 마우스를 올리면 밝아지고 누르면 어두워진다
+				if (getModel().isArmed()) {
+					graphics.setColor(NUM_BTN_COLOR.darker());
+				} else if (getModel().isRollover()) {
+					graphics.setColor(NUM_BTN_COLOR.brighter());
+				} else {
+					graphics.setColor(NUM_BTN_COLOR);
+				}
+				
+				// 라운드 모양을 설정
+				graphics.fillRoundRect(0, 0, width, height, 10, 10);
+				
+				FontMetrics fontMetrics = graphics.getFontMetrics();
+				Rectangle stringBounds = fontMetrics.getStringBounds(this.getText(), graphics).getBounds();
+				int textX = (width - stringBounds.width) / 2;
+				int textY = (height - stringBounds.height) / 2 + fontMetrics.getAscent();
+				
+				// 폰트 draw 작업
+				graphics.setColor(NUM_BTN_FONT_COLOR);
+				graphics.setFont(getFont());
+				graphics.drawString(getText(), textX, textY);
+				graphics.drawRoundRect(0, 0, width - 1, height - 1, 10, 10);
+				graphics.dispose();
+				super.paintComponent(g);
+			}
+		};
+		
+		numBtn.setFont(NUM_BTN_FONT);
+		numBtn.setBorderPainted(false);
+		numBtn.setContentAreaFilled(false);
+	
+		return numBtn;
 	}
 }

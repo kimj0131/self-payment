@@ -1,9 +1,12 @@
 package ezen.project.first.team2.app.payment.pages.main.views.left;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -15,15 +18,31 @@ import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
 public class LeftView3_Payment extends View {
 
-	private static final int PADDING = 10;
+	private static final int PADDING = 20;
 
 	private static final String ORG_PRICE_TITLE_LABEL_TEXT = "총 금액";
 	private static final String DISCOUNT_TITLE_lABEL_TEXT = "회원 할인 금액";
 	private static final String USED_POINTS_TITLE_lABEL_TEXT = "사용한 포인트";
 	private static final String FINAL_PRICE_TITLE_LABEL_TEXT = "최종 금액";
-
 	private static final String PREV_BTN_TEXT = "이전단계";
-
+	
+	// this.View
+	private static final Color BACKGROUND_COLOR = new Color(244, 248, 251);
+	
+	// title Label
+	private static final Font TITLE_LABEL_FONT = new Font("맑은 고딕", Font.PLAIN, 29);
+	private static final Color TITLE_LABEL_FONT_COLOR = new Color(103, 121, 133);
+	
+	// label
+	private static final Font LABEL_FONT = new Font("맑은 고딕", Font.PLAIN, 20);
+	private static final Color LABEL_FONT_COLOR = new Color(103, 121, 133);
+	
+	// Prev button
+	private static final Font PREV_BTN_FONT = new Font("맑은 고딕", Font.BOLD, 19);
+	private static final Color PREV_BTN_FONT_COLOR = new Color(255, 255, 255);
+	private static final Color PREV_BTN_COLOR = new Color(21, 150, 136);
+	
+	
 	// 타이틀 라벨, 금액표시 라벨, 금액
 	private JLabel mOrgPrice_title_label;
 	private JLabel mOrgPrice_label;
@@ -44,6 +63,9 @@ public class LeftView3_Payment extends View {
 
 	private JButton mPrev_btn;
 
+	// 그리드백 레이아웃을 사용하기 위한 constraint
+	private GridBagConstraints mGbc;
+	
 	private ProductPurchasing mProdPurchasing;
 
 	public LeftView3_Payment() {
@@ -52,11 +74,6 @@ public class LeftView3_Payment extends View {
 
 	@Override
 	protected void onInit() {
-		setBackground(Color.GRAY);
-
-		// 메인 페이지에서 mProdPurchasing 가져오기
-		MainPage mainPage = (MainPage) this.getPage();
-		this.mProdPurchasing = mainPage.mProdPurchasing;
 
 		mOrgPrice_title_label = new JLabel(ORG_PRICE_TITLE_LABEL_TEXT);
 		mOrgPrice_label = new JLabel();
@@ -69,34 +86,107 @@ public class LeftView3_Payment extends View {
 
 		mFinalPrice_title_label = new JLabel(FINAL_PRICE_TITLE_LABEL_TEXT);
 		mFinalPrice_label = new JLabel();
-		//
 
 		mPrev_btn = new JButton(PREV_BTN_TEXT);
+		
+		
+		// 그리드백 레이아웃을 사용하기 위한 constraint
+		mGbc = new GridBagConstraints();
+		
+		// 메인 페이지에서 mProdPurchasing 가져오기
+		MainPage mainPage = (MainPage) this.getPage();
+		this.mProdPurchasing = mainPage.mProdPurchasing;
 	}
 
 	@Override
 	protected void onSetLayout() {
+		this.setBackground(BACKGROUND_COLOR);
 		this.setBorder(BorderFactory.createEmptyBorder(
 				PADDING, PADDING, PADDING, PADDING));
-		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		this.setLayout(new GridBagLayout());
+		
+		// 디자인 관련 설정
+		mOrgPrice_title_label.setFont(TITLE_LABEL_FONT);
+		mOrgPrice_title_label.setForeground(TITLE_LABEL_FONT_COLOR);
+		mOrgPrice_label.setFont(LABEL_FONT);
+		mOrgPrice_label.setForeground(LABEL_FONT_COLOR);
+
+		mDiscount_title_label.setFont(TITLE_LABEL_FONT);
+		mDiscount_title_label.setForeground(TITLE_LABEL_FONT_COLOR);
+		mDiscount_label.setFont(LABEL_FONT);
+		mDiscount_label.setForeground(LABEL_FONT_COLOR);
+		
+		mUsedPoints_title_label.setFont(TITLE_LABEL_FONT);
+		mUsedPoints_title_label.setForeground(TITLE_LABEL_FONT_COLOR);
+		mUsedPoints_label.setFont(LABEL_FONT);
+		mUsedPoints_label.setForeground(LABEL_FONT_COLOR);
+		
+		mFinalPrice_title_label.setFont(TITLE_LABEL_FONT);
+		mFinalPrice_title_label.setForeground(TITLE_LABEL_FONT_COLOR);
+		mFinalPrice_label.setFont(LABEL_FONT);
+		mFinalPrice_label.setForeground(LABEL_FONT_COLOR);
+		
+		mPrev_btn.setFont(PREV_BTN_FONT);
+		mPrev_btn.setBackground(PREV_BTN_COLOR);
+		mPrev_btn.setForeground(PREV_BTN_FONT_COLOR);
 	}
 
 	@Override
 	protected void onAddCtrls() {
+		mGbc.anchor = GridBagConstraints.NORTH;
+		mGbc.fill = GridBagConstraints.HORIZONTAL;
+		mGbc.weighty = 0.01;
+		
+		mGbc.gridx = 0;
+		mGbc.gridy = 0;
+		this.add(mOrgPrice_title_label, mGbc);
+		
+		mGbc.gridx = 0;
+		mGbc.gridy = 1;
+		this.add(mOrgPrice_label, mGbc);
+		
+		//
+		
+		mGbc.insets = new Insets(20, 0, 0, 0);
+		mGbc.gridx = 0;
+		mGbc.gridy = 2;
+		this.add(mDiscount_title_label, mGbc);
+		
+		mGbc.insets = new Insets(0, 0, 0, 0);
+		mGbc.gridx = 0;
+		mGbc.gridy = 3;
+		this.add(mDiscount_label, mGbc);
 
-		this.add(mOrgPrice_title_label);
-		this.add(mOrgPrice_label);
+		//
+		
+		mGbc.insets = new Insets(20, 0, 0, 0);
+		mGbc.gridx = 0;
+		mGbc.gridy = 4;
+		this.add(mUsedPoints_title_label, mGbc);
+		
+		mGbc.insets = new Insets(0, 0, 0, 0);
+		mGbc.gridx = 0;
+		mGbc.gridy = 5;
+		this.add(mUsedPoints_label, mGbc);
 
-		this.add(mDiscount_title_label);
-		this.add(mDiscount_label);
+		//
+		
+		mGbc.insets = new Insets(20, 0, 0, 0);
+		mGbc.gridx = 0;
+		mGbc.gridy = 6;
+		this.add(mFinalPrice_title_label, mGbc);
+		
+		mGbc.insets = new Insets(0, 0, 0, 0);
+		mGbc.gridx = 0;
+		mGbc.gridy = 7;
+		this.add(mFinalPrice_label, mGbc);
 
-		this.add(mUsedPoints_title_label);
-		this.add(mUsedPoints_label);
-
-		this.add(mFinalPrice_title_label);
-		this.add(mFinalPrice_label);
-
-		this.add(mPrev_btn);
+		mGbc.fill = GridBagConstraints.HORIZONTAL;
+		mGbc.anchor = GridBagConstraints.LAST_LINE_END;
+		mGbc.weighty = 0.5;
+		mGbc.gridx = 0;
+		mGbc.gridy = 8;
+		this.add(mPrev_btn, mGbc);
 	}
 
 	@Override

@@ -7,8 +7,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -25,9 +23,7 @@ import javax.swing.table.TableCellRenderer;
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManager;
-import ezen.project.first.team2.app.common.modules.product.orders.ProductOrderItem;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
-import ezen.project.first.team2.app.common.utils.UnitUtils;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
@@ -52,7 +48,8 @@ public class RightView0_OrderList extends View {
 	// Buying Button
 	private static final Font BUYING_BTN_FONT = new Font("맑은 고딕", Font.BOLD, 19);
 	private static final Color BUYING_BTN_FONT_COLOR = new Color(255, 255, 255);
-	private static final Color BUYING_BTN_COLOR = new Color(79, 175, 86);
+	private static final Color BUYING_BTN_ACTIVETED_COLOR = new Color(79, 175, 86);
+	private static final Color BUYING_BTN_DEACTIVETED_COLOR = new Color(103, 121, 133);
 	
 	// Sum Title Label
 	private static final Font SUM_TITLE_LABEL_FONT = new Font("맑은 고딕", Font.BOLD, 19);
@@ -140,7 +137,20 @@ public class RightView0_OrderList extends View {
 		//
 		mBuying_btn.setFont(BUYING_BTN_FONT);
 		mBuying_btn.setForeground(BUYING_BTN_FONT_COLOR);
-		mBuying_btn.setBackground(BUYING_BTN_COLOR);
+		mBuying_btn.setBackground(BUYING_BTN_DEACTIVETED_COLOR);
+		mBuying_btn.setEnabled(false);
+	}
+	
+	// 물품을 추가하면 버튼 활성화
+	public void activateButton() {
+		mBuying_btn.setBackground(BUYING_BTN_ACTIVETED_COLOR);
+		mBuying_btn.setEnabled(true);
+	}
+	
+	// 결제 완료하고 나서 버튼 비활성화
+	public void deactivateButton() {
+		mBuying_btn.setBackground(BUYING_BTN_DEACTIVETED_COLOR);
+		mBuying_btn.setEnabled(false);
 	}
 	
 	private void setTable() {
@@ -213,32 +223,30 @@ public class RightView0_OrderList extends View {
 
 		mGbc.fill = GridBagConstraints.BOTH;
 		mGbc.weightx = 0.5;
-		mGbc.weighty = 3;
 
 		mGbc.gridheight = 3;
 		mGbc.gridx = 0;
 		mGbc.gridy = 0;
 		this.add(mScrolledTable, mGbc);
 
+		mGbc.gridheight = 1;
 		mGbc.insets = new Insets(0, PADDING, 0, 0);
 		
-		mGbc.gridheight = 1;
+		mGbc.anchor = GridBagConstraints.NORTH;
 		mGbc.weightx = 0.1;
-		mGbc.weighty = 0.1;
+		mGbc.weighty = 0.05;
 		mGbc.gridx = 1;
 		mGbc.gridy = 0;
 		this.add(mSum_title_label, mGbc);
 		
-		mGbc.insets = new Insets(0, PADDING, 500, 0);
-		
-		mGbc.weighty = 3;
+		mGbc.fill = GridBagConstraints.HORIZONTAL;
+		mGbc.weighty = 1;
 		mGbc.gridx = 1;
 		mGbc.gridy = 1;
 		this.add(mSum_tf, mGbc);
-
-		mGbc.insets = new Insets(0, PADDING, 0, 0);
 		
-		mGbc.weighty = 3;
+		mGbc.fill = GridBagConstraints.BOTH;
+		mGbc.weighty = 0.05;
 		mGbc.gridx = 1;
 		mGbc.gridy = 2;
 		this.add(mBuying_btn, mGbc);

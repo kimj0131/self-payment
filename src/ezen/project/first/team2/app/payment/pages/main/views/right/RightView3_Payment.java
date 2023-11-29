@@ -1,9 +1,11 @@
 package ezen.project.first.team2.app.payment.pages.main.views.right;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManager;
@@ -13,22 +15,28 @@ import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
 public class RightView3_Payment extends View {
 
-	private static final int PADDING = 10;
+	private static final int PADDING = 20;
+	
+	// this.View
+	private static final Color BACKGROUND_COLOR = new Color(244, 248, 251);
 
-	private JButton mPaymentCompleted_btn;
 	private boolean mIsPaymentComplete = false;
 
+	private JButton mPaymentCompleted_btn;
+	private JPanel mPanel0;
+	
 	private ProductPurchasing mProdPurchasing;
 
+	
 	public RightView3_Payment() {
 		super(MainPage.RIGHT_VIEW_PAYMENT_NUM);
 	}
 
 	@Override
 	protected void onInit() {
-		setBackground(Color.DARK_GRAY);
-
+		
 		mPaymentCompleted_btn = new JButton("결제완료");
+		mPanel0 = new JPanel();
 
 		// 메인 페이지에서 mProdPurchasing 가져오기
 		MainPage mainPage = (MainPage) this.getPage();
@@ -38,13 +46,18 @@ public class RightView3_Payment extends View {
 
 	@Override
 	protected void onSetLayout() {
+		this.setBackground(BACKGROUND_COLOR);
 		this.setBorder(BorderFactory.createEmptyBorder(
 				PADDING, PADDING, PADDING, PADDING));
+		this.setLayout(new BorderLayout());
+		
+		mPanel0.setBackground(Color.WHITE);
 	}
 
 	@Override
 	protected void onAddCtrls() {
-		this.add(mPaymentCompleted_btn);
+		mPanel0.add(mPaymentCompleted_btn);
+		this.add(mPanel0);
 	}
 
 	@Override
@@ -66,6 +79,8 @@ public class RightView3_Payment extends View {
 				rv0.get_mTableModel().setNumRows(0);
 				// 결제 완료가 됐다면 RightView0_OrdetList에 총금액 텍스트필드 초기화
 				rv0.get_mSum_tf().setText("");
+				// 결제 완료가 됐다면 RightView0_OrdetList에 결제하기 버튼 비활성화
+				rv0.deactivateButton();
 
 			} catch (Exception ex) {
 				ex.printStackTrace();
