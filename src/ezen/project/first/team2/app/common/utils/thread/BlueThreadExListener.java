@@ -4,8 +4,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common.utils;
+package ezen.project.first.team2.app.common.utils.thread;
 
-public interface BlueThreadExListener extends BlueThread.Listener {
+public interface BlueThreadExListener extends BlueThreadListener {
 	public void onReceviedMessage(BlueThreadEx sender, Object param, BlueThreadExMessage msg);
 }

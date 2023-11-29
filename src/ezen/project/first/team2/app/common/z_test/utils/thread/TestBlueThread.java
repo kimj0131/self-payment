@@ -4,9 +4,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common.z_test.utils;
+package ezen.project.first.team2.app.common.z_test.utils.thread;
 
-import ezen.project.first.team2.app.common.utils.BlueThread;
+import ezen.project.first.team2.app.common.utils.thread.BlueThread;
+import ezen.project.first.team2.app.common.utils.thread.BlueThreadListener;
 
 public class TestBlueThread {
 	public static void main(String[] args) {
@@ -15,7 +16,7 @@ public class TestBlueThread {
 		int[] nums = { 1000, 2000, 3000, 4000 };
 
 		// 스레드 객체 생성
-		BlueThread t = new BlueThread(new BlueThread.Listener() {
+		BlueThread t = new BlueThread(new BlueThreadListener() {
 			private int mIndex = 0;
 
 			@Override

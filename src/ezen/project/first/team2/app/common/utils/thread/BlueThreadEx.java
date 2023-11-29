@@ -4,22 +4,22 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common.utils;
+package ezen.project.first.team2.app.common.utils.thread;
 
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 public class BlueThreadEx extends BlueThread {
     // -------------------------------------------------------------------------
 
     BlueThreadExListener mListener;
 
-    SynchronousQueue<BlueThreadExMessage> mMsgQueue = new SynchronousQueue<>();
+    ArrayBlockingQueue<BlueThreadExMessage> mMsgQueue = new ArrayBlockingQueue<>(100);
 
     // -------------------------------------------------------------------------
 
     // 생성자
     public BlueThreadEx(BlueThreadExListener listener, Object param) {
-        super(new BlueThread.Listener() {
+        super(new BlueThreadListener() {
 
             @Override
             public void onStart(BlueThread sender, Object param) {
@@ -47,7 +47,7 @@ public class BlueThreadEx extends BlueThread {
                     listener.onStop(sender, param, interrupted);
             }
 
-        }, param);
+        }, param, 500);
     }
 
     // 생성자

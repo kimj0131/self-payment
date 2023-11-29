@@ -4,47 +4,36 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common.utils;
+package ezen.project.first.team2.app.common.utils.thread;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import ezen.project.first.team2.app.common.utils.SystemUtils;
 
 public class BlueThread {
 	public static final int DEFAULT_SLEEP_IN_MILLIS = 10;
 
-	public static interface Listener {
-		// 호출 스레드(ex, 메인 스레드)에서 호출
-		void onStart(BlueThread sender, Object param);
-
-		// 워커 스레드에서 호출
-		// return: true => continue, false => break
-		boolean onRun(BlueThread sender, Object param);
-
-		// 호출 스레드(ex, 메인 스레드)에서 호출
-		// interrupted: true => 요청에 의한 종료, false => 스스로 종료
-		void onStop(BlueThread sender, Object param, boolean interrupted);
-	}
-
 	private Thread mThread = null;
-	private Listener mListener = null;
+	private BlueThreadListener mListener = null;
 	private long mSleepInMillis = 0;
 
 	private Object mParam = null;
 	private final AtomicBoolean mIsRunning = new AtomicBoolean(false);
 
 	// 생성자
-	public BlueThread(Listener listener, Object param, int sleepInMillis) {
+	public BlueThread(BlueThreadListener listener, Object param, int sleepInMillis) {
 		this.mListener = listener;
 		this.mParam = param;
 		this.mSleepInMillis = sleepInMillis;
 	}
 
 	// 생성자
-	public BlueThread(Listener listener, Object param) {
+	public BlueThread(BlueThreadListener listener, Object param) {
 		this(listener, param, DEFAULT_SLEEP_IN_MILLIS);
 	}
 
 	// 생성자
-	public BlueThread(Listener listener) {
+	public BlueThread(BlueThreadListener listener) {
 		this(listener, null);
 	}
 

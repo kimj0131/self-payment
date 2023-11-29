@@ -9,8 +9,8 @@ package ezen.project.first.team2.app.common.modules.database;
 import java.sql.Connection;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import ezen.project.first.team2.app.common.utils.BlueThread;
-import ezen.project.first.team2.app.common.utils.BlueThread.Listener;
+import ezen.project.first.team2.app.common.utils.thread.BlueThread;
+import ezen.project.first.team2.app.common.utils.thread.BlueThreadListener;
 
 public class DBTable {
 	// --------------------------------------------------------------------------
@@ -97,7 +97,7 @@ public class DBTable {
 	// --------------------------------------------------------------------------
 
 	private void startDbThread() {
-		this.mDbThread = new BlueThread(new Listener() {
+		this.mDbThread = new BlueThread(new BlueThreadListener() {
 
 			@Override
 			public void onStart(BlueThread sender, Object param) {

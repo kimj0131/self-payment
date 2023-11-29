@@ -4,7 +4,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package ezen.project.first.team2.app.common.utils;
+package ezen.project.first.team2.app.common.utils.thread;
 
 public class BlueThreadExMessage {
 
@@ -22,5 +22,10 @@ public class BlueThreadExMessage {
 
 	public Object getParam() {
 		return this.mParam;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("cmd: 0x%04X(%06d), param: %s", this.getCmd(), this.getCmd(), this.getParam());
 	}
 }

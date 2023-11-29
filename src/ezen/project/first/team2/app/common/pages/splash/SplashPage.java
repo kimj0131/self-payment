@@ -14,8 +14,9 @@ import java.awt.Dimension;
 import ezen.project.first.team2.app.common.framework.Page;
 import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;
-import ezen.project.first.team2.app.common.utils.BlueThread;
 import ezen.project.first.team2.app.common.utils.SystemUtils;
+import ezen.project.first.team2.app.common.utils.thread.BlueThread;
+import ezen.project.first.team2.app.common.utils.thread.BlueThreadListener;
 
 public class SplashPage extends Page {
 	public static final int PAGE_NUM = 0;
@@ -110,7 +111,7 @@ public class SplashPage extends Page {
 		if (this.mParams == null)
 			return;
 
-		BlueThread t = new BlueThread(new BlueThread.Listener() {
+		BlueThread t = new BlueThread(new BlueThreadListener() {
 			private int mRsrcIdx = 0;
 
 			@Override
