@@ -1,4 +1,4 @@
-package ezen.project.first.team2.app.common.z_test.modules;
+package ezen.project.first.team2.app.common.z_test.modules.admin;
 
 import ezen.project.first.team2.app.common.modules.admin.AdminSession;
 

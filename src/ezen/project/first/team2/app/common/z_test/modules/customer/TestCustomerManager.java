@@ -1,4 +1,4 @@
-package ezen.project.first.team2.app.common.z_test.modules;
+package ezen.project.first.team2.app.common.z_test.modules.customer;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -8,7 +8,7 @@ import ezen.project.first.team2.app.common.modules.base.ListManager;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 
-public class TestCustomerManagerMem {
+public class TestCustomerManager {
 
 	static void printTitle(String text) {
 		System.out.println("=".repeat(70));

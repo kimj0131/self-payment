@@ -6,9 +6,11 @@
 
 package ezen.project.first.team2.app.common.utils;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
@@ -148,5 +150,9 @@ public class TimeUtils {
 
 	public static boolean isValidDate(LocalDate date) {
 		return isValidDate(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+	}
+
+	public static LocalDate sqlDateToLocalDate(Date date) {
+		return LocalDate.ofInstant(date.toInstant(), ZoneId.systemDefault());
 	}
 }

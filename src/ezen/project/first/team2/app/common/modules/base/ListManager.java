@@ -31,7 +31,7 @@ public class ListManager<T extends ListItem> {
 
 	// 필요한 경우 상속받은 클래스에서 구현한다
 	// public static MemberManager getInstance() {
-	// if (mInstance != null) {
+	// if (mInstance == null) {
 	// mInstance = new MemberManager();
 	// }
 	//
@@ -185,18 +185,9 @@ public class ListManager<T extends ListItem> {
 		return this.onFindById(id);
 	}
 
-	// -------------------------------------------------------------------------
-
-	public void loadFromDb(Iterator<T> iterator) {
-		//
-	}
-
-	public void saveToDb(Iterator<T> iterator) {
-		//
-	}
-
-	public void saveToDbById(int id) {
-		//
+	// 모든 아이템 삭제
+	public void reset() {
+		this.mList.clear();
 	}
 
 	// -------------------------------------------------------------------------

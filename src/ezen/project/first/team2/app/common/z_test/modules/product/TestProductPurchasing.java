@@ -1,4 +1,4 @@
-package ezen.project.first.team2.app.common.z_test.modules;
+package ezen.project.first.team2.app.common.z_test.modules.product;
 
 import ezen.project.first.team2.app.common.modules.base.ListActionAdapter;
 import ezen.project.first.team2.app.common.modules.base.ListManager;

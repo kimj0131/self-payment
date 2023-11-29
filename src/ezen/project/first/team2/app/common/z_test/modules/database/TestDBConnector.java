@@ -1,4 +1,4 @@
-package ezen.project.first.team2.app.common.z_test.modules;
+package ezen.project.first.team2.app.common.z_test.modules.database;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
