@@ -81,12 +81,10 @@ public class MainView extends View {
 	      });
 
 	      this.mBtn1.addActionListener(e -> {
-	         
 	         UiUtils.showMsgBox("Login...", MainPage.TITLE);
 	      });
 
 	      this.mBtn2.addActionListener(e -> {
-	         
 	         UiUtils.showMsgBox("Login...", MainPage.TITLE);
 	      });
 	}
