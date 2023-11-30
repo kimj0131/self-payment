@@ -95,7 +95,7 @@ public class PopUpView2_UnverifiedMemberInfo extends PopupView {
 	protected void onAddEventListeners() {
 		mCheck_btn.addActionListener(e -> {
 			try {
-				performClose();
+				this.performClose();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

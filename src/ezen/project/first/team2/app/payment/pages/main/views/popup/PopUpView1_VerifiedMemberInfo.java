@@ -44,11 +44,11 @@ public class PopUpView1_VerifiedMemberInfo extends PopupView {
 	private static final Color BTN_FONT_COLOR = new Color(255, 255, 255);
 	private static final Color BTN_COLOR = new Color(3, 181, 208);
 
-	String mMemName;
+	private String mMemName;
 
-	JLabel mMsg_label;
-	JButton mCheck_btn;
-	JButton mCancel_btn;
+	private JLabel mMsg_label;
+	private JButton mCheck_btn;
+	private JButton mCancel_btn;
 	
 	// 그리드백 레이아웃을 사용하기 위한 constraint
 	GridBagConstraints mGbc;
@@ -153,7 +153,7 @@ public class PopUpView1_VerifiedMemberInfo extends PopupView {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 				RightView1_CheckMember rightView1 = (RightView1_CheckMember) mainView
 						.getViewByNum(MainPage.RIGHT_VIEW_CHECK_MEMBER_NUM);
-				rightView1.resetPhoneNums();
+				rightView1.resetMember();
 
 			} catch (Exception ex) {
 				ex.printStackTrace();

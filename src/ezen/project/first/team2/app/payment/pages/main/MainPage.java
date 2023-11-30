@@ -26,6 +26,7 @@ import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView0_Fr
 import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView1_VerifiedMemberInfo;
 import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView2_UnverifiedMemberInfo;
 import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView3_UsePoints;
+import ezen.project.first.team2.app.payment.pages.main.views.popup.PopUpView4_Receipt;
 
 public class MainPage extends Page {
 	// -------------------------------------------------------------------------
@@ -56,6 +57,7 @@ public class MainPage extends Page {
 	public static final int POPUP_VIEW_VERIFIED_MEMBER_INFO_NUM = 301;
 	public static final int POPUP_VIEW_UNVERIFIED_MEMBER_INFO_NUM = 302;
 	public static final int POPUP_VIEW_USE_POINTS_NUM = 303;
+	public static final int POPUP_VIEW_RECEIPT_NUM = 304;
 
 	// ProductPurchasing
 	public ProductPurchasing mProdPurchasing;
@@ -197,6 +199,7 @@ public class MainPage extends Page {
 			this.addView(new PopUpView1_VerifiedMemberInfo());
 			this.addView(new PopUpView2_UnverifiedMemberInfo());
 			this.addView(new PopUpView3_UsePoints());
+			this.addView(new PopUpView4_Receipt());
 
 		} catch (Exception e) {
 			e.printStackTrace();

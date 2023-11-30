@@ -33,11 +33,11 @@ public class Main extends StatusManager {
 	// 초기화 작업 - DB 커넥션 등
 	@Override
 	protected void onInit() {
-//		try {
-//			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		try {
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.out.println("[Main.onInit()]");
 	}
 

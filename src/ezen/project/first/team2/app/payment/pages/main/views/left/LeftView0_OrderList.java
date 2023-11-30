@@ -162,8 +162,6 @@ public class LeftView0_OrderList extends View {
 					}
 				}
 				
-				System.out.println("추가한 상품\n " + productItem);
-				
 				// 생성된 상품을 상세 구매내역에 넣기
 				mProdPurchasing._2_addProduct(productItem.getId(), 1);
 

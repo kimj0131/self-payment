@@ -324,17 +324,24 @@ public class RightView1_CheckMember extends View {
 
 	@Override
 	protected void onShow(boolean firstTime) {
-		resetPhoneNums();
+		resetMember();
 	}
 
 	@Override
 	protected void onHide() {
 	}
 
-	public void resetPhoneNums() {
+	public void resetMember() {
 		// 유효한 회원 번호 입력했다가 재입력 버튼을 누른경우 비회원으로 초기화
-		mProdPurchasing.getProdOrderItem().setCustId(0);
-
+		if (mProdPurchasing.getProdOrderItem().getCustId() != 0) {
+			try {
+				mProdPurchasing.getProdOrderItem().setUsedPoint(0);
+				mProdPurchasing.getProdOrderItem().setCustId(0);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		mNums_tf.setText("010-");
 
 		mPhoneNum.delete(0, mPhoneNum.length());

@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import ezen.project.first.team2.app.common.framework.View;
+import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManager;
+import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManager;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.common.utils.UnitUtils;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
@@ -66,6 +68,7 @@ public class LeftView3_Payment extends View {
 	// 그리드백 레이아웃을 사용하기 위한 constraint
 	private GridBagConstraints mGbc;
 	
+	private ProductDiscountsManager mProdDiscntMngr;
 	private ProductPurchasing mProdPurchasing;
 
 	public LeftView3_Payment() {
@@ -92,6 +95,8 @@ public class LeftView3_Payment extends View {
 		
 		// 그리드백 레이아웃을 사용하기 위한 constraint
 		mGbc = new GridBagConstraints();
+		
+		mProdDiscntMngr = ProductDiscountsManager.getInstance();
 		
 		// 메인 페이지에서 mProdPurchasing 가져오기
 		MainPage mainPage = (MainPage) this.getPage();
@@ -204,14 +209,23 @@ public class LeftView3_Payment extends View {
 
 	@Override
 	protected void onShow(boolean firstTime) {
-
+		
 		// 금액 넣기
 		try {
 			mOrgPrice = UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getOrgTotalPrice());
 
 			// 회원 할인가만 표시
-			mDiscount = UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getOrgTotalPrice()
-					- mProdPurchasing.getProdOrderItem().getUsedPoint());
+			if (mProdPurchasing.getProdOrderItem().getCustId() == 0)
+				mDiscount = "0";
+			else {
+				var items = mProdPurchasing.getProdOrderItem().getProdOrderDetailItems();
+				int dscntSum = 0;
+				for (var i : items) {
+					int discntId = i.getProdDiscntId();
+					dscntSum += mProdDiscntMngr.findById(discntId).getAmount() * i.getQuantity();
+				}
+				mDiscount = UnitUtils.numToCurrencyStr(dscntSum);
+			}
 
 			mUsedPoints = UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getUsedPoint());
 			mFinalPrice = UnitUtils.numToCurrencyStr(mProdPurchasing.getProdOrderItem().getFinalTotalPrice());
