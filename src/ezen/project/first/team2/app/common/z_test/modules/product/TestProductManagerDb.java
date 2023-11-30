@@ -87,11 +87,15 @@ public class TestProductManagerDb {
 						// 레코드 추가
 						if (DO_INSERT_QUERY) {
 							printTitle("레코드 추가");
+
+							var ProdCodeType = ProductCode.Type.Drink;
+
 							int id = mngr.getNextIdFromDb("prod_id");
+							int pcsn = mngr.getNextProdCodeSnByType(ProdCodeType);
 
 							// ProductCode code = new ProductCode(Type.Snack, 001);
-							ProductCode code = new ProductCode("S002");
-							var item = new ProductItem(id, code, LocalDate.now(), "꼬북칩", 1500, "");
+							ProductCode code = new ProductCode(ProdCodeType, pcsn);
+							var item = new ProductItem(id, code, LocalDate.now(), "소주", 1500, "");
 							mngr.doInsertQuery(item);
 
 							mngr.doSelectQuery();

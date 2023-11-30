@@ -54,6 +54,24 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 		return this.findItems((pi, idx) -> pi.getPrice() == price);
 	}
 
+	public int getNextProdCodeSnByType(ProductCode.Type type) throws Exception {
+
+		this.reset();
+
+		String fieldset = "prod_id, prod_code";
+		String where = String.format("prod_code like '%s%%'", ProductCode.typeToStr(type));
+		String orderBy = "prod_code desc";
+		int rCnt = this.doSelectQuery(null, fieldset, where, orderBy);
+		if (rCnt == 0)
+			return 1;
+
+		var item = this.getFirstItem();
+		var pci = item.getProdCode();
+		var nextId = pci.getSn() + 1;
+
+		return nextId;
+	}
+
 	// -------------------------------------------------------------------------
 
 	// -> 성공: 빈 문자열 리턴, 실패: 예외 에러 메시지 리턴
