@@ -18,7 +18,7 @@ public class MainPage extends Page {
 	// 페이지 정보 상수 정의
 
 	public static final String TITLE = "셀프 결제 시스템 런처";
-	public static final Dimension SIZE = new Dimension(640, 140);
+	public static final Dimension SIZE = new Dimension(640, 310);
 
 	public static final int VIEW_NUM_MAIN = 0;
 
