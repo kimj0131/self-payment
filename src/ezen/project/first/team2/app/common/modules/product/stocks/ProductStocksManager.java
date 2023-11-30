@@ -13,7 +13,7 @@ import ezen.project.first.team2.app.common.modules.base.ListManagerDb;
 public class ProductStocksManager extends ListManagerDb<ProductStockItem> {
 	// -------------------------------------------------------------------------
 
-	private static final String TABLE_NAME = "product_stocks";
+	private static final String TABLE_NAME = "PRODUCT_STOCKS";
 
 	private static ProductStocksManager mInstance = null;
 
