@@ -35,8 +35,8 @@ public class TestListManagerDb {
 					final boolean TRUNCATE_TABLE = !true;
 
 					final boolean DO_SELECT_QUERY = !true;
-					final boolean DO_INSERT_QUERY = !true;
-					final boolean DO_UPDATE_QUERY = !true;
+					final boolean DO_INSERT_QUERY = true;
+					final boolean DO_UPDATE_QUERY = true;
 					final boolean DO_DELETE_QUERY = !true;
 
 					EmployeesManager mngr = EmployeesManager.getInstance();
@@ -111,11 +111,12 @@ public class TestListManagerDb {
 							printTitle("레코드 수정");
 
 							var item = mngr.getFirstItem();
-							var fieldset = new String[] { "salary" };// , "first_name" };
+							var fieldset = new String[] { "salary", "hire_date", "first_name" };
 							var _where = String.format("employee_id=%d", item.getId());
 
-							item.setSalary(9999999);
-							// item.setFirstName("FIRST_NAME");
+							item.setSalary(999999);
+							item.setHireDate(LocalDate.now());
+							item.setFirstName("SIGWAN");
 							int rows = mngr.doUpdateQuery(item, fieldset, _where);
 							System.out.printf("rows: %d \n", rows);
 

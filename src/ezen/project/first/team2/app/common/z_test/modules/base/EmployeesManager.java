@@ -90,17 +90,17 @@ public class EmployeesManager extends ListManagerDb<EmployeeItem> {
 			if (f.equals("employee_id"))
 				s += String.format("employee_id = %d, ", item.getId());
 			else if (f.equals("first_name"))
-				s += String.format("first_name = %s, ", item.getFirstName());
+				s += String.format("first_name = '%s', ", item.getFirstName());
 			else if (f.equals("last_name"))
-				s += String.format("last_name = %s, ", item.getLastName());
+				s += String.format("last_name = '%s', ", item.getLastName());
 			else if (f.equals("email"))
-				s += String.format("email = %s, ", item.getEmail());
+				s += String.format("email = '%s', ", item.getEmail());
 			else if (f.equals("phone_number"))
-				s += String.format("phone_number = %s, ", item.getPhoneNumber());
+				s += String.format("phone_number = '%s', ", item.getPhoneNumber());
 			else if (f.equals("hire_date"))
-				s += String.format("hire_date = %s, ", item.getHireSqlDateStr());
+				s += String.format("hire_date = '%s', ", item.getHireSqlDateStr());
 			else if (f.equals("job_id"))
-				s += String.format("job_id = %s, ", item.getJobId());
+				s += String.format("job_id = '%s', ", item.getJobId());
 			else if (f.equals("salary"))
 				s += String.format("salary = %d, ", item.getSalary());
 			else if (f.equals("commission_pct"))
@@ -117,7 +117,7 @@ public class EmployeesManager extends ListManagerDb<EmployeeItem> {
 		}
 
 		// 마지막 comma와 space 제거
-		s = s.substring(0, s.length() - 3);
+		s = s.substring(0, s.length() - 2);
 
 		return s;
 	}
