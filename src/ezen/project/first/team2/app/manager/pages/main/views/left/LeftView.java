@@ -38,7 +38,7 @@ public class LeftView extends View {
     JButton mBtnProdDelete = new JButton("　　　상품 삭제　　　");
     // 재고관리
     JLabel mLabelProdStockManage = new JLabel("　　■ 상품 재고 관리");
-    JButton mBtnProdStockList = new JButton("　　　재고 조회　　　");
+    // JButton mBtnProdStockList = new JButton(" 재고 조회 ");
     JButton mBtnProdStockAdjust = new JButton("　　　재고 조정　　　");
     // 할인등록
     JLabel mLabelDiscountManage = new JLabel("　　■ 상품 할인");
@@ -88,7 +88,7 @@ public class LeftView extends View {
         this.mPanelCtr.add(Box.createVerticalStrut(30));
         // 재고
         this.mPanelCtr.add(mLabelProdStockManage);
-        this.mPanelCtr.add(mBtnProdStockList);
+        // this.mPanelCtr.add(mBtnProdStockList);
         this.mPanelCtr.add(mBtnProdStockAdjust);
         // 여백
         this.mPanelCtr.add(Box.createVerticalStrut(30));
@@ -120,8 +120,8 @@ public class LeftView extends View {
                     mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_PROD_UPDATE);
                 } else if (btn == this.mBtnProdDelete) {
                     mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_PROD_DELETE);
-                } else if (btn == this.mBtnProdStockList) {
-                    mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_STOCK_LIST);
+                    // } else if (btn == this.mBtnProdStockList) {
+                    // mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_STOCK_LIST);
                 } else if (btn == this.mBtnProdStockAdjust) {
                     mainView.setSelectedRightViewByNum(MainPage.VIEW_NUM_STOCK_ADJUST);
                 } else if (btn == this.mBtnDiscountAdjust) {
@@ -140,7 +140,7 @@ public class LeftView extends View {
         this.mBtnProdAdd.addActionListener(listener);
         this.mBtnProdUpdate.addActionListener(listener);
         this.mBtnProdDelete.addActionListener(listener);
-        this.mBtnProdStockList.addActionListener(listener);
+        // this.mBtnProdStockList.addActionListener(listener);
         this.mBtnProdStockAdjust.addActionListener(listener);
         this.mBtnDiscountAdjust.addActionListener(listener);
     }

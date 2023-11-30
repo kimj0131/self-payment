@@ -161,7 +161,7 @@ public class AdjustDiscountView extends View {
         this.mSroll = new JScrollPane(mTableResultList);
         this.mSroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.mSroll.setBorder(
-                BorderFactory.createEmptyBorder(10, 30, 30, 30));
+                BorderFactory.createEmptyBorder(10, 30, 10, 30));
         // 콤보박스 설정
         this.mComboBoxSearchProperty = new JComboBox<String>(properties);
 
@@ -181,7 +181,7 @@ public class AdjustDiscountView extends View {
 
         // 패널 설정
         this.mPanelDiscountAdjust.setBorder(
-                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         this.mPanelProductIdCode.setBorder(
                 BorderFactory.createEmptyBorder(5, 200, 5, 200));

@@ -11,18 +11,17 @@ import java.awt.GridLayout;
 import ezen.project.first.team2.app.common.framework.DualView;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 import ezen.project.first.team2.app.manager.pages.main.views.left.LeftView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.product.AddProductView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.product.DeleteProductView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.product.ListProductView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.product.UpdateProductView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.stock.AdjustStockView;
-import ezen.project.first.team2.app.manager.pages.main.views.right.stock.ListStockView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.RightDefaultView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.customer.AddCustomerView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.customer.DeleteCustomerView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.customer.ListCustomerView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.customer.UpdateCustomerView;
 import ezen.project.first.team2.app.manager.pages.main.views.right.discount.AdjustDiscountView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.product.AddProductView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.product.DeleteProductView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.product.ListProductView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.product.UpdateProductView;
+import ezen.project.first.team2.app.manager.pages.main.views.right.stock.AdjustStockView;
 
 public class MainView extends DualView {
 	// -------------------------------------------------------------------------
@@ -65,7 +64,7 @@ public class MainView extends DualView {
 			addView(new UpdateProductView());
 			addView(new DeleteProductView());
 
-			addView(new ListStockView());
+			// addView(new ListStockView());
 			addView(new AdjustStockView());
 
 			addView(new AdjustDiscountView());

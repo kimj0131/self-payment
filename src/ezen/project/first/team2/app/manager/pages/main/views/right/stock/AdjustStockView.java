@@ -85,10 +85,10 @@ public class AdjustStockView extends View {
 
     JPanel mPanelAdjustCurrentActual = new JPanel();
     JPanel mPanelAdjustCurrent = new JPanel();
-    JLabel mLabelAdjustCurrent = new JLabel("현재 재고");
+    JLabel mLabelAdjustCurrent = new JLabel("현재고");
     JTextField mTextFieldAdjustCurrent = new JTextField(5);
     JPanel mPanelAdjustActual = new JPanel();
-    JLabel mLabelAdjustActual = new JLabel("실제 재고");
+    JLabel mLabelAdjustActual = new JLabel("실재고");
     JTextField mTextFieldAdjustActual = new JTextField(5);
 
     // 조정확정 버튼
@@ -158,7 +158,7 @@ public class AdjustStockView extends View {
         this.mSroll = new JScrollPane(mTableResultList);
         this.mSroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.mSroll.setBorder(
-                BorderFactory.createEmptyBorder(10, 30, 30, 30));
+                BorderFactory.createEmptyBorder(10, 30, 10, 30));
         // 콤보박스 설정
         this.mComboBoxSearchProperty = new JComboBox<String>(properties);
 
@@ -175,7 +175,7 @@ public class AdjustStockView extends View {
 
         // 패널 설정
         this.mPanelStockAdjust.setBorder(
-                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         this.mPanelProductIdCode.setBorder(
                 BorderFactory.createEmptyBorder(5, 200, 5, 200));

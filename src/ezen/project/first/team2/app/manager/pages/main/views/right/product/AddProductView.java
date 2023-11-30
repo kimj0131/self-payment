@@ -221,7 +221,9 @@ public class AddProductView extends View {
                 Object type = e.getItem();
 
                 try {
+                    //
                     int nextSerial = prodMngr.getCount() + 1;
+                    //
                     mTextFieldAddProdCode.setText(String.format("%s%03d",
                             getProductCodeType(String.valueOf(type)), nextSerial));
                 } catch (Exception e1) {
@@ -380,7 +382,9 @@ public class AddProductView extends View {
             int nextId = prodMngr.getNextID();
             this.mTextFieldAddProdId.setText(String.valueOf(nextId));
 
+            //
             int nextSerial = prodMngr.getCount() + 1;
+            //
             mTextFieldAddProdCode.setText(String.format("%s%03d",
                     type[ranType], nextSerial));
 

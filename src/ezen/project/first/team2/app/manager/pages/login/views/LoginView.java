@@ -9,7 +9,6 @@ package ezen.project.first.team2.app.manager.pages.login.views;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -96,7 +95,7 @@ public class LoginView extends View {
 			String id = mTextFieldLoginId.getText();
 			String pw = new String(mTextFieldLoginPassward.getPassword());
 
-			if (admin.login(id, pw) == admin.getLoginResult().Ok) {
+			if (admin.login(id, pw) == AdminSession.LoginResult.Ok) {
 				UiUtils.showMsgBox("Login Success", MainPage.TITLE);
 				try {
 					Main main = (Main) LoginView.this.getStatusManager();
