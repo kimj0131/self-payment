@@ -63,9 +63,9 @@ public class LeftView extends View {
 
     @Override
     protected void onAddCtrls() {
-        // 컴포넌트 가운데 정렬
-        this.mLabelCustManage.setHorizontalAlignment(JLabel.CENTER);
-        this.mBtnCustList.setHorizontalAlignment(JButton.CENTER);
+        // 컴포넌트 가운데 정렬 >> 적용안됨
+        // this.mLabelCustManage.setHorizontalAlignment(JLabel.CENTER);
+        // this.mBtnCustList.setHorizontalAlignment(JButton.CENTER);
 
         this.add(mLabelLogo, BorderLayout.NORTH);
         this.add(mPanelCtr, BorderLayout.CENTER);

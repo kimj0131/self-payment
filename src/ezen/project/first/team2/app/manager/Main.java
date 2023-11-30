@@ -25,6 +25,7 @@ public class Main extends StatusManager {
 	public Font mFont0;
 	public Font mFont1;
 	public Font mFont2;
+	public Font mFont3;
 
 	// 초기화 작업 - DB 커넥션 등
 	@Override
@@ -95,6 +96,9 @@ public class Main extends StatusManager {
 					case 2:
 						main.mFont2 = new Font("견명조", Font.BOLD, 18);
 						break;
+					case 3:
+						main.mFont3 = new Font("견명조", Font.PLAIN, 14);
+						break;
 				}
 
 			}
@@ -111,7 +115,7 @@ public class Main extends StatusManager {
 				}
 			}
 
-		}, this, 3);
+		}, this, 4);
 
 		return params;
 	}

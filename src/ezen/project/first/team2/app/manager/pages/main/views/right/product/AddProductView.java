@@ -151,22 +151,22 @@ public class AddProductView extends View {
 
         // 버튼설정
         this.mBtnAddProdComplete.setBorder(
-                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                BorderFactory.createEmptyBorder(10, 20, 10, 20));
         this.mBtnAddTextFieldProd.setBorder(
-                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         // 패널설정
         this.mPanelAdd.setBorder(
                 BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         this.mPanelPanelInfo.setBorder(
-                BorderFactory.createEmptyBorder(10, 200, 10, 200));
+                BorderFactory.createEmptyBorder(5, 200, 5, 200));
         this.mPanelAddIdCode.setBorder(
-                BorderFactory.createEmptyBorder(10, 200, 10, 200));
+                BorderFactory.createEmptyBorder(5, 200, 5, 200));
         this.mPanelAddNamePrice.setBorder(
-                BorderFactory.createEmptyBorder(10, 200, 10, 200));
+                BorderFactory.createEmptyBorder(5, 200, 5, 200));
         this.mPanelAddDesc.setBorder(
-                BorderFactory.createEmptyBorder(10, 200, 10, 200));
+                BorderFactory.createEmptyBorder(5, 200, 5, 200));
 
         // 컴포넌트 추가
         this.add(mLabelInfo, BorderLayout.NORTH);
@@ -313,6 +313,18 @@ public class AddProductView extends View {
 
         JLabel lb1 = (JLabel) this.getComponents()[0];
         lb1.setFont(main.mFont0);
+
+        this.mLabelAddProdCode.setFont(main.mFont2);
+        this.mLabelAddProdDesc.setFont(main.mFont2);
+        this.mLabelAddProdId.setFont(main.mFont2);
+        this.mLabelAddProdName.setFont(main.mFont2);
+        this.mLabelAddProdPrice.setFont(main.mFont2);
+        this.mLabelPanelInfo.setFont(main.mFont2);
+
+        this.mTableProdList.setFont(main.mFont3);
+
+        this.mBtnAddProdComplete.setFont(main.mFont2);
+        this.mBtnAddTextFieldProd.setFont(main.mFont2);
     }
 
     // 상품코드 타입 받아오기

@@ -133,15 +133,15 @@ public class DeleteCustomerView extends View {
 
         // 확정버튼 설정
         this.mBtnDeleteComplete.setBorder(
-                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         // 고객정보 패널 성정
         this.mPanelDelInfoIdName.setBorder(
-                BorderFactory.createEmptyBorder(20, 200, 20, 200));
+                BorderFactory.createEmptyBorder(10, 200, 10, 200));
         this.mPanelDelInfoBirthPhone.setBorder(
-                BorderFactory.createEmptyBorder(20, 200, 20, 200));
+                BorderFactory.createEmptyBorder(10, 200, 10, 200));
         this.mPanelDelInfoPointRemark.setBorder(
-                BorderFactory.createEmptyBorder(20, 200, 20, 200));
+                BorderFactory.createEmptyBorder(10, 200, 10, 200));
 
         // 페이지에 추가
         this.add(mLabelInfo, BorderLayout.NORTH);
@@ -297,6 +297,18 @@ public class DeleteCustomerView extends View {
 
         JLabel lb1 = (JLabel) this.getComponents()[0];
         lb1.setFont(main.mFont0);
+
+        this.mLablePanelInfo.setFont(main.mFont2);
+        this.mLabelDelCustBirthday.setFont(main.mFont2);
+        this.mLabelDelCustId.setFont(main.mFont2);
+        this.mLabelDelCustName.setFont(main.mFont2);
+        this.mLabelDelCustPhoneNum.setFont(main.mFont2);
+        this.mLabelDelCustPoint.setFont(main.mFont2);
+        this.mLabelDelCustRemark.setFont(main.mFont2);
+
+        this.mBtnDeleteComplete.setFont(main.mFont2);
+
+        this.mTableResultList.setFont(main.mFont3);
     }
 
     // 고객목록 테이블에 추가하는 메소드

@@ -163,8 +163,7 @@ public class UpdateProductView extends View {
 
         // 버튼 설정
         this.mBtnUpdateComplete.setBorder(
-                BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
+                BorderFactory.createEmptyBorder(10, 20, 10, 20));
         // 페이지에 추가
         this.add(mLabelInfo, BorderLayout.NORTH);
         this.add(mPanelSearchUpdate, BorderLayout.CENTER);
@@ -363,6 +362,18 @@ public class UpdateProductView extends View {
 
         JLabel lb = (JLabel) this.getComponents()[0];
         lb.setFont(main.mFont0);
+
+        this.mLabelPanelInfo_1.setFont(main.mFont2);
+        this.mLabelPanelInfo_2.setFont(main.mFont2);
+        this.mLabelUpdateDesc.setFont(main.mFont2);
+        this.mLabelUpdateProdCode.setFont(main.mFont2);
+        this.mLabelUpdateProdId.setFont(main.mFont2);
+        this.mLabelUpdateProdName.setFont(main.mFont2);
+        this.mLabelUpdateProdPrice.setFont(main.mFont2);
+
+        this.mTableResultList.setFont(main.mFont3);
+
+        this.mBtnUpdateComplete.setFont(main.mFont2);
     }
 
     // 검색한 결과를 테이블에 추가

@@ -146,7 +146,7 @@ public class UpdateCustomerView extends View {
 
         // 확정버튼 설정
         this.mBtnUpdateComplete.setBorder(
-                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                BorderFactory.createEmptyBorder(10, 20, 10, 20));
         // 비활성화할 텍스트필드
         this.mTextFieldUpdateCustId.setEnabled(false);
 
@@ -357,6 +357,18 @@ public class UpdateCustomerView extends View {
         JLabel lb = (JLabel) this.getComponents()[0];
         lb.setFont(main.mFont0);
 
+        this.mLabelPanelInfo_1.setFont(main.mFont2);
+        this.mLabelPanelInfo_2.setFont(main.mFont2);
+        this.mLabelUpdateBirthday.setFont(main.mFont2);
+        this.mLabelUpdateCustId.setFont(main.mFont2);
+        this.mLabelUpdateCustName.setFont(main.mFont2);
+        this.mLabelUpdatePhoneNum.setFont(main.mFont2);
+        this.mLabelUpdatePoint.setFont(main.mFont2);
+        this.mLabelUpdateRemark.setFont(main.mFont2);
+
+        this.mTableResultList.setFont(main.mFont3);
+
+        this.mBtnUpdateComplete.setFont(main.mFont2);
     }
 
     // 검색한 결과를 텍스트 필드에 추가

@@ -118,5 +118,7 @@ public class ListProductView extends View {
 
         JLabel lb = (JLabel) this.getComponents()[0];
         lb.setFont(main.mFont0);
+
+        this.mTableProdList.setFont(main.mFont3);
     }
 }

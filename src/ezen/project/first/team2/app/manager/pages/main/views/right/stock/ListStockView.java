@@ -237,6 +237,8 @@ public class ListStockView extends View {
 
         JLabel lb = (JLabel) this.getComponents()[0];
         lb.setFont(main.mFont0);
+
+        this.mTableResultList.setFont(main.mFont3);
     }
 
     // 검색한 결과를 테이블에 추가
