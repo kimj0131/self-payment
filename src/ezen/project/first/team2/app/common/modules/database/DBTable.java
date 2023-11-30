@@ -155,7 +155,8 @@ public class DBTable {
 		System.out.println(sql);
 
 		PreparedStatement pstmt = dbConn.getConnection().prepareStatement(sql);
-		int rows = pstmt.executeUpdate();
+		// int rows =
+		pstmt.executeUpdate();
 
 		pstmt.close();
 	}

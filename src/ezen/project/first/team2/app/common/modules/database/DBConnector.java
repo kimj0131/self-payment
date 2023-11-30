@@ -22,8 +22,6 @@ public class DBConnector {
 	public static final int DEFAULT_PORT_NUM = 1521;
 	// public static final int DEFAULT_TIMEOUT = 5 * 1000;
 
-	private static final int CMD_LIST_RECORDSET = 0;
-
 	// --------------------------------------------------------------------------
 
 	private static DBConnector mInstance;

@@ -1,8 +1,11 @@
 package ezen.project.first.team2.app.common.z_test.modules.base;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
 
 import ezen.project.first.team2.app.common.modules.base.ListItem;
+import ezen.project.first.team2.app.common.utils.TimeUtils;
 
 public class EmployeeItem extends ListItem {
 	// -------------------------------------------------------------------------
@@ -50,6 +53,46 @@ public class EmployeeItem extends ListItem {
 		this.mDepartmentId = departmentId;
 	}
 
+	public void setFirstName(String name) {
+		this.mFirstName = name;
+	}
+
+	public void setLastName(String name) {
+		this.mLastName = name;
+	}
+
+	public void setEmail(String email) {
+		this.mEmail = email;
+	}
+
+	public void setPhoneNumber(String phoneNum) {
+		this.mPhoneNumber = phoneNum;
+	}
+
+	public void setHireDate(LocalDate date) {
+		this.mHireDate = date;
+	}
+
+	public void setJobId(String id) {
+		this.mJobId = id;
+	}
+
+	public void setSalary(int salary) {
+		this.mSalary = salary;
+	}
+
+	public void setCommissionPct(double pct) {
+		this.mCommissionPct = pct;
+	}
+
+	public void setMangerId(int id) {
+		this.mManagerId = id;
+	}
+
+	public void setDepartmentId(int id) {
+		this.mDepartmentId = id;
+	}
+
 	// -------------------------------------------------------------------------
 
 	public String getFirstName() {
@@ -70,6 +113,14 @@ public class EmployeeItem extends ListItem {
 
 	public LocalDate getHireDate() {
 		return this.mHireDate;
+	}
+
+	public String getHireDateStr() {
+		return TimeUtils.localDateToStr(this.getHireDate());
+	}
+
+	public String getHireDateStrYYYYMMDD() {
+		return this.getHireDate().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
 	}
 
 	public String getJobId() {
@@ -94,11 +145,15 @@ public class EmployeeItem extends ListItem {
 
 	// -------------------------------------------------------------------------
 
+	public String getLabelString() {
+		return "employeeId, firstName, lastName," +
+				" email, phoneNumber, hireDate, jobId," +
+				" salary, comissionPct, managerId, departmentId";
+	}
+
 	@Override
 	public String toString() {
-		return String.format("employeeId:%4d, firstName:%-16s, lastName:%-16s," +
-				" email:%-16s, phoneNumber:%-20s, hireDate:%s, jobId:%-16s," +
-				" salary:%8d, comissionPct:%4.2f, managerId:%4d, departmentId:%4d",
+		return String.format("%4d, %-16s, %-16s, %-16s, %-20s, %s, %-16s, %8d, %5.2f, %4d, %4d",
 				this.getId(), this.getFirstName(), this.getLastName(),
 				this.getEmail(), this.getPhoneNumber(), this.getHireDate(),
 				this.getJobId(),

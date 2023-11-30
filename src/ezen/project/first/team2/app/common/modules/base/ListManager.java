@@ -170,6 +170,14 @@ public class ListManager<T extends ListItem> {
 		this.onIterate(iterator);
 	}
 
+	public void iterate() {
+		this.iterate((item, idx) -> {
+			System.out.println(item);
+
+			return true;
+		});
+	}
+
 	// 아이템 찾기. iterator에서 원하는 아이템을 찾았으면 true 반환.
 	public T find(Iterator<T> iterator) {
 		return this.onFind(iterator);
@@ -188,6 +196,16 @@ public class ListManager<T extends ListItem> {
 	// 모든 아이템 삭제
 	public void reset() {
 		this.mList.clear();
+	}
+
+	// 첫 번째 아이템 얻기
+	public T getFirstItem() {
+		return this.mList.size() > 0 ? this.mList.get(0) : null;
+	}
+
+	// 마지막 아이템 얻기
+	public T getLastItem() {
+		return this.mList.size() > 0 ? this.mList.get(this.mList.size() - 1) : null;
 	}
 
 	// -------------------------------------------------------------------------
