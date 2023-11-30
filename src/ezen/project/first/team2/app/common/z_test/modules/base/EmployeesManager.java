@@ -1,6 +1,7 @@
 package ezen.project.first.team2.app.common.z_test.modules.base;
 
 import java.sql.ResultSet;
+import java.time.format.DateTimeFormatter;
 
 import ezen.project.first.team2.app.common.modules.base.ListManagerDb;
 
@@ -74,7 +75,6 @@ public class EmployeesManager extends ListManagerDb<EmployeeItem> {
 
 	@Override
 	protected String[] onMakeFieldsetAndValues(EmployeeItem item) {
-
 		String fieldset = "employee_id, first_name, last_name, email, phone_number," +
 				"hire_date, job_id, salary, commission_pct, manager_id, department_id";
 		String values = String.format(
@@ -82,7 +82,7 @@ public class EmployeesManager extends ListManagerDb<EmployeeItem> {
 				"%d, '%s', '%s', '%s', '%s'" +
 						", '%s', '%s', %d, %f" + ", %d, %d",
 				item.getId(), item.getFirstName(), item.getLastName(), item.getEmail(), item.getPhoneNumber(),
-				item.getHireDateStrYYYYMMDD(), item.getJobId(), item.getSalary(), item.getCommissionPct(),
+				item.getHireSqlDateStr(), item.getJobId(), item.getSalary(), item.getCommissionPct(),
 				item.getManagerId(), item.getDepartmentId());
 
 		return new String[] { fieldset, values };
@@ -104,7 +104,7 @@ public class EmployeesManager extends ListManagerDb<EmployeeItem> {
 			else if (f.equals("phone_number"))
 				s += String.format("phone_number = %s, ", item.getPhoneNumber());
 			else if (f.equals("hire_date"))
-				s += String.format("hire_date = %s, ", item.getHireDateStrYYYYMMDD());
+				s += String.format("hire_date = %s, ", item.getHireSqlDateStr());
 			else if (f.equals("job_id"))
 				s += String.format("job_id = %s, ", item.getJobId());
 			else if (f.equals("salary"))

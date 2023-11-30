@@ -2,7 +2,6 @@ package ezen.project.first.team2.app.common.z_test.modules.base;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
 
 import ezen.project.first.team2.app.common.modules.base.ListItem;
 import ezen.project.first.team2.app.common.utils.TimeUtils;
@@ -119,7 +118,7 @@ public class EmployeeItem extends ListItem {
 		return TimeUtils.localDateToStr(this.getHireDate());
 	}
 
-	public String getHireDateStrYYYYMMDD() {
+	public String getHireSqlDateStr() {
 		return this.getHireDate().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
 	}
 

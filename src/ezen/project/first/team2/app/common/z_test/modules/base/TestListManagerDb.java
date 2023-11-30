@@ -34,8 +34,8 @@ public class TestListManagerDb {
 					final boolean DROP_TABLE = !true;
 					final boolean TRUNCATE_TABLE = !true;
 
-					final boolean DO_SELECT_QUERY = true;
-					final boolean DO_INSERT_QUERY = true;
+					final boolean DO_SELECT_QUERY = !true;
+					final boolean DO_INSERT_QUERY = !true;
 					final boolean DO_UPDATE_QUERY = !true;
 					final boolean DO_DELETE_QUERY = !true;
 
@@ -59,6 +59,7 @@ public class TestListManagerDb {
 
 							System.out.println();
 						}
+
 						// 테이블 초기화
 						if (TRUNCATE_TABLE) {
 							printTitle("테이블 초기화");
@@ -99,7 +100,7 @@ public class TestListManagerDb {
 							// mngr.doSelectQuery();
 							String where = null;// "employee_id > 200";
 							String orderBy = "employee_id desc";
-							mngr.doSelectQuery((_item, _idx) -> true, null, where, orderBy);
+							mngr.doSelectQuery((_item, idx) -> true, null, where, orderBy);
 							mngr.iterate();
 
 							System.out.println();
@@ -110,10 +111,11 @@ public class TestListManagerDb {
 							printTitle("레코드 수정");
 
 							var item = mngr.getFirstItem();
-							var fieldset = new String[] { "salary" };
+							var fieldset = new String[] { "salary" };// , "first_name" };
 							var _where = String.format("employee_id=%d", item.getId());
 
 							item.setSalary(9999999);
+							// item.setFirstName("FIRST_NAME");
 							int rows = mngr.doUpdateQuery(item, fieldset, _where);
 							System.out.printf("rows: %d \n", rows);
 
