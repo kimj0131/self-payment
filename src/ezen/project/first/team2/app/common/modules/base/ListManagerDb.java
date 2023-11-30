@@ -151,8 +151,13 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 		int idx = 0;
 		while (rs.next()) {
 			var item = this.onResultSetToItem(rs);
-			if (iterator.onGetItem(item, idx++)) {
+
+			if (iterator == null) {
 				this.add(item);
+			} else {
+				if (iterator.onGetItem(item, idx++)) {
+					this.add(item);
+				}
 			}
 		}
 
@@ -167,7 +172,7 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 	}
 
 	public int doSelectQuery() throws Exception {
-		return this.doSelectQuery((item, idx) -> true, null, null, null);
+		return this.doSelectQuery(null, null, null, null);
 	}
 
 	// insert 쿼리 수행

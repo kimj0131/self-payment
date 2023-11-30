@@ -6,10 +6,14 @@
 
 package ezen.project.first.team2.app.common.modules.product.discounts;
 
-import ezen.project.first.team2.app.common.modules.base.ListManager;
+import java.sql.ResultSet;
 
-public class ProductDiscountsManager extends ListManager<ProductDiscountItem> {
+import ezen.project.first.team2.app.common.modules.base.ListManagerDb;
+
+public class ProductDiscountsManager extends ListManagerDb<ProductDiscountItem> {
 	// -------------------------------------------------------------------------
+
+	private static final String TABLE_NAME = "prodcut_discounts";
 
 	private static ProductDiscountsManager mInstance = null;
 
@@ -17,6 +21,7 @@ public class ProductDiscountsManager extends ListManager<ProductDiscountItem> {
 
 	// 생성자
 	private ProductDiscountsManager() {
+		super(TABLE_NAME);
 	}
 
 	// 인스턴스 얻기
@@ -50,5 +55,52 @@ public class ProductDiscountsManager extends ListManager<ProductDiscountItem> {
 	public int getAmountByProdId(int prodId) {
 		var item = this.getItemByProdId(prodId);
 		return item.getAmount();
+	}
+
+	// -------------------------------------------------------------------------
+
+	@Override
+	protected String onMakeCreateTableQuery(String tableName) {
+		return String.format("create table %s(" +
+				"prod_discnt_id number primary key, " +
+				"prod_id number not null, " +
+				"amount number not null" +
+				")", tableName);
+	}
+
+	@Override
+	protected ProductDiscountItem onResultSetToItem(ResultSet rs) {
+		return new ProductDiscountItem(
+				this.getInt(rs, "prod_discnt_id"),
+				this.getInt(rs, "prod_id"),
+				this.getInt(rs, "amount"));
+	}
+
+	@Override
+	protected String[] onMakeFieldsetAndValues(ProductDiscountItem item) {
+		String fieldset = "prod_discnt_id, prod_id, amount";
+		String values = String.format("%d, %d, %d",
+				item.getId(),
+				item.getProdId(),
+				item.getAmount());
+
+		return new String[] { fieldset, values };
+
+	}
+
+	@Override
+	protected String onMakeSet(ProductDiscountItem item, String[] fieldset) throws Exception {
+		String s = "";
+
+		for (var f : fieldset) {
+			if (f.equals("prod_discnt_id"))
+				s += String.format("prod_discnt_id = %d", item.getId());
+			else if (f.equals("prod_id"))
+				s += String.format("prod_id = %d", item.getProdId());
+			else if (f.equals("amount"))
+				s += String.format("amount = %d", item.getAmount());
+		}
+
+		return s;
 	}
 }

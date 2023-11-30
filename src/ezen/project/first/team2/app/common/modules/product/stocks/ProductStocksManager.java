@@ -6,10 +6,14 @@
 
 package ezen.project.first.team2.app.common.modules.product.stocks;
 
-import ezen.project.first.team2.app.common.modules.base.ListManager;
+import java.sql.ResultSet;
 
-public class ProductStocksManager extends ListManager<ProductStockItem> {
+import ezen.project.first.team2.app.common.modules.base.ListManagerDb;
+
+public class ProductStocksManager extends ListManagerDb<ProductStockItem> {
 	// -------------------------------------------------------------------------
+
+	private static final String TABLE_NAME = "product_stocks";
 
 	private static ProductStocksManager mInstance = null;
 
@@ -17,6 +21,7 @@ public class ProductStocksManager extends ListManager<ProductStockItem> {
 
 	// 생성자
 	private ProductStocksManager() {
+		super(TABLE_NAME);
 	}
 
 	// 인스턴스 얻기
@@ -60,5 +65,51 @@ public class ProductStocksManager extends ListManager<ProductStockItem> {
 	public int getQuantityByProdId(int prodId) throws Exception {
 		var item = this.getItemByProdId(prodId);
 		return item.getQuantity();
+	}
+
+	// -------------------------------------------------------------------------
+
+	@Override
+	protected String onMakeCreateTableQuery(String tableName) {
+		return String.format("create table %s(" +
+				"prod_stock_id number primary key, " +
+				"prod_id number not null, " +
+				"quantity number not null" +
+				")", tableName);
+	}
+
+	@Override
+	protected ProductStockItem onResultSetToItem(ResultSet rs) {
+		return new ProductStockItem(
+				this.getInt(rs, "prod_stock_id"),
+				this.getInt(rs, "prod_id"),
+				this.getInt(rs, "quantity"));
+	}
+
+	@Override
+	protected String[] onMakeFieldsetAndValues(ProductStockItem item) {
+		String fieldset = "prod_stock_id, prod_id, quantity";
+		String values = String.format("%d, %d, %d",
+				item.getId(),
+				item.getProdId(),
+				item.getQuantity());
+
+		return new String[] { fieldset, values };
+	}
+
+	@Override
+	protected String onMakeSet(ProductStockItem item, String[] fieldset) throws Exception {
+		String s = "";
+
+		for (var f : fieldset) {
+			if (f.equals("prod_stock_id"))
+				s += String.format("prod_stock_id = %d", item.getId());
+			else if (f.equals("prod_id"))
+				s += String.format("prod_id = %d", item.getProdId());
+			else if (f.equals("quantity"))
+				s += String.format("quantity = %d", item.getQuantity());
+		}
+
+		return s;
 	}
 }

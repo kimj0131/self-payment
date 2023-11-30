@@ -1,7 +1,6 @@
 package ezen.project.first.team2.app.common.z_test.modules.base;
 
 import java.sql.ResultSet;
-import java.time.format.DateTimeFormatter;
 
 import ezen.project.first.team2.app.common.modules.base.ListManagerDb;
 
@@ -53,24 +52,19 @@ public class EmployeesManager extends ListManagerDb<EmployeeItem> {
 
 	@Override
 	protected EmployeeItem onResultSetToItem(ResultSet rs) {
-		try {
-			return new EmployeeItem(
-					this.getInt(rs, "employee_id"),
-					this.getString(rs, "first_name"),
-					this.getString(rs, "last_name"),
-					this.getString(rs, "email"),
-					this.getString(rs, "phone_number"),
-					this.getDate(rs, "hire_date").toLocalDate(),
-					this.getString(rs, "job_id"),
-					this.getInt(rs, "salary"),
-					this.getDouble(rs, "commission_pct"),
-					this.getInt(rs, "manager_id"),
-					this.getInt(rs, "department_id"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		return new EmployeeItem(
+				this.getInt(rs, "employee_id"),
+				this.getString(rs, "first_name"),
+				this.getString(rs, "last_name"),
+				this.getString(rs, "email"),
+				this.getString(rs, "phone_number"),
+				this.getDate(rs, "hire_date").toLocalDate(),
+				this.getString(rs, "job_id"),
+				this.getInt(rs, "salary"),
+				this.getDouble(rs, "commission_pct"),
+				this.getInt(rs, "manager_id"),
+				this.getInt(rs, "department_id"));
 
-		return new EmployeeItem();
 	}
 
 	@Override
