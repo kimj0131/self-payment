@@ -34,7 +34,7 @@ public class LeftView3_Payment extends View {
 	private static final Color TITLE_LABEL_FONT_COLOR = new Color(103, 121, 133);
 	
 	// label
-	private static final Font LABEL_FONT = new Font("맑은 고딕", Font.PLAIN, 20);
+	private static final Font LABEL_FONT = new Font("맑은 고딕", Font.PLAIN, 25);
 	private static final Color LABEL_FONT_COLOR = new Color(103, 121, 133);
 	
 	// Prev button

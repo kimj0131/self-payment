@@ -102,7 +102,7 @@ public class ProductOrderDetailsManager extends ListManagerDb<ProductOrderDetail
 				"prod_order_id number(6) not null, " +
 				"prod_id number(6) not null, " +
 				"prod_discnt_id number(6) not null, " +
-				"quantity number(4) not null, " +
+				"quantity number(4) not null" +
 				")", tableName);
 	}
 
@@ -127,7 +127,7 @@ public class ProductOrderDetailsManager extends ListManagerDb<ProductOrderDetail
 	@Override
 	protected String[] onMakeFieldsetAndValues(ProductOrderDetailItem item) {
 
-		String fieldset = "prod_order_detail_id, prod_order_id, prod_id, prod_discnt_id, quantity,";
+		String fieldset = "prod_order_detail_id, prod_order_id, prod_id, prod_discnt_id, quantity";
 		String values = String.format("%d, %d, %d, %d, %d", item.getId(), item.getProdOrderId(), item.getProdId(),
 				item.getProdDiscntId(), item.getQuantity());
 
@@ -157,7 +157,7 @@ public class ProductOrderDetailsManager extends ListManagerDb<ProductOrderDetail
 		}
 
 		// 마지막 comma와 space 제거
-		s = s.substring(0, s.length() - 3);
+		s = s.substring(0, s.length() - 2);
 
 		return s;
 	}

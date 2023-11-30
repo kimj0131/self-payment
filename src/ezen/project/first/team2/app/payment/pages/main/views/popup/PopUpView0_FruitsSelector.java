@@ -50,7 +50,8 @@ public class PopUpView0_FruitsSelector extends PopupView {
 	private static final Color FV_PANEL_COLOR = new Color(255, 255, 255);
 	
 	// 채소,과일 이름표
-	private static final Font FV_LABEL_FONT = new Font("맑은 고딕", Font.BOLD, 12);
+	private static final Font FV_LABEL_FONT = new Font("맑은 고딕", Font.BOLD, 15);
+	private static final Color FV_LABEL_FONT_COLOR = new Color(54, 70, 81);
 
 	private static final String BANANA_LABEL_TEXT = "바나나";
 	private static final String APPLE_LABEL_TEXT = "사과";
@@ -199,7 +200,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 	@Override
 	protected void onAddCtrls() {
 		
-	//	mGbc.fill = GridBagConstraints.BOTH;
+		mGbc.fill = GridBagConstraints.BOTH;
 		mGbc.weightx = 1;
 		mGbc.weighty = 1;
 
@@ -301,8 +302,6 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mFV_panel.add(mPepper_label, mGbc);
 
 		/////////////////////////////////////////////////////////////
-		
-		mGbc.fill = GridBagConstraints.BOTH;
 		
 		mGbc.insets = new Insets(0, 0, 10, 0);
 		
@@ -515,6 +514,9 @@ public class PopUpView0_FruitsSelector extends PopupView {
 	private JLabel makeVfLabel(String text, Font font) {
 		JLabel vfLabel = new JLabel(text);
 		vfLabel.setFont(font);
+		vfLabel.setForeground(FV_LABEL_FONT_COLOR);
+		vfLabel.setHorizontalAlignment(JLabel.RIGHT);
+		vfLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 7));
 		return vfLabel;
 	}
 }

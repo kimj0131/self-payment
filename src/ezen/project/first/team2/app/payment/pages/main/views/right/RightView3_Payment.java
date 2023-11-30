@@ -1,15 +1,24 @@
 package ezen.project.first.team2.app.payment.pages.main.views.right;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManager;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
+import ezen.project.first.team2.app.common.utils.SystemUtils;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
@@ -23,7 +32,21 @@ public class RightView3_Payment extends View {
 	private boolean mIsPaymentComplete = false;
 
 	private JButton mPaymentCompleted_btn;
-	private JPanel mPanel0;
+	private JPanel mBackground_panel;
+	private JLabel mCardImg1_Label;
+	private JLabel mCardImg2_Label;
+	private JLabel mReceiptImg_Label;
+	
+	private JLabel mArrowImg1_Label;
+	private JLabel mArrowImg2_Label;
+	
+	private ImageIcon mCardImg1_imgIcon;
+	private ImageIcon mCardImg2_imgIcon;
+	private ImageIcon mReceiptImg_imgIcon;
+	private ImageIcon mArrowImg1_imgIcon;
+	private ImageIcon mArrowImg2_imgIcon;
+	
+	
 	
 	private ProductPurchasing mProdPurchasing;
 
@@ -36,7 +59,37 @@ public class RightView3_Payment extends View {
 	protected void onInit() {
 		
 		mPaymentCompleted_btn = new JButton("결제완료");
-		mPanel0 = new JPanel();
+		mBackground_panel = new JPanel();
+		mCardImg1_Label = new JLabel();
+		mCardImg2_Label = new JLabel();
+		mReceiptImg_Label = new JLabel();
+		mArrowImg1_Label = new JLabel();
+		mArrowImg2_Label = new JLabel();
+		
+		
+		// 이미지 설정
+		try {
+			BufferedImage card1_buff = ImageIO.read(new File("resources/images/rightView3/card1_480x300.png"));
+			BufferedImage card2_buff = ImageIO.read(new File("resources/images/rightView3/card2_480x300.png"));
+			BufferedImage receipt_buff = ImageIO.read(new File("resources/images/rightView3/receipt_980x960.png"));
+			BufferedImage arrow1_buff = ImageIO.read(new File("resources/images/rightView3/arrow1_512x512.png"));
+			BufferedImage arrow2_buff = ImageIO.read(new File("resources/images/rightView3/arrow2_512x512.png"));
+			
+			Image card1_si = card1_buff.getScaledInstance(240, 150, Image.SCALE_SMOOTH);
+			Image card2_si = card2_buff.getScaledInstance(240, 150, Image.SCALE_SMOOTH);
+			Image receipt_si = receipt_buff.getScaledInstance(245, 240, Image.SCALE_SMOOTH);
+			Image arrow1_si = arrow1_buff.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+			Image arrow2_si = arrow2_buff.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+			
+			mCardImg1_imgIcon = new ImageIcon(card1_si);
+			mCardImg2_imgIcon = new ImageIcon(card2_si);
+			mReceiptImg_imgIcon = new ImageIcon(receipt_si);
+			mArrowImg1_imgIcon = new ImageIcon(arrow1_si);
+			mArrowImg2_imgIcon = new ImageIcon(arrow2_si);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		// 메인 페이지에서 mProdPurchasing 가져오기
 		MainPage mainPage = (MainPage) this.getPage();
@@ -49,15 +102,21 @@ public class RightView3_Payment extends View {
 		this.setBackground(BACKGROUND_COLOR);
 		this.setBorder(BorderFactory.createEmptyBorder(
 				PADDING, PADDING, PADDING, PADDING));
-		this.setLayout(new BorderLayout());
+		this.setLayout(new GridLayout(1, 1));
 		
-		mPanel0.setBackground(Color.WHITE);
+		mBackground_panel.setBackground(Color.WHITE);
+		mBackground_panel.setLayout(new BoxLayout(mBackground_panel, BoxLayout.Y_AXIS));
 	}
 
 	@Override
 	protected void onAddCtrls() {
-		mPanel0.add(mPaymentCompleted_btn);
-		this.add(mPanel0);
+		//mBackground_panel.add(mPaymentCompleted_btn);
+		mBackground_panel.add(mCardImg1_Label);
+		mBackground_panel.add(mArrowImg2_Label);
+		mBackground_panel.add(mCardImg2_Label);
+		mBackground_panel.add(mReceiptImg_Label);
+		
+		this.add(mBackground_panel);
 	}
 
 	@Override
@@ -104,6 +163,11 @@ public class RightView3_Payment extends View {
 
 	@Override
 	protected void onShow(boolean firstTime) {
+		mCardImg1_Label.setIcon(mCardImg1_imgIcon);
+		mCardImg2_Label.setIcon(mCardImg2_imgIcon);
+		mReceiptImg_Label.setIcon(mReceiptImg_imgIcon);
+		mArrowImg1_Label.setIcon(mArrowImg1_imgIcon);
+		mArrowImg2_Label.setIcon(mArrowImg2_imgIcon);
 	}
 
 	@Override

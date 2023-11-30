@@ -186,6 +186,7 @@ public class RightView1_CheckMember extends View {
 		
 		mGbc.insets = new Insets(0, PADDING, 0, 0);
 
+		mGbc.weightx = 0.1;
 		mGbc.gridheight = 2;
 		mGbc.gridx = 1;
 		mGbc.gridy = 0;
@@ -209,7 +210,7 @@ public class RightView1_CheckMember extends View {
 		mGbc.weighty = 0.06;
 		mGbc.anchor = GridBagConstraints.LINE_END;
 		mGbc.fill = GridBagConstraints.VERTICAL;
-		mGbc.gridx = 2;
+		mGbc.gridx = 0;
 		mGbc.gridy = 1;
 		this.add(mPass_btn, mGbc);
 	}

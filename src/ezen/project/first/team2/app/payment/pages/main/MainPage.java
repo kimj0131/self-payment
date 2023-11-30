@@ -65,7 +65,7 @@ public class MainPage extends Page {
 		super(Main.PAGE_NUM_MAIN, TITLE, SIZE,
 				OPTION_CENTER_IN_SCREEN |
 						OPTION_VISIBLE * 0 |
-						OPTION_BORDERLESS  |
+						OPTION_BORDERLESS * 0  |
 						OPTION_FULL_SCREEN * 0 |
 						OPTION_FIXED_SIZE * 0);
 	}

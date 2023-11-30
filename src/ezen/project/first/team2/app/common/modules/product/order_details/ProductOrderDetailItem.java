@@ -140,22 +140,36 @@ public class ProductOrderDetailItem extends ListItem {
 
 	// -------------------------------------------------------------------------
 
+//	@Override
+//	public String toString() {
+//		try {
+//			return String.format("id:%06d, prod_order_id:%06d, prod_id:%06d, " +
+//					"prod_dicnt_id:%06d, quantity:%2d, org_price:%8s, final_price:%8s ",
+//					this.getId(), this.getProdOrderId(), this.getProdDiscntId(),
+//					this.getProdDiscntId(), this.getQuantity(),
+//					UnitUtils.numToCurrencyStr(this.getOrgPrice()),
+//					UnitUtils.numToCurrencyStr(this.getFinalPrice()));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return null;
+//	}
+
 	@Override
 	public String toString() {
 		try {
 			return String.format("id:%06d, prod_order_id:%06d, prod_id:%06d, " +
-					"prod_dicnt_id:%06d, quantity:%2d, org_price:%8s, final_price:%8s ",
+					"prod_dicnt_id:%06d, quantity:%2d",
 					this.getId(), this.getProdOrderId(), this.getProdDiscntId(),
-					this.getProdDiscntId(), this.getQuantity(),
-					UnitUtils.numToCurrencyStr(this.getOrgPrice()),
-					UnitUtils.numToCurrencyStr(this.getFinalPrice()));
+					this.getProdDiscntId(), this.getQuantity());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return null;
 	}
-
+	
 	@Override
 	protected void onSetValuesFrom(ListItem item) {
 		var podi = (ProductOrderDetailItem) item;

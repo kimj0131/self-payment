@@ -32,13 +32,13 @@ public class TestProductOrdersManagerDb {
 					System.out.printf("[%s] 연결됨 \n", TimeUtils.currTimeStr());
 
 					final boolean CREATE_TABLE = !true;
-					final boolean DROP_TABLE = !true;
+					final boolean DROP_TABLE = true;
 					final boolean TRUNCATE_TABLE = !true;
 
-					final boolean DO_SELECT_QUERY = true;
-					final boolean DO_INSERT_QUERY = true;
-					final boolean DO_UPDATE_QUERY = true;
-					final boolean DO_DELETE_QUERY = true;
+					final boolean DO_SELECT_QUERY = !true;
+					final boolean DO_INSERT_QUERY = !true;
+					final boolean DO_UPDATE_QUERY = !true;
+					final boolean DO_DELETE_QUERY = !true;
 
 					var mngr = ProductOrdersManager.getInstance();
 
@@ -146,7 +146,7 @@ public class TestProductOrdersManagerDb {
 
 			});
 
-			dbConn.connect("localhost", DBConnector.DEFAULT_PORT_NUM, "hr", "1234");
+			dbConn.connect("192.168.0.64", DBConnector.DEFAULT_PORT_NUM, "hr", "1234");
 
 			SystemUtils.sleep(3 * 1000);
 

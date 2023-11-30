@@ -75,7 +75,7 @@ public class ProductOrdersManager extends ListManagerDb<ProductOrderItem> {
 			if (f.equals("prod_order_id"))
 				s += String.format("prod_order_id = %d, ", item.getId());
 			else if (f.equals("order_datetime"))
-				s += String.format("order_datetime = %s, ", item.getOrderDateTimeSqlStr());
+				s += String.format("order_datetime = '%s', ", item.getOrderDateTimeSqlStr());
 			else if (f.equals("cust_id"))
 				s += String.format("cust_id = %d, ", item.getCustId());
 			else if (f.equals("used_point"))
