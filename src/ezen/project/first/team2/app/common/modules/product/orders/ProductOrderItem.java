@@ -7,6 +7,7 @@
 package ezen.project.first.team2.app.common.modules.product.orders;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import ezen.project.first.team2.app.common.modules.base.ListItem;
@@ -107,6 +108,11 @@ public class ProductOrderItem extends ListItem {
 	public String getOrderDateTimeStr() {
 		return TimeUtils.localDateTimeToStr(this.getOrderDateTime());
 	}
+	
+	public String getOrderDateTimeSqlStr() {
+		return this.getOrderDateTime().format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
+	}
+
 
 	// 고객 ID 얻기
 	public int getCustId() {

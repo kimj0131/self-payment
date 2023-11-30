@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 import ezen.project.first.team2.app.common.modules.database.DBConnector;
 
@@ -138,7 +139,7 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 				ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		ResultSet rs = pstmt.executeQuery();
 
-		// System.out.printf("[ListManagerDb.doSelectQuery()] sql=\"%s\" \n", sql);
+		//System.out.printf("[ListManagerDb.doSelectQuery()] sql=\"%s\" \n", sql);
 
 		// 개수 얻기
 		int rCnt = 0;
@@ -300,7 +301,15 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 			return def;
 		}
 	}
-
+	
+	protected Timestamp getTimestamp(ResultSet rs, String name, Timestamp def) {
+		try {
+			return rs.getTimestamp(name);
+		} catch (Exception e) {
+			return def;
+		}
+	}
+	
 	//
 
 	protected String getString(ResultSet rs, String name) {
@@ -317,6 +326,10 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 
 	protected Date getDate(ResultSet rs, String name) {
 		return this.getDate(rs, name, Date.valueOf("1970-01-01"));
+	}
+	
+	protected Timestamp getTimestamp(ResultSet rs, String name) {
+		return this.getTimestamp(rs, name, Timestamp.valueOf("1970-01-01 00:00:00"));
 	}
 
 	// -------------------------------------------------------------------------
