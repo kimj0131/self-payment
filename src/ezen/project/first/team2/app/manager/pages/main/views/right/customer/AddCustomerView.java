@@ -286,6 +286,7 @@ public class AddCustomerView extends View {
 
                         UiUtils.showMsgBox("추가 완료", "");
 
+                        mScroll.getVerticalScrollBar().setValue(mScroll.getVerticalScrollBar().getMaximum());
                     } catch (Exception ex) {
                         UiUtils.showMsgBox("입력하신 휴대폰번호는 이미 등록되어있습니다.",
                                 "", MsgBoxType.Warn);
@@ -377,7 +378,10 @@ public class AddCustomerView extends View {
             int nextNum = custMngr.getNextID();
             this.mTextFieldAddId.setText(String.valueOf(nextNum));
             this.mTextFieldAddName.setText(nName());
-            this.mTextFieldAddBirthday.setText("20001010");
+            int year = (int) (Math.random() * 60 + 1942);
+            int month = (int) (Math.random() * 12 + 1);
+            int day = (int) (Math.random() * 30 + 1);
+            this.mTextFieldAddBirthday.setText(String.format("%d%02d%02d", year, month, day));
             int randomNum = (int) (Math.random() * 9999);
             int randomNum2 = (int) (Math.random() * 9999);
             this.mTextFieldAddPhoneNum.setText(String.format("010-%04d-%04d", randomNum, randomNum2));
@@ -388,7 +392,7 @@ public class AddCustomerView extends View {
     }
 
     // 테스트용 랜덤 이름 생성
-    public static String nName() {
+    private static String nName() {
         List<String> lastName = Arrays.asList("김", "이", "박", "최", "정", "강", "조", "윤", "장", "임", "한", "오", "서", "신", "권",
                 "황",
                 "안",

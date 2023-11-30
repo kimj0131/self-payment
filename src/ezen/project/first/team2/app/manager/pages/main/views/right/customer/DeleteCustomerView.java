@@ -265,7 +265,7 @@ public class DeleteCustomerView extends View {
                     }
 
                     // 완료되면 레이블을 지운다
-                    initializeTextField();
+                    initializeLabel();
 
                     UiUtils.showMsgBox("삭제 완료", "", MsgBoxType.Info);
                 } catch (Exception e1) {
@@ -283,7 +283,7 @@ public class DeleteCustomerView extends View {
         System.out.println("[DeleteCustmerView.onShow()]");
 
         insertItemsIntoTable();
-        initializeTextField();
+        initializeLabel();
     }
 
     @Override
@@ -299,12 +299,12 @@ public class DeleteCustomerView extends View {
         lb1.setFont(main.mFont0);
 
         this.mLablePanelInfo.setFont(main.mFont2);
-        this.mLabelDelCustBirthday.setFont(main.mFont2);
-        this.mLabelDelCustId.setFont(main.mFont2);
-        this.mLabelDelCustName.setFont(main.mFont2);
-        this.mLabelDelCustPhoneNum.setFont(main.mFont2);
-        this.mLabelDelCustPoint.setFont(main.mFont2);
-        this.mLabelDelCustRemark.setFont(main.mFont2);
+        this.mLabelDelCustBirthday.setFont(main.mFont3);
+        this.mLabelDelCustId.setFont(main.mFont3);
+        this.mLabelDelCustName.setFont(main.mFont3);
+        this.mLabelDelCustPhoneNum.setFont(main.mFont3);
+        this.mLabelDelCustPoint.setFont(main.mFont3);
+        this.mLabelDelCustRemark.setFont(main.mFont3);
 
         this.mBtnDeleteComplete.setFont(main.mFont2);
 
@@ -351,7 +351,7 @@ public class DeleteCustomerView extends View {
     }
 
     // 검색창과 라벨을 초기화
-    private void initializeTextField() {
+    private void initializeLabel() {
         this.mTextFieldSearch.setText("");
         this.mLabelDelCustId.setText("■ 고객 번호 : ");
         this.mLabelDelCustName.setText("■ 고객명 : ");
@@ -363,7 +363,7 @@ public class DeleteCustomerView extends View {
 
     // 검색한 결과를 라벨에 설정
     private void searchItemAddTextField(CustomerItem custItem) {
-        initializeTextField();
+        initializeLabel();
 
         // UiUtils.showMsgBox(String.format(
         // "삭제할 항목은\n[ 고객번호[%s] 고객명[%s] ] 입니다\n",

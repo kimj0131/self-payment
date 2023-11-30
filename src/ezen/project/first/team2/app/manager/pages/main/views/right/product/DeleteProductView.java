@@ -274,7 +274,7 @@ public class DeleteProductView extends View {
                     }
 
                     // 완료되면 레이블을 지운다
-                    initializeTextField();
+                    initializeLabel();
 
                     UiUtils.showMsgBox("제거 완료", "", MsgBoxType.Warn);
                 } catch (Exception e1) {
@@ -291,6 +291,8 @@ public class DeleteProductView extends View {
     protected void onShow(boolean firstTime) {
         System.out.println("[DeleteProductView.onShow()]");
 
+        // 라벨을 초기화
+        initializeLabel();
         // 상품목록을 테이블에 추가
         insertItemsIntoTable();
     }
@@ -307,12 +309,12 @@ public class DeleteProductView extends View {
         JLabel lb1 = (JLabel) this.getComponents()[0];
         lb1.setFont(main.mFont0);
 
-        this.mLabelDelProdCode.setFont(main.mFont2);
-        this.mLabelDelProdDesc.setFont(main.mFont2);
-        this.mLabelDelProdId.setFont(main.mFont2);
-        this.mLabelDelProdName.setFont(main.mFont2);
-        this.mLabelDelProdPrice.setFont(main.mFont2);
-        this.mLabelDelProdRegDate.setFont(main.mFont2);
+        this.mLabelDelProdCode.setFont(main.mFont3);
+        this.mLabelDelProdDesc.setFont(main.mFont3);
+        this.mLabelDelProdId.setFont(main.mFont3);
+        this.mLabelDelProdName.setFont(main.mFont3);
+        this.mLabelDelProdPrice.setFont(main.mFont3);
+        this.mLabelDelProdRegDate.setFont(main.mFont3);
         this.mLabelPanelInfo.setFont(main.mFont2);
 
         this.mTableResultList.setFont(main.mFont3);
@@ -338,7 +340,7 @@ public class DeleteProductView extends View {
 
     // 검색한 결과를 라벨에 설정
     private void searchItemAddTextField(ProductItem prodItem) {
-        initializeTextField();
+        initializeLabel();
 
         this.mLabelDelProdId.setText(
                 mLabelDelProdId.getText() + prodItem.getId());
@@ -355,7 +357,7 @@ public class DeleteProductView extends View {
     }
 
     // 라벨을 초기화
-    private void initializeTextField() {
+    private void initializeLabel() {
         this.mLabelDelProdId.setText("■ 상품 번호 : ");
         this.mLabelDelProdCode.setText("■ 상품 코드 : ");
         this.mLabelDelProdName.setText("■ 상품명 : ");

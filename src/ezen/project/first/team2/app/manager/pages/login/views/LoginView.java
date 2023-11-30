@@ -9,6 +9,7 @@ package ezen.project.first.team2.app.manager.pages.login.views;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -90,7 +91,6 @@ public class LoginView extends View {
 	@Override
 	protected void onAddEventListeners() {
 		this.mBtnLogin.addActionListener(e -> {
-
 			AdminSession admin = AdminSession.getInstance();
 
 			String id = mTextFieldLoginId.getText();
@@ -106,7 +106,7 @@ public class LoginView extends View {
 				}
 			} else {
 				UiUtils.showMsgBox("Login Fail..", MainPage.TITLE);
-				this.mTextFieldLoginId.setText("");
+				// this.mTextFieldLoginId.setText("");
 				this.mTextFieldLoginPassward.setText("");
 
 				this.mTextFieldLoginId.requestFocus();
@@ -114,23 +114,37 @@ public class LoginView extends View {
 
 		});
 
+		this.mTextFieldLoginId.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				// 시연용 자동기입
+				if (e.isControlDown() && e.getKeyCode() == '1') {
+					autoInsert();
+					mTextFieldLoginPassward.requestFocus();
+				} else
+				// 엔터를 누르면 passward 텍스트필드로 포커스가 넘어간다
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					mPanelLoginBtn.getRootPane().setDefaultButton(null);
+					mTextFieldLoginPassward.requestFocus();
+				}
+			}
+		});
+
 		this.mTextFieldLoginPassward.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+				// 시연용 자동기입
+				if (e.isControlDown() && e.getKeyCode() == '1') {
+					autoInsert();
+				}
+				// 엔터를 누르면 로그인버튼을 누른다.
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					mPanelLoginBtn.getRootPane().setDefaultButton(mBtnLogin);
 				}
 			}
 		});
 
-		this.mTextFieldLoginId.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					mTextFieldLoginPassward.requestFocus();
-				}
-			}
-		});
 	}
 
 	// 뷰가 표시될 때
@@ -153,5 +167,11 @@ public class LoginView extends View {
 		mLabelLoginPassward.setFont(main.mFont2);
 		mTextFieldLoginId.setFont(main.mFont2);
 		mTextFieldLoginPassward.setFont(main.mFont2);
+	}
+
+	// 시연용 id,pw 자동기입
+	private void autoInsert() {
+		mTextFieldLoginId.setText("admin");
+		mTextFieldLoginPassward.setText("qwer1234!@#$");
 	}
 }

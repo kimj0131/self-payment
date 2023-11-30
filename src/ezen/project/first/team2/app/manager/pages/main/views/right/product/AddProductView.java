@@ -372,19 +372,23 @@ public class AddProductView extends View {
         this.mTextFieldAddProdDesc.setText("");
     }
 
+    // 상품정보 자동생성
     private void setTestProdValue() {
         try {
+            String[] type = { "S", "R", "D", "F", "V" };
+            int ranType = (int) (Math.random() * type.length);
             int nextId = prodMngr.getNextID();
             this.mTextFieldAddProdId.setText(String.valueOf(nextId));
 
             int nextSerial = prodMngr.getCount() + 1;
             mTextFieldAddProdCode.setText(String.format("%s%03d",
-                    "S", nextSerial));
+                    type[ranType], nextSerial));
 
-            this.mTextFieldAddProdName.setText("새우깡");
-            int rdPrice = (int) (Math.random() * 1000 + 1000);
-            this.mTextFieldAddProdPrice.setText(String.valueOf(rdPrice));
-            this.mTextFieldAddProdDesc.setText("새우로 만든 스낵");
+            this.mTextFieldAddProdName.setText("테스트 상품명");
+
+            int rdPrice = (int) (Math.random() * 1000 + 100);
+            this.mTextFieldAddProdPrice.setText(String.format("%d0", rdPrice));
+            this.mTextFieldAddProdDesc.setText("Test Product");
         } catch (Exception e) {
             e.printStackTrace();
         }
