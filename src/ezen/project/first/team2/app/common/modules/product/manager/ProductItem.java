@@ -7,6 +7,7 @@
 package ezen.project.first.team2.app.common.modules.product.manager;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import ezen.project.first.team2.app.common.modules.base.ListItem;
 import ezen.project.first.team2.app.common.utils.TimeUtils;
@@ -100,6 +101,11 @@ public class ProductItem extends ListItem {
 	// 등록일 문자열 얻기
 	public String getRegDateStr() {
 		return TimeUtils.localDateToStr(this.mRegDate);
+	}
+
+	// 등록일 문자열 sql패턴에 맞게 얻기
+	public String getSqlRegDateStr() {
+		return this.getRegDate().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
 	}
 
 	// 이름 얻기

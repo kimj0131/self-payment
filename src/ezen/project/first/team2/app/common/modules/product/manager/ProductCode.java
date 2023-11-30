@@ -34,20 +34,22 @@ public class ProductCode implements Cloneable {
 
 	// 생성자 - 제품 코드 문자열 입력
 	public ProductCode(String prodCode) throws Exception {
-		if (prodCode.length() != CodeFormat.length()) {
+		if (!prodCode.isEmpty() && prodCode.length() != CodeFormat.length()) {
 			String msg = String.format("[ProductCode.ctor()]",
 					" Invalid prodCode(%s)!",
 					prodCode);
 			throw new Exception(msg);
 		}
 
-		// 1st char
-		String typeStr = prodCode.substring(0, 1);
-		// 2nd char ~
-		String snStr = prodCode.substring(1);
+		if (!prodCode.isEmpty()) {
+			// 1st char
+			String typeStr = prodCode.substring(0, 1);
+			// 2nd char ~
+			String snStr = prodCode.substring(1);
 
-		this.mType = strToType(typeStr);
-		this.mSn = Integer.parseInt(snStr);
+			this.mType = strToType(typeStr);
+			this.mSn = Integer.parseInt(snStr);
+		}
 	}
 
 	// -------------------------------------------------------------------------

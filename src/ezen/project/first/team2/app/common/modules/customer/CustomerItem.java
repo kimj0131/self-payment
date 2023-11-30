@@ -7,6 +7,7 @@
 package ezen.project.first.team2.app.common.modules.customer;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import ezen.project.first.team2.app.common.modules.base.ListItem;
 import ezen.project.first.team2.app.common.utils.TimeUtils;
@@ -120,6 +121,11 @@ public class CustomerItem extends ListItem {
 		return TimeUtils.localDateToStr(this.mJoinDate);
 	}
 
+	// 가입일 문자열 sql패턴에 맞게 얻기
+	public String getSqlJoinDateStr() {
+		return this.getJoinDate().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+	}
+
 	// 이름 얻기
 	public String getName() {
 		return this.mName;
@@ -133,6 +139,11 @@ public class CustomerItem extends ListItem {
 	// 생년월일 문자열 얻기
 	public String getBirthdayStr() {
 		return TimeUtils.localDateToStr(this.mBirthday);
+	}
+
+	// 생년월일 문자열 sql패턴에 맞게 얻기
+	public String getSqlBirthdayStr() {
+		return this.getBirthday().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
 	}
 
 	// 휴대폰 번호 얻기
