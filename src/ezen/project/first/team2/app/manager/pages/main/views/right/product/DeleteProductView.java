@@ -134,13 +134,13 @@ public class DeleteProductView extends View {
 
         // 확정버튼 설정
         this.mBtnDeleteComplete.setBorder(
-                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         // 상품정보 패널 설정
         this.mPanelDelInfoIdCodeName.setBorder(
-                BorderFactory.createEmptyBorder(20, 200, 20, 200));
+                BorderFactory.createEmptyBorder(10, 200, 10, 200));
         this.mPanelDelInfoPriceRegDateDesc.setBorder(
-                BorderFactory.createEmptyBorder(20, 200, 20, 200));
+                BorderFactory.createEmptyBorder(10, 200, 10, 200));
         // 페이지에 추가
         this.add(mLabelInfo, BorderLayout.NORTH);
         this.add(mPanelSearchDelete, BorderLayout.CENTER);
@@ -306,6 +306,18 @@ public class DeleteProductView extends View {
 
         JLabel lb1 = (JLabel) this.getComponents()[0];
         lb1.setFont(main.mFont0);
+
+        this.mLabelDelProdCode.setFont(main.mFont2);
+        this.mLabelDelProdDesc.setFont(main.mFont2);
+        this.mLabelDelProdId.setFont(main.mFont2);
+        this.mLabelDelProdName.setFont(main.mFont2);
+        this.mLabelDelProdPrice.setFont(main.mFont2);
+        this.mLabelDelProdRegDate.setFont(main.mFont2);
+        this.mLabelPanelInfo.setFont(main.mFont2);
+
+        this.mTableResultList.setFont(main.mFont3);
+
+        this.mBtnDeleteComplete.setFont(main.mFont2);
     }
 
     // 검색한 결과를 테이블에 추가

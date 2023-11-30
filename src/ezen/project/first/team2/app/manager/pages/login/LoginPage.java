@@ -64,7 +64,7 @@ public class LoginPage extends Page {
 	// 페이지가 표시될 때
 	@Override
 	protected void onShow(boolean firstTime) {
-		System.out.println("[MainPage.onShow()]");
+		System.out.println("[LoginPage.onShow()]");
 
 		try {
 			this.setSelectedViewByNum(LoginPage.VIEW_NUM_LOGIN);
@@ -76,6 +76,6 @@ public class LoginPage extends Page {
 	// 페이지가 숨겨질 때
 	@Override
 	protected void onHide() {
-		System.out.println("[MainPage.onHide()]");
+		System.out.println("[LoginPage.onHide()]");
 	}
 }

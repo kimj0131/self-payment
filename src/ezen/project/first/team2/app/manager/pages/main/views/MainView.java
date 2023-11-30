@@ -74,22 +74,6 @@ public class MainView extends DualView {
 		}
 	}
 
-	// // 컨트롤 추가
-	// @Override
-	// protected void onAddCtrls() {
-	// this.mBtn0.setText("버튼0");
-
-	// this.add(this.mBtn0);
-	// }
-
-	// // 이벤트 리스너 추가
-	// @Override
-	// protected void onAddEventListeners() {
-	// this.mBtn0.addActionListener(e -> {
-	// UiUtils.showMsgBox("버튼0", MainPage.TITLE);
-	// });
-	// }
-
 	// 뷰가 표시될 때
 	@Override
 	protected void onShow(boolean firstTime) {

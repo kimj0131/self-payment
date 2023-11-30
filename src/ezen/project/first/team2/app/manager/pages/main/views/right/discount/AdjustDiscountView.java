@@ -176,6 +176,9 @@ public class AdjustDiscountView extends View {
         this.mLabelPanelInfo_1.setHorizontalAlignment(JLabel.CENTER);
         this.mLabelPanelInfo_2.setHorizontalAlignment(JLabel.CENTER);
 
+        this.mBtnAdjustComplete.setBorder(
+                BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
         // 패널 설정
         this.mPanelDiscountAdjust.setBorder(
                 BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -370,6 +373,19 @@ public class AdjustDiscountView extends View {
 
         JLabel lb1 = (JLabel) this.getComponents()[0];
         lb1.setFont(main.mFont0);
+
+        this.mLabelAdjustActual.setFont(main.mFont2);
+        this.mLabelAdjustCurrent.setFont(main.mFont2);
+        this.mLabelPanelInfo_1.setFont(main.mFont2);
+        this.mLabelPanelInfo_2.setFont(main.mFont2);
+        this.mLabelProductCode.setFont(main.mFont2);
+        this.mLabelProductId.setFont(main.mFont2);
+        this.mLabelProductName.setFont(main.mFont2);
+        this.mLabelProductPrice.setFont(main.mFont2);
+
+        this.mTableResultList.setFont(main.mFont3);
+
+        this.mBtnAdjustComplete.setFont(main.mFont2);
     }
 
     // 검색한 결과를 테이블에 추가

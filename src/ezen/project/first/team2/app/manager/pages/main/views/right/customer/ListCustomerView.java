@@ -121,6 +121,8 @@ public class ListCustomerView extends View {
 
         JLabel lb = (JLabel) this.getComponents()[0];
         lb.setFont(main.mFont0);
+
+        this.mTableCustList.setFont(main.mFont3);
     }
 
 }

@@ -153,9 +153,9 @@ public class AddCustomerView extends View {
 
         // 버튼설정
         this.mBtnAddCustComplete.setBorder(
-                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                BorderFactory.createEmptyBorder(10, 20, 10, 20));
         this.mBtnAddTextFieldCust.setBorder(
-                BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         // 라벨설정
         this.mLabelPanelInfo.setHorizontalAlignment(JLabel.CENTER);
@@ -325,6 +325,18 @@ public class AddCustomerView extends View {
 
         JLabel lb1 = (JLabel) this.getComponents()[0];
         lb1.setFont(main.mFont0);
+
+        this.mLabelAddId.setFont(main.mFont2);
+        this.mLabelAddName.setFont(main.mFont2);
+        this.mLabelAddPhoneNum.setFont(main.mFont2);
+        this.mLabelAddBirthday.setFont(main.mFont2);
+        this.mLabelAddPoint.setFont(main.mFont2);
+        this.mLabelAddRemark.setFont(main.mFont2);
+
+        this.mBtnAddCustComplete.setFont(main.mFont2);
+        this.mBtnAddTextFieldCust.setFont(main.mFont2);
+
+        this.mTableCustList.setFont(main.mFont3);
     }
 
     // 텍스트필드 비우기
