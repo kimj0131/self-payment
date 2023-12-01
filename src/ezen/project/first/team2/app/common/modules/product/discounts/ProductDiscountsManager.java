@@ -95,17 +95,30 @@ public class ProductDiscountsManager extends ListManagerDb<ProductDiscountItem> 
 	}
 
 	@Override
+	protected String onMakeSetAll(ProductDiscountItem item) throws Exception {
+		String s = "";
+
+		// s += String.format("prod_discnt_id = %d, ", item.getId());
+		s += String.format("prod_id = %d, ", item.getProdId());
+		s += String.format("amount = %d", item.getAmount());
+
+		return s;
+	}
+
+	@Override
 	protected String onMakeSet(ProductDiscountItem item, String[] fieldset) throws Exception {
 		String s = "";
 
 		for (var f : fieldset) {
 			if (f.equals("prod_discnt_id"))
-				s += String.format("prod_discnt_id = %d", item.getId());
+				s += String.format("prod_discnt_id = %d, ", item.getId());
 			else if (f.equals("prod_id"))
-				s += String.format("prod_id = %d", item.getProdId());
+				s += String.format("prod_id = %d, ", item.getProdId());
 			else if (f.equals("amount"))
-				s += String.format("amount = %d", item.getAmount());
+				s += String.format("amount = %d, ", item.getAmount());
 		}
+
+		s = s.substring(0, s.length() - 2);
 
 		return s;
 	}

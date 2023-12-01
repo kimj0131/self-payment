@@ -138,6 +138,19 @@ public class ProductOrderDetailsManager extends ListManagerDb<ProductOrderDetail
 	}
 
 	@Override
+	protected String onMakeSetAll(ProductOrderDetailItem item) throws Exception {
+		String s = "";
+
+		// s += String.format("prod_order_detail_id = %d, ", item.getId());
+		s += String.format("prod_order_id = %d, ", item.getProdOrderId());
+		s += String.format("prod_id = %d, ", item.getProdId());
+		s += String.format("prod_discnt_id = %d, ", item.getProdDiscntId());
+		s += String.format("quantity = %d", item.getQuantity());
+
+		return s;
+	}
+
+	@Override
 	protected String onMakeSet(ProductOrderDetailItem item, String[] fieldset) throws Exception {
 		String s = "";
 

@@ -74,6 +74,19 @@ public class ProductOrdersManager extends ListManagerDb<ProductOrderItem> {
 	}
 
 	@Override
+	protected String onMakeSetAll(ProductOrderItem item) throws Exception {
+		String s = "";
+
+		// s += String.format("prod_order_id = %d, ", item.getId());
+		s += String.format("order_datetime = '%s', ", item.getOrderDateTimeSqlStr());
+		s += String.format("cust_id = %d, ", item.getCustId());
+		s += String.format("used_point = %d, ", item.getUsedPoint());
+		s += String.format("earned_point = %d", item.getEarnedPoint());
+
+		return s;
+	}
+
+	@Override
 	protected String onMakeSet(ProductOrderItem item, String[] fieldset) throws Exception {
 		String s = "";
 

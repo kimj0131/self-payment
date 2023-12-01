@@ -78,6 +78,16 @@ public class ProductPurchasing {
 		// 구매 내역(영수증) ID 발급
 		this.mProdOrderId = this.mProdOrdersMngr.getNextIdFromDb("prod_order_id");
 
+		// 상세 구매 내역 관리자에 마지막 구매 상품 추가
+		int lastId = this.mProdOrderDetailMngr.getMaxValueFromDb("prod_order_detail_id");
+		// this.mProdOrderDetailMngr.deleteAllItems();
+		this.mProdOrderDetailMngr.doSelectQuery(null, null, "prod_order_detail_id=" + lastId, null);
+		// var podi = this.mProdOrderDetailMngr.getFirstItem();
+		// if (podi != null) {
+		// this.mProdOrderDetailMngr.add(podi);
+		// this.mProdOrderDetailMngr.iterate();
+		// }
+
 		// 구매 내역(영수증) 아이템 생성 => 비회원 + 사용할 포인트 0
 		this.mProdOrderItem = new ProductOrderItem(this.mProdOrderId, LocalDateTime.now());
 		this.mProdOrdersMngr.add(this.mProdOrderItem);
@@ -120,7 +130,9 @@ public class ProductPurchasing {
 		}
 		// 상품이 없다면 추가
 		else {
-			int podiId = this.mProdOrderDetailMngr.getNextIdFromDb("prod_order_detail_id");
+			// int podiId =
+			// this.mProdOrderDetailMngr.getNextIdFromDb("prod_order_detail_id");
+			int podiId = this.mProdOrderDetailMngr.getNextID();
 			podi = new ProductOrderDetailItem(podiId, this.mProdOrderId, prodId, pdi.getId(), quantity);
 			this.mProdOrderDetailMngr.add(podi);
 
@@ -227,7 +239,37 @@ public class ProductPurchasing {
 			ci.incPoint(earnedPoint);
 		}
 
+		// -----------------------------------------------------------
 		// DB 저장
+		// -----------------------------------------------------------
+
+		// 고객 정보 저장
+		if (ci != null) {
+			this.mCustMngr.doUpdateQuery(ci, null, "cust_id=" + ci.getId());
+		}
+
+		// 상세 구매 내역, 재고 정보 저장
+		this.mProdOrderDetailMngr.iterate((item, idx) -> {
+			try {
+				// 상세 구매 내역
+				if (item.getProdOrderId() == this.mProdOrderId) {
+					// 상세 구매 내역 저장
+					this.mProdOrderDetailMngr.doInsertQuery(item);
+
+					// 재고 정보 저장
+					int prodId = item.getProdId();
+					var psi = this.mProdStocksMngr.getItemByProdId(prodId);
+					this.mProdStocksMngr.doUpdateQuery(psi, null, "prod_id=" + prodId);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return true;
+		});
+
+		// 구매 내역(영수증) 저장
+		this.mProdOrdersMngr.doInsertQuery(this.mProdOrderItem);
 	}
 
 	// -------------------------------------------------------------------------

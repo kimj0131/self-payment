@@ -27,6 +27,11 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 		public boolean onGetItem(T item, int idx);
 	}
 
+	public static interface DbIterator<T> {
+		// true를 리턴하면 해당 아이템을 읽거나 저장한다
+		public boolean onGetItem(ResultSet rs, T item, int idx);
+	}
+
 	// -------------------------------------------------------------------------
 
 	// 생성자
@@ -114,7 +119,7 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 	// -------------------------------------------------------------------------
 
 	// select 쿼리 실행
-	public int doSelectQuery(Iterator<T> iterator, String fieldSet, String where, String orderBy)
+	public int doSelectQuery(DbIterator<T> iterator, String fieldSet, String where, String orderBy)
 			throws Exception {
 		var dbConn = DBConnector.getInstance().getConnection();
 
@@ -155,7 +160,7 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 			int idx = 0;
 			while (rs.next()) {
 				var item = this.onResultSetToItem(rs);
-				if (iterator == null || iterator.onGetItem(item, idx++)) {
+				if (iterator == null || iterator.onGetItem(rs, item, idx++)) {
 					this.add(item);
 				}
 			}
@@ -169,7 +174,7 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 		return rCnt;
 	}
 
-	public int doSelectQuery(Iterator<T> iterator) throws Exception {
+	public int doSelectQuery(DbIterator<T> iterator) throws Exception {
 		return this.doSelectQuery(iterator, null, null, null);
 	}
 
@@ -246,7 +251,7 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 			}
 
 			mngr.deleteAllItems();
-			mngr.doSelectQuery((item, idx) -> true,
+			mngr.doSelectQuery((rs, item, idx) -> true,
 					String.format("max(%s) as %s", field, field), null, null);
 			var item = mngr.getFirstItem();
 			if (item == null) {
@@ -261,6 +266,37 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 		this.enableActionListener(oldStatus);
 
 		return id;
+	}
+
+	private int _mMaxValue = -1;
+
+	public int getMaxValueFromDb(String field) throws Exception {
+		var mngr = this.onGetTmpInstance();
+		if (mngr == null) {
+			String msg = String.format("ListManagerDb.getNextIdFromDb()" +
+					" You must override onGetInstance() method!");
+			throw new Exception(msg);
+		}
+
+		mngr.deleteAllItems();
+		mngr.doSelectQuery((rs, item, idx) -> {
+			try {
+				_mMaxValue = rs.getInt(field);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return true;
+		},
+				String.format("max(%s) as %s", field, field), null, null);
+		var item = mngr.getFirstItem();
+		if (item == null) {
+			// 익셉션 발생 시킬까?
+
+			return -1;
+		}
+
+		return _mMaxValue;
 	}
 
 	// -------------------------------------------------------------------------

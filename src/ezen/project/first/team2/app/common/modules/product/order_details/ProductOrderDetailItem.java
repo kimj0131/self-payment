@@ -106,7 +106,7 @@ public class ProductOrderDetailItem extends ListItem {
 		// 비회원인 경우 원래 금액 리턴
 		try {
 			var ci = this.getProdOrderItem().getCustItem();
-			if (ci.getId() == CustomerItem.GUEST_ID)
+			if (ci == null || ci.getId() == CustomerItem.GUEST_ID)
 				return this.getOrgPrice();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -140,21 +140,21 @@ public class ProductOrderDetailItem extends ListItem {
 
 	// -------------------------------------------------------------------------
 
-//	@Override
-//	public String toString() {
-//		try {
-//			return String.format("id:%06d, prod_order_id:%06d, prod_id:%06d, " +
-//					"prod_dicnt_id:%06d, quantity:%2d, org_price:%8s, final_price:%8s ",
-//					this.getId(), this.getProdOrderId(), this.getProdDiscntId(),
-//					this.getProdDiscntId(), this.getQuantity(),
-//					UnitUtils.numToCurrencyStr(this.getOrgPrice()),
-//					UnitUtils.numToCurrencyStr(this.getFinalPrice()));
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		return null;
-//	}
+	// @Override
+	// public String toString() {
+	// try {
+	// return String.format("id:%06d, prod_order_id:%06d, prod_id:%06d, " +
+	// "prod_dicnt_id:%06d, quantity:%2d, org_price:%8s, final_price:%8s ",
+	// this.getId(), this.getProdOrderId(), this.getProdDiscntId(),
+	// this.getProdDiscntId(), this.getQuantity(),
+	// UnitUtils.numToCurrencyStr(this.getOrgPrice()),
+	// UnitUtils.numToCurrencyStr(this.getFinalPrice()));
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	//
+	// return null;
+	// }
 
 	@Override
 	public String toString() {
@@ -169,7 +169,7 @@ public class ProductOrderDetailItem extends ListItem {
 
 		return null;
 	}
-	
+
 	@Override
 	protected void onSetValuesFrom(ListItem item) {
 		var podi = (ProductOrderDetailItem) item;

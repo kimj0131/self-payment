@@ -51,7 +51,7 @@ public class TestListManagerDb {
 		String fieldset = null;// "max(employee_id) as employee_id";
 		String where = null;// "employee_id > 203";
 		String orderBy = "employee_id desc";
-		int rCnt = mngr.doSelectQuery((item, idx) -> true, fieldset, where, orderBy);
+		int rCnt = mngr.doSelectQuery((rs, item, idx) -> true, fieldset, where, orderBy);
 		System.out.printf("rCnt: %d \n", rCnt);
 		// System.out.println(mngr.getFirstItem().getId());
 

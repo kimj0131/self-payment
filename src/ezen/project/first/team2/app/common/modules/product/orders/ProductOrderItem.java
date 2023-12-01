@@ -108,11 +108,10 @@ public class ProductOrderItem extends ListItem {
 	public String getOrderDateTimeStr() {
 		return TimeUtils.localDateTimeToStr(this.getOrderDateTime());
 	}
-	
+
 	public String getOrderDateTimeSqlStr() {
 		return this.getOrderDateTime().format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
 	}
-
 
 	// 고객 ID 얻기
 	public int getCustId() {

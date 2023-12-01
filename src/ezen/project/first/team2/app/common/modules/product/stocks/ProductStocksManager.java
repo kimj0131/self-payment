@@ -104,17 +104,30 @@ public class ProductStocksManager extends ListManagerDb<ProductStockItem> {
 	}
 
 	@Override
+	protected String onMakeSetAll(ProductStockItem item) throws Exception {
+		String s = "";
+
+		// s += String.format("prod_stock_id = %d, ", item.getId());
+		// s += String.format("prod_id = %d, ", item.getProdId());
+		s += String.format("quantity = %d", item.getQuantity());
+
+		return s;
+	}
+
+	@Override
 	protected String onMakeSet(ProductStockItem item, String[] fieldset) throws Exception {
 		String s = "";
 
 		for (var f : fieldset) {
 			if (f.equals("prod_stock_id"))
-				s += String.format("prod_stock_id = %d", item.getId());
+				s += String.format("prod_stock_id = %d, ", item.getId());
 			else if (f.equals("prod_id"))
-				s += String.format("prod_id = %d", item.getProdId());
+				s += String.format("prod_id = %d, ", item.getProdId());
 			else if (f.equals("quantity"))
-				s += String.format("quantity = %d", item.getQuantity());
+				s += String.format("quantity = %d, ", item.getQuantity());
 		}
+
+		s = s.substring(0, s.length() - 2);
 
 		return s;
 	}

@@ -37,6 +37,10 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 		return mInstance;
 	}
 
+	public static ProductManager getTmpInstance() {
+		return mTmpInstance;
+	}
+
 	// -------------------------------------------------------------------------
 
 	public ProductItem findByProductCode(ProductCode prodCode) {

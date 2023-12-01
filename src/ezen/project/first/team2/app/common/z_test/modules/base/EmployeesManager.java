@@ -92,7 +92,7 @@ public class EmployeesManager extends ListManagerDb<EmployeeItem> {
 	protected String onMakeSetAll(EmployeeItem item) throws Exception {
 		String s = "";
 
-		s += String.format("employee_id = %d, ", item.getId());
+		// s += String.format("employee_id = %d, ", item.getId());
 		s += String.format("first_name = '%s', ", item.getFirstName());
 		s += String.format("last_name = '%s', ", item.getLastName());
 		s += String.format("email = '%s', ", item.getEmail());
