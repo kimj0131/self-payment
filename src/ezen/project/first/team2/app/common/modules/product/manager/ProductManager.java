@@ -19,6 +19,7 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 	// -------------------------------------------------------------------------
 
 	private static ProductManager mInstance = null;
+	private ProductManager mTmpInstance = new ProductManager();
 
 	// -------------------------------------------------------------------------
 
@@ -60,16 +61,24 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 		// 액션 리스너 비활성화
 		var oldStatus = this.enableActionListener(false);
 		{
-			this.deleteAllItems();
+			var mngr = this.onGetTmpInstance();
+
+			mngr.deleteAllItems();
 
 			String fieldset = "prod_id, prod_code";
 			String where = String.format("prod_code like '%s%%'", ProductCode.typeToStr(type));
 			String orderBy = "prod_code desc";
-			int rCnt = this.doSelectQuery(null, fieldset, where, orderBy);
+			int rCnt = mngr.doSelectQuery(null, fieldset, where, orderBy);
 			if (rCnt == 0)
 				return 1;
 
-			var item = this.getFirstItem();
+			var item = mngr.getFirstItem();
+			if (item == null) {
+				// 익셉션 발생시킬까?
+
+				return -1;
+			}
+
 			var pci = item.getProdCode();
 			nextId = pci.getSn() + 1;
 		}
@@ -113,6 +122,11 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 	@Override
 	protected String onDeleteById(int id) {
 		return super.onDeleteById(id);
+	}
+
+	@Override
+	protected ListManagerDb<ProductItem> onGetTmpInstance() {
+		return this.mTmpInstance;
 	}
 
 	// create 테이블이 있다면 예외 발생

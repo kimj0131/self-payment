@@ -238,11 +238,23 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 		// 액션 리스너 비활성화
 		var oldStatus = this.enableActionListener(false);
 		{
-			this.deleteAllItems();
+			var mngr = this.onGetTmpInstance();
+			if (mngr == null) {
+				String msg = String.format("ListManagerDb.getNextIdFromDb()" +
+						" You must override onGetInstance() method!");
+				throw new Exception(msg);
+			}
 
-			this.doSelectQuery((item, idx) -> true,
+			mngr.deleteAllItems();
+			mngr.doSelectQuery((item, idx) -> true,
 					String.format("max(%s) as %s", field, field), null, null);
-			var item = this.getFirstItem();
+			var item = mngr.getFirstItem();
+			if (item == null) {
+				// 익셉션 발생 시킬까?
+
+				return -1;
+			}
+
 			id = item.getId() + 1;
 		}
 		// 액션 리스너 활성화 상태 복구
@@ -253,6 +265,11 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 
 	// -------------------------------------------------------------------------
 
+	protected ListManagerDb<T> onGetTmpInstance() {
+		return null;
+	}
+
+	// 테이블 생성 쿼리 생성 => createTable()
 	protected String onMakeCreateTableQuery(String tableName) {
 		return null;
 	}

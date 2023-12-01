@@ -9,7 +9,6 @@ package ezen.project.first.team2.app.common.modules.product.order_details;
 import java.sql.ResultSet;
 import java.util.List;
 
-import ezen.project.first.team2.app.common.modules.base.ListManager;
 import ezen.project.first.team2.app.common.modules.base.ListManagerDb;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountItem;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManager;
@@ -17,15 +16,15 @@ import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 import ezen.project.first.team2.app.common.modules.product.orders.ProductOrderItem;
 import ezen.project.first.team2.app.common.modules.product.orders.ProductOrdersManager;
-import ezen.project.first.team2.app.common.z_test.modules.base.EmployeeItem;
 
 public class ProductOrderDetailsManager extends ListManagerDb<ProductOrderDetailItem> {
-	
+
 	private static final String TABLE_NAME = "PRODUCT_ORDER_DETAILS";
-	
+
 	// -------------------------------------------------------------------------
 
 	private static ProductOrderDetailsManager mInstance = null;
+	private ProductOrderDetailsManager mTmpInstance = new ProductOrderDetailsManager();
 
 	// -------------------------------------------------------------------------
 
@@ -92,8 +91,13 @@ public class ProductOrderDetailsManager extends ListManagerDb<ProductOrderDetail
 		poi.setQuantity(quantity);
 		this.updateById(poi.getId(), poi);
 	}
-	
+
 	// -------------------------------------------------------------------------
+
+	@Override
+	protected ListManagerDb<ProductOrderDetailItem> onGetTmpInstance() {
+		return this.mTmpInstance;
+	}
 
 	@Override
 	protected String onMakeCreateTableQuery(String tableName) {
@@ -115,12 +119,11 @@ public class ProductOrderDetailsManager extends ListManagerDb<ProductOrderDetail
 					this.getInt(rs, "prod_order_id"),
 					this.getInt(rs, "prod_id"),
 					this.getInt(rs, "prod_discnt_id"),
-					this.getInt(rs, "quantity")
-					);
+					this.getInt(rs, "quantity"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return prodODI;
 	}
 
@@ -161,6 +164,5 @@ public class ProductOrderDetailsManager extends ListManagerDb<ProductOrderDetail
 
 		return s;
 	}
-
 
 }

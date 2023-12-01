@@ -19,6 +19,7 @@ public class CustomerManager extends ListManagerDb<CustomerItem> {
 	// -------------------------------------------------------------------------
 
 	private static CustomerManager mInstance = null;
+	private CustomerManager mTmpInstance = new CustomerManager();
 
 	// -------------------------------------------------------------------------
 
@@ -116,6 +117,11 @@ public class CustomerManager extends ListManagerDb<CustomerItem> {
 	@Override
 	protected String onDeleteById(int id) {
 		return super.onDeleteById(id);
+	}
+
+	@Override
+	protected ListManagerDb<CustomerItem> onGetTmpInstance() {
+		return this.mTmpInstance;
 	}
 
 	@Override
