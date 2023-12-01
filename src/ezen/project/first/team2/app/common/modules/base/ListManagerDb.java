@@ -198,12 +198,12 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 	public int doUpdateQuery(T item, String[] fieldset, String where) throws Exception {
 		var dbConn = DBConnector.getInstance().getConnection();
 
-		String _set = this.onMakeSet(item, fieldset);
+		String _set = fieldset == null ? this.onMakeSetAll(item) : this.onMakeSet(item, fieldset);
 		String _where = where != null && !where.isEmpty() ? " where " + where : "";
 		String sql = String.format("update %s set %s%s",
 				this.mTablename, _set, _where);
 
-		// System.out.printf("[ListManagerDb.doUpdateQuery()] sql=\"%s\" \n", sql);
+		System.out.printf("[ListManagerDb.doUpdateQuery()] sql=\"%s\" \n", sql);
 
 		PreparedStatement pstmt = dbConn.prepareStatement(sql);
 		int rows = pstmt.executeUpdate();
@@ -260,7 +260,12 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 		return null;
 	}
 
-	// 수정할 값들을 얻는다 => doUpdateQuery()
+	// 수정할 값들을 얻는다 (모든 필드 설정, 프라이머리 키 주의!) => doUpdateQuery()
+	protected String onMakeSetAll(T item) throws Exception {
+		return null;
+	}
+
+	// 수정할 값들을 얻는다 (필요한 필드만 설정) => doUpdateQuery()
 	protected String onMakeSet(T item, String[] fieldset) throws Exception {
 		return null;
 	}

@@ -7,7 +7,9 @@ import java.sql.Types;
 import java.time.LocalDate;
 
 import ezen.project.first.team2.app.common.modules.database.DBConnector;
+import ezen.project.first.team2.app.common.modules.database.DBConnectorListener;
 import ezen.project.first.team2.app.common.utils.MathUtils;
+import ezen.project.first.team2.app.common.utils.SystemUtils;
 import ezen.project.first.team2.app.common.utils.TimeUtils;
 
 public class TestDBConnector {
@@ -18,9 +20,7 @@ public class TestDBConnector {
 	}
 
 	// 레코드셋 리스팅
-	static void listRecordset() {
-		var dbConn = DBConnector.getInstance();
-
+	static void listRecordset(DBConnector dbConn) {
 		printTitle("select 쿼리");
 
 		try {
@@ -59,9 +59,7 @@ public class TestDBConnector {
 	}
 
 	// 레코드 추가
-	static void addRecord() {
-		var dbConn = DBConnector.getInstance();
-
+	static void addRecord(DBConnector dbConn) {
 		printTitle("insert 쿼리");
 
 		try {
@@ -104,9 +102,7 @@ public class TestDBConnector {
 	}
 
 	// 레코드 수정
-	static void updateRecord() {
-		var dbConn = DBConnector.getInstance();
-
+	static void updateRecord(DBConnector dbConn) {
 		printTitle("update 쿼리");
 
 		try {
@@ -129,9 +125,7 @@ public class TestDBConnector {
 	}
 
 	// 레코드 삭제
-	static void deleteRecord() {
-		var dbConn = DBConnector.getInstance();
-
+	static void deleteRecord(DBConnector dbConn) {
 		printTitle("delete 쿼리");
 
 		try {
@@ -155,39 +149,66 @@ public class TestDBConnector {
 		System.out.println("Test DBTable class");
 
 		try {
-			var dbConn = DBConnector.getInstance();
-			dbConn.loadJdbcDriver();
+			var conn = DBConnector.getInstance();
+			conn.loadJdbcDriver();
 
-			// DB 연결
-			System.out.printf("[%s] DB 연결 중.. \n", TimeUtils.currTimeStr());
-			dbConn.connect("localhost", DBConnector.DEFAULT_PORT_NUM, "hr", "1234");
-			System.out.printf("[%s] DB 연결됨 \n", TimeUtils.currTimeStr());
-			System.out.println();
+			conn.setActionListener(new DBConnectorListener() {
 
-			// 레코드셋 리스팅
-			listRecordset();
+				@Override
+				public void onConnecting(DBConnector sender) {
+					System.out.println("DB 연결 중..");
+				}
 
-			// 레코드 추가
-			addRecord();
-			listRecordset();
+				@Override
+				public void onConnected(DBConnector sender) {
+					System.out.println("DB 연결됨");
 
-			// 레코드 수정
-			updateRecord();
-			listRecordset();
+					// 레코드셋 리스팅
+					listRecordset(sender);
 
-			// 레코드 삭제
-			deleteRecord();
-			listRecordset();
+					// 레코드 추가
+					addRecord(sender);
+					listRecordset(sender);
 
-			// DB 연결 해제
-			if (dbConn.isConnected()) {
-				System.out.printf("[%s] DB 연결 해제 중.. \n", TimeUtils.currTimeStr());
-				dbConn.disconnect();
-				System.out.printf("[%s] DB 연결 해제됨 \n", TimeUtils.currTimeStr());
-				System.out.println();
+					// 레코드 수정
+					updateRecord(sender);
+					listRecordset(sender);
+
+					// 레코드 삭제
+					deleteRecord(sender);
+					listRecordset(sender);
+				}
+
+				@Override
+				public void onConnectionFailure(DBConnector sender, String reason) {
+					System.out.println("DB 연결 실패 => " + reason);
+				}
+
+				@Override
+				public void onDisconnected(DBConnector sender) {
+					System.out.println("DB 연결 해제");
+				}
+
+			});
+
+			System.out.printf("[%s] [main] start \n", TimeUtils.currTimeStr());
+
+			// DB 접속
+			conn.connect("localhost", DBConnector.DEFAULT_PORT_NUM, "hr", "1234");
+
+			SystemUtils.sleep(10 * 1000);
+			// for (int i = 0; i < 10; i++) {
+			// System.out.printf("[main] i=%d \n", i);
+			// SystemUtils.sleep(1000);
+			// }
+
+			// DB 접속 해제
+			if (conn.isConnected()) {
+				conn.disconnect();
 			}
 
-			System.out.println();
+			System.out.printf("[%s] [main] end \n", TimeUtils.currTimeStr());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 
-public class DBTable {
+public class z_unused__DBTable {
 	// -------------------------------------------------------------------------
 
 	public static interface ListIterator {
@@ -25,7 +25,7 @@ public class DBTable {
 	// -------------------------------------------------------------------------
 
 	// 생성자
-	public DBTable(String tableName) {
+	public z_unused__DBTable(String tableName) {
 		this.mTableName = tableName;
 	}
 

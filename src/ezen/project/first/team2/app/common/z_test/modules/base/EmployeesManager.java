@@ -83,6 +83,25 @@ public class EmployeesManager extends ListManagerDb<EmployeeItem> {
 	}
 
 	@Override
+	protected String onMakeSetAll(EmployeeItem item) throws Exception {
+		String s = "";
+
+		s += String.format("employee_id = %d, ", item.getId());
+		s += String.format("first_name = '%s', ", item.getFirstName());
+		s += String.format("last_name = '%s', ", item.getLastName());
+		s += String.format("email = '%s', ", item.getEmail());
+		s += String.format("phone_number = '%s', ", item.getPhoneNumber());
+		s += String.format("hire_date = '%s', ", item.getHireSqlDateStr());
+		s += String.format("job_id = '%s', ", item.getJobId());
+		s += String.format("salary = %d, ", item.getSalary());
+		s += String.format("commission_pct = %f, ", item.getCommissionPct());
+		s += String.format("manager_id = %d, ", item.getManagerId());
+		s += String.format("department_id = %d", item.getDepartmentId());
+
+		return s;
+	}
+
+	@Override
 	protected String onMakeSet(EmployeeItem item, String[] fieldset) throws Exception {
 		String s = "";
 
