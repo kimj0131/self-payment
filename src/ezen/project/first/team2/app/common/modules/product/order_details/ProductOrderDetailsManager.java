@@ -24,7 +24,7 @@ public class ProductOrderDetailsManager extends ListManagerDb<ProductOrderDetail
 	// -------------------------------------------------------------------------
 
 	private static ProductOrderDetailsManager mInstance = null;
-	private ProductOrderDetailsManager mTmpInstance = new ProductOrderDetailsManager();
+	private static ProductOrderDetailsManager mTmpInstance = new ProductOrderDetailsManager();
 
 	// -------------------------------------------------------------------------
 
@@ -96,7 +96,7 @@ public class ProductOrderDetailsManager extends ListManagerDb<ProductOrderDetail
 
 	@Override
 	protected ListManagerDb<ProductOrderDetailItem> onGetTmpInstance() {
-		return this.mTmpInstance;
+		return mTmpInstance;
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class CustomerManager extends ListManagerDb<CustomerItem> {
 	// -------------------------------------------------------------------------
 
 	private static CustomerManager mInstance = null;
-	private CustomerManager mTmpInstance = new CustomerManager();
+	private static CustomerManager mTmpInstance = new CustomerManager();
 
 	// -------------------------------------------------------------------------
 
@@ -121,7 +121,7 @@ public class CustomerManager extends ListManagerDb<CustomerItem> {
 
 	@Override
 	protected ListManagerDb<CustomerItem> onGetTmpInstance() {
-		return this.mTmpInstance;
+		return mTmpInstance;
 	}
 
 	@Override

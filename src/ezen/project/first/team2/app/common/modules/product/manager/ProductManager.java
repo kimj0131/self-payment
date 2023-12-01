@@ -19,7 +19,7 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 	// -------------------------------------------------------------------------
 
 	private static ProductManager mInstance = null;
-	private ProductManager mTmpInstance = new ProductManager();
+	private static ProductManager mTmpInstance = new ProductManager();
 
 	// -------------------------------------------------------------------------
 
@@ -126,7 +126,7 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 
 	@Override
 	protected ListManagerDb<ProductItem> onGetTmpInstance() {
-		return this.mTmpInstance;
+		return mTmpInstance;
 	}
 
 	// create 테이블이 있다면 예외 발생

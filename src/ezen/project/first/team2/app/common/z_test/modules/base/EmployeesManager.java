@@ -13,6 +13,7 @@ public class EmployeesManager extends ListManagerDb<EmployeeItem> {
 	// -------------------------------------------------------------------------
 
 	private static EmployeesManager mInstance;
+	private static EmployeesManager mTmpInstance = new EmployeesManager();
 
 	// -------------------------------------------------------------------------
 
@@ -30,6 +31,11 @@ public class EmployeesManager extends ListManagerDb<EmployeeItem> {
 	}
 
 	// -------------------------------------------------------------------------
+
+	@Override
+	protected ListManagerDb<EmployeeItem> onGetTmpInstance() {
+		return mTmpInstance;
+	}
 
 	@Override
 	protected String onMakeCreateTableQuery(String tableName) {

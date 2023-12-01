@@ -16,7 +16,7 @@ public class ProductStocksManager extends ListManagerDb<ProductStockItem> {
 	private static final String TABLE_NAME = "PRODUCT_STOCKS";
 
 	private static ProductStocksManager mInstance = null;
-	private ProductStocksManager mTmpInstance = new ProductStocksManager();
+	private static ProductStocksManager mTmpInstance = new ProductStocksManager();
 
 	// -------------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ public class ProductStocksManager extends ListManagerDb<ProductStockItem> {
 
 	@Override
 	protected ListManagerDb<ProductStockItem> onGetTmpInstance() {
-		return this.mTmpInstance;
+		return mTmpInstance;
 	}
 
 	@Override
