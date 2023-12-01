@@ -79,20 +79,19 @@ public class MainPage extends Page {
 	protected void onInit() {
 		super.onInit();
 		mProdPurchasing = new ProductPurchasing();
-		setTestData();
+		//setTestData();
 	}
 
 	// Test를 위한 더미 데이터 설정 작업
 	private void setTestData() {
 
 		var custMngr = CustomerManager.getInstance();
-
 		var prodMngr = ProductManager.getInstance();
 		var prodStocksMngr = ProductStocksManager.getInstance();
 		var prodDiscntsMngr = ProductDiscountsManager.getInstance();
 
+		// 테스트 데이터 생성
 		try {
-
 			// 고객 임시 데이터 생성
 			CustomerItem[] customerDummyData = CustomerItem.getPredefinedData();
 

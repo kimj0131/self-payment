@@ -132,8 +132,5 @@ public class LeftView2_PointInfo extends View {
 	}
 
 	@Override
-	protected void onSetResources() {
-		Main main = (Main) this.getStatusManager();
-		mTitle_label.setFont(main.mFont0);
-	}
+	protected void onSetResources() {}
 }

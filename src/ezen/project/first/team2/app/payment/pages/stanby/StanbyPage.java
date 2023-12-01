@@ -9,8 +9,9 @@ import ezen.project.first.team2.app.payment.pages.stanby.views.StanbyView;
 public class StanbyPage extends Page {
 
 	public static final String TITLE = "스텐바이 페이지";
-	public static final Dimension SIZE = new Dimension(640, 360);
-
+	public static final Dimension SIZE =  new Dimension(1280, 720);
+	//public static final Dimension SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+	
 	public static final int VIEW_NUM_STANBY = 0;
 
 	public StanbyPage() {

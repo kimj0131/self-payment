@@ -469,6 +469,9 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 			// 상세 구매내역에 상품 추가
 			mProdPurchasing._2_addProduct(prodItem.getId(), 1);
+			
+			// 상품 추가됐으면 RightView0에 있는 결제하기 버튼 활성화
+			rv0.activateButton();
 
 			// rightView0에 있는 테이블에 상품 추가 / 합계 표시
 			mProdOrderDetailsMngr.iterate((item, idx) -> {

@@ -13,7 +13,7 @@ import ezen.project.first.team2.app.common.modules.base.ListManagerDb;
 public class ProductDiscountsManager extends ListManagerDb<ProductDiscountItem> {
 	// -------------------------------------------------------------------------
 
-	private static final String TABLE_NAME = "PRODUCT_DISCOUNT";
+	private static final String TABLE_NAME = "PRODUCT_DISCOUNTS";
 
 	private static ProductDiscountsManager mInstance = null;
 	private static ProductDiscountsManager mTmpInstance = new ProductDiscountsManager();

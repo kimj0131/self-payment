@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -138,6 +139,7 @@ public class LeftView0_OrderList extends View {
 		});
 		
 		mRanBarCode_btn.addActionListener(e -> {
+			
 			try {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 				RightView0_OrderList rv0 = (RightView0_OrderList) mainView
@@ -153,15 +155,23 @@ public class LeftView0_OrderList extends View {
 				boolean isNotFv = true; 
 				ProductItem productItem = null;
 			
+				
+				// 프로덕트 매니저에 저장 된 모든 상품들의 id를 배열에 저장
+				int[] prodId = new int[mProdMngr.getCount()];
+				mProdMngr.iterate((item, idx) -> {
+					prodId[idx] = item.getId();
+					return true;
+				});
+				
 				while (isNotFv) {
-					int randomId = (int) (Math.random() * 35);
-					productItem = mProdMngr.findById(randomId);
+					int ranIndex = (int) (Math.random() * prodId.length);
+					productItem = mProdMngr.findById(prodId[ranIndex]);
 					String prodCode = productItem.getProdCode().toString();
 					if (!(prodCode.substring(0, 1).equals("F") || prodCode.substring(0, 1).equals("V"))) {
 						isNotFv = false;
 					}
 				}
-				
+
 				// 생성된 상품을 상세 구매내역에 넣기
 				mProdPurchasing._2_addProduct(productItem.getId(), 1);
 

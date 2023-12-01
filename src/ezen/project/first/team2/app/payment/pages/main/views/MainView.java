@@ -9,6 +9,10 @@ package ezen.project.first.team2.app.payment.pages.main.views;
 import java.awt.GridLayout;
 
 import ezen.project.first.team2.app.common.framework.DualView;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
+import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManager;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManager;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.left.LeftView0_OrderList;
 import ezen.project.first.team2.app.payment.pages.main.views.left.LeftView1_CheckMember;
@@ -76,11 +80,27 @@ public class MainView extends DualView {
 	@Override
 	protected void onShow(boolean firstTime) {
 		System.out.println("[MainView.onShow()]");
+		System.out.println("MainView -> db에서 정보를 가져옵니다");
 
 		try {
 			MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 			mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_ORDER_LIST_NUM);
 			mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// db에서 정보 가져오기
+		var custMngr = CustomerManager.getInstance();
+		var prodMngr = ProductManager.getInstance();
+		var prodStocksMngr = ProductStocksManager.getInstance();
+		var prodDiscntsMngr = ProductDiscountsManager.getInstance();
+		
+		try {
+			custMngr.doSelectQuery();
+			prodMngr.doSelectQuery();
+			prodStocksMngr.doSelectQuery();
+			prodDiscntsMngr.doSelectQuery();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

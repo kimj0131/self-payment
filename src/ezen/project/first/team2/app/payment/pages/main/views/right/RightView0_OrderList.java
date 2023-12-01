@@ -265,37 +265,6 @@ public class RightView0_OrderList extends View {
 			}
 		});
 
-		// mTableModel.addTableModelListener(e -> {
-		//
-		// int currChangedCulmn = e.getColumn();
-		// // 셀 내용이 바뀐게 없다면 리턴
-		// if (currChangedCulmn == -1) {
-		// System.out.println("셀 내용이 바뀐게 없음");
-		// return;
-		// }
-		//
-		// int currChangedRow = e.getFirstRow();
-		//
-		// try {
-		// String selectedItemId = (String) mTableModel.getValueAt(currChangedRow, 0);
-		//
-		// ProductItem selectedItem =
-		// mProdMngr.findById(Integer.valueOf(selectedItemId));
-		// System.out.println("변경 전 아이템의 이름 >> " + selectedItem.getName());
-		//
-		// // "번호", "상품명", "수량", "가격"
-		// if (currChangedCulmn == 1) {
-		// selectedItem.setName((String) mTableModel.getValueAt(currChangedRow,
-		// currChangedCulmn));
-		// System.out.println("변경 후 아이템의 이름 >> " + selectedItem.getName());
-		// }
-		//
-		// } catch (NumberFormatException e1) {
-		// e1.printStackTrace();
-		// } catch (Exception e1) {
-		// e1.printStackTrace();
-		// }
-		// });
 	}
 
 	@Override

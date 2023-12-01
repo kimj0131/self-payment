@@ -21,6 +21,7 @@ import ezen.project.first.team2.app.common.framework.PopupView;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManager;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.common.utils.UnitUtils;
+import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 import ezen.project.first.team2.app.payment.pages.main.views.right.RightView0_OrderList;
@@ -36,30 +37,30 @@ public class PopUpView4_Receipt extends PopupView {
 			+ "[매장명] EZEN Mart\n"
 			+ "[사업자번호] 111-22-33333\n"
 			+ "[주소] 경기도 구리시 건원대로 44 태영빌딩 4층\n"
-			+ "[대표자] 권혁준\t              [Tel] 031)555-4449\n"
+			+ "[대표자] 권혁준\t     [Tel] 031)555-4449\n"
 			+ "[매출일] %s\n"
-			+ "===============================\n"
+			+ "===================================\n"
 			+ "상품명\t단가\t할인   수량      금액\n"
-			+ "---------------------------------------\n";
+			+ "---------------------------------------------------------------\n";
 	
 	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_2 = 
-			"%s\t%s\t%s    %d    %7s\n";
+			"%s\t%s\t %s        %d    %7s\n";
 	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_3 = 
-			"---------------------------------------\n"
+			"---------------------------------------------------------------\n"
 			+ "합계 금액\t\t%s\n\n"
 			+ "회원할인\t\t%s\n"
 			+ "포인트사용\t\t%s\n\n"
 			+ "최종금액\t\t%s\n"
-			+ "---------------------------------------\n";
+			+ "---------------------------------------------------------------\n";
 
 	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_4 = 
 			"부과세과세물품가액\t%s\n"
 			+ "부        가        세\t%s\n"
-			+ "---------------------------------------\n"
+			+ "---------------------------------------------------------------\n"
 			+ "신용카드\t\t%s\n"
-			+ "---------------------------------------\n"
+			+ "---------------------------------------------------------------\n"
 			+ "\t    ***신용승인정보***\n\n"
-			+ "[카드종류] 신한카드\t       [할부개월] 일시불\n"
+			+ "[카드종류] 신한카드\t      [할부개월] 일시불\n"
 			+ "[카드번호] 1234-5678-xxxx-xxxx\n"
 			+ "[유효기간] xx/xx\n"
 			+ "[승인금액] %s\n"
@@ -154,8 +155,6 @@ public class PopUpView4_Receipt extends PopupView {
 
 			try {
 				MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
-				mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_ORDER_LIST_NUM);
-				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
 
 				RightView0_OrderList rv0 = (RightView0_OrderList) mainView
 						.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
@@ -168,6 +167,13 @@ public class PopUpView4_Receipt extends PopupView {
 				rv0.deactivateButton();
 				
 				this.performClose();
+				
+
+				mainView.setSelectedLeftViewByNum(MainPage.LEFT_VIEW_ORDER_LIST_NUM);
+				mainView.setSelectedRightViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
+				
+				getStatusManager().setSelectedPageByNum(Main.PAGE_NUM_STANBY);
+				
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

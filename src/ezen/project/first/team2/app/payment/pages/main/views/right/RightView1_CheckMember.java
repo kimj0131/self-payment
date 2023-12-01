@@ -280,8 +280,12 @@ public class RightView1_CheckMember extends View {
 						}
 					}
 				}
-			});
-		}
+				//
+				System.out.println(mPhoneNum);
+				System.out.println(mHidedPhoneNum);
+				//
+			});		
+		};
 
 		mDel_btn.addActionListener(e -> {
 			mPhoneNum.delete(4, mPhoneNum.length());
@@ -301,7 +305,8 @@ public class RightView1_CheckMember extends View {
 				// 번호삭제
 				mPhoneNum.delete(mPhoneNum.length() - 1, mPhoneNum.length());
 				mHidedPhoneNum.delete(mHidedPhoneNum.length() - 1, mHidedPhoneNum.length());
-
+				
+				
 				// 하이픈 삭제 - 하이픈 다음에 숫자 입력이 있었을 경우
 				if (mHidedPhoneNum.charAt(mHidedPhoneNum.length() - 1) == '-' && mHidedPhoneNum.length() > 4) {
 					mHidedPhoneNum.deleteCharAt(mHidedPhoneNum.length() - 1);
@@ -311,15 +316,29 @@ public class RightView1_CheckMember extends View {
 				// 끝 숫자가 지워진 mHidedPhoneNumber의 끝 숫자를 *에서 숫자로 바꾸기
 				mHidedPhoneNum.setCharAt(mHidedPhoneNum.length() - 1, mPhoneNum.charAt(mPhoneNum.length() - 1));
 
-				// mNums_tf.setText(mHidedPhoneNumber.toString());
-				mNums_tf.setText(mPhoneNum.toString());
+				// 번호삭제 후 010-0000 이 되면 하이픈 추가
+				if (mHidedPhoneNum.length() == 8) {
+					mPhoneNum.append('-');
+					mHidedPhoneNum.append('-');
+					// mNums_tf.setText(mHidedPhoneNumber.toString());
+					mNums_tf.setText(mPhoneNum.toString());
+				} else {
+					// mNums_tf.setText(mHidedPhoneNumber.toString());
+					mNums_tf.setText(mPhoneNum.toString());					
+				}
 
 				// 이후 추가될 번호를 위해 다시 mHidedPhoneNumber의 끝 숫자를 *로 바꾸기
 				if (mHidedPhoneNum.length() > 4)
 					mHidedPhoneNum.setCharAt(mHidedPhoneNum.length() - 1, '*');
 			}
+			
+			//
+			System.out.println(mPhoneNum);
+			System.out.println(mHidedPhoneNum);
+			//
 		});
-
+		
+		
 	}
 
 	@Override

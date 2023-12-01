@@ -105,8 +105,5 @@ public class LeftView1_CheckMember extends View {
 	}
 
 	@Override
-	protected void onSetResources() {
-		Main main = (Main) this.getStatusManager();
-		mTitle_label.setFont(main.mFont0);
-	}
+	protected void onSetResources() {}
 }

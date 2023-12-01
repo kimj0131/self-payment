@@ -23,8 +23,10 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import ezen.project.first.team2.app.common.framework.View;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManager;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
+import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManager;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
 
@@ -158,7 +160,7 @@ public class RightView3_Payment extends View {
 		
 		
 		// 타이머 설정
-		mTimer = new Timer(180, e -> {
+		mTimer = new Timer(10, e -> {
 			if (mProgressValue <= 70) {
                 if (mProgressValue == 0) {
                 	mPaymentIcon_Label.setIcon(mCardImg1_imgIcon);
@@ -233,15 +235,37 @@ public class RightView3_Payment extends View {
 	}
 
 	@Override
-	protected void onShow(boolean firstTime) {}
+	protected void onShow(boolean firstTime) {
+		mPaymentIcon_Label.setIcon(mCardMachine_imgIcon);
+		mPaymentText_Label.setText(PAYMENT_INSERT_CARD_TEXT);
+		mProgressValue = 0;
+	}
 
 	@Override
 	protected void onHide() {
-		// 결제완료 버튼을 눌러 결제가 완료되었다면 커밋한다
+		// 결제완료 후 초기화
 		if (mIsPaymentComplete) {
 			try {
 				System.out.println("right3 - 커밋되었습니다");
+				// 결제 완료 커밋
 				mProdPurchasing._6_commit();
+				
+//				// customers -> point 변경
+//				var fieldset = new String[] { "point" };
+//				var custItem = mProdPurchasing.getProdOrderItem().getCustItem();
+//				var custMngr = CustomerManager.getInstance();
+//				var _where = String.format("cust_id=%d", custItem.getId());
+//				custMngr.doUpdateQuery(custItem, fieldset, _where);
+//				
+//				// product_stoks -> quantity 변경
+//				fieldset = new String[] { "quantity" };
+//				var prodDtlItems = mProdPurchasing.getProdOrderItem().getProdOrderDetailItems();
+//				var prodStocksMngr = ProductStocksManager.getInstance();
+//				for (var prodDtlItem : prodDtlItems) {
+//					var prodStocksItem = prodStocksMngr.getItemByProdId(prodDtlItem.getProdId());
+//					
+//				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
