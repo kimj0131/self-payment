@@ -263,6 +263,8 @@ public class DeleteProductView extends View {
                     int findId = Integer.valueOf(findIdStr);
 
                     prodMngr.deleteById(findId);
+                    // DB 에 Delete 쿼리
+                    prodMngr.doDeleteQuery("prod_id = " + findId);
 
                     // 삭제를 진행한 아이템 row만 테이블에서 제거
                     DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();

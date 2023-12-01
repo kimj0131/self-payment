@@ -252,6 +252,8 @@ public class DeleteCustomerView extends View {
                     int findId = Integer.valueOf(findIdStr);
 
                     custMngr.deleteById(findId);
+                    // DB에 Delete쿼리
+                    custMngr.doDeleteQuery("cust_id = " + findIdStr);
 
                     // 삭제를 진행한 아이템 row만 테이블에서 제거
                     DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();

@@ -24,6 +24,7 @@ import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductCode;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
+import ezen.project.first.team2.app.common.modules.product.manager.ProductCode.Type;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.common.utils.UiUtils.MsgBoxType;
 import ezen.project.first.team2.app.manager.Main;
@@ -142,13 +143,6 @@ public class AddProductView extends View {
         this.mTextFieldAddProdId.setEnabled(false);
         this.mTextFieldAddProdCode.setEnabled(false);
 
-        try {
-            // 상품번호는 자동으로 다음번호를 받는다.
-            this.mTextFieldAddProdId.setText(String.valueOf(prodMngr.getNextID()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         // 버튼설정
         this.mBtnAddProdComplete.setBorder(
                 BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -218,14 +212,14 @@ public class AddProductView extends View {
 
             @Override
             public void itemStateChanged(ItemEvent e) {
-                Object type = e.getItem();
 
                 try {
+                    String typeStr = getProductCodeType((String) e.getItem());
+                    Type type = ProductCode.strToType(typeStr);
                     //
-                    int nextSerial = prodMngr.getCount() + 1;
+                    int nextSerial = prodMngr.getNextProdCodeSnFromDbByType(type);
                     //
-                    mTextFieldAddProdCode.setText(String.format("%s%03d",
-                            getProductCodeType(String.valueOf(type)), nextSerial));
+                    mTextFieldAddProdCode.setText(String.format("%s%03d", typeStr, nextSerial));
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -243,11 +237,11 @@ public class AddProductView extends View {
                     mTextFieldAddProdPrice.getText().length() > 0) {
 
                 if (e.getSource() == mBtnAddProdComplete) {
-
+                    System.out.println("complete btn!");
                     try {
                         ProductItem productItem = new ProductItem();
 
-                        int prodId = prodMngr.getNextID();
+                        int prodId = Integer.valueOf(mTextFieldAddProdId.getText());
                         ProductCode prodCode = new ProductCode(mTextFieldAddProdCode.getText());
                         LocalDate prodRegDate = LocalDate.now();
                         String prodName = mTextFieldAddProdName.getText();
@@ -258,6 +252,9 @@ public class AddProductView extends View {
                                 prodName, prodPrice, prodDesc);
 
                         prodMngr.add(productItem);
+                        // DB에 Insert 쿼리
+                        prodMngr.doInsertQuery(productItem);
+
                         System.out.println("prod Add");
                         this.mTextFieldAddProdId.setText(String.valueOf(prodMngr.getNextID()));
 
@@ -300,8 +297,16 @@ public class AddProductView extends View {
         // 텍스트필드 비워놓기
         initializeTextField();
 
+        try {
+            // 상품번호는 자동으로 다음번호를 받는다.
+            this.mTextFieldAddProdId.setText(String.valueOf(prodMngr.getNextID()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // 상품목록을 테이블에 추가
         insertItemsIntoTable();
+
     }
 
     @Override

@@ -137,12 +137,12 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 	@Override
 	protected String onMakeCreateTableQuery(String tableName) {
 		return String.format("create table %s(" +
-				"prod_id number(6) primary key, " +
+				"prod_id number(10) primary key, " +
 				"prod_code char(4) not null, " +
 				"reg_date date not null, " +
-				"name varchar2(20), " +
-				"price number(8), " +
-				"prod_desc varchar2(50)" +
+				"name varchar2(100), " +
+				"price number, " +
+				"prod_desc varchar2(100)" +
 				")",
 				tableName);
 	}
@@ -176,6 +176,21 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 				item.getName(), item.getPrice(), item.getDesc());
 
 		return new String[] { fieldset, values };
+	}
+
+	@Override
+	protected String onMakeSetAll(ProductItem item) throws Exception {
+		String s = "";
+
+		// s += String.format("prod_id = %d, ", item.getId());
+		s += String.format("prod_code = '%s', ", item.getProdCodeStr());
+		s += String.format("reg_date = '%s', ", item.getSqlRegDateStr());
+		s += String.format("name = '%s', ", item.getName());
+		s += String.format("price + %d, ", item.getPrice());
+		s += String.format("prod_desc = '%s'", item.getDesc());
+
+		return s;
+
 	}
 
 	// update

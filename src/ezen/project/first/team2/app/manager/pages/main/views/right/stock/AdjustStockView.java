@@ -327,6 +327,13 @@ public class AdjustStockView extends View {
                 ProductStockItem adjustItem = prodStMngr.findById(adjustId);
                 adjustItem.setQuantity(Integer.valueOf(mTextFieldAdjustActual.getText()));
 
+                // DB에 Update 쿼리
+                try {
+                    prodStMngr.doUpdateQuery(adjustItem, null, "pord_id = " + adjustId);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+
                 DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
                 for (int row = 0; row < mTableResultList.getRowCount(); row++) {
                     if ((int) mTableResultList.getValueAt(row, 0) == adjustId) {

@@ -302,6 +302,8 @@ public class UpdateCustomerView extends View {
                     updateItem.setRemark(mTextFieldUpdateRemark.getText() + "");
 
                     custMngr.updateById(updateId, updateItem);
+                    // DB에 Update 쿼리
+                    custMngr.doUpdateQuery(updateItem, null, "cust_id = " + updateId);
 
                     // 업데이트를 진행한 아이템 row만 갱신
                     DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();

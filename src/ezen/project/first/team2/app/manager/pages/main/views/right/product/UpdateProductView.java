@@ -306,6 +306,8 @@ public class UpdateProductView extends View {
                     updateItem.setDesc(mTextFieldUpdateDesc.getText());
 
                     prodMngr.updateById(updateId, updateItem);
+                    // DB에 Update 쿼리
+                    prodMngr.doUpdateQuery(updateItem, null, "prod_id = " + updateId);
 
                     // 업데이트를 진행한 아이템 row만 갱신
                     DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();

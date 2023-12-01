@@ -162,6 +162,21 @@ public class CustomerManager extends ListManagerDb<CustomerItem> {
 	}
 
 	@Override
+	protected String onMakeSetAll(CustomerItem item) throws Exception {
+		String s = "";
+
+		// s += String.format("cust_id = %d, ", item.getId());
+		// s += String.format("join_date = '%s', ", item.getSqlJoinDateStr());
+		s += String.format("name = '%s', ", item.getName());
+		s += String.format("birthday = '%s', ", item.getSqlBirthdayStr());
+		s += String.format("phone_num = '%s', ", item.getPhoneNumber());
+		s += String.format("point = %d, ", item.getPoint());
+		s += String.format("remark = '%s'", item.getRemark());
+
+		return s;
+	}
+
+	@Override
 	protected String onMakeSet(CustomerItem item, String[] fieldset) throws Exception {
 		String s = "";
 

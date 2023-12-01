@@ -19,6 +19,7 @@ import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 import ezen.project.first.team2.app.common.modules.product.stocks.ProductStockItem;
 import ezen.project.first.team2.app.common.modules.product.stocks.ProductStocksManager;
+import ezen.project.first.team2.app.common.utils.SystemUtils;
 import ezen.project.first.team2.app.manager.Main;
 import ezen.project.first.team2.app.manager.pages.main.views.MainView;
 
@@ -73,8 +74,6 @@ public class MainPage extends Page {
 	protected void onInit() {
 		super.onInit();
 
-		this.setDummyData();
-
 	}
 
 	// 뷰 추가
@@ -97,6 +96,74 @@ public class MainPage extends Page {
 	protected void onShow(boolean firstTime) {
 		System.out.println("[MainPage.onShow()]");
 
+		this.addDummyDataToMemAndDb();
+
+		// this.loadDataFromDb();
+
+		if (firstTime) {
+			var prodMngr = ProductManager.getInstance();
+			var prodStocksMngr = ProductStocksManager.getInstance();
+			var prodDiscntsMngr = ProductDiscountsManager.getInstance();
+
+			// try {
+			// // prodMngr.createTable();
+			// // SystemUtils.sleep(100);
+			// // prodStocksMngr.createTable();
+			// // SystemUtils.sleep(100);
+			// // prodDiscntsMngr.createTable();
+			// // SystemUtils.sleep(100);
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// }
+
+			prodMngr.setActionListener(new ListActionAdapter<ProductItem>() {
+
+				@Override
+				public void onAdded(ListManager<ProductItem> mngr, ProductItem item) {
+					System.out.println("MainPage.onShow().[ProductManagerMem] onAdded()");
+					System.out.println(" -> item: " + item);
+					System.out.println();
+
+					try {
+						// [상품 재고 관리자]에 상품 추가
+						var psi = new ProductStockItem(item.getId());
+						prodStocksMngr.add(psi);
+						prodStocksMngr.doInsertQuery(psi);
+
+						// [상품 할인 관리자]에 상품 추가
+						var pdi = new ProductDiscountItem(item.getId());
+						prodDiscntsMngr.add(pdi);
+						prodDiscntsMngr.doInsertQuery(pdi);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+
+				@Override
+				public void onDeleted(ListManager<ProductItem> mngr, ProductItem item) {
+					System.out.println("MainPage.onShow().[ProductManagerMem] onDeleted()");
+					System.out.println(" -> item: " + item);
+					System.out.println();
+
+					try {
+						// [상품 재고 관리자]에서 상품 제거
+						var pi0 = prodStocksMngr.getItemByProdId(item.getId());
+						prodStocksMngr.deleteById(pi0.getId());
+						prodStocksMngr.doDeleteQuery("prod_id = " + pi0.getId());
+
+						// [상품 할인 관리자]에서 상품 제거
+						var pi1 = prodDiscntsMngr.getItemByProdId(item.getId());
+						prodDiscntsMngr.deleteById(pi1.getId());
+						prodDiscntsMngr.doDeleteQuery("prod_id = " + pi1.getId());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+
+			});
+		}
+
 		try {
 			this.setSelectedViewByNum(MainPage.VIEW_NUM_MAIN);
 		} catch (Exception e) {
@@ -107,53 +174,34 @@ public class MainPage extends Page {
 	// 페이지가 숨겨질 때
 	@Override
 	protected void onHide() {
+
 		System.out.println("[MainPage.onHide()]");
 	}
 
 	// 더미데이터 메모리 추가
-	private void setDummyData() {
+	private void addDummyDataToMemAndDb() {
 		var custMngr = CustomerManager.getInstance();
 		var prodMngr = ProductManager.getInstance();
-		var prodStMngr = ProductStocksManager.getInstance();
-		var prodDiscMngr = ProductDiscountsManager.getInstance();
-
-		prodMngr.setActionListener(new ListActionAdapter<ProductItem>() {
-
-			@Override
-			public void onAdded(ListManager<ProductItem> mngr, ProductItem item) {
-				try {
-					// 재고관리자 상품추가
-					prodStMngr.add(new ProductStockItem(item.getId()));
-					// 할인관리자 상품추가
-					prodDiscMngr.add(new ProductDiscountItem(item.getId()));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-			@Override
-			public void onUpdated(ListManager<ProductItem> mngr, ProductItem oldItem, ProductItem newItem) {
-			}
-
-			@Override
-			public void onDeleted(ListManager<ProductItem> mngr, ProductItem item) {
-			}
-
-		});
 
 		try {
 
 			// 고객 더미데이터 추가
 
-			for (var ci : CustomerItem.getPredefinedData()) {
-				custMngr.add(ci);
-				// System.out.println(", " + ci.getName());
-			}
+			// for (var ci : CustomerItem.getPredefinedData()) {
+			// custMngr.add(ci);
+			// System.out.println(ci);
+			// custMngr.doInsertQuery(ci);
+			// SystemUtils.sleep(100);
+			// // System.out.println(", " + ci.getName());
+			// }
 
 			// 상품 더미데이터 추가
 
+			prodMngr.enableActionListener(true);
 			for (var di : ProductItem.getPredefinedProductData()) {
 				prodMngr.add(di);
+				prodMngr.doInsertQuery(di);
+				SystemUtils.sleep(100);
 				// System.out.println(", " + di.getName());
 			}
 
@@ -162,4 +210,22 @@ public class MainPage extends Page {
 		}
 
 	}
+
+	private void loadDataFromDb() {
+		var custMngr = CustomerManager.getInstance();
+		var prodMngr = ProductManager.getInstance();
+		var prodStMngr = ProductStocksManager.getInstance();
+		var prodDiscMngr = ProductDiscountsManager.getInstance();
+
+		try {
+			prodMngr.doSelectQuery(null, null, null, "prod_id");
+			custMngr.doSelectQuery(null, null, null, "cust_id");
+			prodStMngr.doSelectQuery(null, null, null, "prod_id");
+			prodDiscMngr.doSelectQuery(null, null, null, "prod_id");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 }

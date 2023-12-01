@@ -9,9 +9,11 @@ package ezen.project.first.team2.app.manager;
 import java.awt.Font;
 
 import ezen.project.first.team2.app.common.framework.StatusManager;
+import ezen.project.first.team2.app.common.modules.database.DBConnector;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
 import ezen.project.first.team2.app.common.pages.splash.SplashPageParams;
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;
+import ezen.project.first.team2.app.common.utils.TimeUtils;
 import ezen.project.first.team2.app.manager.pages.login.LoginPage;
 import ezen.project.first.team2.app.manager.pages.main.MainPage;
 
@@ -54,6 +56,7 @@ public class Main extends StatusManager {
 	// 실행 작업 - 페이지 선택 등
 	@Override
 	protected void onRun() {
+
 		try {
 			// 주석제거
 			this.setSelectedPageByNum(PAGE_NUM_SPLASH);
@@ -67,6 +70,18 @@ public class Main extends StatusManager {
 	// 종료 작업 - DB 디스커넥션 등
 	@Override
 	protected void onExit() {
+
+		var dbConn = DBConnector.getInstance();
+		// DB 연결 해제
+		try {
+			if (dbConn.isConnected()) {
+				System.out.printf("[%s] DB 연결 해제 중.. \n", TimeUtils.currTimeStr());
+				dbConn.disconnect();
+				System.out.printf("[%s] DB 연결 해제됨 \n", TimeUtils.currTimeStr());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.out.println("[Main.onExit()]");
 	}
 

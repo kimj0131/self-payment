@@ -327,6 +327,13 @@ public class AdjustDiscountView extends View {
                 ProductDiscountItem adjustItem = prodDcMngr.findById(adjustId);
                 adjustItem.setAmount(Integer.valueOf(mTextFieldAdjustActual.getText()));
 
+                // DB에 Update 쿼리
+                try {
+                    prodDcMngr.doUpdateQuery(adjustItem, null, "prod_id = " + adjustId);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+
                 DefaultTableModel m = (DefaultTableModel) mTableResultList.getModel();
                 for (int row = 0; row < mTableResultList.getRowCount(); row++) {
                     if ((int) mTableResultList.getValueAt(row, 0) == adjustId) {

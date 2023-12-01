@@ -93,6 +93,9 @@ public class ListProductView extends View {
         DefaultTableModel m = (DefaultTableModel) mTableProdList.getModel();
         m.setRowCount(0);
         try {
+
+            // prodMngr.doSelectQuery(null, null, null, "prod_id");
+
             prodMngr.iterate((info, idx) -> {
                 m.addRow(new Object[] {
                         info.getId(), info.getProdCodeStr(),

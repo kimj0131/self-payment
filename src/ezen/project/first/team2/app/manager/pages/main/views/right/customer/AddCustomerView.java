@@ -271,7 +271,9 @@ public class AddCustomerView extends View {
                                 defaultPoint, mTextFieldAddRemark.getText());
 
                         custMngr.add(customerItem);
-                        System.out.println("cust Add");
+                        // DB에 Insert
+                        custMngr.doInsertQuery(customerItem);
+
                         this.mTextFieldAddId.setText(String.valueOf(custMngr.getNextID()));
 
                         // 추가한 고객(item) 컬럼에 추가
