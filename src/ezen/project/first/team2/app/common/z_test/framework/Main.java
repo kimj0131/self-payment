@@ -5,6 +5,7 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 
 import ezen.project.first.team2.app.common.framework.StatusManager;
+import ezen.project.first.team2.app.common.modules.database.DBConnector;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
 import ezen.project.first.team2.app.common.pages.splash.SplashPageParams;
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;
@@ -71,7 +72,12 @@ public class Main extends StatusManager {
 	protected void onExit() {
 		System.out.println("onExit()");
 
-		//
+		try {
+			var dbConn = DBConnector.getInstance();
+			dbConn.disconnect();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private SplashPageParams getSplashPageParams() {
