@@ -7,12 +7,11 @@ import java.sql.Types;
 import java.time.LocalDate;
 
 import ezen.project.first.team2.app.common.modules.database.DBConnector;
-import ezen.project.first.team2.app.common.modules.database.DBConnectorListener;
 import ezen.project.first.team2.app.common.utils.MathUtils;
 import ezen.project.first.team2.app.common.utils.SystemUtils;
 import ezen.project.first.team2.app.common.utils.TimeUtils;
 
-public class TestDBConnector {
+public class z_thread__TestDBConnector {
 	static void printTitle(String text) {
 		System.out.println("-".repeat(60));
 		System.out.printf("[%s] # %s \n", TimeUtils.currTimeStr(), text);
@@ -152,44 +151,20 @@ public class TestDBConnector {
 			var conn = DBConnector.getInstance();
 			conn.loadJdbcDriver();
 
-			conn.setActionListener(new DBConnectorListener() {
+			// 레코드셋 리스팅
+			listRecordset(sender);
 
-				@Override
-				public void onConnecting(DBConnector sender) {
-					System.out.println("DB 연결 중..");
-				}
+			// 레코드 추가
+			addRecord(sender);
+			listRecordset(sender);
 
-				@Override
-				public void onConnected(DBConnector sender) {
-					System.out.println("DB 연결됨");
+			// 레코드 수정
+			updateRecord(sender);
+			listRecordset(sender);
 
-					// 레코드셋 리스팅
-					listRecordset(sender);
-
-					// 레코드 추가
-					addRecord(sender);
-					listRecordset(sender);
-
-					// 레코드 수정
-					updateRecord(sender);
-					listRecordset(sender);
-
-					// 레코드 삭제
-					deleteRecord(sender);
-					listRecordset(sender);
-				}
-
-				@Override
-				public void onConnectionFailure(DBConnector sender, String reason) {
-					System.out.println("DB 연결 실패 => " + reason);
-				}
-
-				@Override
-				public void onDisconnected(DBConnector sender) {
-					System.out.println("DB 연결 해제");
-				}
-
-			});
+			// 레코드 삭제
+			deleteRecord(sender);
+			listRecordset(sender);
 
 			System.out.printf("[%s] [main] start \n", TimeUtils.currTimeStr());
 

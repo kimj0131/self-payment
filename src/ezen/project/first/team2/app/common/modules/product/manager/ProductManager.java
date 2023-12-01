@@ -108,6 +108,7 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 		return super.onDeleteById(id);
 	}
 
+	// create 테이블이 있다면 예외 발생
 	@Override
 	protected String onMakeCreateTableQuery(String tableName) {
 		return String.format("create table %s(" +
@@ -121,6 +122,7 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 				tableName);
 	}
 
+	// select
 	@Override
 	protected ProductItem onResultSetToItem(ResultSet rs) {
 		try {
@@ -139,6 +141,7 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 		return null;
 	}
 
+	// insert
 	@Override
 	protected String[] onMakeFieldsetAndValues(ProductItem item) {
 
@@ -150,6 +153,7 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 		return new String[] { fieldset, values };
 	}
 
+	// update
 	@Override
 	protected String onMakeSet(ProductItem item, String[] fieldset) throws Exception {
 		String s = "";
