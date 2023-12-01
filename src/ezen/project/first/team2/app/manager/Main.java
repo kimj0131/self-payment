@@ -72,6 +72,14 @@ public class Main extends StatusManager {
 
 	private SplashPageParams getSplashPageParams() {
 		SplashPageParams params = new SplashPageParams(new SplashPageParams.Listener() {
+			@Override
+			public void onConnectingDb(Object param) {
+				Main main = (Main) param;
+				SplashPage splashPage = (SplashPage) main.getPageByNum(SplashPage.PAGE_NUM);
+				MainView mainView = (MainView) splashPage.getViewByNum(SplashPage.VIEW_NUM_MAIN);
+
+				mainView.setLabel0Text("Initializing database...");
+			}
 
 			@Override
 			public void onLoadResources(Object param, int resourceIndex, int resourceCount) {

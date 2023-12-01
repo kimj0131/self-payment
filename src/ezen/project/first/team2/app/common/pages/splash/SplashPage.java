@@ -13,6 +13,7 @@ import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.framework.Page;
 import ezen.project.first.team2.app.common.framework.StatusManager;
+import ezen.project.first.team2.app.common.modules.database.DBConnector;
 import ezen.project.first.team2.app.common.pages.splash.views.MainView;
 import ezen.project.first.team2.app.common.utils.SystemUtils;
 import ezen.project.first.team2.app.common.utils.thread.BlueThread;
@@ -129,6 +130,28 @@ public class SplashPage extends Page {
 			public boolean onRun(BlueThread sender, Object param) {
 				SplashPageParams.Listener listener = SplashPage.this.mParams.getListener();
 				int rsrcCnt = SplashPage.this.mParams.getResurceCount();
+
+				// DB 커넥션
+				if (this.mRsrcIdx == 0) {
+					try {
+						var dbConn = DBConnector.getInstance();
+						dbConn.loadJdbcDriver();
+
+						listener.onConnectingDb(param);
+
+						final var DB_HOST = mParams.getDbHost();
+						final var DB_PORT = mParams.getDbPort();
+						final var DB_ID = mParams.getDbId();
+						final var DB_PASSWD = mParams.getDbPw();
+						System.out.println("[SplashPage] Connecting database..");
+						dbConn.connect(DB_HOST, DB_PORT, DB_ID, DB_PASSWD);
+						System.out.println("[SplashPage] Connected!");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					SystemUtils.sleep(200);
+				}
 
 				listener.onLoadResources(param, this.mRsrcIdx, rsrcCnt);
 				if (this.mRsrcIdx++ == rsrcCnt) {

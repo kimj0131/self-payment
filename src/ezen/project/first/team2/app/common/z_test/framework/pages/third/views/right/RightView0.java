@@ -8,6 +8,7 @@ import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.common.z_test.framework.Main;
 import ezen.project.first.team2.app.common.z_test.framework.pages.third.ThirdPage;
+import ezen.project.first.team2.app.common.z_test.modules.base.EmployeesManager;
 
 public class RightView0 extends View {
 	private static final int PADDING = 10;
@@ -53,6 +54,25 @@ public class RightView0 extends View {
 	@Override
 	protected void onShow(boolean firstTime) {
 		System.out.println("[RightView0.onShow()]");
+
+		try {
+			var mngr = EmployeesManager.getInstance();
+
+			// var rnd = String.format("%04d", MathUtils.getRandomNumber(1, 4096));
+			// int id = mngr.getNextIdFromDb("employee_id");
+			// var item = new EmployeeItem(id, "sigwan", "lee", "aa@bb.com" + rnd,
+			// "010-0000-0000",
+			// LocalDate.of(1983, 5, 9), "IT_PROG", 100000, 0.2, 101, 110);
+			// mngr.doInsertQuery(item);
+
+			int rCnt = mngr.doSelectQuery();
+			System.out.printf("rCnt: %d \n", rCnt);
+
+			var item2 = mngr.getFirstItem();
+			System.out.println(item2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

@@ -45,8 +45,8 @@ public class Main extends StatusManager {
 	@Override
 	protected void onAddPages() {
 		try {
-			//this.addPage(new SplashPage(this.getSplashPageParams()));
-			//this.addPage(new StanbyPage());
+			// this.addPage(new SplashPage(this.getSplashPageParams()));
+			// this.addPage(new StanbyPage());
 			this.addPage(new MainPage());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -62,7 +62,7 @@ public class Main extends StatusManager {
 	@Override
 	protected void onRun() {
 		try {
-			//this.setSelectedPageByNum(PAGE_NUM_SPLASH);
+			// this.setSelectedPageByNum(PAGE_NUM_SPLASH);
 			this.setSelectedPageByNum(Main.PAGE_NUM_MAIN);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,6 +78,16 @@ public class Main extends StatusManager {
 	@SuppressWarnings("unused")
 	private SplashPageParams getSplashPageParams() {
 		SplashPageParams params = new SplashPageParams(new SplashPageParams.Listener() {
+
+			@Override
+			public void onConnectingDb(Object param) {
+				Main main = (Main) param;
+				SplashPage splashPage = (SplashPage) main.getPageByNum(SplashPage.PAGE_NUM);
+				MainView mainView = (MainView) splashPage.getViewByNum(SplashPage.VIEW_NUM_MAIN);
+
+				mainView.setLabel0Text("Initializing database...");
+			}
+
 			@Override
 			public void onLoadResources(Object param, int resourceIndex, int resourceCount) {
 				Main main = (Main) param;
@@ -132,6 +142,7 @@ public class Main extends StatusManager {
 					e.printStackTrace();
 				}
 			}
+
 		}, this, 5);
 
 		return params;

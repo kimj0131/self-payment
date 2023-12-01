@@ -77,6 +77,15 @@ public class Main extends StatusManager {
 	private SplashPageParams getSplashPageParams() {
 		SplashPageParams params = new SplashPageParams(new SplashPageParams.Listener() {
 			@Override
+			public void onConnectingDb(Object param) {
+				Main main = (Main) param;
+				SplashPage splashPage = (SplashPage) main.getPageByNum(SplashPage.PAGE_NUM);
+				MainView mainView = (MainView) splashPage.getViewByNum(SplashPage.VIEW_NUM_MAIN);
+
+				mainView.setLabel0Text("Initializing database...");
+			}
+
+			@Override
 			public void onLoadResources(Object param, int resourceIndex, int resourceCount) {
 				Main main = (Main) param;
 				SplashPage splashPage = (SplashPage) main.getPageByNum(SplashPage.PAGE_NUM);
@@ -93,6 +102,11 @@ public class Main extends StatusManager {
 				// SystemUtils.sleep(1 * 1000);
 
 				switch (rsrcIdx) {
+					// ----------
+					// [SGLEE:20231201FRI_115200] 폰트를 미리 생성하는 것이 의미가 없는듯..
+					// setFont() 이후 실제로 화면에 표시될 때, 딜레이가 됨
+					// 즉, 화면에 표시될 때, 폰트 객체를 생성하는 것 같음
+					// ----------
 					case 0:
 						main.mFont0 = new Font("맑은 고딕", Font.BOLD, 16);
 						break;
@@ -130,7 +144,8 @@ public class Main extends StatusManager {
 					e.printStackTrace();
 				}
 			}
-		}, this, 5);
+		}, this, 5,
+				"localhost", SplashPageParams.DB_PORT, SplashPageParams.DB_ID, SplashPageParams.DB_PW);
 
 		return params;
 	}
