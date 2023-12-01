@@ -147,20 +147,21 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 			rCnt++;
 		rs.beforeFirst();
 
-		this.reset();
+		// 임시로 액션 리스너 비활성화
+		var oldStatus = this.enableActionListener(false);
+		{
+			this.deleteAllItems();
 
-		int idx = 0;
-		while (rs.next()) {
-			var item = this.onResultSetToItem(rs);
-
-			if (iterator == null) {
-				this.add(item);
-			} else {
-				if (iterator.onGetItem(item, idx++)) {
+			int idx = 0;
+			while (rs.next()) {
+				var item = this.onResultSetToItem(rs);
+				if (iterator == null || iterator.onGetItem(item, idx++)) {
 					this.add(item);
 				}
 			}
 		}
+		// 액션 리스너 활성화 상태 복구
+		this.enableActionListener(oldStatus);
 
 		rs.close();
 		pstmt.close();
@@ -230,14 +231,22 @@ public class ListManagerDb<T extends ListItem> extends ListManager<T> {
 		return rows;
 	}
 
-	// getNextIdFromDb
+	// DB에서 다음 ID 얻기
 	public int getNextIdFromDb(String field) throws Exception {
-		this.reset();
+		int id = -1;
 
-		this.doSelectQuery((item, idx) -> true,
-				String.format("max(%s) as %s", field, field), null, null);
-		var item = this.getFirstItem();
-		var id = item.getId() + 1;
+		// 액션 리스너 비활성화
+		var oldStatus = this.enableActionListener(false);
+		{
+			this.deleteAllItems();
+
+			this.doSelectQuery((item, idx) -> true,
+					String.format("max(%s) as %s", field, field), null, null);
+			var item = this.getFirstItem();
+			id = item.getId() + 1;
+		}
+		// 액션 리스너 활성화 상태 복구
+		this.enableActionListener(oldStatus);
 
 		return id;
 	}

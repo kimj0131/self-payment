@@ -81,6 +81,14 @@ public class TestCustomerManager {
 				@Override
 				public void onDeletedItems(ListManager<CustomerItem> mngr, List<Integer> idList) {
 				}
+
+				@Override
+				public void onDeleteAllItems(ListManager<CustomerItem> mngr) {
+				}
+
+				@Override
+				public void onDeletedAllItems(ListManager<CustomerItem> mngr) {
+				}
 			});
 
 			//

@@ -7,9 +7,8 @@
 package ezen.project.first.team2.app.common.modules.product.purchasing;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import ezen.project.first.team2.app.common.modules.base.ListActionListener;
+import ezen.project.first.team2.app.common.modules.base.ListActionAdapter;
 import ezen.project.first.team2.app.common.modules.base.ListManager;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
@@ -77,14 +76,14 @@ public class ProductPurchasing {
 	// 1. 구매 내역(영수증) 생성
 	public void _1_makeProdOrder() throws Exception {
 		// 구매 내역(영수증) ID 발급
-		this.mProdOrderId = this.mProdOrdersMngr.getNextID();
+		this.mProdOrderId = this.mProdOrdersMngr.getNextIdFromDb("prod_order_id");
 
 		// 구매 내역(영수증) 아이템 생성 => 비회원 + 사용할 포인트 0
 		this.mProdOrderItem = new ProductOrderItem(this.mProdOrderId, LocalDateTime.now());
 		this.mProdOrdersMngr.add(this.mProdOrderItem);
 
 		// 상세 구매 내역 액션 리스너
-		this.mProdOrderDetailMngr.setActionListener(new ListActionListener<ProductOrderDetailItem>() {
+		this.mProdOrderDetailMngr.setActionListener(new ListActionAdapter<ProductOrderDetailItem>() {
 			// 상세 구매 내역이 추가되면 해당 상품 재고 수량 감소
 			// => 해당 상품에 재고가 없더라도 일단 수량 감소
 			@Override
@@ -94,23 +93,6 @@ public class ProductPurchasing {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
-
-			@Override
-			public void onUpdated(ListManager<ProductOrderDetailItem> mngr,
-					ProductOrderDetailItem oldItem, ProductOrderDetailItem newItem) {
-			}
-
-			@Override
-			public void onDeleted(ListManager<ProductOrderDetailItem> mngr, ProductOrderDetailItem item) {
-			}
-
-			@Override
-			public void onDeleteItems(ListManager<ProductOrderDetailItem> mngr, List<Integer> idList) {
-			}
-
-			@Override
-			public void onDeletedItems(ListManager<ProductOrderDetailItem> mngr, List<Integer> idList) {
 			}
 		});
 	}
@@ -138,7 +120,8 @@ public class ProductPurchasing {
 		}
 		// 상품이 없다면 추가
 		else {
-			podi = new ProductOrderDetailItem(-1, this.mProdOrderId, prodId, pdi.getId(), quantity);
+			int podiId = this.mProdOrderDetailMngr.getNextIdFromDb("prod_order_detail_id");
+			podi = new ProductOrderDetailItem(podiId, this.mProdOrderId, prodId, pdi.getId(), quantity);
 			this.mProdOrderDetailMngr.add(podi);
 
 			// 액션 리스너 호출
@@ -176,7 +159,9 @@ public class ProductPurchasing {
 	public void _4_setUsedPoint(int point) throws Exception {
 		var ci = this.mProdOrderItem.getCustItem();
 		if (ci == null) {
-			// 예외 발생~
+			String msg = String.format("[ProductPurchasing._3_applyCustomerPoint()]" +
+					" You are not a member!!");
+			throw new Exception(msg);
 		}
 
 		// 가용 포인트 확인

@@ -81,7 +81,7 @@ public class TestProductManagerDb {
 					var ProdCodeType = ProductCode.Type.Drink;
 
 					int id = mngr.getNextIdFromDb("prod_id");
-					int pcsn = mngr.getNextProdCodeSnByType(ProdCodeType);
+					int pcsn = mngr.getNextProdCodeSnFromDbByType(ProdCodeType);
 
 					// ProductCode code = new ProductCode(Type.Snack, 001);
 					ProductCode code = new ProductCode(ProdCodeType, pcsn);

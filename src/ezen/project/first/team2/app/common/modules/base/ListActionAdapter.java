@@ -30,4 +30,12 @@ public class ListActionAdapter<T extends ListItem> implements ListActionListener
 	public void onDeletedItems(ListManager<T> mngr, List<Integer> idList) {
 	}
 
+	@Override
+	public void onDeleteAllItems(ListManager<T> mngr) {
+	}
+
+	@Override
+	public void onDeletedAllItems(ListManager<T> mngr) {
+	}
+
 }

@@ -54,20 +54,27 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 		return this.findItems((pi, idx) -> pi.getPrice() == price);
 	}
 
-	public int getNextProdCodeSnByType(ProductCode.Type type) throws Exception {
+	public int getNextProdCodeSnFromDbByType(ProductCode.Type type) throws Exception {
+		int nextId = -1;
 
-		this.reset();
+		// 액션 리스너 비활성화
+		var oldStatus = this.enableActionListener(false);
+		{
+			this.deleteAllItems();
 
-		String fieldset = "prod_id, prod_code";
-		String where = String.format("prod_code like '%s%%'", ProductCode.typeToStr(type));
-		String orderBy = "prod_code desc";
-		int rCnt = this.doSelectQuery(null, fieldset, where, orderBy);
-		if (rCnt == 0)
-			return 1;
+			String fieldset = "prod_id, prod_code";
+			String where = String.format("prod_code like '%s%%'", ProductCode.typeToStr(type));
+			String orderBy = "prod_code desc";
+			int rCnt = this.doSelectQuery(null, fieldset, where, orderBy);
+			if (rCnt == 0)
+				return 1;
 
-		var item = this.getFirstItem();
-		var pci = item.getProdCode();
-		var nextId = pci.getSn() + 1;
+			var item = this.getFirstItem();
+			var pci = item.getProdCode();
+			nextId = pci.getSn() + 1;
+		}
+		// 액션 리스너 활성화 상태 복구
+		this.enableActionListener(oldStatus);
 
 		return nextId;
 	}

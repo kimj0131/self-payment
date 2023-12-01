@@ -20,6 +20,7 @@ public class ListManager<T extends ListItem> {
 	// -------------------------------------------------------------------------
 
 	private ListActionListener<T> mActionListener = null;
+	private boolean mActionListenerEnabled = true;
 
 	private List<T> mList = new ArrayList<>();
 
@@ -43,6 +44,14 @@ public class ListManager<T extends ListItem> {
 	// 액션 리스너 설정
 	public void setActionListener(ListActionListener<T> listener) {
 		this.mActionListener = listener;
+	}
+
+	// 액션 리스너 활성화 설정
+	public boolean enableActionListener(boolean enabled) {
+		var oldStatus = this.mActionListenerEnabled;
+		this.mActionListenerEnabled = enabled;
+
+		return oldStatus;
 	}
 
 	// 다음 ID 얻기
@@ -73,7 +82,7 @@ public class ListManager<T extends ListItem> {
 			throw new Exception(errMsg);
 
 		// 액션 리스너 호출
-		if (this.mActionListener != null) {
+		if (this.mActionListenerEnabled && this.mActionListener != null) {
 			this.mActionListener.onAdded(this, item);
 		}
 
@@ -101,7 +110,7 @@ public class ListManager<T extends ListItem> {
 			throw new Exception(errMsg);
 
 		// 액션 리스너 호출
-		if (this.mActionListener != null) {
+		if (this.mActionListenerEnabled && this.mActionListener != null) {
 			this.mActionListener.onUpdated(this, oldItem, item);
 		}
 
@@ -128,7 +137,7 @@ public class ListManager<T extends ListItem> {
 			throw new Exception(errMsg);
 
 		// 액션 리스너 호출
-		if (this.mActionListener != null) {
+		if (this.mActionListenerEnabled && this.mActionListener != null) {
 			this.mActionListener.onDeleted(this, oldItem);
 		}
 
@@ -139,20 +148,42 @@ public class ListManager<T extends ListItem> {
 	public int deleteItems(Iterator<T> iterator) {
 		List<Integer> ids = this.onGetItemIds(iterator);
 
-		// 액션 리스너 호출 -> 아이템들이 삭제될 때
-		if (this.mActionListener != null) {
+		// 액션 리스너 호출 -> 아이템들이 삭제될 때 (삭제 전)
+		if (this.mActionListenerEnabled && this.mActionListener != null) {
 			this.mActionListener.onDeleteItems(this, ids);
 		}
 
 		// ID 리스트로 아이템들 삭제
 		this.onDeleteItems(ids);
 
-		// 액션 리스너 호출 -> 아이템들이 삭제되었을 때
-		if (this.mActionListener != null) {
+		// 액션 리스너 호출 -> 아이템들이 삭제되었을 때 (삭제 후)
+		if (this.mActionListenerEnabled && this.mActionListener != null) {
 			this.mActionListener.onDeletedItems(this, ids);
 		}
 
 		return ids.size();
+	}
+
+	// 모든 아이템들 삭제
+	public void deleteAllItems() {
+		if (this.getCount() == 0) {
+			String msg = String.format("[ListManager.deleteAllItems()]" +
+					" There is no items!");
+			System.out.println(msg);
+			return;
+		}
+
+		// 액션 리스너 호출 -> 아이템들이 삭제될 때 (삭제 전)
+		if (this.mActionListenerEnabled && this.mActionListener != null) {
+			this.mActionListener.onDeleteAllItems(this);
+		}
+
+		this.mList.clear();
+
+		// 액션 리스너 호출 -> 아이템들이 삭제되었을 때 (삭제 전)
+		if (this.mActionListenerEnabled && this.mActionListener != null) {
+			this.mActionListener.onDeletedAllItems(this);
+		}
 	}
 
 	// 아이템 ID 중복(존재) 확인
@@ -191,11 +222,6 @@ public class ListManager<T extends ListItem> {
 	// ID로 아이템 찾기
 	public T findById(int id) {
 		return this.onFindById(id);
-	}
-
-	// 모든 아이템 삭제
-	public void reset() {
-		this.mList.clear();
 	}
 
 	// 첫 번째 아이템 얻기

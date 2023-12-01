@@ -156,6 +156,14 @@ public class TestProductManager {
 				@Override
 				public void onDeletedItems(ListManager<ProductItem> mngr, List<Integer> idList) {
 				}
+
+				@Override
+				public void onDeleteAllItems(ListManager<ProductItem> mngr) {
+				}
+
+				@Override
+				public void onDeletedAllItems(ListManager<ProductItem> mngr) {
+				}
 			});
 
 			// 상품 추가
