@@ -105,7 +105,7 @@ public class AdjustDiscountView extends View {
         // 테이블 설정
         try {
             Object[] mPropertyColumn = {
-                    "상품번호", "상품코드", "상품명", "가격", "할인금액", "가입고객 결제금액"
+                    "상품번호", "상품코드", "상품명", "가격", "할인금액", "할인 적용후 금액"
             };
             Object[][] mProdListRows = new Object[mPropertyColumn.length][prodMngr.getCount()];
 
