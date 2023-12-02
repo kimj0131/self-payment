@@ -167,23 +167,23 @@ public class ProductItem extends ListItem {
 					new ProductItem(-1, new ProductCode("D005"), LocalDate.now(), "와인", 36000, ""),
 
 					// 과일
-					new ProductItem(-1, new ProductCode("F001"), LocalDate.now(), "바나나1송이", 5550, ""),
-					new ProductItem(-1, new ProductCode("F002"), LocalDate.now(), "사과1개", 888, ""),
-					new ProductItem(-1, new ProductCode("F003"), LocalDate.now(), "오렌지1개", 980, ""),
+					new ProductItem(-1, new ProductCode("F001"), LocalDate.now(), "바나나1송이", 5600, ""),
+					new ProductItem(-1, new ProductCode("F002"), LocalDate.now(), "사과1개", 900, ""),
+					new ProductItem(-1, new ProductCode("F003"), LocalDate.now(), "오렌지1개", 1000, ""),
 					new ProductItem(-1, new ProductCode("F004"), LocalDate.now(), "파인애플1통(약2kg)", 7500, ""),
 					new ProductItem(-1, new ProductCode("F005"), LocalDate.now(), "포도1송이", 6500, ""),
 
 					// 채소
-					new ProductItem(-1, new ProductCode("V001"), LocalDate.now(), "상추1kg", 2750, ""),
-					new ProductItem(-1, new ProductCode("V002"), LocalDate.now(), "감자개당", 398, ""),
-					new ProductItem(-1, new ProductCode("V003"), LocalDate.now(), "고구마개당", 599, ""),
+					new ProductItem(-1, new ProductCode("V001"), LocalDate.now(), "상추1kg", 2800, ""),
+					new ProductItem(-1, new ProductCode("V002"), LocalDate.now(), "감자개당", 400, ""),
+					new ProductItem(-1, new ProductCode("V003"), LocalDate.now(), "고구마개당", 600, ""),
 					new ProductItem(-1, new ProductCode("V004"), LocalDate.now(), "무", 1700, ""),
 					new ProductItem(-1, new ProductCode("V005"), LocalDate.now(), "배추1포기", 20800, ""),
-					new ProductItem(-1, new ProductCode("V006"), LocalDate.now(), "브로콜리", 1058, ""),
-					new ProductItem(-1, new ProductCode("V007"), LocalDate.now(), "애호박", 1590, ""),
-					new ProductItem(-1, new ProductCode("V008"), LocalDate.now(), "당근", 750, ""),
-					new ProductItem(-1, new ProductCode("V009"), LocalDate.now(), "양파", 330, ""),
-					new ProductItem(-1, new ProductCode("V010"), LocalDate.now(), "파프리카", 1590, ""),
+					new ProductItem(-1, new ProductCode("V006"), LocalDate.now(), "브로콜리", 1100, ""),
+					new ProductItem(-1, new ProductCode("V007"), LocalDate.now(), "애호박", 1600, ""),
+					new ProductItem(-1, new ProductCode("V008"), LocalDate.now(), "당근", 800, ""),
+					new ProductItem(-1, new ProductCode("V009"), LocalDate.now(), "양파", 400, ""),
+					new ProductItem(-1, new ProductCode("V010"), LocalDate.now(), "파프리카", 1600, ""),
 			};
 
 			return data;

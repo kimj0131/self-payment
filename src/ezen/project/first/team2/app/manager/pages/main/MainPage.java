@@ -96,10 +96,6 @@ public class MainPage extends Page {
 	protected void onShow(boolean firstTime) {
 		System.out.println("[MainPage.onShow()]");
 
-		this.addDummyDataToMemAndDb();
-
-		// this.loadDataFromDb();
-
 		if (firstTime) {
 			var prodMngr = ProductManager.getInstance();
 			var prodStocksMngr = ProductStocksManager.getInstance();
@@ -162,6 +158,9 @@ public class MainPage extends Page {
 				}
 
 			});
+
+			// this.addDummyDataToMemAndDb();
+			this.loadDataFromDb();
 		}
 
 		try {

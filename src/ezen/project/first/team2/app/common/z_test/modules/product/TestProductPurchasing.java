@@ -4,6 +4,7 @@ import ezen.project.first.team2.app.common.modules.base.ListActionAdapter;
 import ezen.project.first.team2.app.common.modules.base.ListManager;
 import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
+import ezen.project.first.team2.app.common.modules.database.DBConnector;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountItem;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManager;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
@@ -107,6 +108,10 @@ public class TestProductPurchasing {
 		var prodDiscntsMngr = ProductDiscountsManager.getInstance();
 
 		try {
+			var dbConn = DBConnector.getInstance();
+			dbConn.loadJdbcDriver();
+			dbConn.connect("192.168.0.64", 1521, "hr", "1234");
+
 			// 고객
 			{
 				custMngr.add(CustomerItem.getPredefinedData()[0]);

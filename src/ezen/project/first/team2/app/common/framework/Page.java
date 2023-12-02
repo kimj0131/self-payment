@@ -138,6 +138,8 @@ public class Page extends JFrame {
 
 		this.setVisible(false);
 
+		this.mSelectedViewNum = -1;
+
 		// System.out.println("[Page.performHide()] end ");
 	}
 

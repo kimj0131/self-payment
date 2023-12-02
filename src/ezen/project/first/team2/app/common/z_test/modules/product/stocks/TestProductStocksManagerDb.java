@@ -25,9 +25,9 @@ public class TestProductStocksManagerDb {
 			final boolean TRUNCATE_TABLE = !true;
 
 			final boolean DO_SELECT_QUERY = true;
-			final boolean DO_INSERT_QUERY = true;
-			final boolean DO_UPDATE_QUERY = true;
-			final boolean DO_DELETE_QUERY = true;
+			final boolean DO_INSERT_QUERY = !true;
+			final boolean DO_UPDATE_QUERY = !true;
+			final boolean DO_DELETE_QUERY = !true;
 
 			var mngr = ProductStocksManager.getInstance();
 

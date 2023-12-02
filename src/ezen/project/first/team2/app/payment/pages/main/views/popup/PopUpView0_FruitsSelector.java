@@ -26,6 +26,7 @@ import ezen.project.first.team2.app.common.modules.product.manager.ProductItem;
 import ezen.project.first.team2.app.common.modules.product.manager.ProductManager;
 import ezen.project.first.team2.app.common.modules.product.order_details.ProductOrderDetailsManager;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
+import ezen.project.first.team2.app.common.utils.UiUtils;
 import ezen.project.first.team2.app.common.utils.UnitUtils;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
@@ -37,18 +38,18 @@ public class PopUpView0_FruitsSelector extends PopupView {
 	private static final int PADDING = 10;
 
 	private static final String CANCEL_BTN_TEXT = "취소";
-	
+
 	// this.View
 	private static final Color BACKGROUND_COLOR = new Color(244, 248, 251);
-	
+
 	// Cancel Button
 	private static final Font CANCEL_BTN_FONT = new Font("맑은 고딕", Font.BOLD, 19);
 	private static final Color CANCEL_BTN_FONT_COLOR = new Color(255, 255, 255);
 	private static final Color CANCEL_BTN_COLOR = new Color(3, 181, 208);
-	
+
 	// FV panel
 	private static final Color FV_PANEL_COLOR = new Color(255, 255, 255);
-	
+
 	// 채소,과일 이름표
 	private static final Font FV_LABEL_FONT = new Font("맑은 고딕", Font.BOLD, 15);
 	private static final Color FV_LABEL_FONT_COLOR = new Color(54, 70, 81);
@@ -67,7 +68,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 	// 이미지 사이즈
 	private int mScaled_img_width = 125;
 	private int mScaled_img_height = 125;
-	
+
 	// 채소&과일 이름표
 	private JLabel mBanana_label;
 	private JLabel mApple_label;
@@ -158,13 +159,13 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mSweetPotato_btn = makeVFbutton();
 		mRadish_btn = makeVFbutton();
 		mPepper_btn = makeVFbutton();
-		
+
 		// 버튼에 이미지 세팅
 		setImageIntoButton();
 
 		// 취소 버튼
 		mCancel_btn = new JButton(CANCEL_BTN_TEXT);
-		
+
 		mFV_panel = new JPanel();
 		mScrolledFV_pane = new JScrollPane(mFV_panel);
 
@@ -190,7 +191,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mFV_panel.setBackground(FV_PANEL_COLOR);
 		mFV_panel.setBorder(BorderFactory.createEmptyBorder(
 				PADDING, PADDING, PADDING, PADDING));
-		
+
 		//
 		mCancel_btn.setBackground(CANCEL_BTN_COLOR);
 		mCancel_btn.setForeground(CANCEL_BTN_FONT_COLOR);
@@ -199,7 +200,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 	@Override
 	protected void onAddCtrls() {
-		
+
 		mGbc.fill = GridBagConstraints.BOTH;
 		mGbc.weightx = 1;
 		mGbc.weighty = 1;
@@ -221,7 +222,6 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mGbc.gridy = 0;
 		mFV_panel.add(mPineapple_btn, mGbc);
 
-		
 		// 1번 행 <과일 이름표 0번>
 		mGbc.insets = new Insets(0, 0, 20, 0);
 		mGbc.gridx = 0;
@@ -240,7 +240,6 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mGbc.gridy = 1;
 		mFV_panel.add(mPineapple_label, mGbc);
 
-		
 		// 2번 행 <과일 버튼 1번>
 		mGbc.insets = new Insets(0, 0, 0, 0);
 		mGbc.gridx = 0;
@@ -302,22 +301,22 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mFV_panel.add(mPepper_label, mGbc);
 
 		/////////////////////////////////////////////////////////////
-		
+
 		mGbc.insets = new Insets(0, 0, 10, 0);
-		
+
 		mGbc.weightx = 1;
 		mGbc.weighty = 1;
 		mGbc.gridx = 0;
 		mGbc.gridy = 0;
 		this.add(mScrolledFV_pane, mGbc);
-		
+
 		mGbc.insets = new Insets(0, 0, 0, 0);
-		
+
 		mGbc.weighty = 0.05;
 		mGbc.gridx = 0;
 		mGbc.gridy = 1;
 		this.add(mCancel_btn, mGbc);
-		
+
 	}
 
 	@Override
@@ -359,12 +358,12 @@ public class PopUpView0_FruitsSelector extends PopupView {
 				} else if (btn == mPepper_btn) {
 
 				}
-				
+
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		};
-		
+
 		// 과일버튼
 		mBanana_btn.addActionListener(listener);
 		mApple_btn.addActionListener(listener);
@@ -381,12 +380,13 @@ public class PopUpView0_FruitsSelector extends PopupView {
 	}
 
 	@Override
-	protected void onShow(boolean firstTime) {}
+	protected void onShow(boolean firstTime) {
+	}
 
 	@Override
 	protected void onHide() {
 	}
-	
+
 	private void setImageIntoButton() {
 		// 과일&채소 이미지 세팅
 		try {
@@ -443,7 +443,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		// 버튼에 이미지 달기
 		mBanana_btn.setIcon(mBanana_img);
 		mApple_btn.setIcon(mApple_img);
@@ -457,9 +457,14 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mRadish_btn.setIcon(mRadish_img);
 		mPepper_btn.setIcon(mPepper_img);
 	}
-	
+
 	// 버튼 눌렀을때 상호작용 메서드
 	private void interactToRightView0(ProductItem prodItem) {
+		if (prodItem == null) {
+			UiUtils.showMsgBox("[products, product_stocks, product_discounts] 테이블을 확인하세요!", "Payment");
+			return;
+		}
+
 		try {
 			MainView mainView = (MainView) this.getPage().getViewByNum(MainPage.VIEW_NUM_MAIN);
 			RightView0_OrderList rv0 = (RightView0_OrderList) mainView.getViewByNum(MainPage.RIGHT_VIEW_ORDER_LIST_NUM);
@@ -469,7 +474,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 
 			// 상세 구매내역에 상품 추가
 			mProdPurchasing._2_addProduct(prodItem.getId(), 1);
-			
+
 			// 상품 추가됐으면 RightView0에 있는 결제하기 버튼 활성화
 			rv0.activateButton();
 
@@ -513,7 +518,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		vfBtn.setBorderPainted(false);
 		return vfBtn;
 	}
-	
+
 	private JLabel makeVfLabel(String text, Font font) {
 		JLabel vfLabel = new JLabel(text);
 		vfLabel.setFont(font);
