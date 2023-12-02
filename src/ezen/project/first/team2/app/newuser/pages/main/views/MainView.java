@@ -131,7 +131,6 @@ public class MainView extends View {
       pButton.add(mAddBtn);
       pButton.add(mResetBtn);
       pButton.add(mTestBtn);
-      
 
       // gbAdd(remark, 0, 5, 1, 1);
       // gbAdd(tfRemark, 0, 6, 4, 1);
@@ -178,38 +177,37 @@ public class MainView extends View {
       gbc.anchor = GridBagConstraints.WEST; // 왼쪽 정렬
       add(c, gbc);
    }
-   
-    // 이벤트 리스너 추가
+
+   // 이벤트 리스너 추가
    @Override
    protected void onAddEventListeners() {
-      
-      this.mAddBtn.addActionListener(e -> { 
 
-          // 이름에 유효하지 않는 문자가 포함되어 있는지 검사
+      this.mAddBtn.addActionListener(e -> {
+
+         // 이름에 유효하지 않는 문자가 포함되어 있는지 검사
          String koreanPattern = "^[가-힣a-zA-Z]+$";
          Pattern pattern = Pattern.compile(koreanPattern);
          Matcher matcher = pattern.matcher(tfUserName.getText());
-     
+
          if (!matcher.matches()) {
-             UiUtils.showMsgBox("이름에 유효하지 않는 문자가 포함되어 있습니다.", "경고", MsgBoxType.Error);
-             tfUserName.requestFocus();
-             return;
-            }
+            UiUtils.showMsgBox("이름에 유효하지 않는 문자가 포함되어 있습니다.", "경고", MsgBoxType.Error);
+            tfUserName.requestFocus();
+            return;
+         }
 
-            String phoneNumber = String.format("%s-%s-%s", strFirstPhoneNum, tfPhoneNum2.getText(),
-            tfPhoneNum3.getText());
+         String phoneNumber = String.format("%s-%s-%s", strFirstPhoneNum, tfPhoneNum2.getText(),
+               tfPhoneNum3.getText());
 
-            
-            // 생일 유효성 검사
-            this.birthDay = String.format("%s", this.tfBirth.getText());
-        
-            try {
-                this.lDBirth = LocalDate.parse(birthDay, DateTimeFormatter.ofPattern("yyyyMMdd"));
-            } catch (Exception ex) {
-                UiUtils.showMsgBox("생년월일을 다시 입력해주세요. ex)20000101", "생년월일 오류", MsgBoxType.Error);
-                this.tfBirth.requestFocus();
-                return;
-            }
+         // 생일 유효성 검사
+         this.birthDay = String.format("%s", this.tfBirth.getText());
+
+         try {
+            this.lDBirth = LocalDate.parse(birthDay, DateTimeFormatter.ofPattern("yyyyMMdd"));
+         } catch (Exception ex) {
+            UiUtils.showMsgBox("생년월일을 다시 입력해주세요. ex)20000101", "생년월일 오류", MsgBoxType.Error);
+            this.tfBirth.requestFocus();
+            return;
+         }
          // 전화번호 유효성 검사를 위한 정규식 패턴
 
          String phonePattern = "^010-\\d{4}-\\d{4}$|^(011|016|019)-\\d{3,4}-\\d{4}$|^(017|018)-\\d{3}-\\d{4}$";
@@ -222,51 +220,47 @@ public class MainView extends View {
          Matcher matcher2 = pattern2.matcher(phoneNumber);
 
          if (matcher2.matches()) {
-            
+
          } else {
             UiUtils.showMsgBox("유효하지 않은 전화번호입니다.", "전화번호 확인",
-            MsgBoxType.Error);
+                  MsgBoxType.Error);
             return;
          }
-        
-         
-     
+
          this.phoneNumber = String.format("%s-%s-%s",
-                 this.strFirstPhoneNum, this.tfPhoneNum2.getText(), this.tfPhoneNum3.getText());
+               this.strFirstPhoneNum, this.tfPhoneNum2.getText(), this.tfPhoneNum3.getText());
 
          try {
-         // 전화번호 중복 검사 수행
-         if (this.mCustMngr.findByPhoneNumber(this.phoneNumber) != null) {
-         UiUtils.showMsgBox("이미 등록된 전화번호입니다.", "전화번호 중복", MsgBoxType.Error);
-         return; // 고객 추가 진행하지 않음             
-         }
+            // 전화번호 중복 검사 수행
+            if (this.mCustMngr.findByPhoneNumber(this.phoneNumber) != null) {
+               UiUtils.showMsgBox("이미 등록된 전화번호입니다.", "전화번호 중복", MsgBoxType.Error);
+               return; // 고객 추가 진행하지 않음
+            }
          } catch (Exception ex) {
-               ex.printStackTrace();
+            ex.printStackTrace();
          }
 
-     
-     
-     
          joinDateString = String.format(this.mJoinDate);
-     
+
          CustomerItem info = new CustomerItem();
          int id = Integer.parseInt(this.tfUserNum.getText());
          String name = this.tfUserName.getText();
          LocalDate birthday = this.lDBirth;
          String phoneNum = phoneNumber;
          int point = 0;
-         String remark = "회원";
-     
+         String remark = "";
+
          System.out.println(birthDay);
          System.out.println(phoneNum);
          info.setValues(id, lDJoinDate, name, birthday, phoneNum, point, remark);
-     
+
          try {
             this.mCustMngr.add(info);
+            mCustMngr.doInsertQuery(info);
          } catch (Exception e1) {
             e1.printStackTrace();
          }
-         
+
          UiUtils.showMsgBox("가입이 완료되었습니다.", MainPage.TITLE);
 
          try {
@@ -277,7 +271,7 @@ public class MainView extends View {
             e2.printStackTrace();
          }
 
-     });
+      });
 
       this.mResetBtn.addActionListener(e -> {
          tfPhoneNum2.setText("");
@@ -362,6 +356,5 @@ public class MainView extends View {
    public void setFont(Font font) {
 
    }
-  
 
 }

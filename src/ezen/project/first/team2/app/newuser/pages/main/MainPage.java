@@ -9,6 +9,7 @@ package ezen.project.first.team2.app.newuser.pages.main;
 import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.framework.Page;
+import ezen.project.first.team2.app.common.modules.customer.CustomerManager;
 import ezen.project.first.team2.app.newuser.Main;
 import ezen.project.first.team2.app.newuser.pages.main.views.MainView;
 
@@ -67,6 +68,9 @@ public class MainPage extends Page {
 		System.out.println("[MainPage.onShow()]");
 
 		try {
+			var custMngr = CustomerManager.getInstance();
+			custMngr.doSelectQuery();
+
 			this.setSelectedViewByNum(MainPage.VIEW_NUM_MAIN);
 		} catch (Exception e) {
 			e.printStackTrace();
