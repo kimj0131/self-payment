@@ -29,42 +29,43 @@ import ezen.project.first.team2.app.payment.pages.main.views.right.RightView0_Or
 public class PopUpView4_Receipt extends PopupView {
 
 	private static final int PADDING = 10;
-	private static final Dimension VIEW_SIZE = new Dimension(355, 600);
+	private static final Dimension VIEW_SIZE = new Dimension(390, 600);
 
 	private static final String CHECK_BTN_TEXT = "확인";
-	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_1 = "\t    신용카드 매출전표\n\n"
+	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_1 = 
+			"\t    신용카드 매출전표\n\n" 
 			+ "[매장명] EZEN Mart\n"
-			+ "[사업자번호] 111-22-33333\n"
-			+ "[주소] 경기도 구리시 건원대로 44 태영빌딩 4층\n"
+			+ "[사업자번호] 111-22-33333\n" 
+			+ "[주소] 경기도 구리시 건원대로 44 태영빌딩 4층\n" 
 			+ "[대표자] 권혁준\t     [Tel] 031)555-4449\n"
-			+ "[매출일] %s\n"
-			+ "===================================\n"
-			+ "상품명\t단가\t할인   수량      금액\n"
-			+ "---------------------------------------------------------------\n";
+			+ "[매출일] %s\n" + "===================================\n" 
+			+ "상품명          단가     수량       할인      금액\n"
+		  //+ "-------------------------------------------------\n";
+			+ "*------------------*--------*-----*------*-------\n";
 
-	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_2 = "%s\t%s\t %s        %d    %7s\n";
-	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_3 = "---------------------------------------------------------------\n"
-			+ "합계 금액\t\t%s\n\n"
-			+ "회원할인\t\t%s\n"
-			+ "포인트사용\t\t%s\n\n"
+	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_2 = 
+			"%s\t\t%-10s %-2d %-10s %-10s\n";
+	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_3 = 
+			"--------------------------------------------------\n"
+			+ "합계 금액\t\t%s\n\n" 
+			+ "회원할인\t\t%s\n" 
+			+ "포인트사용\t\t%s\n"
+			+ "적립포인트\t\t%s\n\n"
 			+ "최종금액\t\t%s\n"
-			+ "---------------------------------------------------------------\n";
+			+ "--------------------------------------------------\n";
 
-	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_4 = "부과세과세물품가액\t%s\n"
-			+ "부        가        세\t%s\n"
-			+ "---------------------------------------------------------------\n"
+	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_4 = 
+			"부과세과세물품가액\t%s\n" + "부        가        세\t%s\n"
+			+ "--------------------------------------------------\n" 
 			+ "신용카드\t\t%s\n"
-			+ "---------------------------------------------------------------\n"
+			+ "--------------------------------------------------\n" 
 			+ "\t    ***신용승인정보***\n\n"
-			+ "[카드종류] 신한카드\t      [할부개월] 일시불\n"
-			+ "[카드번호] 1234-5678-xxxx-xxxx\n"
-			+ "[유효기간] xx/xx\n"
-			+ "[승인금액] %s\n"
-			+ "[승인번호] 12345678\n"
-			+ "[승인일시] %s";;
+			+ "[카드종류] 신한카드\t      [할부개월] 일시불\n" + "[카드번호] 1234-5678-xxxx-xxxx\n" 
+			+ "[유효기간] xx/xx\n" + "[승인금액] %s\n"
+			+ "[승인번호] 12345678\n" + "[승인일시] %s";;
 
 	// 영수증 폰트 관련
-	private static final Font RECEIPT_TEXT_FONT = new Font("맑은 고딕", Font.PLAIN, 13);
+	private static final Font RECEIPT_TEXT_FONT = new Font("바탕체", Font.PLAIN, 13);
 	private static final Color RECEIPT_TEXT_FONT_COLOR = new Color(50, 70, 80);
 
 	// Check Button & Cancel Button
@@ -106,8 +107,7 @@ public class PopUpView4_Receipt extends PopupView {
 
 	@Override
 	protected void onSetLayout() {
-		this.setBorder(BorderFactory.createEmptyBorder(
-				PADDING, PADDING, PADDING, PADDING));
+		this.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.WHITE);
 
@@ -179,30 +179,34 @@ public class PopUpView4_Receipt extends PopupView {
 	protected void onShow(boolean firstTime) {
 		String orderDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 				.format(mProdPurchasing.getProdOrderItem().getOrderDateTime());
+		var prodDtlItems = mProdPurchasing.getProdOrderItem().getProdOrderDetailItems();
+		var prodOrderItem = mProdPurchasing.getProdOrderItem();
 
 		mReceipt_ta.setText(String.format(RECEIPT_CONTENTS_TEXT_FORMAT_1, orderDateTime));
 
-		var items = mProdPurchasing.getProdOrderItem().getProdOrderDetailItems();
-		for (var item : items) {
+		for (var item : prodDtlItems) {
 			String name = item.getProdItem().getName();
+			if (name.length() >= 6) {
+				name = item.getProdItem().getName().substring(0, 6) + "...";
+			}
+
 			int price = item.getProdItem().getPrice();
-			int discnt = item.getProdDiscntItem().getAmount() * item.getQuantity();
 			int qyt = item.getQuantity();
+			int discnt = item.getProdDiscntItem().getAmount() * item.getQuantity();
 			int finalPrice = price * item.getQuantity() - discnt;
 
 			mReceipt_ta.setText(mReceipt_ta.getText()
 					+ String.format(RECEIPT_CONTENTS_TEXT_FORMAT_2, name, UnitUtils.numToCurrencyStr(price),
-							UnitUtils.numToCurrencyStr(discnt), qyt, UnitUtils.numToCurrencyStr(finalPrice)));
+							qyt, UnitUtils.numToCurrencyStr(discnt), UnitUtils.numToCurrencyStr(finalPrice)));
 		}
 
-		int orgPrice = mProdPurchasing.getProdOrderItem().getOrgTotalPrice();
-
+		int orgPrice = prodOrderItem.getOrgTotalPrice();
 		// 회원 할인가만 표시
 		int memberDiscnt;
-		if (mProdPurchasing.getProdOrderItem().getCustId() == 0)
+		if (prodOrderItem.getCustId() == 0)
 			memberDiscnt = 0;
 		else {
-			var poditems = mProdPurchasing.getProdOrderItem().getProdOrderDetailItems();
+			var poditems = prodOrderItem.getProdOrderDetailItems();
 			int dscntSum = 0;
 			for (var i : poditems) {
 				int discntId = i.getProdDiscntId();
@@ -210,15 +214,22 @@ public class PopUpView4_Receipt extends PopupView {
 			}
 			memberDiscnt = dscntSum;
 		}
-
-		int usedPoints = mProdPurchasing.getProdOrderItem().getUsedPoint();
-		int finalPrice = mProdPurchasing.getProdOrderItem().getFinalTotalPrice();
+		int usedPoints = prodOrderItem.getUsedPoint();
+		int earnedPoints = 0;
+		try {
+			if (this.mProdPurchasing.getProdOrderItem().getCustItem() != null)
+				earnedPoints = prodOrderItem.calcEarnedPoint();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		int finalPrice = prodOrderItem.getFinalTotalPrice();
 		int tax = (int) (finalPrice / 10);
 		int freeTaxPrice = finalPrice - tax;
 
 		mReceipt_ta.setText(mReceipt_ta.getText() + String.format(RECEIPT_CONTENTS_TEXT_FORMAT_3,
 				UnitUtils.numToCurrencyStr(orgPrice), UnitUtils.numToCurrencyStr(memberDiscnt),
-				UnitUtils.numToCurrencyStr(usedPoints), UnitUtils.numToCurrencyStr(finalPrice)));
+				UnitUtils.numToCurrencyStr(usedPoints), UnitUtils.numToCurrencyStr(earnedPoints),
+				UnitUtils.numToCurrencyStr(finalPrice)));
 
 		// 결제 금액이 0원이 아니라면 결제 정보까지 출력
 		if (finalPrice != 0) {

@@ -85,12 +85,12 @@ public class DualView extends View {
 	// 뷰 번호로 왼쪽 뷰 선택
 	public void setSelectedLeftViewByNum(int num) throws Exception {
 		// 현재 뷰를 선택한 경우
-		if (num == this.mSelectedLeftViewNum) {
-			String msg = String.format("[DualView.setSelectedLeftViewByNum()]" +
-					" Same view number(%d)! \n",
-					num);
-			throw new Exception(msg);
-		}
+		//if (num == this.mSelectedLeftViewNum) {
+		//	String msg = String.format("[DualView.setSelectedLeftViewByNum()]" +
+		//			" Same view number(%d)! \n",
+		//			num);
+		//	throw new Exception(msg);
+		//}
 
 		// 유효한 뷰 번호인지 확인한다
 		if (!this.isValidViewNum(num)) {
@@ -117,12 +117,12 @@ public class DualView extends View {
 	// 뷰 번호로 오른쪽 뷰 선택
 	public void setSelectedRightViewByNum(int num) throws Exception {
 		// 현재 뷰를 선택한 경우
-		if (num == this.mSelectedRightViewNum) {
-			String msg = String.format("[DualView.setSelectedRightViewByNum()]" +
-					" Same view number(%d)! \n",
-					num);
-			throw new Exception(msg);
-		}
+		//if (num == this.mSelectedRightViewNum) {
+		//	String msg = String.format("[DualView.setSelectedRightViewByNum()]" +
+		//			" Same view number(%d)! \n",
+		//			num);
+		//	throw new Exception(msg);
+		//}
 
 		// 유효한 뷰 번호인지 확인한다
 		if (!this.isValidViewNum(num)) {

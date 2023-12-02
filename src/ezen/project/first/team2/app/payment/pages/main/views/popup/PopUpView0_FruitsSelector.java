@@ -201,7 +201,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 	@Override
 	protected void onAddCtrls() {
 
-		mGbc.fill = GridBagConstraints.BOTH;
+		mGbc.fill = GridBagConstraints.HORIZONTAL;
 		mGbc.weightx = 1;
 		mGbc.weighty = 1;
 
@@ -241,16 +241,16 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mFV_panel.add(mPineapple_label, mGbc);
 
 		// 2번 행 <과일 버튼 1번>
-		mGbc.insets = new Insets(0, 0, 0, 0);
-		mGbc.gridx = 0;
-		mGbc.gridy = 2;
-		mFV_panel.add(mGrape_btn, mGbc);
+//		mGbc.insets = new Insets(0, 0, 0, 0);
+//		mGbc.gridx = 0;
+//		mGbc.gridy = 2;
+//		mFV_panel.add(mGrape_btn, mGbc);
 
 		// 3번 행 <과일 이름표 1번>
-		mGbc.insets = new Insets(0, 0, 20, 0);
-		mGbc.gridx = 0;
-		mGbc.gridy = 3;
-		mFV_panel.add(mGrape_label, mGbc);
+//		mGbc.insets = new Insets(0, 0, 20, 0);
+//		mGbc.gridx = 0;
+//		mGbc.gridy = 3;
+//		mFV_panel.add(mGrape_label, mGbc);
 
 		// 4번 행 <채소 버튼 0번>
 		mGbc.insets = new Insets(0, 0, 0, 0);
@@ -271,7 +271,7 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mFV_panel.add(mRadish_btn, mGbc);
 
 		// 5번 행 <채소 이름표 0번>
-		mGbc.insets = new Insets(0, 0, 20, 0);
+//		mGbc.insets = new Insets(0, 0, 20, 0);
 		mGbc.gridx = 0;
 		mGbc.gridy = 5;
 		mFV_panel.add(mLettuce_label, mGbc);
@@ -289,20 +289,20 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mFV_panel.add(mRadish_label, mGbc);
 
 		// 6번 행 <채소 버튼 1번>
-		mGbc.insets = new Insets(0, 0, 0, 0);
-		mGbc.gridx = 0;
-		mGbc.gridy = 6;
-		mFV_panel.add(mPepper_btn, mGbc);
+//		mGbc.insets = new Insets(0, 0, 0, 0);
+//		mGbc.gridx = 0;
+//		mGbc.gridy = 6;
+//		mFV_panel.add(mPepper_btn, mGbc);
 
 		// 7번 행 <채소 이름표 1번>
-		mGbc.insets = new Insets(0, 0, 20, 0);
-		mGbc.gridx = 0;
-		mGbc.gridy = 7;
-		mFV_panel.add(mPepper_label, mGbc);
+//		mGbc.insets = new Insets(0, 0, 20, 0);
+//		mGbc.gridx = 0;
+//		mGbc.gridy = 7;
+//		mFV_panel.add(mPepper_label, mGbc);
 
 		/////////////////////////////////////////////////////////////
-
-		mGbc.insets = new Insets(0, 0, 10, 0);
+		
+		mGbc.insets = new Insets(0, 0, 0, 0);
 
 		mGbc.weightx = 1;
 		mGbc.weighty = 1;
@@ -310,9 +310,11 @@ public class PopUpView0_FruitsSelector extends PopupView {
 		mGbc.gridy = 0;
 		this.add(mScrolledFV_pane, mGbc);
 
-		mGbc.insets = new Insets(0, 0, 0, 0);
+		mGbc.fill = GridBagConstraints.BOTH;
+		
+		mGbc.insets = new Insets(10, 0, 0, 0);
 
-		mGbc.weighty = 0.05;
+		mGbc.weighty = 0.3;
 		mGbc.gridx = 0;
 		mGbc.gridy = 1;
 		this.add(mCancel_btn, mGbc);
