@@ -186,7 +186,7 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 		s += String.format("prod_code = '%s', ", item.getProdCodeStr());
 		s += String.format("reg_date = '%s', ", item.getSqlRegDateStr());
 		s += String.format("name = '%s', ", item.getName());
-		s += String.format("price + %d, ", item.getPrice());
+		s += String.format("price = %d, ", item.getPrice());
 		s += String.format("prod_desc = '%s'", item.getDesc());
 
 		return s;
@@ -208,7 +208,7 @@ public class ProductManager extends ListManagerDb<ProductItem> {
 			} else if (f.equals("name")) {
 				s += String.format("name = '%s', ", item.getName());
 			} else if (f.equals("price")) {
-				s += String.format("price + %d, ", item.getPrice());
+				s += String.format("price = %d, ", item.getPrice());
 			} else if (f.equals("prod_desc")) {
 				s += String.format("prod_desc = '%s', ", item.getDesc());
 			} else {

@@ -271,6 +271,16 @@ public class AdjustStockView extends View {
 
         });
 
+        this.mTextFieldAdjustActual.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // 엔터를 누르면 로그인버튼을 누른다.
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    mPanelAdjustBtn.getRootPane().setDefaultButton(mBtnAdjustComplete);
+                }
+            }
+        });
+
         ActionListener listener = e -> {
             JButton btn = (JButton) e.getSource();
 
@@ -329,7 +339,7 @@ public class AdjustStockView extends View {
 
                 // DB에 Update 쿼리
                 try {
-                    prodStMngr.doUpdateQuery(adjustItem, null, "pord_id = " + adjustId);
+                    prodStMngr.doUpdateQuery(adjustItem, null, "prod_id = " + adjustId);
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -421,6 +431,7 @@ public class AdjustStockView extends View {
                 "수정할 항목은\n[ 상품코드[%s] 상품명[%s] ] 입니다\n",
                 prodItem.getProdCodeStr(),
                 prodItem.getName()), "");
+        mTextFieldAdjustActual.requestFocus();
 
         try {
             this.mTextFieldProductId.setText(String.valueOf(prodItem.getId()));
