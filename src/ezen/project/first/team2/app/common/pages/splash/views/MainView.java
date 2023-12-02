@@ -32,7 +32,7 @@ public class MainView extends View {
 
 	@Override
 	protected void onAddCtrls() {
-		this.mLabel0.setText("스플래시 페이지");
+		this.mLabel0.setText("Initializing...");
 
 		final int LABEL_HEIGHT = 30;
 
