@@ -9,29 +9,37 @@ package ezen.project.first.team2.app.launcher.pages.main.views;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import ezen.project.first.team2.app.common.framework.View;
-import ezen.project.first.team2.app.common.utils.UiUtils;
+import ezen.project.first.team2.app.common.utils.SystemUtils;
 import ezen.project.first.team2.app.launcher.pages.main.MainPage;
 
 public class MainView extends View {
 	// -------------------------------------------------------------------------
 
-	private JButton mBtn0 = new JButton();
-	private JButton mBtn1 = new JButton();
-	private JButton mBtn2 = new JButton();
-	
+	private final String JAR_PATH = "self-payment.jar";
+	private final String MGMT_MAIN_CLS_PATH = "ezen.project.first.team2.app.manager.Main";
+	private final String NEWUSER_MAIN_CLS_PATH = "ezen.project.first.team2.app.newuser.Main";
+	private final String PAY_MAIN_CLS_PATH = "ezen.project.first.team2.app.payment.Main";
+
+	// -------------------------------------------------------------------------
+
+	private JButton mRunMgmtAppBtn = new JButton();
+	private JButton mRunNewUserAppBtn = new JButton();
+	private JButton mRunPayAppBtn = new JButton();
+
 	JFrame frame = new JFrame();
-	
+
 	// -------------------------------------------------------------------------
 
 	// 생성자
 	public MainView() {
-		super(MainPage.VIEW_NUM_MAIN);	
+		super(MainPage.VIEW_NUM_MAIN);
 	}
 
 	// -------------------------------------------------------------------------
@@ -40,59 +48,63 @@ public class MainView extends View {
 	@Override
 	protected void onInit() {
 		super.onInit();
-	      this.setBackground(Color.PINK);
-	        
+		this.setBackground(new Color(0xef, 0xf7, 0xff));
 	}
 
 	// 레이아웃 설정
 	@Override
 	protected void onSetLayout() {
-		 GridLayout g1 = new GridLayout(0, 3);
-	      
-	      g1.setHgap(30);
-	      g1.setVgap(30);
-	      
-	      Font font = new Font("견명조", Font.BOLD, 48);
-	      setLayout(new GridLayout(1, 10, 50, 50));
-	      
-	      setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
-	          
+		GridLayout grid = new GridLayout(0, 3);
+
+		grid.setHgap(20);
+		grid.setVgap(20);
+
+		setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		setLayout(grid);
 	}
 
 	// 컨트롤 추가
 	@Override
 	protected void onAddCtrls() {
-		this.mBtn0.setText("Manage- ment app");
-		this.mBtn1.setText("New User app");
-		this.mBtn2.setText("Payment app");
-		setSize(630, 280);
+		this.mRunMgmtAppBtn.setText("관리자 앱");
+		this.mRunNewUserAppBtn.setText("사용자 등록 앱");
+		this.mRunPayAppBtn.setText("결제 앱");
 
-		this.add(mBtn0);
-	    this.add(mBtn1);
-	    this.add(mBtn2);
-	    
+		Font font = new Font("맑은 고딕", Font.BOLD, 20);
+		this.mRunMgmtAppBtn.setFont(font);
+		this.mRunNewUserAppBtn.setFont(font);
+		this.mRunPayAppBtn.setFont(font);
+
+		this.add(mRunMgmtAppBtn);
+		this.add(mRunNewUserAppBtn);
+		this.add(mRunPayAppBtn);
 	}
 
 	// 이벤트 리스너 추가
 	@Override
 	protected void onAddEventListeners() {
-		this.mBtn0.addActionListener(e -> {
-		    UiUtils.showMsgBox("Login...", MainPage.TITLE);
-	      });
+		ActionListener listener = e -> {
+			var btn = (JButton) e.getSource();
+			if (btn == this.mRunMgmtAppBtn) {
+				SystemUtils.runJarFile(JAR_PATH, MGMT_MAIN_CLS_PATH);
+			} else if (btn == this.mRunNewUserAppBtn) {
+				SystemUtils.runJarFile(JAR_PATH, NEWUSER_MAIN_CLS_PATH);
+			} else if (btn == this.mRunPayAppBtn) {
+				SystemUtils.runJarFile(JAR_PATH, PAY_MAIN_CLS_PATH);
+			}
 
-	      this.mBtn1.addActionListener(e -> {
-	         UiUtils.showMsgBox("Login...", MainPage.TITLE);
-	      });
+			// UiUtils.showMsgBox(btn.getText(), MainPage.TITLE);
+		};
 
-	      this.mBtn2.addActionListener(e -> {
-	         UiUtils.showMsgBox("Login...", MainPage.TITLE);
-	      });
+		this.mRunMgmtAppBtn.addActionListener(listener);
+		this.mRunNewUserAppBtn.addActionListener(listener);
+		this.mRunPayAppBtn.addActionListener(listener);
 	}
 
 	// 뷰가 표시될 때
 	@Override
 	protected void onShow(boolean firstTime) {
-		 System.out.println("[MainView.onShow()]");
+		System.out.println("[MainView.onShow()]");
 	}
 
 	// 뷰가 숨겨질 때

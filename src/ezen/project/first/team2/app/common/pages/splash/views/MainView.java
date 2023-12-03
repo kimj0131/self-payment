@@ -1,5 +1,8 @@
 package ezen.project.first.team2.app.common.pages.splash.views;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -48,6 +51,18 @@ public class MainView extends View {
 
 	@Override
 	protected void onAddEventListeners() {
+		this.setFocusable(true);
+
+		this.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
+					System.exit(-1);
+				}
+			}
+
+		});
 	}
 
 	@Override

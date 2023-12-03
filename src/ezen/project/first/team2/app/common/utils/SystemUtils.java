@@ -28,4 +28,13 @@ public class SystemUtils {
 		}
 	}
 
+	public static void runJarFile(String jarPath, String clsPath) {
+		try {
+			String cmd = String.format("java -cp %s %s", jarPath, clsPath);
+			Process proc = Runtime.getRuntime().exec(cmd);
+			proc.waitFor();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
