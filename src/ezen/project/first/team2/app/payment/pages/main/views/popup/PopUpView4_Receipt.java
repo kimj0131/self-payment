@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Point;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.BorderFactory;
@@ -18,6 +19,7 @@ import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManager;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.common.utils.UnitUtils;
+import ezen.project.first.team2.app.common.z_test.etc.ReceiptView;
 import ezen.project.first.team2.app.payment.Main;
 import ezen.project.first.team2.app.payment.pages.main.MainPage;
 import ezen.project.first.team2.app.payment.pages.main.views.MainView;
@@ -26,7 +28,7 @@ import ezen.project.first.team2.app.payment.pages.main.views.right.RightView0_Or
 public class PopUpView4_Receipt extends PopupView {
 
 	private static final int PADDING = 10;
-	private static final Dimension VIEW_SIZE = new Dimension(390, 600);
+	private static final Dimension VIEW_SIZE = new Dimension(420, 600);
 
 	private static final String CHECK_BTN_TEXT = "확인";
 	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_1 = "\t    신용카드 매출전표\n\n"
@@ -70,6 +72,8 @@ public class PopUpView4_Receipt extends PopupView {
 	private JScrollPane mScrolledReceipt;
 	private JButton mCheck_btn;
 
+	private ReceiptView mReceiptView;
+
 	// GridBagLayout 조절하기 위한 클래스
 	private GridBagConstraints mGbc;
 
@@ -85,7 +89,15 @@ public class PopUpView4_Receipt extends PopupView {
 		super.onInit();
 
 		mReceipt_ta = new JTextArea();
+
 		mScrolledReceipt = new JScrollPane(mReceipt_ta);
+
+		this.mReceiptView = new ReceiptView();
+		mScrolledReceipt = new JScrollPane(this.mReceiptView,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		// this.mReceiptView.setPreferredSize(new Dimension(450, 1024));
+
 		mCheck_btn = new JButton(CHECK_BTN_TEXT);
 
 		mProdDiscntMngr = ProductDiscountsManager.getInstance();
@@ -168,8 +180,8 @@ public class PopUpView4_Receipt extends PopupView {
 		});
 	}
 
-	@Override
-	protected void onShow(boolean firstTime) {
+	// @Override
+	protected void __onShow(boolean firstTime) {
 		String orderDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 				.format(mProdPurchasing.getProdOrderItem().getOrderDateTime());
 		var prodDtlItems = mProdPurchasing.getProdOrderItem().getProdOrderDetailItems();
@@ -231,6 +243,20 @@ public class PopUpView4_Receipt extends PopupView {
 			mReceipt_ta.setText(mReceipt_ta.getText() + String.format(RECEIPT_CONTENTS_TEXT_FORMAT_4,
 					UnitUtils.numToCurrencyStr(freeTaxPrice), UnitUtils.numToCurrencyStr(tax),
 					UnitUtils.numToCurrencyStr(finalPrice), UnitUtils.numToCurrencyStr(finalPrice), orderDateTime));
+		}
+	}
+
+	@Override
+	protected void onShow(boolean firstTime) {
+		try {
+			if (this.mProdPurchasing.getProdOrderItem().getCustId() != CustomerItem.GUEST_ID)
+				this.mProdPurchasing.getProdOrderItem().calcEarnedPoint();
+
+			this.mReceiptView.setOrderItem(this.mProdPurchasing.getProdOrderItem());
+			this.mScrolledReceipt.getViewport().setViewPosition(new Point(0, 0));
+			this.mScrolledReceipt.getVerticalScrollBar().setUnitIncrement(20);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
