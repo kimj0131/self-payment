@@ -150,8 +150,7 @@ public class Main extends StatusManager {
 					e.printStackTrace();
 				}
 			}
-		}, this, 5,
-				"localhost", SplashPageParams.DB_PORT, SplashPageParams.DB_ID, SplashPageParams.DB_PW);
+		}, this, 5);
 
 		return params;
 	}

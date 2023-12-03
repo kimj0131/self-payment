@@ -6,12 +6,10 @@
 
 package ezen.project.first.team2.app.common.pages.splash;
 
-public class SplashPageParams {
-	public final static String DB_HOST = "192.168.0.64";
-	public final static int DB_PORT = 1521;
-	public final static String DB_ID = "hr";
-	public final static String DB_PW = "1234";
+import java.io.FileInputStream;
+import java.util.Properties;
 
+public class SplashPageParams {
 	public static interface Listener {
 		public void onConnectingDb(Object param);
 
@@ -19,6 +17,11 @@ public class SplashPageParams {
 
 		public void onCompleteResources(Object param);
 	}
+
+	public final static String DEFAULT_DB_HOST = "192.168.0.64";
+	public final static int DEFAULT_DB_PORT = 1521;
+	public final static String DEFAULT_DB_ID = "hr";
+	public final static String DEFAULT_DB_PW = "1234";
 
 	private Listener mListener = null;
 	private Object mParam = null;
@@ -36,6 +39,31 @@ public class SplashPageParams {
 		this.mParam = param;
 		this.mResourceCount = resourceCount;
 
+		if (dbHost.isEmpty() || dbPort == -1 || dbId.isEmpty() || dbPw.isEmpty()) {
+			try (
+					FileInputStream fis = new FileInputStream("dbconn.ini")) {
+
+				var props = new Properties();
+				props.load(fis);
+
+				dbHost = props.getProperty("host", "?");
+				dbPort = Integer.parseInt(props.getProperty("port", "-1"));
+				dbId = props.getProperty("id", "?");
+				dbPw = props.getProperty("pw", "?");
+
+				if (dbHost.isEmpty())
+					dbHost = DEFAULT_DB_HOST;
+				if (dbPort == -1)
+					dbPort = DEFAULT_DB_PORT;
+				if (dbId.isEmpty())
+					dbId = DEFAULT_DB_ID;
+				if (dbPw.isEmpty())
+					dbPw = DEFAULT_DB_PW;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 		this.mDbHost = dbHost;
 		this.mDbPort = dbPort;
 		this.mDbId = dbId;
@@ -43,7 +71,7 @@ public class SplashPageParams {
 	}
 
 	public SplashPageParams(Listener listener, Object param, int resourceCount) {
-		this(listener, param, resourceCount, DB_HOST, DB_PORT, DB_ID, DB_PW);
+		this(listener, param, resourceCount, "", -1, "", "");
 	}
 
 	public Listener getListener() {

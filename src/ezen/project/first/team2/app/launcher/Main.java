@@ -8,6 +8,8 @@ package ezen.project.first.team2.app.launcher;
 
 import ezen.project.first.team2.app.common.framework.StatusManager;
 import ezen.project.first.team2.app.common.pages.splash.SplashPage;
+import ezen.project.first.team2.app.common.pages.splash.SplashPageParams;
+import ezen.project.first.team2.app.common.pages.splash.views.MainView;
 import ezen.project.first.team2.app.launcher.pages.main.MainPage;
 
 public class Main extends StatusManager {
@@ -25,7 +27,7 @@ public class Main extends StatusManager {
 	@Override
 	protected void onAddPages() {
 		try {
-			this.addPage(new SplashPage(Main.PAGE_NUM_MAIN));
+			this.addPage(new SplashPage(this.getSplashPageParams()));
 			this.addPage(new MainPage());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -51,6 +53,41 @@ public class Main extends StatusManager {
 	@Override
 	protected void onExit() {
 		// System.out.println("[Main.onExit()]");
+	}
+
+	private SplashPageParams getSplashPageParams() {
+		SplashPageParams params = new SplashPageParams(new SplashPageParams.Listener() {
+			@Override
+			public void onConnectingDb(Object param) {
+				Main main = (Main) param;
+				SplashPage splashPage = (SplashPage) main.getPageByNum(SplashPage.PAGE_NUM);
+				MainView mainView = (MainView) splashPage.getViewByNum(SplashPage.VIEW_NUM_MAIN);
+
+				mainView.setLabel0Text("Initializing database...");
+			}
+
+			@Override
+			public void onLoadResources(Object param, int resourceIndex, int resourceCount) {
+				Main main = (Main) param;
+				SplashPage splashPage = (SplashPage) main.getPageByNum(SplashPage.PAGE_NUM);
+				MainView mainView = (MainView) splashPage.getViewByNum(SplashPage.VIEW_NUM_MAIN);
+			}
+
+			@Override
+			public void onCompleteResources(Object param) {
+				Main main = (Main) param;
+				main.performSetResources();
+
+				try {
+					Main.this.setSelectedPageByNum(Main.PAGE_NUM_MAIN);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+		}, this, 0);
+
+		return params;
 	}
 
 	public static void main(String[] args) {

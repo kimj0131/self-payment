@@ -10,6 +10,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,6 +19,7 @@ import javax.swing.JFrame;
 
 import ezen.project.first.team2.app.common.framework.View;
 import ezen.project.first.team2.app.common.utils.SystemUtils;
+import ezen.project.first.team2.app.launcher.Main;
 import ezen.project.first.team2.app.launcher.pages.main.MainPage;
 
 public class MainView extends View {
@@ -54,12 +57,9 @@ public class MainView extends View {
 	// 레이아웃 설정
 	@Override
 	protected void onSetLayout() {
-		GridLayout grid = new GridLayout(0, 3);
+		GridLayout grid = new GridLayout(0, 3, 20, 20);
 
-		grid.setHgap(20);
-		grid.setVgap(20);
-
-		setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 		setLayout(grid);
 	}
 
@@ -83,7 +83,7 @@ public class MainView extends View {
 	// 이벤트 리스너 추가
 	@Override
 	protected void onAddEventListeners() {
-		ActionListener listener = e -> {
+		ActionListener runBtnListener = e -> {
 			var btn = (JButton) e.getSource();
 			if (btn == this.mRunMgmtAppBtn) {
 				SystemUtils.runJarFile(JAR_PATH, MGMT_MAIN_CLS_PATH);
@@ -96,9 +96,25 @@ public class MainView extends View {
 			// UiUtils.showMsgBox(btn.getText(), MainPage.TITLE);
 		};
 
-		this.mRunMgmtAppBtn.addActionListener(listener);
-		this.mRunNewUserAppBtn.addActionListener(listener);
-		this.mRunPayAppBtn.addActionListener(listener);
+		this.mRunMgmtAppBtn.addActionListener(runBtnListener);
+		this.mRunNewUserAppBtn.addActionListener(runBtnListener);
+		this.mRunPayAppBtn.addActionListener(runBtnListener);
+
+		this.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// 오른쪽 버튼
+				if (e.getButton() == MouseEvent.BUTTON3) {
+					try {
+						var main = (Main) getStatusManager();
+						var mainPage = (MainPage) main.getPageByNum(Main.PAGE_NUM_MAIN);
+						mainPage.setSelectedViewByNum(MainPage.VIEW_NUM_DB_MGMT);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
+		});
 	}
 
 	// 뷰가 표시될 때

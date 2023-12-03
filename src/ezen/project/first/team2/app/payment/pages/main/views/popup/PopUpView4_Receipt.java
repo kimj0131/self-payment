@@ -5,19 +5,16 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import ezen.project.first.team2.app.common.framework.PopupView;
+import ezen.project.first.team2.app.common.modules.customer.CustomerItem;
 import ezen.project.first.team2.app.common.modules.product.discounts.ProductDiscountsManager;
 import ezen.project.first.team2.app.common.modules.product.purchasing.ProductPurchasing;
 import ezen.project.first.team2.app.common.utils.UnitUtils;
@@ -32,35 +29,31 @@ public class PopUpView4_Receipt extends PopupView {
 	private static final Dimension VIEW_SIZE = new Dimension(390, 600);
 
 	private static final String CHECK_BTN_TEXT = "확인";
-	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_1 = 
-			"\t    신용카드 매출전표\n\n" 
+	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_1 = "\t    신용카드 매출전표\n\n"
 			+ "[매장명] EZEN Mart\n"
-			+ "[사업자번호] 111-22-33333\n" 
-			+ "[주소] 경기도 구리시 건원대로 44 태영빌딩 4층\n" 
+			+ "[사업자번호] 111-22-33333\n"
+			+ "[주소] 경기도 구리시 건원대로 44 태영빌딩 4층\n"
 			+ "[대표자] 권혁준\t     [Tel] 031)555-4449\n"
-			+ "[매출일] %s\n" + "===================================\n" 
+			+ "[매출일] %s\n" + "===================================\n"
 			+ "상품명          단가     수량       할인      금액\n"
-		  //+ "-------------------------------------------------\n";
+			// + "-------------------------------------------------\n";
 			+ "*------------------*--------*-----*------*-------\n";
 
-	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_2 = 
-			"%s\t\t%-10s %-2d %-10s %-10s\n";
-	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_3 = 
-			"--------------------------------------------------\n"
-			+ "합계 금액\t\t%s\n\n" 
-			+ "회원할인\t\t%s\n" 
+	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_2 = "%s\t\t%-10s %-2d %-10s %-10s\n";
+	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_3 = "--------------------------------------------------\n"
+			+ "합계 금액\t\t%s\n\n"
+			+ "회원할인\t\t%s\n"
 			+ "포인트사용\t\t%s\n"
 			+ "적립포인트\t\t%s\n\n"
 			+ "최종금액\t\t%s\n"
 			+ "--------------------------------------------------\n";
 
-	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_4 = 
-			"부과세과세물품가액\t%s\n" + "부        가        세\t%s\n"
-			+ "--------------------------------------------------\n" 
+	private static final String RECEIPT_CONTENTS_TEXT_FORMAT_4 = "부과세과세물품가액\t%s\n" + "부        가        세\t%s\n"
+			+ "--------------------------------------------------\n"
 			+ "신용카드\t\t%s\n"
-			+ "--------------------------------------------------\n" 
+			+ "--------------------------------------------------\n"
 			+ "\t    ***신용승인정보***\n\n"
-			+ "[카드종류] 신한카드\t      [할부개월] 일시불\n" + "[카드번호] 1234-5678-xxxx-xxxx\n" 
+			+ "[카드종류] 신한카드\t      [할부개월] 일시불\n" + "[카드번호] 1234-5678-xxxx-xxxx\n"
 			+ "[유효기간] xx/xx\n" + "[승인금액] %s\n"
 			+ "[승인번호] 12345678\n" + "[승인일시] %s";;
 
@@ -217,7 +210,9 @@ public class PopUpView4_Receipt extends PopupView {
 		int usedPoints = prodOrderItem.getUsedPoint();
 		int earnedPoints = 0;
 		try {
-			if (this.mProdPurchasing.getProdOrderItem().getCustItem() != null)
+			var ci = this.mProdPurchasing.getProdOrderItem().getCustItem();
+			System.out.println(ci);
+			if (ci.getId() != CustomerItem.GUEST_ID)
 				earnedPoints = prodOrderItem.calcEarnedPoint();
 		} catch (Exception e) {
 			e.printStackTrace();

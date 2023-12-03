@@ -58,11 +58,6 @@ public class SplashPage extends Page {
 
 	@Override
 	protected void onInit() {
-		// 다음 페이지가 유효한 경우 타이머 설정
-		this.setTimerIfValidNextPageNum();
-
-		// 리스너가 설정된 경우 리소스 로드 스레드 생성
-		this.createThreadIfValidParams();
 	}
 
 	@Override
@@ -86,6 +81,14 @@ public class SplashPage extends Page {
 			this.setSelectedViewByNum(SplashPage.VIEW_NUM_MAIN);
 		} catch (Exception e) {
 			//
+		}
+
+		if (firstTime) {
+			// 다음 페이지가 유효한 경우 타이머 설정
+			this.setTimerIfValidNextPageNum();
+
+			// 리스너가 설정된 경우 리소스 로드 스레드 생성
+			this.createThreadIfValidParams();
 		}
 	}
 
@@ -143,7 +146,7 @@ public class SplashPage extends Page {
 						final var DB_PORT = mParams.getDbPort();
 						final var DB_ID = mParams.getDbId();
 						final var DB_PASSWD = mParams.getDbPw();
-						System.out.println("[SplashPage] Connecting database..");
+						System.out.printf("[SplashPage] Connecting database.. (%s:%d) \n", DB_HOST, DB_PORT);
 						dbConn.connect(DB_HOST, DB_PORT, DB_ID, DB_PASSWD);
 						System.out.println("[SplashPage] Connected!");
 					} catch (Exception e) {

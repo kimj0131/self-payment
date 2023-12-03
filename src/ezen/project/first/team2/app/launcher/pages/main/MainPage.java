@@ -10,6 +10,7 @@ import java.awt.Dimension;
 
 import ezen.project.first.team2.app.common.framework.Page;
 import ezen.project.first.team2.app.launcher.Main;
+import ezen.project.first.team2.app.launcher.pages.main.views.DbMgmtView;
 import ezen.project.first.team2.app.launcher.pages.main.views.MainView;
 
 public class MainPage extends Page {
@@ -18,9 +19,10 @@ public class MainPage extends Page {
 	// 페이지 정보 상수 정의
 
 	public static final String TITLE = "셀프 결제 시스템 런처";
-	public static final Dimension SIZE = new Dimension(640, 200);
+	public static final Dimension SIZE = new Dimension(640, 320);
 
 	public static final int VIEW_NUM_MAIN = 0;
+	public static final int VIEW_NUM_DB_MGMT = 1;
 
 	// -------------------------------------------------------------------------
 
@@ -51,6 +53,7 @@ public class MainPage extends Page {
 	protected void onAddViews() {
 		try {
 			this.addView(new MainView());
+			this.addView(new DbMgmtView());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

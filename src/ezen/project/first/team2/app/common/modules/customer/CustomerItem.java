@@ -18,7 +18,7 @@ public class CustomerItem extends ListItem {
 	public static final int GUEST_ID = 0;
 	public static final CustomerItem GUEST = new CustomerItem(
 			GUEST_ID, LocalDate.of(2023, 1, 1), "",
-			LocalDate.of(2023, 1, 1), "", 0, "비회원");
+			LocalDate.of(2023, 1, 1), "010-0000-0000", 0, "비회원");
 
 	// -------------------------------------------------------------------------
 

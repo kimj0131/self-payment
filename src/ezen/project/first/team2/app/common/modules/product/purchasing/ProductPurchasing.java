@@ -230,7 +230,7 @@ public class ProductPurchasing {
 	public void _6_commit() throws Exception {
 		// 포인트 처리
 		var ci = this.mProdOrderItem.getCustItem();
-		if (ci != null) {
+		if (ci.getId() != CustomerItem.GUEST_ID) {
 			// 포인트 감소
 			ci.decPoint(this.mProdOrderItem.getUsedPoint());
 
